@@ -15,7 +15,7 @@ const AuthLayout: FC<IAuthProps> = ({
   return (
     <div className='flex flex-col sm:flex-row sm:h-[80vh] lg:h-[100vh] '>
       <div
-        className=' flex justify-center w-[99%] items-center text-white px-3 md:w-[1009px]  '
+        className=' py-[1em] flex justify-center w-[100%] items-center text-white px-3 md:w-[1009px]  '
         style={{
           backgroundImage: 'url(/images/background/background.svg)',
           backgroundRepeat: 'no-repeat',
@@ -30,8 +30,8 @@ const AuthLayout: FC<IAuthProps> = ({
             width='352'
             alt='auth image'
           />
-          <div className='w-[433px] py-5 text-center'>
-            <h3 className='font-bold text-[32px]'>
+          <div className=' w-[90%] mx-auto lg:w-[433px] py-5 text-center'>
+            <h3 className='font-bold  text-[20px] lg:text-[32px]'>
               Welcome to Synchro Backoffice
             </h3>
             <p>Kindly enter your valid credentials login to the system</p>
