@@ -2,7 +2,7 @@ import AuthLayout from '@/app/layouts/authLayout';
 import { Button } from '@/app/_components/button';
 import Input from '@/app/_components/input_fields';
 
-const Forgotten_password = () => {
+const Reset_Password = () => {
   return (
     <AuthLayout
       heading='Forgot password'
@@ -16,9 +16,9 @@ const Forgotten_password = () => {
           name='email'
           required={true}
         />
-        <Button type='submit'>Send Code</Button>
+        <Button type='submit'>Reset Password</Button>
       </form>
     </AuthLayout>
   );
 };
-export default Forgotten_password;
+export default Reset_Password;

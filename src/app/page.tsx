@@ -3,7 +3,10 @@ import Input from './_components/input_fields';
 import AuthLayout from './layouts/authLayout';
 export default function Home() {
   return (
-    <AuthLayout heading='Log In'>
+    <AuthLayout
+      heading='Log In'
+      subheading='Enter your credentials below to login'
+    >
       <form action=''>
         <Input label='Email' name='email' placeholder='Email' />
         <Input
