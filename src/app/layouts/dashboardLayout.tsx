@@ -5,9 +5,7 @@ interface IDashboardLayout {
 }
 
 const DashboardLayout: FC<IDashboardLayout> = ({ children }) => {
-  return <div>
-    
-  </div>;
+  return <div></div>;
 };
 
 export default DashboardLayout;

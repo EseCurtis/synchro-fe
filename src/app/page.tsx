@@ -18,6 +18,10 @@ export default function Home() {
           placeholder='Password'
         />
 
+        <Link href={'/auth/password'}>
+          <p className='text-right'>Forgotten Password</p>
+        </Link>
+
         <Link href='/auth/otp'>
           <Button>Login</Button>
         </Link>
