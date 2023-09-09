@@ -1,6 +1,8 @@
 import { Button } from './_components/button';
 import Input from './_components/input_fields';
 import AuthLayout from './layouts/authLayout';
+import Link from 'next/link';
+
 export default function Home() {
   return (
     <AuthLayout
@@ -16,7 +18,9 @@ export default function Home() {
           placeholder='Password'
         />
 
-        <Button>Login</Button>
+        <Link href='/auth/otp'>
+          <Button>Login</Button>
+        </Link>
       </form>
     </AuthLayout>
   );
