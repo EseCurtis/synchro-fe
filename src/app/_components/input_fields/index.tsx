@@ -15,7 +15,7 @@ const Input: React.FC<InputProps> = ({ name, label, onChange, ...rest }) => {
       <input
         name={name}
         onChange={onChange}
-        className=' my-[5px] px-[39px]  h-[48px] rounded-md w-[461px] outline-none  '
+        className=' my-[5px] px-[39px]  h-[48px] rounded-md w-[100%] sm:w-[461px]  outline-none  '
         style={{
           border: '1px solid #DDE2E5',
         }}

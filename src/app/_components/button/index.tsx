@@ -11,7 +11,7 @@ const styles = {
 export const Button: FC<IButtonProps> = ({ children, ...rest }) => {
   return (
     <button
-      className='w-full text-white  rounded-full py-4 my-4'
+      className='w-[100%]  text-white  rounded-full py-4 my-4'
       style={styles}
       {...rest}
     >

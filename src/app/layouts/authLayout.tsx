@@ -1,6 +1,5 @@
 import Image from 'next/image';
 import { FC, ReactNode } from 'react';
-import { useRouter } from 'next/router';
 
 interface IAuthProps {
   children?: ReactNode;
@@ -14,9 +13,9 @@ const AuthLayout: FC<IAuthProps> = ({
   subheading,
 }: IAuthProps) => {
   return (
-    <div className='flex  sm: h-[80vh]  lg:h-[100vh]  '>
+    <div className='flex flex-col sm:flex-row sm:h-[80vh] lg:h-[100vh] '>
       <div
-        className=' flex justify-center   w-full sm:w-[1009px]  items-center  text-white px-3   '
+        className=' flex justify-center w-[137%] items-center text-white px-3 md:w-[1009px]  '
         style={{
           backgroundImage: 'url(/images/background/background.svg)',
           backgroundRepeat: 'no-repeat',
@@ -40,14 +39,14 @@ const AuthLayout: FC<IAuthProps> = ({
         </div>
       </div>
       {/* right side for auth */}
-      <div className='items-center flex'>
+      <div className='items-center flex  '>
         <div
           style={{
-            position: 'absolute',
-            right: '15em',
+            // position: 'absolute',
+            // right: '15em',
             boxShadow: '0px 50px 77px 0px rgba(176, 183, 195, 0.22)',
           }}
-          className='bg-white px-[2em] rounded-xl w-[500px]  h-[550px]'
+          className='bg-white px-[2em] rounded-xl w-[500px]  h-[550px] sm:static lg: absolute'
         >
           <div className='text-center'>
             <Image
