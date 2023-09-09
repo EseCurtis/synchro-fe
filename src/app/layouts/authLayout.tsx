@@ -15,7 +15,7 @@ const AuthLayout: FC<IAuthProps> = ({
   return (
     <div className='flex flex-col sm:flex-row sm:h-[80vh] lg:h-[100vh] '>
       <div
-        className=' flex justify-center w-[137%] items-center text-white px-3 md:w-[1009px]  '
+        className=' flex justify-center w-[99%] items-center text-white px-3 md:w-[1009px]  '
         style={{
           backgroundImage: 'url(/images/background/background.svg)',
           backgroundRepeat: 'no-repeat',
