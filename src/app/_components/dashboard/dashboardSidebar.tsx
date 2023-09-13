@@ -9,7 +9,12 @@ const listStyle = {
 
 const DashboardBoardSidebar = () => {
   return (
-    <div className='w-[260px] py-5 px-5  h-[100vh] '>
+    <div
+      className='w-[260px] py-5 px-5  h-[100vh]'
+      style={{
+        borderRight: '1px solid #CED3E4',
+      }}
+    >
       <div>
         <Image
           src={'/images/synco_logo.png'}

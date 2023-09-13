@@ -12,9 +12,9 @@ const DashboardLayout: FC<IDashboardLayout> = ({ children }) => {
       <div className=''>
         <DashboardBoardSidebar />
       </div>
-      <div className='w-[1148px] py-5 px-4 mx-auto '>
+      <div className='w-[1148px] py-5 px-4 mx-auto  '>
         <DashboaradHeader />
-        <div>{children}</div>
+        <div className='my-[2em]'>{children}</div>
       </div>
     </div>
   );

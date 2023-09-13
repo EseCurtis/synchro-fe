@@ -4,7 +4,11 @@ import DashboardLayout from '../layouts/dashboardLayout';
 const DashboardIndex = () => {
   return (
     <DashboardLayout>
-      <div>Dashboard child</div>
+      <div>
+        <h1>Welcome Ese Curtis</h1>
+      </div>
+
+      <div className='flex justify-between'></div>
     </DashboardLayout>
   );
 };
