@@ -81,6 +81,10 @@ const DashboardIndex = () => {
           }}
         >
           <h3 className='text-[16px] font-bold'>Users most active period</h3>
+
+          <center>
+            <h4 className='my-5'> Cant Load Data</h4>
+          </center>
         </div>
 
         {/* gender  */}
@@ -112,6 +116,9 @@ const DashboardIndex = () => {
         }}
       >
         <h3 className='text-[16px] font-bold'>Transaction graph with time</h3>
+        <center>
+          <h4 className='my-5'> Cant Load Data</h4>
+        </center>
       </div>
     </DashboardLayout>
   );

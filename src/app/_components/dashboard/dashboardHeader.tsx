@@ -2,7 +2,6 @@ import React from 'react';
 import { SlCalender } from 'react-icons/sl';
 import { BiBell } from 'react-icons/bi';
 import moment from 'moment';
-import Image from 'next/image';
 
 const DashboaradHeader = ({ title }: { title: any }) => {
   return (
