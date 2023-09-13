@@ -1,7 +1,7 @@
-import AuthLayout from '@/app/layouts/authLayout';
 import { Button } from '@/app/_components/button';
-
+import AuthLayout from '@/app/layouts/authLayout';
 import Image from 'next/image';
+import Link from 'next/link';
 
 const Confirm_Otp = () => {
   return (
@@ -21,6 +21,10 @@ const Confirm_Otp = () => {
             your password.
           </p>
         </center>
+
+        <Link href={'/dashboard'}>
+          <Button>Confirm</Button>
+        </Link>
       </form>
     </AuthLayout>
   );
