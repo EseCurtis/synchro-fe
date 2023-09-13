@@ -1,69 +1,70 @@
 export const SidebarNavs = [
     {
         title: 'Dashboard',
-        path: '/',
+        path: '/dashboard',
         icon: '',
-        img: '/images/icons/sidebar/home_active.svg'
+        img: '/images/icons/sidebar/home_active.svg',
+        active: '/images/icons/sidebar/home_active.svg'
     },
     {
         title: 'Users',
-        path: '/',
+        path: '/dashboard/users',
         icon: '',
         img: '/images/icons/sidebar/user.svg'
         
     },
     {
         title: 'Events',
-        path: '/',
+        path: '/dashboard/Events',
         icon: '',
          img: '/images/icons/sidebar/coupon.svg'
     },
     {
         title: 'KYC',
-        path: '/',
+        path: '/dashboard/kyc',
         icon: '',
         img: '/images/icons/sidebar/kyc.svg'
     },
     {
         title: 'Services',
-        path: '/',
+        path: '/dashboard/services',
         icon: '',
          img: '/images/icons/sidebar/user-dollar.svg'
     },
     {
         title: 'Support',
-        path: '/',
+        path: '/dashboard/supports',
         icon: '',
          img: '/images/icons/sidebar/support.svg'
     },
     {
         title: 'Report Issues',
-        path: '/',
+        path: '/dashboard/issues',
         icon: '',
         img: '/images/icons/sidebar/report.svg'
     },
     {
         title: 'Roles & Permissions',
-        path: '/',
+        path: '/dashboard/roles',
         icon: '',
-         img: '/images/icons/sidebar/permission.svg'
+         img: '/images/icons/sidebar/roles.svg'
     },
  
     {
         title: 'Audith Trail',
-        path: '/',
+        path: '/dashboard/audits',
         icon: '',
          img: '/images/icons/sidebar/audit.svg'
     },
     {
         title: 'FAQ & Notifications',
-        path: '/',
+        path: '/dashboard/faqs',
         icon: '',
         img: '/images/icons/sidebar/faq.svg'
     },
     {
         title: 'Settings',
-        path: '/',
+        path: '/dashboard/settings',
         icon: '',
         img: '/images/icons/sidebar/settings.svg'
     },

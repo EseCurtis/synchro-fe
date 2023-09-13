@@ -30,9 +30,10 @@ const DashboardBoardSidebar = () => {
             <>
               <Link href={_.path}>
                 <li
-                  className='py-[14px] flex items-center gap-[16px] '
+                  className='py-[14px] rounded-md p-4 flex items-center gap-[16px] '
                   style={{
                     color: '#718096',
+                    background: 'rgba(233, 160, 132, 0.12)',
                   }}
                 >
                   <Image src={_.img} width={24} height={24} alt='icons' />

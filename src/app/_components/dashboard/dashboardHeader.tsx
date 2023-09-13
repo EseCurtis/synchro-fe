@@ -4,7 +4,7 @@ import { BiBell } from 'react-icons/bi';
 import moment from 'moment';
 import Image from 'next/image';
 
-const DashboaradHeader = () => {
+const DashboaradHeader = ({ title }: { title: any }) => {
   return (
     <div
       className='flex justify-between '
@@ -14,7 +14,7 @@ const DashboaradHeader = () => {
       }}
     >
       <div>
-        <p>Dashboard</p>
+        <p className='font-bold'>{title}</p>
       </div>
 
       <div className='flex items-center justify-between       gap-[4em]'>

@@ -28,7 +28,7 @@ const data = [
 
 const DashboardIndex = () => {
   return (
-    <DashboardLayout>
+    <DashboardLayout title='Dashboard'>
       <div>
         <h1>
           Welcome{' '}
