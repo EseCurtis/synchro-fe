@@ -1,63 +1,71 @@
 export const SidebarNavs = [
     {
-        title: 'Home',
+        title: 'Dashboard',
         path: '/',
-        icon: ''
+        icon: '',
+        img: '/images/icons/sidebar/home_active.svg'
     },
     {
         title: 'Users',
         path: '/',
-        icon: ''
+        icon: '',
+        img: '/images/icons/sidebar/user.svg'
+        
     },
     {
         title: 'Events',
         path: '/',
-        icon: ''
+        icon: '',
+         img: '/images/icons/sidebar/coupon.svg'
     },
     {
         title: 'KYC',
         path: '/',
-        icon: ''
+        icon: '',
+        img: '/images/icons/sidebar/kyc.svg'
     },
     {
         title: 'Services',
         path: '/',
-        icon: ''
+        icon: '',
+         img: '/images/icons/sidebar/user-dollar.svg'
     },
     {
         title: 'Support',
         path: '/',
-        icon: ''
+        icon: '',
+         img: '/images/icons/sidebar/support.svg'
     },
     {
         title: 'Report Issues',
         path: '/',
-        icon: ''
+        icon: '',
+        img: '/images/icons/sidebar/report.svg'
     },
     {
         title: 'Roles & Permissions',
         path: '/',
-        icon: ''
+        icon: '',
+         img: '/images/icons/sidebar/permission.svg'
     },
-    {
-        title: 'Reported Issues',
-        path: '/',
-        icon: ''
-    },
+ 
     {
         title: 'Audith Trail',
         path: '/',
-        icon: ''
+        icon: '',
+         img: '/images/icons/sidebar/audit.svg'
     },
     {
         title: 'FAQ & Notifications',
         path: '/',
-        icon: ''
+        icon: '',
+        img: '/images/icons/sidebar/faq.svg'
     },
     {
         title: 'Settings',
         path: '/',
-        icon: ''
+        icon: '',
+        img: '/images/icons/sidebar/settings.svg'
     },
     
 ]

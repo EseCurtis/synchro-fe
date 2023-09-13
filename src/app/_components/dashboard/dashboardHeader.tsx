@@ -7,22 +7,30 @@ import Image from 'next/image';
 const DashboaradHeader = () => {
   return (
     <div
-      className='flex justify-between'
+      className='flex justify-between '
       style={{
-        borderBottom: '1px solid gray',
+        borderBottom: '1px solid #EDEFF5',
+        padding: '1em ',
       }}
     >
       <div>
         <p>Dashboard</p>
       </div>
 
-      <div className='flex items-center gap-3'>
+      <div className='flex items-center justify-between       gap-[4em]'>
         <div className='flex items-center gap-3'>
-          <SlCalender />
-          <p>{moment().format('DD MM YYYY')}</p>
+          <SlCalender size={'1.5em'} />
+          <p className='font-400'>{moment().format('DD MM YYYY')}</p>
         </div>
 
-        <BiBell />
+        <div className='bg-gray-100  w-[3em] h-[3em] flex items-center justify-center rounded-full '>
+          <BiBell size={'1.5em'} />
+        </div>
+
+        <div className='flex gap-2 items-center'>
+          <div className='w-[41px] h-[41px] rounded-full bg-gray-500'></div>
+          <h3>Barbara Riley</h3>
+        </div>
       </div>
     </div>
   );
