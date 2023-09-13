@@ -14,13 +14,13 @@ export const SidebarNavs = [
         
     },
     {
-        title: 'Events',
-        path: '/dashboard/Events',
+        title: 'events',
+        path: '/dashboard/events',
         icon: '',
          img: '/images/icons/sidebar/coupon.svg'
     },
     {
-        title: 'KYC',
+        title: 'kyc',
         path: '/dashboard/kyc',
         icon: '',
         img: '/images/icons/sidebar/kyc.svg'
