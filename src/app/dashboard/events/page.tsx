@@ -5,15 +5,15 @@ import React from 'react';
 const data = [
   {
     header: 'Home',
-    route: 'Saved',
+    component: 'Saved',
   },
   {
     header: 'Profile',
-    route: 'Profile',
+    component: 'Profile',
   },
   {
     header: 'Settings',
-    route: 'Settings',
+    component: 'Settings',
   },
   // Add more objects here as needed
 ];

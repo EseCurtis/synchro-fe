@@ -4,7 +4,7 @@ import React, { FC, ReactNode, useState } from 'react';
 
 interface ITabData {
   header: string;
-  route: ReactNode | string;
+  component: ReactNode | string;
 }
 
 interface IpropsData {
@@ -37,7 +37,7 @@ const TabComponent: FC<IpropsData> = ({ data }: IpropsData) => {
             key={index}
             className={`tab-pane ${activeTab !== index ? 'hidden' : ''}`}
           >
-            {tab.route}
+            {tab.component}
           </div>
         ))}
       </div>
