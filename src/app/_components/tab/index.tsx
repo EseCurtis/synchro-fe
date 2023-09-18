@@ -21,13 +21,13 @@ const TabComponent: FC<IpropsData> = ({ data }: IpropsData) => {
   return (
     <div>
       <div className='flex gap-[5em]'>
-        {data.map((tab, index) => (
+        {data?.map((tab, index) => (
           <button
             key={index}
             onClick={() => handleTabClick(index)}
             className={`tab-button ${activeTab === index ? 'active-tab' : ''}`}
           >
-            {tab.header}
+            {tab?.header}
           </button>
         ))}
       </div>
@@ -37,7 +37,7 @@ const TabComponent: FC<IpropsData> = ({ data }: IpropsData) => {
             key={index}
             className={`tab-pane ${activeTab !== index ? 'hidden' : ''}`}
           >
-            {tab.component}
+            {tab?.component}
           </div>
         ))}
       </div>
