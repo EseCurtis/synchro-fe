@@ -2,6 +2,8 @@ import TabComponent from '@/app/_components/tab';
 import DashboardLayout from '@/app/layouts/dashboardLayout';
 import React from 'react';
 import ActiveUsers from './views/activeUsers';
+import SuspendedUsers from './views/suspendedUsers';
+import DeletedUsers from './views/deletedUsers';
 
 const data = [
   {
@@ -10,13 +12,14 @@ const data = [
   },
   {
     header: 'Suspended Users',
-    component: 'suspended users users',
+    component: <SuspendedUsers />,
   },
   {
     header: 'Deleted Users',
-    component: 'Actice users',
+    component: <DeletedUsers />,
   },
 ];
+
 const Users = () => {
   return (
     <DashboardLayout title='Users'>
