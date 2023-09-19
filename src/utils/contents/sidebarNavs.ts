@@ -39,7 +39,7 @@ export const SidebarNavs = [
     },
     {
         title: 'Report Issues',
-        path: '/dashboard/issues',
+        path: '/dashboard/reports',
         icon: '',
         img: '/images/icons/sidebar/report.svg'
     },

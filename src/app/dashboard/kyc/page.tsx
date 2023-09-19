@@ -19,7 +19,7 @@ const data = [
 ];
 const Kyc = () => {
   return (
-    <DashboardLayout title='Service'>
+    <DashboardLayout title='KYC'>
       <TabComponent data={data} />
     </DashboardLayout>
   );
