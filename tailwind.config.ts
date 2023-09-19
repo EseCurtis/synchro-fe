@@ -16,7 +16,8 @@ const config: Config = {
       colors: {
         primary: '#1A202C',
         lighten: '#EDEFF5',
-        text_primary: '#A0AEC0'
+        text_primary: '#A0AEC0',
+        second_primary_text: '#777E90'
       }
     },
   },
