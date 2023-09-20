@@ -8,12 +8,14 @@ interface IDashboardLayout {
 }
 
 const DashboardLayout: FC<IDashboardLayout> = ({ children, title }) => {
+
   return (
     <div className='flex'>
       <div className=''>
-        <DashboardBoardSidebar />
+        {/* Pass the current route as activeRoute */}
+        <DashboardBoardSidebar/>
       </div>
-      <div className='w-[1148px] py-5 px-4 mx-auto  '>
+      <div className='w-[1148px] py-5 px-4 mx-auto'>
         <DashboaradHeader title={title} />
         <div className='my-[2em]'>{children}</div>
       </div>

@@ -1,3 +1,6 @@
+'use client';
+
+import { usePathname } from 'next/navigation'
 import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -8,6 +11,8 @@ const listStyle = {
 };
 
 const DashboardBoardSidebar = () => {
+  const pathname = usePathname()
+
   return (
     <div
       className='w-[260px] py-5 px-5  h-[100vh]'
@@ -32,11 +37,10 @@ const DashboardBoardSidebar = () => {
                 className='py-[14px] rounded-md p-4 flex items-center gap-[16px] '
                 style={{
                   color: '#718096',
-                  background:
-                    _.path === '/dashboard' ? 'rgba(233, 160, 132, 0.12)' : '',
+                  background: _.path === pathname ? 'rgba(233, 160, 132, 0.12)' : 'transparent',
                 }}
               >
-                <Image src={_.img} width={24} height={24} alt='icons' />
+                <Image src={_.path === pathname ? _.active : _.img} width={24} height={24} alt='icons' />
                 {_.title}
               </li>
             </Link>
