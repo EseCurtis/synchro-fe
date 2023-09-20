@@ -3,15 +3,15 @@ export const SidebarNavs = [
         title: 'Dashboard',
         path: '/dashboard',
         icon: '',
-        img: '/images/icons/sidebar/home_active.svg',
+        img: '/images/icons/sidebar/home.svg',
         active: '/images/icons/sidebar/home_active.svg'
     },
     {
         title: 'Users',
         path: '/dashboard/users',
         icon: '',
-        img: '/images/icons/sidebar/user.svg'
-        
+        img: '/images/icons/sidebar/user.svg',
+        active: '/images/icons/sidebar/user_active.svg'
     },
     {
         title: 'events',
