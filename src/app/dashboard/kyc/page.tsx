@@ -2,6 +2,8 @@ import TabComponent from '@/app/_components/tab';
 import DashboardLayout from '@/app/layouts/dashboardLayout';
 import React from 'react';
 import ApprovedKyc from './views/approved';
+import PendingKyc from './views/pending';
+import DeclinedKyc from './views/declined';
 
 const data = [
   {
@@ -10,11 +12,11 @@ const data = [
   },
   {
     header: 'Pending ',
-    component: '<PendingService />',
+    component: <PendingKyc />,
   },
   {
-    header: 'Decline ',
-    component: '<DeclineServices />',
+    header: 'Declined ',
+    component: <DeclinedKyc />,
   },
 ];
 const Kyc = () => {

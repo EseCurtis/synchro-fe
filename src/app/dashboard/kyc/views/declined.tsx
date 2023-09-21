@@ -8,12 +8,13 @@ const header = [
   'Doc Type',
   'File Upload',
   'Status',
+  'reasons',
   'Date Approved',
   '',
 ];
 
 const style = 'px-6 py-4 whitespace-no-wrap border-b border-gray-300';
-const ApprovedKyc = () => {
+const DeclinedKyc = () => {
   return (
     <div>
       <DashboardAction />
@@ -54,4 +55,4 @@ const ApprovedKyc = () => {
   );
 };
 
-export default ApprovedKyc;
+export default DeclinedKyc;
