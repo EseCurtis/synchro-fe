@@ -7,9 +7,7 @@ const header = [
   'Business Name ',
   'Doc Type',
   'File Upload',
-  'Status',
-  'Reasons',
-  'Date Declined',
+  'Date Submitted',
   '',
   '',
 ];
@@ -33,28 +31,22 @@ const PendingKyc = () => {
                 </div>
               </td>
               <td className={style}>
-                <h3>{_.name}</h3>
+                <h3>Legal Document</h3>
               </td>
               <td className={style}>
-                <h3>{_.gender}</h3>
-              </td>
-              <td className={style}>
-                <h3>{_.number}</h3>
-              </td>
-              <td className={style}>
-                <h3>--status--</h3>
+                <h3 className="underline">Legal Document.pdf</h3>
               </td>
               <td className={style}>
                 <h3>{_.date}</h3>
               </td>
               <td className={style}>
                 <div className="flex gap-5 items-center">
-                  <span>✓</span>
-                  <span>&times;</span>
+                  <span className='text-green'>✓</span>
+                  <span className='text-pink'>×</span>
                 </div>
               </td>
               <td className={style}>
-                <h3 className="text-second_primary_text">•••</h3>
+                <h3 className="text-sm text-second_primary_text ">•••</h3>
               </td>
             </tr>
           );

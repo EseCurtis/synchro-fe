@@ -6,7 +6,7 @@ import React from 'react';
 const header = [
   'Business Name ',
   'Doc Type',
-  'File Upload',
+  'File Uploaded',
   'Status',
   'Date Approved',
   '',
@@ -32,19 +32,19 @@ const ApprovedKyc = () => {
                 </div>
               </td>
               <td className={style}>
-                <h3>{_.name}</h3>
+                <h3>Legal Document</h3>
               </td>
               <td className={style}>
-                <h3>{_.gender}</h3>
+                <h3 className="underline">Legal Document.pdf</h3>
               </td>
               <td className={style}>
-                <h3>{_.number}</h3>
+                <h3 className="bg-aqua-100 text-aqua-300 rounded-full">Approved</h3>
               </td>
               <td className={style}>
                 <h3>{_.date}</h3>
               </td>
               <td className={style}>
-                <h3 className="text-second_primary_text">•••</h3>
+                <h3 className="text-sm text-second_primary_text ">•••</h3>
               </td>
             </tr>
           );
