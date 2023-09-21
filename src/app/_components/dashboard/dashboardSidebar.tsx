@@ -41,7 +41,8 @@ const DashboardBoardSidebar = () => {
                     _.path === pathname ? 'rgba(233, 160, 132, 0.12)' : '',
                 }}
               >
-                <Image src={ _.path === pathname ? _.active : _.img } width={24} height={24} alt='icons' />
+                <Image src={ _.active } width={24} height={24} alt='icons' style={{ display: _.path === pathname ?  "unset" : "none" }} />
+                <Image src={ _.img } width={24} height={24} alt='icons' style={{ display: _.path === pathname ?  "none" : "unset" }} />
                 {_.title}
               </li>
             </Link>
