@@ -47,7 +47,8 @@ const MembersPage = () => {
                     <h3>{_.name}</h3>
                   </td>
                   <td className={style}>
-                    <Badge status={'Pending'} />
+                    {/* @ts-ignore */}
+                    <Badge status={_.status} />
                   </td>
                   <td className={style}>
                     <h3>{_.number}</h3>
