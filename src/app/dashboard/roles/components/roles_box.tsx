@@ -7,7 +7,7 @@ interface IPropsRoles {
 
 const styles = {
   border: '1.8px solid #EDEFF5 ',
-  maxHeight: '165px',
+  maxHeight: '180px',
   padding: '18px 20px',
 };
 
@@ -16,7 +16,7 @@ const RolesComponent: FC<IPropsRoles> = ({ role, content }) => {
     <div className='w-[310px] rounded-[12px]' style={styles}>
       <div className='flex justify-between items-center'>
         <h3 className='font-md  text-[18px] '>{role}</h3>
-        <MdMoreHoriz />
+        <MdMoreHoriz cursor='pointer' />
       </div>
 
       <p

@@ -13,7 +13,7 @@ const NoRolesMember = () => {
       <p className='text-second_primary_text text-center'>
         Click on the button below to add a member to your backoffice.
       </p>
-      <Button>Add Role</Button>
+      <Button>Add Member</Button>
     </div>
   );
 };
