@@ -44,7 +44,7 @@ const ApprovedKyc = () => {
                 <h3>{_.date}</h3>
               </td>
               <td className={style}>
-                <h3>•••</h3>
+                <h3 className="text-second_primary_text">•••</h3>
               </td>
             </tr>
           );

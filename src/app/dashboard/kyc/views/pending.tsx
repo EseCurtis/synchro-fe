@@ -42,16 +42,19 @@ const PendingKyc = () => {
                 <h3>{_.number}</h3>
               </td>
               <td className={style}>
+                <h3>--status--</h3>
+              </td>
+              <td className={style}>
                 <h3>{_.date}</h3>
               </td>
               <td className={style}>
-                <div className="flex gap-2 items-center">
-                  <span>&check;</span>
+                <div className="flex gap-5 items-center">
+                  <span>✓</span>
                   <span>&times;</span>
                 </div>
               </td>
               <td className={style}>
-                <h3>•••</h3>
+                <h3 className="text-second_primary_text">•••</h3>
               </td>
             </tr>
           );

@@ -7,12 +7,12 @@ import DeclinedKyc from './views/declined';
 
 const data = [
   {
-    header: 'Approved',
-    component: <ApprovedKyc />,
-  },
-  {
     header: 'Pending ',
     component: <PendingKyc />,
+  },
+  {
+    header: 'Approved',
+    component: <ApprovedKyc />,
   },
   {
     header: 'Declined ',
