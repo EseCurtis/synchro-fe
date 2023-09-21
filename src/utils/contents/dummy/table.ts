@@ -5,7 +5,8 @@ export const table = [
         image: '',
         gender: 'Male',
         number: '09121232123',
-        date: '2 Days Ago'
+        date: '2 Days Ago',
+        status: 'Active'
     },
     {
         name: 'Alice Johnson',
@@ -13,7 +14,8 @@ export const table = [
         image: '',
         gender: 'Female',
         number: '555-123-4567',
-        date: '1 Week Ago'
+        date: '1 Week Ago',
+        status: 'Pending'
     },
     {
         name: 'John Smith',
@@ -21,7 +23,8 @@ export const table = [
         image: '',
         gender: 'Male',
         number: '555-987-6543',
-        date: '3 Days Ago'
+        date: '3 Days Ago',
+        status: 'Pending'
     },
     {
         name: 'Sara Miller',
@@ -29,7 +32,8 @@ export const table = [
         image: '',
         gender: 'Female',
         number: '555-567-8901',
-        date: '2 Weeks Ago'
+        date: '2 Weeks Ago',
+        status: 'Active'
     },
     {
         name: 'Michael Davis',
@@ -37,6 +41,7 @@ export const table = [
         image: '',
         gender: 'Male',
         number: '555-234-5678',
-        date: 'Yesterday'
+        date: 'Yesterday',
+        status: 'Active'
     }
 ];

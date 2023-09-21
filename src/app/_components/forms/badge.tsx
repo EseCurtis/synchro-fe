@@ -6,10 +6,13 @@ interface IPropsBadge {
 
 const Badge: FC<IPropsBadge> = ({ status }: IPropsBadge) => {
   let badge_status;
+  let text_col;
   if (status === 'Active') {
     badge_status = '#2EB8721F';
+    text_col = 'text-success_text';
   } else if (status === 'Pending') {
-    badge_status = 'yellow';
+    badge_status = 'rgba(242, 153, 74, 0.12)';
+    text_col = 'text-pending_text';
   } else {
     badge_status = 'blue';
   }
@@ -19,10 +22,10 @@ const Badge: FC<IPropsBadge> = ({ status }: IPropsBadge) => {
         ' w-[fit-content] px-[15px] flex justify-center rounded-xl py-[2px] '
       }
       style={{
-        background: 'red',
+        background: badge_status,
       }}
     >
-      <p className={'font-600 text-success_text'}>{status}</p>
+      <p className={`font-600  ${text_col}`}>{status}</p>
     </div>
   );
 };

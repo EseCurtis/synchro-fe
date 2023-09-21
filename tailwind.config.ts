@@ -19,7 +19,9 @@ const config: Config = {
         text_primary: '#A0AEC0',
         second_primary_text: '#777E90',
         success_badge: 'rgba(46, 184, 114, 0.12)',
-        success_text: '#2EB872'
+        success_text: '#2EB872',
+        pending_text: '#F2994A',
+        pending_bg: 'rgba(242, 153, 74, 0.12)'
       }
     },
   },
