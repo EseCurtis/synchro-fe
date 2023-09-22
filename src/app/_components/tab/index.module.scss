@@ -1,0 +1,15 @@
+.tab {
+    .active-tab {
+        background: blue;
+        position: relative;
+
+        &:before {
+            content: "";
+            position: absolute;
+            padding: 2px;
+            width: 100%;
+            background: red;
+            border-radius: 20px;
+        }
+    }
+}

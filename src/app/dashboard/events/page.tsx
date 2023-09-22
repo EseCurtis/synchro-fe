@@ -1,20 +1,24 @@
 import TabComponent from '@/app/_components/tab';
 import DashboardLayout from '@/app/layouts/dashboardLayout';
+import DeclinedEvents from './views/declined';
+import ApprovedEvents from './views/approved';
 import React from 'react';
 
 const data = [
   {
-    header: 'Home',
-    component: 'Saved',
+    header: 'Approved Events',
+    component: <ApprovedEvents/>,
   },
   {
-    header: 'Profile',
-    component: 'Profile',
+    header: 'Pending Events',
+    //TODO: calender..
+    component: 'Loading...',
   },
   {
-    header: 'Settings',
-    component: 'Settings',
+    header: 'Declined Events',
+    component: <DeclinedEvents/>,
   },
+  
   // Add more objects here as needed
 ];
 

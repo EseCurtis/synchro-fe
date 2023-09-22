@@ -1,6 +1,7 @@
 'use client';
 
 import React, { FC, ReactNode, useState } from 'react';
+//import styles from "./index.module.css"
 
 interface ITabData {
   header: string;
@@ -20,7 +21,7 @@ const TabComponent: FC<IpropsData> = ({ data }: IpropsData) => {
 
   return (
     <div>
-      <div className='flex gap-[5em]'>
+      <div className={`flex gap-[5em] `}>
         {data?.map((tab, index) => (
           <button
             key={index}

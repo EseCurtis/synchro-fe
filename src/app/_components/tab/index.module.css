@@ -1,0 +1,1 @@
+.tab .active-tab{background:blue;position:relative}.tab .active-tab:before{content:"";position:absolute;padding:2px;width:100%;background:red;border-radius:20px}
