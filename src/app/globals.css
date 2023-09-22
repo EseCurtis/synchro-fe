@@ -22,17 +22,3 @@ body {
  
 }
 
-.active-tab {
-  position: relative;
-}
-
-.active-tab:after {
-  content: "";
-  width: 100%;
-  padding: 2px;
-  background: var(--background-start-rgb);
-  border-radius: 20px;
-  bottom: -0.5em;
-  left: 0;
-  display: block;
-}

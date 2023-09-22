@@ -1,1 +1,1 @@
-.tab .active-tab{background:blue;position:relative}.tab .active-tab:before{content:"";position:absolute;padding:2px;width:100%;background:red;border-radius:20px}
+.tab .active_tab{position:relative}.tab .active_tab:after{position:absolute;content:"";width:100%;padding:2px;background:var(--primary-bg-gradient);border-radius:20px;bottom:-0.5em;left:0;display:block;animation:load-indicator .4s}@keyframes load-indicator{0%{width:0%}100%{width:100%}}

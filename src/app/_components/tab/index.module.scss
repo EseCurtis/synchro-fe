@@ -1,15 +1,29 @@
 .tab {
-    .active-tab {
-        background: blue;
+
+    .active_tab {
         position: relative;
 
-        &:before {
-            content: "";
+        &:after {
             position: absolute;
-            padding: 2px;
+            content: "";
             width: 100%;
-            background: red;
+            padding: 2px;
+            background: var(--primary-bg-gradient);
             border-radius: 20px;
+            bottom: -0.5em;
+            left: 0;
+            display: block;
+            animation: load-indicator 0.4s;
         }
+    }
+}
+
+@keyframes load-indicator {
+    0% {
+        width: 0%;
+    }
+
+    100% {
+        width: 100%;
     }
 }
