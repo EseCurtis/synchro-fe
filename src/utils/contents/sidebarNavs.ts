@@ -37,7 +37,7 @@ export const SidebarNavs = [
     },
     {
         title: 'Support',
-        path: '/dashboard/supports',
+        path: '/dashboard/support',
         icon: '',
          img: '/images/icons/sidebar/support.svg',
          active: '/images/icons/sidebar/support_active.svg'
