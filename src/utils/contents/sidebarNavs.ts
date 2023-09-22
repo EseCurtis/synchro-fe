@@ -66,7 +66,7 @@ export const SidebarNavs = [
     },
     {
         title: 'FAQ & Notifications',
-        path: '/dashboard/faqs',
+        path: '/dashboard/faq_and_notifications',
         icon: '',
         img: '/images/icons/sidebar/faq.svg',
         active: '/images/icons/sidebar/faq_active.svg'
