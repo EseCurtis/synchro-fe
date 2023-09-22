@@ -6,13 +6,13 @@ import React from 'react';
 
 const data = [
   {
-    header: 'Approved Events',
-    component: <ApprovedEvents/>,
-  },
-  {
     header: 'Pending Events',
     //TODO: calender..
     component: 'Loading...',
+  },
+  {
+    header: 'Approved Events',
+    component: <ApprovedEvents/>,
   },
   {
     header: 'Declined Events',
