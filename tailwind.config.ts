@@ -22,6 +22,9 @@ const config: Config = {
         success_text: '#2EB872',
         pending_text: '#F2994A',
         pending_bg: 'rgba(242, 153, 74, 0.12)'
+      },
+      backgroundColor: {
+        'aqua-green': "#00FFFF"
       }
     },
   },

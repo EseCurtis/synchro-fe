@@ -6,8 +6,8 @@ import AuthLayout from './layouts/authLayout';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'Synco',
-  description: 'Synco application',
+  title: 'Synchro',
+  description: 'Synchro application',
 };
 
 export default function RootLayout({

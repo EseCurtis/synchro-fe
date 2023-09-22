@@ -5,10 +5,9 @@ import React from 'react';
 
 const header = [
   'Business Name ',
-  'Doc Type',
-  'File Upload',
+  'File Uploaded',
   'Status',
-  'reasons',
+  'Reasons',
   'Date Approved',
   '',
 ];
@@ -33,19 +32,19 @@ const DeclinedKyc = () => {
                 </div>
               </td>
               <td className={style}>
-                <h3>{_.name}</h3>
+                <h3 className="underline">Legal Document.pdf</h3>
               </td>
               <td className={style}>
-                <h3>{_.gender}</h3>
+                <h3 className='text-red bg-pink rounded-full'>Declined</h3>
               </td>
               <td className={style}>
-                <h3>{_.number}</h3>
+                <h3 className='text-gray'>reasons</h3>
               </td>
               <td className={style}>
                 <h3>{_.date}</h3>
               </td>
               <td className={style}>
-                <h3>•••</h3>
+                <h3 className="text-sm text-second_primary_text ">•••</h3>
               </td>
             </tr>
           );
