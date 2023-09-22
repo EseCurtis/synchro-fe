@@ -68,15 +68,15 @@ const NotificationBox = () => {
           {notificationIcon}
         </div>
         <div>
-          <h5>Notification</h5>
-          <p className='text-text_primary'>
+          <h3 className=''>Notification</h3>
+          <p className='text-other_text'>
             Lorem ipsum dolor sit amet consectetur. Massa amet viverra ut at ac
             molestie.
           </p>
         </div>
       </div>
       <div className='flex  items-center gap-[20px]'>
-        <p className='text-text_primary'>1 Aug</p>
+        <p className='text-other_text'>1 Aug</p>
         <div className='flex gap-5 items-center'>
           <div className='pointer'>{pencil} </div>
           <Delete_Circle />

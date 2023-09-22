@@ -40,7 +40,7 @@ const RolesComponent: FC<IPropsRoles> = ({ role, content }) => {
   );
 };
 
-const AddNewRoleComponent = () => {
+const AddNewRoleComponent = ({ title }: { title: string }) => {
   return (
     <div
       className='w-[310px] cursor-pointer text-center rounded-[12px]'
@@ -67,7 +67,7 @@ const AddNewRoleComponent = () => {
             fontSize: '15px',
           }}
         >
-          Click here to add a new role
+          {title}
         </p>
       </div>
     </div>

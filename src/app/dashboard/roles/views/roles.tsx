@@ -39,7 +39,7 @@ const RolesPage = () => {
               <RolesComponent role={_.role} content={_.content} />
             </Fragment>
           ))}
-          <AddNewRoleComponent />
+          <AddNewRoleComponent title='Click here to add new role' />
         </div>
       )}
     </div>

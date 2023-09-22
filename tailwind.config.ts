@@ -17,6 +17,7 @@ const config: Config = {
         primary: '#1A202C',
         lighten: '#EDEFF5',
         text_primary: '#A0AEC0',
+        other_text: '#718096',
         second_primary_text: '#777E90',
         success_badge: 'rgba(46, 184, 114, 0.12)',
         success_text: '#2EB872',
