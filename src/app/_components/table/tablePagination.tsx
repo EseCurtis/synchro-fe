@@ -8,14 +8,14 @@ interface IProps {
 const TablePagination: FC<IProps> = ({ offset = 3, pages = 320 }: IProps) => {
   return (
     <>
-      <div className="flex justify-between">
+      <div className="flex justify-between mt-4 p-8">
         <div className="flex items-left gap-3 page-count">
           <p>{offset}</p>
           <p>of</p>
           <p>{pages}</p>
         </div>
 
-        <div className="flex items-right gap-3 page-count mt-4 p-8">
+        <div className="flex items-right gap-3 page-count">
           <p>{"<"}</p>
           <p>1</p>
           <p>2</p>

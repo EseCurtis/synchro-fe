@@ -59,7 +59,7 @@ const MembersPage = () => {
                     <h3>{_.date}</h3>
                   </td>
                   <td className={style}>
-                    <Image src="/images/icons/dashboard/table/menu.svg"  width={32} height={11} alt="" />
+                    <Image src="/images/icons/dashboard/table/more.svg"  width={32} height={11} alt="" />
                   </td>
                 </tr>
               );
