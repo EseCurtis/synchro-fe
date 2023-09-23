@@ -58,13 +58,13 @@ const PendingKyc = () => {
               <td className={style}>
                 <div className='flex gap-5 items-center'>
                   <Image
-                    src='./images/icons/dashboard/tables/tick.svg'
+                    src='/images/icons/dashboard/tables/tick.svg'
                     width={32}
                     height={32}
                     alt=''
                   />
                   <Image
-                    src='./images/icons/dashboard/tables/times.svg'
+                    src='/images/icons/dashboard/tables/times.svg'
                     width={32}
                     height={32}
                     alt=''
@@ -73,7 +73,7 @@ const PendingKyc = () => {
               </td>
               <td className={style}>
                 <Image
-                  src='./images/icons/dashboard/tables/menu.svg'
+                  src='/images/icons/dashboard/tables/menu.svg'
                   width={32}
                   height={11}
                   alt=''
