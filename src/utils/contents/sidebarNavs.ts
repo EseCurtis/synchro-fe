@@ -58,7 +58,7 @@ export const SidebarNavs = [
     },
  
     {
-        title: 'Audith Trail',
+        title: 'Audit Trail',
         path: '/dashboard/audits',
         icon: '',
          img: '/images/icons/sidebar/audit.svg',

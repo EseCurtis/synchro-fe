@@ -41,12 +41,12 @@ const PendingKyc = () => {
               </td>
               <td className={style}>
                 <div className="flex gap-5 items-center">
-                  <span className='text-green'>✓</span>
-                  <span className='text-pink'>×</span>
+                  <img src="./images/tables/tick.svg" alt="" />
+                  <img src="./images/tables/times.svg" alt="" />
                 </div>
               </td>
               <td className={style}>
-                <h3 className="text-sm text-second_primary_text ">•••</h3>
+                <img src="./images/tables/menu.svg" alt="" />
               </td>
             </tr>
           );
