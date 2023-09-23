@@ -39,6 +39,41 @@ const arrow_with_bar = (
   </svg>
 );
 
+const colabsIcon = (
+  <svg
+    width='24'
+    height='24'
+    viewBox='0 0 24 24'
+    fill='none'
+    xmlns='http://www.w3.org/2000/svg'
+  >
+    <ellipse
+      cx='11.9998'
+      cy='12.0008'
+      rx='11.0769'
+      ry='11.0769'
+      fill='url(#paint0_radial_2368_62612)'
+    />
+    <path
+      d='M16.3074 11.3848H7.69204C7.52883 11.3848 7.37231 11.4496 7.2569 11.565C7.1415 11.6804 7.07666 11.8369 7.07666 12.0002C7.07666 12.1634 7.1415 12.3199 7.2569 12.4353C7.37231 12.5507 7.52883 12.6155 7.69204 12.6155H16.3074C16.4706 12.6155 16.6272 12.5507 16.7426 12.4353C16.858 12.3199 16.9228 12.1634 16.9228 12.0002C16.9228 11.8369 16.858 11.6804 16.7426 11.565C16.6272 11.4496 16.4706 11.3848 16.3074 11.3848Z'
+      fill='white'
+    />
+    <defs>
+      <radialGradient
+        id='paint0_radial_2368_62612'
+        cx='0'
+        cy='0'
+        r='1'
+        gradientUnits='userSpaceOnUse'
+        gradientTransform='translate(0.92285 10.0432) rotate(26.716) scale(28.9933 227.853)'
+      >
+        <stop stop-color='#E73C01' />
+        <stop offset='0.697917' stop-color='#0512D2' />
+      </radialGradient>
+    </defs>
+  </svg>
+);
+
 const Audit_Box = () => {
   const [open, setOpen] = useState(false);
 
@@ -87,7 +122,6 @@ const Audit_Box = () => {
                 color: '#2F80ED',
               }}
             >
-              {' '}
               Kylian Mbappe
             </span>
           </p>
@@ -98,13 +132,21 @@ const Audit_Box = () => {
       {open && (
         <div>
           <div className='flex gap-5 my-5'>
-            <div>{plusIcon}</div>
+            <div>{colabsIcon}</div>
             <div className='flex justify-between  w-[80%]'>
               <p>Imani edited a user profile of Kwame Eugene</p>
               <p className='text-text_primary'>May 12 2020 at 2:30</p>
             </div>
           </div>
 
+          {/* support items */}
+          <div className='flex gap-5 my-5 pl-10'>
+            <div>{arrow_with_bar}</div>
+            <div className='flex justify-between  w-[80%]'>
+              <p>Imani edited a user profile of Kwame Eugene</p>
+              <p className='text-text_primary'>May 12 2020 at 2:30</p>
+            </div>
+          </div>
           {/* support items */}
           <div className='flex gap-5 my-5 pl-10'>
             <div>{arrow_with_bar}</div>

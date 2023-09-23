@@ -1,7 +1,11 @@
+'use client';
 import DashboardAction from '@/app/_components/dashboard/dashboardAction';
 import DefaultTable from '@/app/_components/table/defaultTable';
 import { table } from '@/utils/contents/dummy/table';
 import React from 'react';
+import Modal from '@/app/_components/popups/modal';
+import { useState } from 'react';
+import ViewSuspended from '../components/viewSuspended';
 
 const header = [
   'Fullname ',
@@ -33,6 +37,16 @@ const suspend_Icon = (
 );
 
 const SuspendedUsers = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
   return (
     <div>
       <DashboardAction />
@@ -64,12 +78,16 @@ const SuspendedUsers = () => {
               </td>
 
               <td className={style}>
-                <h3>{suspend_Icon}</h3>
+                <h3 onClick={openModal}>{suspend_Icon}</h3>
               </td>
             </tr>
           );
         })}
       </DefaultTable>
+
+      <Modal isOpen={isModalOpen} onClose={closeModal}>
+        <ViewSuspended />
+      </Modal>
     </div>
   );
 };
