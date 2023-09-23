@@ -8,6 +8,7 @@ import NoRolesMember from '@/app/_components/no_data/no_member';
 import { useState } from 'react';
 import { Button } from '@/app/_components/button';
 import Badge from '@/app/_components/forms/badge';
+import Image from '../../../../../node_modules/next/image';
 
 const header = ['User', 'Role', 'Status', 'Last Active', 'Date Added'];
 const style = 'px-6 py-4 whitespace-no-wrap border-b border-gray-300';
@@ -58,7 +59,7 @@ const MembersPage = () => {
                     <h3>{_.date}</h3>
                   </td>
                   <td className={style}>
-                    <img src="./images/icons/dashboard/table/menu.svg"  width={32} height={11} alt="" />
+                    <Image src="./images/icons/dashboard/table/menu.svg"  width={32} height={11} alt="" />
                   </td>
                 </tr>
               );

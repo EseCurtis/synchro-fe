@@ -3,6 +3,7 @@ import DefaultTable from '@/app/_components/table/defaultTable';
 import TablePagination from '@/app/_components/table/tablePagination';
 import { table } from '@/utils/contents/dummy/table';
 import React from 'react';
+import Image from '../../../../../node_modules/next/image';
 
 const header = [
   'Venue ',
@@ -45,7 +46,7 @@ const DeclinedVenues = () => {
                 <h3>{_.date}</h3>
               </td>
               <td className={style}>
-                <img src="./images/icons/dashboard/table/menu.svg"  width={32} height={11} alt="" />
+                <Image src="./images/icons/dashboard/table/menu.svg"  width={32} height={11} alt="" />
               </td>
             </tr>
           );

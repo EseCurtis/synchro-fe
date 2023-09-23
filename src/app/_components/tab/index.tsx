@@ -21,7 +21,7 @@ const TabComponent: FC<IpropsData> = ({ data }: IpropsData) => {
 
   return (
     <div>
-      <div className={`flex gap-[5em] ${styles.tab}`}>
+      <div className={`flex gap-[5em]`}>
         {data?.map((tab, index) => (
           <button
             key={index}
