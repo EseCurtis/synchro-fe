@@ -15,7 +15,7 @@ const TablePagination: FC<IProps> = ({ offset = 3, pages = 320 }: IProps) => {
           <p>{pages}</p>
         </div>
 
-        <div className="flex items-right gap-3 page-count">
+        <div className="flex items-right gap-3 page-count mt-4 p-8">
           <p>{"<"}</p>
           <p>1</p>
           <p>2</p>

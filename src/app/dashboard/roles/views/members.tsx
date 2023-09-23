@@ -1,6 +1,7 @@
 'use client';
 import DashboardAction from '@/app/_components/dashboard/dashboardAction';
 import DefaultTable from '@/app/_components/table/defaultTable';
+import TablePagination from '@/app/_components/table/tablePagination';
 import { table } from '@/utils/contents/dummy/table';
 import React from 'react';
 import NoRolesMember from '@/app/_components/no_data/no_member';
@@ -57,7 +58,7 @@ const MembersPage = () => {
                     <h3>{_.date}</h3>
                   </td>
                   <td className={style}>
-                    <img src="./images/icons/dashboard/tables/menu.svg"  width={32} height={11} alt="" />
+                    <img src="./images/icons/dashboard/table/menu.svg"  width={32} height={11} alt="" />
                   </td>
                 </tr>
               );

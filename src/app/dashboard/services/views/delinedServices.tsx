@@ -1,5 +1,6 @@
 import DashboardAction from '@/app/_components/dashboard/dashboardAction';
 import DefaultTable from '@/app/_components/table/defaultTable';
+import TablePagination from '@/app/_components/table/tablePagination';
 import { table } from '@/utils/contents/dummy/table';
 import { FiMoreHorizontal } from 'react-icons/fi';
 import React from 'react';
@@ -44,12 +45,13 @@ const DeclineServices = () => {
                 <h3>{_.date}</h3>
               </td>
               <td className={style}>
-                <img src="./images/icons/dashboard/tables/menu.svg"  width={32} height={11} alt="" />
+                <img src="./images/icons/dashboard/table/menu.svg"  width={32} height={11} alt="" />
               </td>
             </tr>
           );
         })}
       </DefaultTable>
+      <TablePagination />
     </div>
   );
 };
