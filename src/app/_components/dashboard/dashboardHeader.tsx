@@ -3,7 +3,7 @@ import { SlCalender } from 'react-icons/sl';
 import { BiBell } from 'react-icons/bi';
 import moment from 'moment';
 
-const DashboaradHeader = ({ title }: { title: any }) => {
+const DashboaradHeader = ({ title, quantity }: { title: any, quantity: any }) => {
   return (
     <div
       className='flex justify-between '
@@ -12,11 +12,12 @@ const DashboaradHeader = ({ title }: { title: any }) => {
         padding: '1em ',
       }}
     >
-      <div>
+      <div className='flex items-left gap-5'>
         <p className='font-bold'>{title}</p>
+        {quantity ? <p className="text-green-200">{quantity}</p> : ""}
       </div>
 
-      <div className='flex items-center justify-between       gap-[4em]'>
+      <div className='flex items-center justify-between gap-[4em]'>
         <div className='flex items-center gap-3'>
           <SlCalender size={'1.5em'} />
           <p className='font-400'>{moment().format('DD MM YYYY')}</p>

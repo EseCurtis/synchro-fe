@@ -44,7 +44,7 @@ const DeclinedKyc = () => {
                 <h3>{_.date}</h3>
               </td>
               <td className={style}>
-                <h3 className="text-sm text-second_primary_text ">•••</h3>
+                <img src="./images/icons/dashboard/tables/menu.svg"  width={32} height={11} alt="" />
               </td>
             </tr>
           );

@@ -27,7 +27,7 @@ const data = [
 ];
 const ReportIssues = () => {
   return (
-    <DashboardLayout title='Report Issues'>
+    <DashboardLayout title='Reported Issues' quantity="123K">
       <TabComponent data={data} />
     </DashboardLayout>
   );

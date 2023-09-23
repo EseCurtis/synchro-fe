@@ -41,6 +41,9 @@ const ActiveUsers = () => {
               <td className={style}>
                 <h3>{_.date}</h3>
               </td>
+              <td className={style}>
+                <img src="./images/icons/dashboard/tables/menu.svg"  width={32} height={11} alt="" />
+              </td>
             </tr>
           );
         })}

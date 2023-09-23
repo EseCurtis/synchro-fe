@@ -10,12 +10,6 @@ const listStyle = {
   listStyleType: 'none',
 };
 
-const listTextStyleActive = {
-  color: 'transparent',
-  backgroundImage: 'linear-gradient(45deg, blue, red)', // Replace with your gradient colors
-  WebkitBackgroundClip: 'text',
-  backgroundClip: 'text',
-}
 
 const DashboardBoardSidebar = () => {
   const pathname = usePathname()
@@ -50,7 +44,7 @@ const DashboardBoardSidebar = () => {
               >
                 <Image src={ _.active } width={24} height={24} alt='icons' style={{ display: _.path === pathname ?  "unset" : "none" }} />
                 <Image src={ _.img } width={24} height={24} alt='icons' style={{ display: _.path === pathname ?  "none" : "unset" }} />
-                <span className={(_.path === pathname) ? " text-transparent bg-clip-text bg-gradient-to-r from-blue-900 to-pink-600" : ""}>
+                <span className={(_.path === pathname) ? " text-transparent bg-clip-text bg-gradient-to-r from-blue-900 to-red-600" : ""}>
                   {_.title}
                 </span>
               </li>

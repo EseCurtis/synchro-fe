@@ -5,16 +5,17 @@ import DashboardBoardSidebar from '../_components/dashboard/dashboardSidebar';
 interface IDashboardLayout {
   children: ReactNode;
   title?: string;
+  quantity?: string;
 }
 
-const DashboardLayout: FC<IDashboardLayout> = ({ children, title }) => {
+const DashboardLayout: FC<IDashboardLayout> = ({ children, title, quantity }) => {
   return (
     <div className='flex'>
       <div className=''>
         <DashboardBoardSidebar />
       </div>
       <div className='w-[1148px] py-5 px-4 mx-auto  '>
-        <DashboaradHeader title={title} />
+        <DashboaradHeader title={title} quantity={quantity} />
         <div className='my-[2em]'>{children}</div>
       </div>
     </div>

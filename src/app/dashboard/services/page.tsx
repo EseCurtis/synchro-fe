@@ -20,7 +20,7 @@ const data = [
 ];
 const Service = () => {
   return (
-    <DashboardLayout title='Service'>
+    <DashboardLayout title='Service' quantity="123K">
       <TabComponent data={data} />
     </DashboardLayout>
   );

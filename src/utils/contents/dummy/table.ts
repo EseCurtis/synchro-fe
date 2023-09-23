@@ -6,7 +6,8 @@ export const table = [
         gender: 'Male',
         number: '09121232123',
         date: '2 Days Ago',
-        status: 'Active'
+        status: 'Active',
+        location: '28355 Hane road, Vista'
     },
     {
         name: 'Alice Johnson',
@@ -15,7 +16,8 @@ export const table = [
         gender: 'Female',
         number: '555-123-4567',
         date: '1 Week Ago',
-        status: 'Pending'
+        status: 'Pending',
+        location: '771 Jovanny Turnpike'
     },
     {
         name: 'John Smith',
@@ -24,7 +26,8 @@ export const table = [
         gender: 'Male',
         number: '555-987-6543',
         date: '3 Days Ago',
-        status: 'Pending'
+        status: 'Pending',
+        location: '5786 Wolff Mill'
     },
     {
         name: 'Sara Miller',
@@ -33,7 +36,8 @@ export const table = [
         gender: 'Female',
         number: '555-567-8901',
         date: '2 Weeks Ago',
-        status: 'Active'
+        status: 'Active',
+        location: '697 Brakus Road'
     },
     {
         name: 'Michael Davis',
@@ -42,6 +46,7 @@ export const table = [
         gender: 'Male',
         number: '555-234-5678',
         date: 'Yesterday',
-        status: 'Active'
+        status: 'Active',
+        location: '742 Jaunita Pine'
     }
 ];

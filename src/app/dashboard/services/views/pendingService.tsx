@@ -32,19 +32,19 @@ const PendingService = () => {
                 </div>
               </td>
               <td className={style}>
-                <h3>{_.name}</h3>
+                <h3 className="underline">{_.location}</h3>
               </td>
               <td className={style}>
-                <h3>{_.gender}</h3>
+                <h3>$120</h3>
               </td>
               <td className={style}>
-                <h3>{_.number}</h3>
+                <h3>$12,452</h3>
               </td>
               <td className={style}>
                 <h3>{_.date}</h3>
               </td>
               <td className={style}>
-                <FiMoreHorizontal />
+                <img src="./images/icons/dashboard/tables/menu.svg"  width={32} height={11} alt="" />
               </td>
             </tr>
           );

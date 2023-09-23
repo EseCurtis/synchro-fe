@@ -1,8 +1,13 @@
-import DashboardLayout from '@/app/layouts/dashboardLayout';
-import React from 'react';
+import React from "react";
+import DashboardLayout from "@/app/layouts/dashboardLayout";
+import AuditList from "./views/list";
 
 const Audits = () => {
-  return <DashboardLayout title='Audits'>Loading Audits</DashboardLayout>;
+  return (
+    <DashboardLayout title="Audits">
+      <AuditList />
+    </DashboardLayout>
+  );
 };
 
 export default Audits;

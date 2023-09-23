@@ -4,12 +4,12 @@ import DefaultTable from '@/app/_components/table/defaultTable';
 import { table } from '@/utils/contents/dummy/table';
 import React from 'react';
 import NoRolesMember from '@/app/_components/no_data/no_member';
-
-const header = ['User', 'Role', 'Status', 'Last Active', 'Date Added'];
-const style = 'px-6 py-4 whitespace-no-wrap border-b border-gray-300';
 import { useState } from 'react';
 import { Button } from '@/app/_components/button';
 import Badge from '@/app/_components/forms/badge';
+
+const header = ['User', 'Role', 'Status', 'Last Active', 'Date Added'];
+const style = 'px-6 py-4 whitespace-no-wrap border-b border-gray-300';
 
 const MembersPage = () => {
   const [timer, setTimer] = useState<boolean>(true);
@@ -55,6 +55,9 @@ const MembersPage = () => {
                   </td>
                   <td className={style}>
                     <h3>{_.date}</h3>
+                  </td>
+                  <td className={style}>
+                    <img src="./images/icons/dashboard/tables/menu.svg"  width={32} height={11} alt="" />
                   </td>
                 </tr>
               );

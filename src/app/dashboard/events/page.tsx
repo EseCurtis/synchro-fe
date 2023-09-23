@@ -24,7 +24,7 @@ const data = [
 
 const Events = () => {
   return (
-    <DashboardLayout title='Events'>
+    <DashboardLayout title='Events' quantity="123K">
       <TabComponent data={data} />
     </DashboardLayout>
   );
