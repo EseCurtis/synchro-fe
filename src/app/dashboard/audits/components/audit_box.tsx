@@ -70,7 +70,7 @@ const Audit_Box = () => {
 
   return (
     <div>
-      <div className='flex gap-5'>
+      <div className='flex gap-5 my-10'>
         <div>{plusIcon}</div>
         <div className='flex justify-between  w-[80%]'>
           <p>

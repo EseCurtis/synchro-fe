@@ -1,11 +1,13 @@
-import React from "react";
-import DashboardLayout from "@/app/layouts/dashboardLayout";
-import AuditList from "./views/list";
+import React from 'react';
+import DashboardLayout from '@/app/layouts/dashboardLayout';
+import AuditList from './views/list';
 
 const Audits = () => {
   return (
-    <DashboardLayout title="Audits">
+    <DashboardLayout title='Audits'>
       <AuditList />
+
+      
     </DashboardLayout>
   );
 };
