@@ -1,5 +1,6 @@
 import DashboardAction from '@/app/_components/dashboard/dashboardAction';
 import DefaultTable from '@/app/_components/table/defaultTable';
+import TablePagination from '@/app/_components/table/tablePagination';
 import { table } from '@/utils/contents/dummy/table';
 import React from 'react';
 
@@ -41,17 +42,18 @@ const PendingKyc = () => {
               </td>
               <td className={style}>
                 <div className="flex gap-5 items-center">
-                  <img src="./images/icons/dashboard/tables/tick.svg" width={32} height={32} alt="" />
-                  <img src="./images/icons/dashboard/tables/times.svg" width={32} height={32} alt="" />
+                  <img src="./images/icons/dashboard/table/tick.svg" width={32} height={32} alt="" />
+                  <img src="./images/icons/dashboard/table/times.svg" width={32} height={32} alt="" />
                 </div>
               </td>
               <td className={style}>
-                <img src="./images/icons/dashboard/tables/menu.svg"  width={32} height={11} alt="" />
+                <img src="./images/icons/dashboard/table/menu.svg"  width={32} height={11} alt="" />
               </td>
             </tr>
           );
         })}
       </DefaultTable>
+      <TablePagination />
     </div>
   );
 };

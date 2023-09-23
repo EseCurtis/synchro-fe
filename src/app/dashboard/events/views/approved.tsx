@@ -1,5 +1,6 @@
 import DashboardAction from '@/app/_components/dashboard/dashboardAction';
 import DefaultTable from '@/app/_components/table/defaultTable';
+import TablePagination from '@/app/_components/table/tablePagination';
 import { table } from '@/utils/contents/dummy/table';
 import React from 'react';
 
@@ -50,6 +51,7 @@ const ApprovedEvents = () => {
           );
         })}
       </DefaultTable>
+      <TablePagination />
     </div>
   );
 };
