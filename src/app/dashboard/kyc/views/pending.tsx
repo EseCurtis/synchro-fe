@@ -1,7 +1,12 @@
+'use client';
 import DashboardAction from '@/app/_components/dashboard/dashboardAction';
 import DefaultTable from '@/app/_components/table/defaultTable';
 import { table } from '@/utils/contents/dummy/table';
 import React from 'react';
+import Image from 'next/image';
+import Modal from '@/app/_components/popups/modal';
+import ViewInformation from '../components/viewInfo';
+import { useState } from 'react';
 
 const header = [
   'Business Name ',
@@ -13,6 +18,16 @@ const header = [
 ];
 const style = 'px-6 py-4 whitespace-no-wrap border-b border-gray-300';
 const PendingKyc = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
   return (
     <div>
       <DashboardAction />
@@ -21,7 +36,7 @@ const PendingKyc = () => {
         {table?.map((_, key: number) => {
           return (
             <tr key={key}>
-              <td className={style}>
+              <td className={style} onClick={openModal}>
                 <div className='flex gap-5 items-center'>
                   <div className='w-[3em] h-[3em] bg-gray-500 rounded-full'></div>
                   <div>
@@ -34,24 +49,43 @@ const PendingKyc = () => {
                 <h3>Legal Document</h3>
               </td>
               <td className={style}>
-                <h3 className="underline">Legal Document.pdf</h3>
+                <h3 className='underline'>Legal Document.pdf</h3>
               </td>
               <td className={style}>
                 <h3>{_.date}</h3>
               </td>
               <td className={style}>
-                <div className="flex gap-5 items-center">
-                  <img src="./images/icons/dashboard/tables/tick.svg" width={32} height={32} alt="" />
-                  <img src="./images/icons/dashboard/tables/times.svg" width={32} height={32} alt="" />
+                <div className='flex gap-5 items-center'>
+                  <Image
+                    src='./images/icons/dashboard/tables/tick.svg'
+                    width={32}
+                    height={32}
+                    alt=''
+                  />
+                  <Image
+                    src='./images/icons/dashboard/tables/times.svg'
+                    width={32}
+                    height={32}
+                    alt=''
+                  />
                 </div>
               </td>
               <td className={style}>
-                <img src="./images/icons/dashboard/tables/menu.svg"  width={32} height={11} alt="" />
+                <Image
+                  src='./images/icons/dashboard/tables/menu.svg'
+                  width={32}
+                  height={11}
+                  alt=''
+                />
               </td>
             </tr>
           );
         })}
       </DefaultTable>
+
+      <Modal isOpen={isModalOpen} onClose={closeModal}>
+        <ViewInformation />
+      </Modal>
     </div>
   );
 };

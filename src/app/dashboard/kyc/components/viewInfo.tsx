@@ -1,8 +1,8 @@
 import { Button } from '@/app/_components/button';
+import Badge from '@/app/_components/forms/badge';
 import React from 'react';
-import { SecondaryButton } from '@/app/_components/button/secondaryButton';
 
-const ViewSuspended = () => {
+const ViewInformation = () => {
   return (
     <div>
       <div className='text-center my-5'>
@@ -12,18 +12,15 @@ const ViewSuspended = () => {
           <h3>Auer and Sons</h3>
           <p className='text-[#777E90]'>Tara_Mante99</p>
         </div>
-
-        <div className='bg-gray-300  cursor-pointer w-[fit-content] py-[.6em] my-[1em] rounded-lg px-5 mx-auto '>
-          View full profile
-        </div>
       </div>
 
       <div className='flex justify-between'>
         <div className='flex flex-col gap-3'>
           <h4 className='text-[#5D6D73]'>Phone number</h4>
+          <h4 className='text-[#5D6D73]'>Email</h4>
           <h4 className='text-[#5D6D73]'>Phone number</h4>
           <h4 className='text-[#5D6D73]'>Phone number</h4>
-          <h4 className='text-[#5D6D73]'>Phone number</h4>
+          <h4 className='text-[#5D6D73]'>Submitted KYC Document</h4>
         </div>
 
         <div className='flex flex-col gap-3'>
@@ -31,14 +28,21 @@ const ViewSuspended = () => {
           <h4 className='text-black'>Jessica.hanson@example.com</h4>
           <h4 className='text-black'>Lorem ipsum dolor sit ame</h4>
           <h4 className='text-black'>Ese Curtis</h4>
+          <div>
+            <Badge status='Active' />
+          </div>
         </div>
+      </div>
+
+      <div className='my-5 '>
+        <h3 className='font-bold'>Business Legal Document</h3>
       </div>
       <div className=' mt-5 flex gap-4 items-center'>
         <Button>Activate User</Button>
-        <SecondaryButton>Cancel</SecondaryButton>
+        <Button>Cancel</Button>
       </div>
     </div>
   );
 };
 
-export default ViewSuspended;
+export default ViewInformation;

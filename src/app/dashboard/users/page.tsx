@@ -22,7 +22,7 @@ const data = [
 
 const Users = () => {
   return (
-    <DashboardLayout title='Users' quantity="123K">
+    <DashboardLayout title='Users' quantity='123K'>
       <TabComponent data={data} />
     </DashboardLayout>
   );
