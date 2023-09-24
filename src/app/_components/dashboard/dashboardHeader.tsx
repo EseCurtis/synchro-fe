@@ -14,7 +14,7 @@ const DashboaradHeader = ({ title, quantity }: { title: any, quantity: any }) =>
     >
       <div className='flex items-left gap-5'>
         <p className='font-bold'>{title}</p>
-        {quantity ? <p className="text-green-200">{quantity}</p> : ""}
+        {quantity ? <p className="text-green-500">{quantity}</p> : ""}
       </div>
 
       <div className='flex items-center justify-between gap-[4em]'>
