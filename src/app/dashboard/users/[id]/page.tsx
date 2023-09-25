@@ -4,6 +4,7 @@ import React from 'react';
 import PersonalDetails from '../views/personalDetails';
 import MembersView from '../views/member';
 import ViewUsers from '../views/viewUsers';
+import ViewUsersWallet from '../views/usersWallet';
 
 const data = [
   {
@@ -20,7 +21,7 @@ const data = [
   },
   {
     header: 'Wallet ',
-    component: '<MembersPage />',
+    component: <ViewUsersWallet />,
   },
   {
     header: 'Events ',
