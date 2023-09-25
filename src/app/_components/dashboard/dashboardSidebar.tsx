@@ -1,24 +1,27 @@
-"use client";
+'use client';
 
 import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { SidebarNavs } from '@/utils/contents/sidebarNavs';
-import { usePathname } from "next/navigation"
+import { usePathname } from 'next/navigation';
 
 const listStyle = {
   listStyleType: 'none',
 };
 
-
 const DashboardBoardSidebar = () => {
-  const pathname = usePathname()
+  const pathname = usePathname();
 
   return (
     <div
       className='w-[260px] py-5 px-5  h-[100vh]'
       style={{
         borderRight: '1px solid #CED3E4',
+        backgroundImage: 'url(/images/background/sidebar.png)',
+        backgroundSize: 'cover',
+        backgroundRepeat: 'no-repeat',
+        backgroundPosition: 'center',
       }}
     >
       <div>
@@ -42,9 +45,27 @@ const DashboardBoardSidebar = () => {
                     _.path === pathname ? 'rgba(233, 160, 132, 0.12)' : '',
                 }}
               >
-                <Image src={ _.active } width={24} height={24} alt='icons' style={{ display: _.path === pathname ?  "unset" : "none" }} />
-                <Image src={ _.img } width={24} height={24} alt='icons' style={{ display: _.path === pathname ?  "none" : "unset" }} />
-                <span className={(_.path === pathname) ? " text-transparent bg-clip-text bg-gradient-to-r from-blue-900 to-red-600" : ""}>
+                <Image
+                  src={_.active}
+                  width={24}
+                  height={24}
+                  alt='icons'
+                  style={{ display: _.path === pathname ? 'unset' : 'none' }}
+                />
+                <Image
+                  src={_.img}
+                  width={24}
+                  height={24}
+                  alt='icons'
+                  style={{ display: _.path === pathname ? 'none' : 'unset' }}
+                />
+                <span
+                  className={
+                    _.path === pathname
+                      ? ' text-transparent bg-clip-text bg-gradient-to-r from-blue-900 to-red-600'
+                      : ''
+                  }
+                >
                   {_.title}
                 </span>
               </li>

@@ -4,6 +4,7 @@ import TablePagination from '@/app/_components/table/tablePagination';
 import { table } from '@/utils/contents/dummy/table';
 import React from 'react';
 import Image from '../../../../../node_modules/next/image';
+import Link from 'next/link';
 
 const header = [
   'Fullname ',
@@ -22,15 +23,17 @@ const ActiveUsers = () => {
         {table?.map((_, key: number) => {
           return (
             <tr key={key}>
-              <td className={style}>
-                <div className='flex gap-5 items-center'>
-                  <div className='w-[3em] h-[3em] bg-gray-500 rounded-full'></div>
-                  <div>
-                    <h3>{_.name}</h3>
-                    <p className='text-second_primary_text'>{_.email}</p>
+              <Link href={'/users/userId'}>
+                <td className={style}>
+                  <div className='flex gap-5 items-center'>
+                    <div className='w-[3em] h-[3em] bg-gray-500 rounded-full'></div>
+                    <div>
+                      <h3>{_.name}</h3>
+                      <p className='text-second_primary_text'>{_.email}</p>
+                    </div>
                   </div>
-                </div>
-              </td>
+                </td>
+              </Link>
               <td className={style}>
                 <h3>{_.name}</h3>
               </td>
