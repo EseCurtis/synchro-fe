@@ -8,6 +8,11 @@ import ViewUsersWallet from '../views/usersWallet';
 import ViewUserEvent from '../views/viewUsersEvent';
 import ViewUserVenues from '../views/viewUserVenues';
 import ViewUserService from '../views/viewUserService';
+import {
+  deleteIcon,
+  editIcon,
+  noActionIcon,
+} from '@/app/_components/icons/preview/previewActions';
 
 const data = [
   {
@@ -43,11 +48,19 @@ const data = [
 const PreviewBox = () => {
   return (
     <DashboardLayout title='User details'>
-      <div className='my-5 flex gap-5 items-center '>
-        <div className='w-[80px] h-[80px] rounded-full bg-gray-500'></div>
-        <div>
-          <h3>Courtney Henry</h3>
-          <span className='text-second_text'>jessica.hanson@example.com</span>
+      <div className='flex justify-between items-center'>
+        <div className='my-5 flex gap-5 items-center '>
+          <div className='w-[80px] h-[80px] rounded-full bg-gray-500'></div>
+          <div>
+            <h3>Courtney Henry</h3>
+            <span className='text-second_text'>jessica.hanson@example.com</span>
+          </div>
+        </div>
+
+        <div className='flex '>
+          <div>{editIcon}</div>
+          <div>{noActionIcon}</div>
+          <div>{deleteIcon}</div>
         </div>
       </div>
 

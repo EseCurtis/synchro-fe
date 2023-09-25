@@ -5,6 +5,7 @@ import { TABLE_STYLE } from '@/constant';
 import { table } from '@/utils/contents/dummy/table';
 import Image from 'next/image';
 import DashboardAction from '@/app/_components/dashboard/dashboardAction';
+import { userViewData } from '../contents';
 
 const header = [
   'Full Name',
@@ -13,13 +14,14 @@ const header = [
   'Phone Number',
   'Last Active',
 ];
+
 const ViewUsers = () => {
   return (
     <div>
       <div className='flex gap-5 my-[4em]'>
-        {[1, 1, 1].map((_, index) => (
+        {userViewData.map((_, index) => (
           <Fragment key={index}>
-            <UserStat />
+            <UserStat icon={_.icon} title={_.title} amount={_.amount} />
           </Fragment>
         ))}
       </div>

@@ -6,6 +6,7 @@ import { table } from '@/utils/contents/dummy/table';
 import Image from 'next/image';
 import DashboardAction from '@/app/_components/dashboard/dashboardAction';
 import EventStat from '../components/userEventStat';
+import { venueViewData } from '../contents';
 
 const header = [
   'Full Name',
@@ -15,32 +16,13 @@ const header = [
   'Last Active',
 ];
 
-const eventsDetails = [
-  {
-    title: 'Booked venues',
-    amount: 560,
-  },
-  {
-    title: 'Total booked value',
-    amount: 3100,
-  },
-  {
-    title: 'Venues created',
-    amount: 200,
-  },
-  {
-    title: 'Total Venue Income',
-    amount: 21730,
-  },
-];
-
 const ViewUserVenues = () => {
   return (
     <div>
       <div className='flex gap-5 my-[4em]'>
-        {eventsDetails.map((_, index) => (
+        {venueViewData.map((_, index) => (
           <Fragment key={index}>
-            <EventStat title={_.title} amount={_.amount} />
+            <EventStat icon={_.icon} title={_.title} amount={_.amount} />
           </Fragment>
         ))}
       </div>
