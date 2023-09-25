@@ -5,6 +5,9 @@ import PersonalDetails from '../views/personalDetails';
 import MembersView from '../views/member';
 import ViewUsers from '../views/viewUsers';
 import ViewUsersWallet from '../views/usersWallet';
+import ViewUserEvent from '../views/viewUsersEvent';
+import ViewUserVenues from '../views/viewUserVenues';
+import ViewUserService from '../views/viewUserService';
 
 const data = [
   {
@@ -25,15 +28,15 @@ const data = [
   },
   {
     header: 'Events ',
-    component: '<MembersPage />',
+    component: <ViewUserEvent />,
   },
   {
     header: 'Venues ',
-    component: '<MembersPage />',
+    component: <ViewUserVenues />,
   },
   {
     header: 'Services ',
-    component: '<MembersPage />',
+    component: <ViewUserService />,
   },
 ];
 

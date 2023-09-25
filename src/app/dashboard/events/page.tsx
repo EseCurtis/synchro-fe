@@ -3,28 +3,26 @@ import DashboardLayout from '@/app/layouts/dashboardLayout';
 import DeclinedEvents from './views/declined';
 import ApprovedEvents from './views/approved';
 import React from 'react';
+import PendingEvents from './views/pending';
 
 const data = [
   {
-    header: 'Pending Events',
-    //TODO: calender..
-    component: 'Loading...',
+    header: 'Approved Events',
+    component: <ApprovedEvents />,
   },
   {
-    header: 'Approved Events',
-    component: <ApprovedEvents/>,
+    header: 'Pending Events',
+    component: <PendingEvents />,
   },
   {
     header: 'Declined Events',
-    component: <DeclinedEvents/>,
+    component: <DeclinedEvents />,
   },
-  
-  // Add more objects here as needed
 ];
 
 const Events = () => {
   return (
-    <DashboardLayout title='Events' quantity="123K">
+    <DashboardLayout title='Events' quantity='123K'>
       <TabComponent data={data} />
     </DashboardLayout>
   );
