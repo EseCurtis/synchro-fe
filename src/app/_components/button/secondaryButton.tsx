@@ -6,6 +6,7 @@ interface IButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 
 const style = {
   border: '1px solid red',
+  color: 'red'
 };
 
 export const SecondaryButton: FC<IButtonProps> = ({ children, ...rest }) => {

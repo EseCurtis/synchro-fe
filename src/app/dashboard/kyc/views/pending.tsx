@@ -56,24 +56,24 @@ const PendingKyc = () => {
                 <h3>{_.date}</h3>
               </td>
               <td className={style}>
-                <div className='flex gap-5 items-center'>
+                <div className='flex items-center'>
                   <Image
-                    src='/images/icons/dashboard/tabletick.svg'
-                    width={32}
-                    height={32}
+                    src='/images/icons/dashboard/table/tick.svg'
+                    width={72}
+                    height={72}
                     alt=''
                   />
                   <Image
-                    src='/images/icons/dashboard/tabletimes.svg'
-                    width={32}
-                    height={32}
+                    src='/images/icons/dashboard/table/times.svg'
+                    width={72}
+                    height={72}
                     alt=''
                   />
                 </div>
               </td>
               <td className={style}>
                 <Image
-                  src='/images/icons/dashboard/tablemenu.svg'
+                  src='/images/icons/dashboard/table/more.svg'
                   width={32}
                   height={11}
                   alt=''
