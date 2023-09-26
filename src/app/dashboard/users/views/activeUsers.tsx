@@ -23,7 +23,7 @@ const ActiveUsers = () => {
         {table?.map((_, key: number) => {
           return (
             <tr key={key}>
-              <Link href={'/users/userId'}>
+              <Link href={'/dashboard/users/userId'}>
                 <td className={style}>
                   <div className='flex gap-5 items-center'>
                     <div className='w-[3em] h-[3em] bg-gray-500 rounded-full'></div>
