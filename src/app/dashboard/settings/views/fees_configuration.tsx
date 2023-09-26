@@ -30,7 +30,7 @@ const FeesConfigurations = () => {
       </div>
 
       <div className='w-[15%]'>
-        <Button>Save changes</Button>
+        <Button className='py-2 px-3 rounded-full font-semi-bold text-white'>Save changes</Button>
       </div>
     </div>
   );

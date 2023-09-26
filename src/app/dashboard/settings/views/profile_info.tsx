@@ -21,11 +21,11 @@ const ProfileInfo = () => {
             <h4 className='text-[#5D6D73]'>Password</h4>
           </div>
           <div className='flex flex-col gap-6'>
-            <h4 className='text-black'>Full name</h4>
-            <h4 className='text-black'>Email address</h4>
-            <h4 className='text-black'>Role</h4>
-            <h4 className='text-black'>Date added</h4>
-            <h4 className='text-black'>**********</h4>
+            <h4 className='text-black font-bold'>Full name</h4>
+            <h4 className='text-black font-bold'>Email address</h4>
+            <h4 className='text-black font-bold'>Role</h4>
+            <h4 className='text-black font-bold'>Date added</h4>
+            <h4 className='text-black font-bold'>**********</h4>
           </div>
         </div>
 
