@@ -1,9 +1,22 @@
+'use client';
 import React from 'react';
 import DashboardLayout from '../layouts/dashboardLayout';
 import Image from 'next/image';
 import { formatNumber } from '@/utils/formatNumber';
+import {
+  Chart as ChartJS,
+  ArcElement,
+  Tooltip,
+  Legend,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+} from 'chart.js';
+import { Doughnut, Line } from 'react-chartjs-2';
+ChartJS.register(ArcElement, Tooltip, Legend);
 
-const data = [
+const contentData = [
   {
     title: 'Total Users',
     amount: 10990,
@@ -26,6 +39,52 @@ const data = [
   },
 ];
 
+const data = {
+  labels: ['#37C89A', '#FFCC00', '#E95E2A', '#1789FC'],
+  datasets: [
+    {
+      data: [10, 50, 50, 70],
+      backgroundColor: ['#37C89A', '#FFCC00', '#E95E2A', '#1789FC'],
+    },
+  ],
+};
+
+const config = {
+  type: 'doughnut',
+  data: data,
+  options: {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: 'top',
+      },
+      title: {
+        display: true,
+        text: 'Chart.js Doughnut Chart',
+      },
+    },
+  },
+};
+
+const lineData = {
+  labels: ['January', 'February', 'March', 'April', 'May'],
+  datasets: [
+    {
+      label: 'Sample Line Data',
+      data: [10, 20, 15, 25, 30],
+      borderColor: 'green',
+      backgroundColor: 'rgba(0, 128, 0, 0.2)',
+    },
+  ],
+};
+const lineOptions = {
+  scales: {
+    x: {
+      type: 'category',
+    },
+  },
+};
+
 const DashboardIndex = () => {
   return (
     <DashboardLayout title='Dashboard'>
@@ -44,7 +103,7 @@ const DashboardIndex = () => {
       </div>
 
       <div className='flex justify-between my-9 gap-[23px]'>
-        {data.map((items, index) => {
+        {contentData.map((items, index) => {
           return (
             <>
               <div
@@ -97,13 +156,8 @@ const DashboardIndex = () => {
           <h3 className='text-[16px] font-bold'>Gender</h3>
 
           <div>
-            <Image
-              src={'/images/donut.svg'}
-              width={204}
-              height={210}
-              alt={'icon'}
-              className='mx-auto'
-            />
+            {/* @ts-ignore */}
+            <Doughnut data={config.data} options={config.options} />
           </div>
         </div>
       </div>
@@ -116,9 +170,7 @@ const DashboardIndex = () => {
         }}
       >
         <h3 className='text-[16px] font-bold'>Transaction graph with time</h3>
-        <center>
-          <h4 className='my-5'> Cant Load Data</h4>
-        </center>
+        <Line data={lineData} options={lineOptions} />
       </div>
     </DashboardLayout>
   );
