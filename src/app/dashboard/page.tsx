@@ -14,6 +14,7 @@ import {
   LineElement,
 } from 'chart.js';
 import { Doughnut, Line } from 'react-chartjs-2';
+import LineGraph from '../_components/charts/lineChart';
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 const contentData = [
@@ -142,7 +143,7 @@ const DashboardIndex = () => {
           <h3 className='text-[16px] font-bold'>Users most active period</h3>
 
           <center>
-            <h4 className='my-5'> Cant Load Data</h4>
+            <LineGraph />
           </center>
         </div>
 
@@ -170,7 +171,7 @@ const DashboardIndex = () => {
         }}
       >
         <h3 className='text-[16px] font-bold'>Transaction graph with time</h3>
-        <Line data={lineData} options={lineOptions} />
+        <LineGraph />
       </div>
     </DashboardLayout>
   );
