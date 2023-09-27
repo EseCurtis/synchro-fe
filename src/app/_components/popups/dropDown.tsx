@@ -1,11 +1,13 @@
 //@ts-nocheck
+import { DROPDOWN_STYLE } from "@/constant";
 import React, { useState, useEffect, useRef, ReactNode, FC } from "react";
 
 interface IDropdown {
   view: ReactNode;
+  children: ReactNode;
 }
 
-const Dropdown: FC<IDropdown> = ({ view }) => {
+const Dropdown: FC<IDropdown> = ({ view, children }) => {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
 
@@ -29,7 +31,9 @@ const Dropdown: FC<IDropdown> = ({ view }) => {
 
   return (
     <div className="relative inline-block text-left" ref={dropdownRef}>
-      <div onClick={toggleDropdown}>{view}</div>
+      <div onClick={toggleDropdown} className="cursor-pointer">
+        {view}
+      </div>
 
       {isOpen && (
         <div
@@ -38,28 +42,8 @@ const Dropdown: FC<IDropdown> = ({ view }) => {
           aria-orientation="vertical"
           aria-labelledby="options-menu"
         >
-          <div className="py-1" role="none">
-            <a
-              href="#"
-              className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
-              role="menuitem"
-            >
-              Option 1
-            </a>
-            <a
-              href="#"
-              className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
-              role="menuitem"
-            >
-              Option 2
-            </a>
-            <a
-              href="#"
-              className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
-              role="menuitem"
-            >
-              Option 3
-            </a>
+          <div className={`${DROPDOWN_STYLE}`} role="none">
+            <ul className="cursor-pointer">{children}</ul>
           </div>
         </div>
       )}
