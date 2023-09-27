@@ -39,7 +39,13 @@ const RolesPage = () => {
               <RolesComponent role={_.role} content={_.content} />
             </Fragment>
           ))}
-          <AddNewRoleComponent title="Click here to add new role" />
+
+          {/* Note: Replace the modalProps with the content you want the modal to
+          show brah */}
+          <AddNewRoleComponent
+            title="Click here to add new role"
+            modalProps={"Replace with your content"}
+          />
         </div>
       )}
     </div>

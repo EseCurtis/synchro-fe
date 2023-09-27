@@ -1,5 +1,7 @@
-import { FC } from "react";
+import Modal from "@/app/_components/popups/modal";
+import { FC, ReactNode, useState } from "react";
 import { MdMoreHoriz } from "react-icons/md";
+
 interface IPropsRoles {
   role: string;
   content: string;
@@ -40,13 +42,33 @@ const RolesComponent: FC<IPropsRoles> = ({ role, content }) => {
   );
 };
 
-const AddNewRoleComponent = ({ title }: { title: string }) => {
+interface IRoleProps {
+  title: string;
+  modalProps: ReactNode;
+}
+
+const AddNewRoleComponent: FC<IRoleProps> = ({ title, modalProps }) => {
+  const [isOpen, setIsOpen] = useState();
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
   return (
     <div
       className="w-[310px] cursor-pointer text-center rounded-[12px]"
       style={styles}
     >
-      <div className="flex items-center flex-col h-[100%] justify-center">
+      <div
+        onClick={openModal}
+        className="flex items-center flex-col h-[100%] justify-center"
+      >
         <svg
           width="30"
           height="30"
@@ -70,6 +92,10 @@ const AddNewRoleComponent = ({ title }: { title: string }) => {
           {title}
         </p>
       </div>
+
+      <Modal isOpen={isModalOpen} onClose={closeModal}>
+        {modalProps}
+      </Modal>
     </div>
   );
 };

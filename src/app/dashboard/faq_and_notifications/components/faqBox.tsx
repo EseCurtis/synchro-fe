@@ -5,9 +5,6 @@ import React from "react";
 import Modal from "@/app/_components/popups/modal";
 import { useState } from "react";
 
-
-
-
 const FaqBox = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDeleteModal, setDeleteModal] = useState(false);

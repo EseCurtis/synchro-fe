@@ -1,3 +1,4 @@
+"use client";
 import DashboardAction from "@/app/_components/dashboard/dashboardAction";
 import DefaultTable from "@/app/_components/table/defaultTable";
 import TablePagination from "@/app/_components/table/tablePagination";
@@ -5,6 +6,8 @@ import { table } from "@/utils/contents/dummy/table";
 import React from "react";
 import Image from "../../../../../node_modules/next/image";
 import Link from "next/link";
+import Dropdown from "@/app/_components/popups/dropDown";
+import { useState } from "react";
 
 const header = [
   "Fullname ",
@@ -15,6 +18,11 @@ const header = [
 ];
 const style = "px-6 py-4 whitespace-no-wrap border-b border-gray-300";
 const ActiveUsers = () => {
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+  const toggleDropdown = () => {
+    setIsDropdownOpen(!isDropdownOpen);
+  };
   return (
     <div>
       <DashboardAction />
@@ -47,11 +55,16 @@ const ActiveUsers = () => {
                 <h3>{_.date}</h3>
               </td>
               <td className={style}>
-                <Image
-                  src="/images/icons/dashboard/table/more.svg"
-                  width={32}
-                  height={11}
-                  alt=""
+                <Dropdown
+                  view={
+                    <Image
+                      src="/images/icons/dashboard/table/more.svg"
+                      width={32}
+                      height={11}
+                      alt=""
+                      onClick={toggleDropdown}
+                    />
+                  }
                 />
               </td>
             </tr>
