@@ -1,89 +1,66 @@
-import Delete_Circle from '@/app/_components/icons/delete_circle';
-import { pencil_edit } from '@/app/_components/icons/pencil_edit_icon';
+"use client";
+import Modal from "@/app/_components/popups/modal";
 import { Button } from "@/app/_components/button";
-import React from 'react';
+import React, { Fragment } from "react";
+import CategoriesBox from "../components/categoryBox";
+import { categoryDetails } from "../content";
+import { useState } from "react";
 
-const styles = {
-  border: '1px solid #E2E8F0',
-};
+const Categories = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-const Categories = ({ icon = "<icon>" }) => {
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const styles = {
+    border: "1px solid #E2E8F0",
+  };
   return (
     <>
       <div className="block px-5 mb-10">
-        <Button className="mr-auto px-5 py-2 text-white rounded-full font-bold">Event Category</Button>
-        <button className="mr-auto px-5 py-2 text-black border border-gray-300 rounded-full font-bold ml-2">Business Category</button>
+        <Button className="mr-auto px-5 py-2 text-white rounded-full font-bold">
+          Event Category
+        </Button>
+        <button className="mr-auto px-5 py-2 text-black border border-gray-300 rounded-full font-bold ml-2">
+          Business Category
+        </button>
       </div>
       <div className="flex px-5 mb-7">
         <h4 className="font-bold">List of categories (12)</h4>
       </div>
-      <div className="grid grid-cols-3 gap-7">
-        <div className=' w-[300px] px-5 rounded-md flex items-center justify-between' style={styles} >
-          <div className='flex gap-3 items-center'>
-            <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <rect width="32" height="32" rx="16" fill="#9B51E0" fill-opacity="0.16" />
-              <path d="M16.0001 22.5007C15.9294 22.5007 15.8587 22.4861 15.7927 22.4561C15.5747 22.3567 10.4441 19.9772 9.62141 15.7399C9.30341 14.1006 9.62276 12.5014 10.4748 11.4627C11.1654 10.6214 12.1574 10.1733 13.3447 10.168C13.3507 10.168 13.3567 10.168 13.3614 10.168C14.7161 10.168 15.5421 10.9394 15.9994 11.596C16.4568 10.94 17.2828 10.168 18.6374 10.168C18.6428 10.168 18.6487 10.168 18.654 10.168C19.842 10.174 20.8347 10.6214 21.5254 11.4627C22.3767 12.5007 22.6954 14.1001 22.3767 15.7407C21.5554 19.9781 16.424 22.3574 16.206 22.4567C16.1414 22.486 16.0707 22.5007 16.0001 22.5007ZM13.3614 11.1673C13.3574 11.1673 13.3534 11.1673 13.3501 11.1673C12.4581 11.1713 11.7514 11.4847 11.2488 12.0967C10.5828 12.908 10.3421 14.1986 10.6034 15.5493C11.2414 18.8393 15.0621 20.9667 15.9994 21.444C16.9368 20.966 20.7594 18.8327 21.3961 15.5493C21.6587 14.198 21.4181 12.9073 20.7534 12.0967C20.2507 11.4847 19.5441 11.172 18.6501 11.168C18.6467 11.168 18.6427 11.168 18.6387 11.168C17.0421 11.168 16.4801 12.802 16.4748 12.818C16.4061 13.0227 16.2154 13.16 16.0001 13.16C15.7847 13.16 15.594 13.022 15.5254 12.818C15.5034 12.752 14.9421 11.1673 13.3614 11.1673ZM17.0828 18.6113L18.2674 16.834H19.3334C19.6094 16.834 19.8334 16.61 19.8334 16.334C19.8334 16.058 19.6094 15.834 19.3334 15.834H18.0001C17.8327 15.834 17.6767 15.9173 17.5841 16.0566L16.8181 17.2061L15.8081 14.1759C15.7474 13.9953 15.5894 13.864 15.4001 13.8387C15.2121 13.8114 15.0241 13.8973 14.9174 14.0566L13.7327 15.834H12.6667C12.3907 15.834 12.1667 16.058 12.1667 16.334C12.1667 16.61 12.3907 16.834 12.6667 16.834H14.0001C14.1674 16.834 14.3234 16.7507 14.4161 16.6113L15.182 15.4619L16.192 18.492C16.2527 18.6727 16.4108 18.8039 16.6001 18.8293C16.6221 18.8326 16.6441 18.834 16.6667 18.834C16.8327 18.834 16.9888 18.7513 17.0828 18.6113Z" fill="#9B51E0" />
-            </svg>
+      <div className="flex gap-5 flex-wrap">
+        {categoryDetails.map((_, key) => (
+          <Fragment key={key}>
+            <CategoriesBox title={_.title} icon={_.icon} />
+          </Fragment>
+        ))}
 
-            <h4>Health</h4>
-          </div>
-          <div className='flex gap-4 items-center'>
-            <div>{pencil_edit}</div>
-            <Delete_Circle />
-          </div>
-        </div>
-
-        <div className=' w-[300px] px-5 rounded-md flex items-center justify-between' style={styles} >
-          <div className='flex gap-3 items-center'>
-            <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <rect width="32" height="32" rx="16" fill="#15A336" fill-opacity="0.1" />
-              <path d="M14.6666 22.5002C14.6066 22.5002 14.5459 22.4895 14.4873 22.4669C14.2939 22.3929 14.1666 22.2069 14.1666 22.0002V17.1669H11.3333C11.1359 17.1669 10.9573 17.0509 10.8766 16.8702C10.7959 16.6895 10.8299 16.4789 10.9613 16.3322L16.9613 9.66552C17.0999 9.51152 17.3186 9.45886 17.5119 9.53352C17.7053 9.60752 17.8326 9.79352 17.8326 10.0002V14.8335H20.6666C20.8639 14.8335 21.0426 14.9495 21.1233 15.1302C21.2039 15.3109 21.1699 15.5215 21.0386 15.6682L15.0386 22.3349C14.9419 22.4422 14.8053 22.5002 14.6666 22.5002ZM12.4559 16.1669H14.6666C14.9426 16.1669 15.1666 16.3909 15.1666 16.6669V20.6975L19.5439 15.8335H17.3333C17.0573 15.8335 16.8333 15.6095 16.8333 15.3335V11.3029L12.4559 16.1669Z" fill="#15A336" />
-            </svg>
-
-            <h4>Motivation</h4>
-          </div>
-          <div className='flex gap-4 items-center'>
-            <div>{pencil_edit}</div>
-            <Delete_Circle />
-          </div>
-        </div>
-        <div className=' w-[300px] px-5 rounded-md flex items-center justify-between' style={styles} >
-          <div className='flex gap-3 items-center'>
-            <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <rect width="32" height="32" rx="16" fill="#9B51E0" fill-opacity="0.16" />
-              <path d="M16.0001 22.5007C15.9294 22.5007 15.8587 22.4861 15.7927 22.4561C15.5747 22.3567 10.4441 19.9772 9.62141 15.7399C9.30341 14.1006 9.62276 12.5014 10.4748 11.4627C11.1654 10.6214 12.1574 10.1733 13.3447 10.168C13.3507 10.168 13.3567 10.168 13.3614 10.168C14.7161 10.168 15.5421 10.9394 15.9994 11.596C16.4568 10.94 17.2828 10.168 18.6374 10.168C18.6428 10.168 18.6487 10.168 18.654 10.168C19.842 10.174 20.8347 10.6214 21.5254 11.4627C22.3767 12.5007 22.6954 14.1001 22.3767 15.7407C21.5554 19.9781 16.424 22.3574 16.206 22.4567C16.1414 22.486 16.0707 22.5007 16.0001 22.5007ZM13.3614 11.1673C13.3574 11.1673 13.3534 11.1673 13.3501 11.1673C12.4581 11.1713 11.7514 11.4847 11.2488 12.0967C10.5828 12.908 10.3421 14.1986 10.6034 15.5493C11.2414 18.8393 15.0621 20.9667 15.9994 21.444C16.9368 20.966 20.7594 18.8327 21.3961 15.5493C21.6587 14.198 21.4181 12.9073 20.7534 12.0967C20.2507 11.4847 19.5441 11.172 18.6501 11.168C18.6467 11.168 18.6427 11.168 18.6387 11.168C17.0421 11.168 16.4801 12.802 16.4748 12.818C16.4061 13.0227 16.2154 13.16 16.0001 13.16C15.7847 13.16 15.594 13.022 15.5254 12.818C15.5034 12.752 14.9421 11.1673 13.3614 11.1673ZM17.0828 18.6113L18.2674 16.834H19.3334C19.6094 16.834 19.8334 16.61 19.8334 16.334C19.8334 16.058 19.6094 15.834 19.3334 15.834H18.0001C17.8327 15.834 17.6767 15.9173 17.5841 16.0566L16.8181 17.2061L15.8081 14.1759C15.7474 13.9953 15.5894 13.864 15.4001 13.8387C15.2121 13.8114 15.0241 13.8973 14.9174 14.0566L13.7327 15.834H12.6667C12.3907 15.834 12.1667 16.058 12.1667 16.334C12.1667 16.61 12.3907 16.834 12.6667 16.834H14.0001C14.1674 16.834 14.3234 16.7507 14.4161 16.6113L15.182 15.4619L16.192 18.492C16.2527 18.6727 16.4108 18.8039 16.6001 18.8293C16.6221 18.8326 16.6441 18.834 16.6667 18.834C16.8327 18.834 16.9888 18.7513 17.0828 18.6113Z" fill="#9B51E0" />
-            </svg>
-
-            <h4>Health</h4>
-          </div>
-          <div className='flex gap-4 items-center'>
-            <div>{pencil_edit}</div>
-            <Delete_Circle />
-          </div>
-        </div>
-
-        <div className=' w-[300px] px-5 rounded-md flex items-center justify-between' style={styles} >
-          <div className='flex gap-3 items-center'>
-            <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <rect width="32" height="32" rx="16" fill="#F2994A" fill-opacity="0.1" />
-              <path d="M18.6667 8.83398C17.0933 8.83398 15.7933 9.99398 15.5533 11.5007H10.6667C10.48 11.5007 10.3067 11.6073 10.22 11.774C10.1333 11.9407 10.1533 12.1473 10.2667 12.3006L14.1667 17.5007V20.5206C14.0067 20.7473 13.5333 21.2873 12.3733 21.834C12.0733 21.974 11.92 22.294 11.9933 22.6206C12.0666 22.9406 12.3467 23.1673 12.6733 23.1673H16.6667C16.9933 23.1673 17.28 22.9406 17.3467 22.6206C17.42 22.3006 17.26 21.974 16.9667 21.834C15.8067 21.2873 15.3333 20.7473 15.1733 20.5206V17.5007L17.2 14.8006C17.6533 15.0406 18.1533 15.1673 18.6733 15.1673C20.42 15.1673 21.84 13.7473 21.84 12.0007C21.84 10.254 20.42 8.83398 18.6733 8.83398H18.6667ZM17.6667 12.5007L14.6667 16.5007L11.6667 12.5007H17.6667ZM15.5133 22.1673H13.82C14.1933 21.9207 14.4667 21.6807 14.6667 21.474C14.8667 21.6807 15.14 21.9207 15.5133 22.1673ZM18.6667 14.1673C18.3667 14.1673 18.0733 14.1007 17.8067 13.9807L19.0666 12.3006C19.18 12.1473 19.2 11.9473 19.1133 11.774C19.0266 11.6007 18.8533 11.5007 18.6667 11.5007H16.5666C16.7933 10.5473 17.6467 9.83398 18.6667 9.83398C19.86 9.83398 20.8333 10.8073 20.8333 12.0007C20.8333 13.194 19.86 14.1673 18.6667 14.1673Z" fill="#F2994A" />
-            </svg>
-
-
-            <h4>Social</h4>
-          </div>
-          <div className='flex gap-4 items-center'>
-            <div>{pencil_edit}</div>
-            <Delete_Circle />
-          </div>
-        </div>
-        <div className=' w-[300px] px-5 rounded-md flex justify-space-between' style={styles} >
-          <div className='flex gap-3 items-center'>
-            <div className="flex align-center text-gray-400 bg-gray-200 px-[6px] py-[0px] rounded-full"> + </div>
-            <p className='text-[14px] text-gray-500'>click here to add a new category</p>
+        <div
+          className=" cursor-pointer w-[300px] px-5 rounded-md flex justify-space-between"
+          style={styles}
+          onClick={openModal}
+        >
+          <div className="flex gap-3 items-center">
+            <div className="flex align-center text-gray-400 bg-gray-200 px-[6px] py-[0px] rounded-full">
+              {" "}
+              +{" "}
+            </div>
+            <p className="text-[14px] text-gray-500">
+              click here to add a new category
+            </p>
           </div>
         </div>
       </div>
+
+      <Modal isOpen={isModalOpen} onClose={closeModal}>
+        Add New Categories modal
+        <p>Let your styling go here bro</p>
+      </Modal>
     </>
   );
 };

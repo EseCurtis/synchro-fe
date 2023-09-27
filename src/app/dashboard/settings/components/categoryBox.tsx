@@ -1,14 +1,20 @@
 "use client";
+import React, { FC, ReactNode } from "react";
 import Delete_Circle from "@/app/_components/icons/delete_circle";
 import { pencil_edit } from "@/app/_components/icons/pencil_edit_icon";
-import React from "react";
 import Modal from "@/app/_components/popups/modal";
 import { useState } from "react";
 
+interface ICatProps {
+  icon: ReactNode;
+  title: string;
+}
 
+const styles = {
+  border: "1px solid #E2E8F0",
+};
 
-
-const FaqBox = () => {
+const CategoriesBox: FC<ICatProps> = ({ icon, title }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDeleteModal, setDeleteModal] = useState(false);
 
@@ -28,29 +34,24 @@ const FaqBox = () => {
   const closeDeleteModal = () => {
     setDeleteModal(false);
   };
+
   return (
     <>
       <div
-        className="  py-5 px-3 rounded-md lg: w-[535px]"
-        style={{
-          border: "1.5px solid #EDEFF5",
-        }}
+        className=" w-[300px] px-5 rounded-md flex items-center justify-between"
+        style={styles}
       >
-        <div className="flex gap-5 items-center justify-between">
-          <h2 className=" font-bold">Use the mobile USB pixel...</h2>
-          <div className="flex gap-3 items-center">
-            <div onClick={openModal}>{pencil_edit}</div>
-            <div onClick={openDeleteModal} className="cursor-pointer">
-              <Delete_Circle />
-            </div>
+        <div className="flex gap-3 items-center">
+          <div>{icon}</div>
+
+          <h4>{title}</h4>
+        </div>
+        <div className="flex gap-4 items-center">
+          <div onClick={openModal}>{pencil_edit}</div>
+          <div onClick={openDeleteModal}>
+            <Delete_Circle />
           </div>
         </div>
-        <p className="my-3 text-second_primary text-other_text">
-          Lorem ipsum dolor sit amet consectetur. In placerat scelerisque vitae
-          nibh pellentesque. Ultricies sagittis lobortis quam eros sit proin
-          neque potenti nisi. Faucibus suspendisse imperdiet sagittis sem ut id
-          neque dolor cras. Vitae accumsan cras leo in.
-        </p>
       </div>
 
       <Modal isOpen={isModalOpen} onClose={closeModal}>
@@ -64,4 +65,4 @@ const FaqBox = () => {
   );
 };
 
-export default FaqBox;
+export default CategoriesBox;

@@ -1,25 +1,25 @@
-import React, { FC } from 'react';
+import React, { FC } from "react";
 
 interface IPropsBadge {
-  status: 'Active' | 'Inactive' | 'Disabled' | 'Pending';
+  status: "Active" | "Inactive" | "Disabled" | "Pending";
 }
 
 const Badge: FC<IPropsBadge> = ({ status }: IPropsBadge) => {
   let badge_status;
   let text_col;
-  if (status === 'Active') {
-    badge_status = '#2EB8721F';
-    text_col = 'text-success_text';
-  } else if (status === 'Pending') {
-    badge_status = 'rgba(242, 153, 74, 0.12)';
-    text_col = 'text-pending_text';
+  if (status === "Active") {
+    badge_status = "#2EB8721F";
+    text_col = "text-success_text";
+  } else if (status === "Pending") {
+    badge_status = "rgba(242, 153, 74, 0.12)";
+    text_col = "text-pending_text";
   } else {
-    badge_status = 'blue';
+    badge_status = "blue";
   }
   return (
     <div
       className={
-        ' w-[fit-content] px-[15px] flex justify-center rounded-xl py-[2px] '
+        " w-[fit-content] px-[15px] flex justify-center rounded-xl py-[2px] "
       }
       style={{
         background: badge_status,

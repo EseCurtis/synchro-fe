@@ -1,1 +1,23 @@
-.tab .active_tab{position:relative}.tab .active_tab:after{position:absolute;content:"";width:100%;padding:1.5px;background:var(--primary-bg-gradient);border-radius:20px;bottom:-1.2em;left:0;display:block;animation:load-indicator .4s}@keyframes load-indicator{0%{width:0%}100%{width:100%}}
+.tab .active_tab {
+  position: relative;
+}
+.tab .active_tab:after {
+  position: absolute;
+  content: "";
+  width: 100%;
+  padding: 1.5px;
+  background: var(--primary-bg-gradient);
+  border-radius: 20px;
+  bottom: -1.2em;
+  left: 0;
+  display: block;
+  animation: load-indicator 0.4s;
+}
+@keyframes load-indicator {
+  0% {
+    width: 0%;
+  }
+  100% {
+    width: 100%;
+  }
+}

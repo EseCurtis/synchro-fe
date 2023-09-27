@@ -10,11 +10,11 @@
 //   setIsModalOpen(false);
 // };
 export const TABLE_STYLE =
-  'px-6 py-4 whitespace-no-wrap border-b border-gray-300';
+  "px-6 py-4 whitespace-no-wrap border-b border-gray-300";
 
 //this passes in the authorization bearer token
 
-const token = '';
+const token = "";
 export const ISAUTHENTICATED = `bearer ${token}`; //replace token with the name of your token
 {
   /*

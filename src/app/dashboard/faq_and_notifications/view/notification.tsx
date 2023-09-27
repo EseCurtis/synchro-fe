@@ -1,8 +1,8 @@
-'use client';
-import NoNotifications from '@/app/_components/no_data/no_notification';
-import React, { Fragment, useState } from 'react';
-import NotificationBox from '../components/notificationBox';
-import { Button } from '@/app/_components/button';
+"use client";
+import NoNotifications from "@/app/_components/no_data/no_notification";
+import React, { Fragment, useState } from "react";
+import NotificationBox from "../components/notificationBox";
+import { Button } from "@/app/_components/button";
 
 const Notifications = () => {
   const [view, setView] = useState(true);
@@ -16,14 +16,16 @@ const Notifications = () => {
         <NoNotifications />
       ) : (
         <div>
-          <div className='flex justify-between my-10 items-center'>
-            <h2 className='font-bold'>All push notifications</h2>
+          <div className="flex justify-between my-10 items-center">
+            <h2 className="font-bold">All push notifications</h2>
 
             <div>
-              <Button className='py-2 px-3 rounded-full font-semi-bold text-white'>Send Notification</Button>
+              <Button className="py-2 px-3 rounded-full font-semi-bold text-white">
+                Send Notification
+              </Button>
             </div>
           </div>
-          <div className='flex gap-[2em] flex-col'>
+          <div className="flex gap-[2em] flex-col">
             {[1, 2, 3, 4].map((_, key) => (
               <Fragment key={key}>
                 <NotificationBox />

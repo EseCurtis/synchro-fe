@@ -1,6 +1,6 @@
-import DashboardAction from '@/app/_components/dashboard/dashboardAction';
-import React, { Fragment } from 'react';
-import Audit_Box from '../components/audit_box';
+import DashboardAction from "@/app/_components/dashboard/dashboardAction";
+import React, { Fragment } from "react";
+import Audit_Box from "../components/audit_box";
 
 const AuditList = () => {
   return (

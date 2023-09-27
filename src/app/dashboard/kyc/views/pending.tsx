@@ -1,23 +1,23 @@
-'use client';
-import DashboardAction from '@/app/_components/dashboard/dashboardAction';
-import DefaultTable from '@/app/_components/table/defaultTable';
-import TablePagination from '@/app/_components/table/tablePagination';
-import { table } from '@/utils/contents/dummy/table';
-import React from 'react';
-import Image from 'next/image';
-import Modal from '@/app/_components/popups/modal';
-import ViewInformation from '../components/viewInfo';
-import { useState } from 'react';
+"use client";
+import DashboardAction from "@/app/_components/dashboard/dashboardAction";
+import DefaultTable from "@/app/_components/table/defaultTable";
+import TablePagination from "@/app/_components/table/tablePagination";
+import { table } from "@/utils/contents/dummy/table";
+import React from "react";
+import Image from "next/image";
+import Modal from "@/app/_components/popups/modal";
+import ViewInformation from "../components/viewInfo";
+import { useState } from "react";
 
 const header = [
-  'Business Name ',
-  'Doc Type',
-  'File Upload',
-  'Date Submitted',
-  '',
-  '',
+  "Business Name ",
+  "Doc Type",
+  "File Upload",
+  "Date Submitted",
+  "",
+  "",
 ];
-const style = 'px-6 py-4 whitespace-no-wrap border-b border-gray-300';
+const style = "px-6 py-4 whitespace-no-wrap border-b border-gray-300";
 const PendingKyc = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -38,11 +38,11 @@ const PendingKyc = () => {
           return (
             <tr key={key}>
               <td className={style} onClick={openModal}>
-                <div className='flex gap-5 items-center'>
-                  <div className='w-[3em] h-[3em] bg-gray-500 rounded-full'></div>
+                <div className="flex gap-5 items-center">
+                  <div className="w-[3em] h-[3em] bg-gray-500 rounded-full"></div>
                   <div>
                     <h3>{_.name}</h3>
-                    <p className='text-second_primary_text'>{_.email}</p>
+                    <p className="text-second_primary_text">{_.email}</p>
                   </div>
                 </div>
               </td>
@@ -50,33 +50,33 @@ const PendingKyc = () => {
                 <h3>Legal Document</h3>
               </td>
               <td className={style}>
-                <h3 className='underline'>Legal Document.pdf</h3>
+                <h3 className="underline">Legal Document.pdf</h3>
               </td>
               <td className={style}>
                 <h3>{_.date}</h3>
               </td>
               <td className={style}>
-                <div className='flex items-center'>
+                <div className="flex items-center">
                   <Image
-                    src='/images/icons/dashboard/table/tick.svg'
+                    src="/images/icons/dashboard/table/tick.svg"
                     width={72}
                     height={72}
-                    alt=''
+                    alt=""
                   />
                   <Image
-                    src='/images/icons/dashboard/table/times.svg'
+                    src="/images/icons/dashboard/table/times.svg"
                     width={72}
                     height={72}
-                    alt=''
+                    alt=""
                   />
                 </div>
               </td>
               <td className={style}>
                 <Image
-                  src='/images/icons/dashboard/table/more.svg'
+                  src="/images/icons/dashboard/table/more.svg"
                   width={32}
                   height={11}
-                  alt=''
+                  alt=""
                 />
               </td>
             </tr>

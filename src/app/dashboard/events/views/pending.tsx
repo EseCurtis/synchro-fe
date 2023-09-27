@@ -1,18 +1,18 @@
-import DashboardAction from '@/app/_components/dashboard/dashboardAction';
-import DefaultTable from '@/app/_components/table/defaultTable';
-import TablePagination from '@/app/_components/table/tablePagination';
-import { table } from '@/utils/contents/dummy/table';
-import React from 'react';
+import DashboardAction from "@/app/_components/dashboard/dashboardAction";
+import DefaultTable from "@/app/_components/table/defaultTable";
+import TablePagination from "@/app/_components/table/tablePagination";
+import { table } from "@/utils/contents/dummy/table";
+import React from "react";
 
 const header = [
-  'Business Name ',
-  'Doc Type',
-  'File Upload',
-  'Date Submitted',
-  '',
-  '',
+  "Business Name ",
+  "Doc Type",
+  "File Upload",
+  "Date Submitted",
+  "",
+  "",
 ];
-const style = 'px-6 py-4 whitespace-no-wrap border-b border-gray-300';
+const style = "px-6 py-4 whitespace-no-wrap border-b border-gray-300";
 const PendingEvents = () => {
   return (
     <div>
@@ -23,11 +23,11 @@ const PendingEvents = () => {
           return (
             <tr key={key}>
               <td className={style}>
-                <div className='flex gap-5 items-center'>
-                  <div className='w-[3em] h-[3em] bg-gray-500 rounded-full'></div>
+                <div className="flex gap-5 items-center">
+                  <div className="w-[3em] h-[3em] bg-gray-500 rounded-full"></div>
                   <div>
                     <h3>{_.name}</h3>
-                    <p className='text-second_primary_text'>{_.email}</p>
+                    <p className="text-second_primary_text">{_.email}</p>
                   </div>
                 </div>
               </td>
@@ -42,8 +42,8 @@ const PendingEvents = () => {
               </td>
               <td className={style}>
                 <div className="flex gap-5 items-center">
-                  <span className='text-green'>✓</span>
-                  <span className='text-pink'>×</span>
+                  <span className="text-green">✓</span>
+                  <span className="text-pink">×</span>
                 </div>
               </td>
               <td className={style}>

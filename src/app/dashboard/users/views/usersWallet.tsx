@@ -1,23 +1,23 @@
-import React, { Fragment } from 'react';
-import DefaultTable from '@/app/_components/table/defaultTable';
-import { TABLE_STYLE } from '@/constant';
-import { table } from '@/utils/contents/dummy/table';
-import Image from 'next/image';
-import DashboardAction from '@/app/_components/dashboard/dashboardAction';
-import WalletStat from '../components/walletStat';
-import { formatNumber } from '@/utils/formatNumber';
+import React, { Fragment } from "react";
+import DefaultTable from "@/app/_components/table/defaultTable";
+import { TABLE_STYLE } from "@/constant";
+import { table } from "@/utils/contents/dummy/table";
+import Image from "next/image";
+import DashboardAction from "@/app/_components/dashboard/dashboardAction";
+import WalletStat from "../components/walletStat";
+import { formatNumber } from "@/utils/formatNumber";
 
-const header = ['Transaction ID', 'Amount', 'Source', 'Recipiant', 'Date'];
+const header = ["Transaction ID", "Amount", "Source", "Recipiant", "Date"];
 
 const ViewUsersWallet = () => {
   return (
     <div>
-      <div className='flex gap-5 my-[4em]'>
+      <div className="flex gap-5 my-[4em]">
         <WalletStat />
       </div>
 
-      <div className='my-[3em]'>
-        <h1 className='font-bold'>Wallet history</h1>
+      <div className="my-[3em]">
+        <h1 className="font-bold">Wallet history</h1>
         <DashboardAction />
         {/* @ts-ignore */}
         <DefaultTable header={header}>
@@ -25,8 +25,8 @@ const ViewUsersWallet = () => {
             return (
               <tr key={key}>
                 <td className={TABLE_STYLE}>
-                  <div className='flex gap-5 items-center'>
-                    <div className='w-[3em] h-[3em] bg-gray-500 rounded-full'></div>
+                  <div className="flex gap-5 items-center">
+                    <div className="w-[3em] h-[3em] bg-gray-500 rounded-full"></div>
                     <div>
                       <h3>31fc55d4-5a5b-4346-99a0</h3>
                     </div>
@@ -46,10 +46,10 @@ const ViewUsersWallet = () => {
                 </td>
                 <td className={TABLE_STYLE}>
                   <Image
-                    src='/images/icons/dashboard/table/more.svg'
+                    src="/images/icons/dashboard/table/more.svg"
                     width={32}
                     height={11}
-                    alt=''
+                    alt=""
                   />
                 </td>
               </tr>

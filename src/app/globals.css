@@ -6,9 +6,8 @@
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
   --background-end-rgb: 255, 255, 255;
-  --primary-bg-gradient: linear-gradient(to right, #E73C01 , #0512D2)
+  --primary-bg-gradient: linear-gradient(to right, #e73c01, #0512d2);
 }
-
 
 @media (prefers-color-scheme: dark) {
   :root {
@@ -19,6 +18,4 @@
 }
 
 body {
- 
 }
-

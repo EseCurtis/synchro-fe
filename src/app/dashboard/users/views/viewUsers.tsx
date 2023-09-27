@@ -1,24 +1,24 @@
-import React, { Fragment } from 'react';
-import UserStat from '../components/userStat';
-import DefaultTable from '@/app/_components/table/defaultTable';
-import { TABLE_STYLE } from '@/constant';
-import { table } from '@/utils/contents/dummy/table';
-import Image from 'next/image';
-import DashboardAction from '@/app/_components/dashboard/dashboardAction';
-import { userViewData } from '../contents';
+import React, { Fragment } from "react";
+import UserStat from "../components/userStat";
+import DefaultTable from "@/app/_components/table/defaultTable";
+import { TABLE_STYLE } from "@/constant";
+import { table } from "@/utils/contents/dummy/table";
+import Image from "next/image";
+import DashboardAction from "@/app/_components/dashboard/dashboardAction";
+import { userViewData } from "../contents";
 
 const header = [
-  'Full Name',
-  'Username',
-  'Gender',
-  'Phone Number',
-  'Last Active',
+  "Full Name",
+  "Username",
+  "Gender",
+  "Phone Number",
+  "Last Active",
 ];
 
 const ViewUsers = () => {
   return (
     <div>
-      <div className='flex gap-5 my-[4em]'>
+      <div className="flex gap-5 my-[4em]">
         {userViewData.map((_, index) => (
           <Fragment key={index}>
             <UserStat icon={_.icon} title={_.title} amount={_.amount} />
@@ -26,7 +26,7 @@ const ViewUsers = () => {
         ))}
       </div>
 
-      <div className='my-[3em]'>
+      <div className="my-[3em]">
         <DashboardAction />
         {/* @ts-ignore */}
         <DefaultTable header={header}>
@@ -34,11 +34,11 @@ const ViewUsers = () => {
             return (
               <tr key={key}>
                 <td className={TABLE_STYLE}>
-                  <div className='flex gap-5 items-center'>
-                    <div className='w-[3em] h-[3em] bg-gray-500 rounded-full'></div>
+                  <div className="flex gap-5 items-center">
+                    <div className="w-[3em] h-[3em] bg-gray-500 rounded-full"></div>
                     <div>
                       <h3>{_.name}</h3>
-                      <p className='text-second_primary_text'>{_.email}</p>
+                      <p className="text-second_primary_text">{_.email}</p>
                     </div>
                   </div>
                 </td>
@@ -56,10 +56,10 @@ const ViewUsers = () => {
                 </td>
                 <td className={TABLE_STYLE}>
                   <Image
-                    src='/images/icons/dashboard/table/more.svg'
+                    src="/images/icons/dashboard/table/more.svg"
                     width={32}
                     height={11}
-                    alt=''
+                    alt=""
                   />
                 </td>
               </tr>

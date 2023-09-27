@@ -1,33 +1,33 @@
-import TabComponent from '@/app/_components/tab';
-import DashboardLayout from '@/app/layouts/dashboardLayout';
-import React from 'react';
+import TabComponent from "@/app/_components/tab";
+import DashboardLayout from "@/app/layouts/dashboardLayout";
+import React from "react";
 
-import UsersReport from './views/report_users';
-import EventsReports from './views/events';
-import VenuesReport from './views/venuesReport';
-import ServicesReports from './views/servicesReport';
+import UsersReport from "./views/report_users";
+import EventsReports from "./views/events";
+import VenuesReport from "./views/venuesReport";
+import ServicesReports from "./views/servicesReport";
 
 const data = [
   {
-    header: 'Users',
+    header: "Users",
     component: <UsersReport />,
   },
   {
-    header: 'Events ',
+    header: "Events ",
     component: <EventsReports />,
   },
   {
-    header: 'Venues ',
+    header: "Venues ",
     component: <VenuesReport />,
   },
   {
-    header: 'Services ',
+    header: "Services ",
     component: <ServicesReports />,
   },
 ];
 const ReportIssues = () => {
   return (
-    <DashboardLayout title='Reported Issues' quantity="123K">
+    <DashboardLayout title="Reported Issues" quantity="123K">
       <TabComponent data={data} />
     </DashboardLayout>
   );

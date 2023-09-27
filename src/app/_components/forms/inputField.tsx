@@ -1,9 +1,9 @@
-import React from 'react';
+import React from "react";
 
 const InputField = () => {
   return (
     <div>
-      <input type='' placeholder='active'  />
+      <input type="" placeholder="active" />
     </div>
   );
 };

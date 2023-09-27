@@ -1,24 +1,24 @@
-'use client';
-import RolesAndPermission from '@/app/_components/no_data/roles_and_permission';
-import React, { Fragment, useState } from 'react';
-import { RolesComponent, AddNewRoleComponent } from '../components/roles_box';
+"use client";
+import RolesAndPermission from "@/app/_components/no_data/roles_and_permission";
+import React, { Fragment, useState } from "react";
+import { RolesComponent, AddNewRoleComponent } from "../components/roles_box";
 
 const data = [
   {
-    role: 'Admin',
-    content: 'Lorem ipsum dolor sit amet consectetur. Eu vestibulum tempor.',
+    role: "Admin",
+    content: "Lorem ipsum dolor sit amet consectetur. Eu vestibulum tempor.",
   },
   {
-    role: 'Admin',
-    content: 'Lorem ipsum dolor sit amet consectetur. Eu vestibulum tempor.',
+    role: "Admin",
+    content: "Lorem ipsum dolor sit amet consectetur. Eu vestibulum tempor.",
   },
   {
-    role: 'Technical Suport',
-    content: 'Lorem ipsum dolor sit amet consectetur. Eu vestibulum tempor.',
+    role: "Technical Suport",
+    content: "Lorem ipsum dolor sit amet consectetur. Eu vestibulum tempor.",
   },
   {
-    role: 'Technical Support',
-    content: 'Lorem ipsum dolor sit amet consectetur. Eu vestibulum tempor.',
+    role: "Technical Support",
+    content: "Lorem ipsum dolor sit amet consectetur. Eu vestibulum tempor.",
   },
 ];
 
@@ -33,13 +33,13 @@ const RolesPage = () => {
       {timer ? (
         <RolesAndPermission />
       ) : (
-        <div className='flex gap-5 flex-wrap'>
+        <div className="flex gap-5 flex-wrap">
           {data.map((_, key) => (
             <Fragment key={key}>
               <RolesComponent role={_.role} content={_.content} />
             </Fragment>
           ))}
-          <AddNewRoleComponent title='Click here to add new role' />
+          <AddNewRoleComponent title="Click here to add new role" />
         </div>
       )}
     </div>

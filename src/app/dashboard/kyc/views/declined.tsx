@@ -1,20 +1,20 @@
-import DashboardAction from '@/app/_components/dashboard/dashboardAction';
-import DefaultTable from '@/app/_components/table/defaultTable';
-import TablePagination from '@/app/_components/table/tablePagination';
-import { table } from '@/utils/contents/dummy/table';
-import React from 'react';
-import Image from '../../../../../node_modules/next/image';
+import DashboardAction from "@/app/_components/dashboard/dashboardAction";
+import DefaultTable from "@/app/_components/table/defaultTable";
+import TablePagination from "@/app/_components/table/tablePagination";
+import { table } from "@/utils/contents/dummy/table";
+import React from "react";
+import Image from "../../../../../node_modules/next/image";
 
 const header = [
-  'Business Name ',
-  'File Uploaded',
-  'Status',
-  'Reasons',
-  'Date Approved',
-  '',
+  "Business Name ",
+  "File Uploaded",
+  "Status",
+  "Reasons",
+  "Date Approved",
+  "",
 ];
 
-const style = 'px-6 py-4 whitespace-no-wrap border-b border-gray-300';
+const style = "px-6 py-4 whitespace-no-wrap border-b border-gray-300";
 const DeclinedKyc = () => {
   return (
     <div>
@@ -25,11 +25,11 @@ const DeclinedKyc = () => {
           return (
             <tr key={key}>
               <td className={style}>
-                <div className='flex gap-5 items-center'>
-                  <div className='w-[3em] h-[3em] bg-gray-500 rounded-full'></div>
+                <div className="flex gap-5 items-center">
+                  <div className="w-[3em] h-[3em] bg-gray-500 rounded-full"></div>
                   <div>
                     <h3>{_.name}</h3>
-                    <p className='text-second_primary_text'>{_.email}</p>
+                    <p className="text-second_primary_text">{_.email}</p>
                   </div>
                 </div>
               </td>
@@ -37,16 +37,21 @@ const DeclinedKyc = () => {
                 <h3 className="underline">Legal Document.pdf</h3>
               </td>
               <td className={style}>
-                <h3 className='text-red bg-pink rounded-full'>Declined</h3>
+                <h3 className="text-red bg-pink rounded-full">Declined</h3>
               </td>
               <td className={style}>
-                <h3 className='text-gray'>reasons</h3>
+                <h3 className="text-gray">reasons</h3>
               </td>
               <td className={style}>
                 <h3>{_.date}</h3>
               </td>
               <td className={style}>
-                <Image src="/images/icons/dashboard/table/more.svg"  width={32} height={11} alt="" />
+                <Image
+                  src="/images/icons/dashboard/table/more.svg"
+                  width={32}
+                  height={11}
+                  alt=""
+                />
               </td>
             </tr>
           );
