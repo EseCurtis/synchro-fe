@@ -20,7 +20,7 @@ const Notifications = () => {
             <h2 className='font-bold'>All push notifications</h2>
 
             <div>
-              <Button>Send Notification</Button>
+              <Button className='py-2 px-3 rounded-full font-semi-bold text-white'>Send Notification</Button>
             </div>
           </div>
           <div className='flex gap-[2em] flex-col'>
