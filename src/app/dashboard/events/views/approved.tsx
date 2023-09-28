@@ -1,3 +1,4 @@
+//@ts-nocheck
 "use client";
 import React from "react";
 import { Calendar, momentLocalizer } from "react-big-calendar";
@@ -24,19 +25,21 @@ const ApprovedEvents = () => {
   ];
 
   return (
-    <div
-      style={{
-        margin: "4em 0",
-      }}
-    >
-      <Calendar
-        localizer={localizer}
-        events={myEventsList}
-        startAccessor="start"
-        endAccessor="end"
-        style={{ height: 500 }}
-      />
-    </div>
+    <>
+      <div
+        style={{
+          margin: "4em 0",
+        }}
+      >
+        <Calendar
+          localizer={localizer}
+          events={myEventsList}
+          startAccessor="start"
+          endAccessor="end"
+          style={{ height: 500 }}
+        />
+      </div>
+    </>
   );
 };
 

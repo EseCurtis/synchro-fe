@@ -57,7 +57,7 @@ const CategoriesBox: FC<ICatProps> = ({ icon, title }) => {
       <Modal isOpen={isModalOpen} onClose={closeModal}>
         Edit Content Modal
       </Modal>
-      {/* Modal to delet item */}
+      {/* Modal to delete item */}
       <Modal isOpen={isDeleteModal} onClose={closeDeleteModal}>
         Delete Modal
       </Modal>
