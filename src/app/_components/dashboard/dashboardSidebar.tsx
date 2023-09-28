@@ -15,7 +15,7 @@ const DashboardBoardSidebar = () => {
 
   return (
     <div
-      className="w-[260px] py-5 px-5  h-[100vh]"
+      className="  w-[260px] py-5 px-5  h-[100vh] "
       style={{
         borderRight: "1px solid #CED3E4",
         backgroundImage: "url(/images/background/sidebar.png)",
@@ -33,7 +33,7 @@ const DashboardBoardSidebar = () => {
         />
       </div>
 
-      <div className="my-[3em]">
+      <div className="my-[3em] pb-[2em]">
         <ul style={listStyle}>
           {SidebarNavs.map((_, index) => (
             <Link href={_.path} key={index}>

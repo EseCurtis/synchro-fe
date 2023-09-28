@@ -2,10 +2,21 @@
 import NoNotifications from "@/app/_components/no_data/no_notification";
 import React, { Fragment, useState } from "react";
 import NotificationBox from "../components/notificationBox";
+import Modal from "@/app/_components/popups/modal";
 import { Button } from "@/app/_components/button";
+import NewNotification from "../components/new_notification";
 
 const Notifications = () => {
   const [view, setView] = useState(true);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
 
   setTimeout(() => {
     setView(false);
@@ -20,7 +31,7 @@ const Notifications = () => {
             <h2 className="font-bold">All push notifications</h2>
 
             <div>
-              <Button className="py-2 px-3 rounded-full font-semi-bold text-white">
+              <Button className="py-2 px-3 rounded-full font-semi-bold text-white" onClick={openModal}>
                 Send Notification
               </Button>
             </div>
@@ -32,6 +43,10 @@ const Notifications = () => {
               </Fragment>
             ))}
           </div>
+
+          <Modal isOpen={isModalOpen} onClose={closeModal}>
+            <NewNotification />
+          </Modal>
         </div>
       )}
     </div>

@@ -2,6 +2,7 @@
 import RolesAndPermission from "@/app/_components/no_data/roles_and_permission";
 import React, { Fragment, useState } from "react";
 import { RolesComponent, AddNewRoleComponent } from "../components/roles_box";
+import NewRole from "../components/new_role";
 
 const data = [
   {
@@ -44,7 +45,7 @@ const RolesPage = () => {
           show brah */}
           <AddNewRoleComponent
             title="Click here to add new role"
-            modalProps={"Replace with your content"}
+            modalProps={<NewRole/>}
           />
         </div>
       )}

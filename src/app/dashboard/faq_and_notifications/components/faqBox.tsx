@@ -4,6 +4,8 @@ import { pencil_edit } from "@/app/_components/icons/pencil_edit_icon";
 import React from "react";
 import Modal from "@/app/_components/popups/modal";
 import { useState } from "react";
+import DeleteFaq from "./delete_faq";
+import NewFaq from "./new_faq";
 
 const FaqBox = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -28,7 +30,7 @@ const FaqBox = () => {
   return (
     <>
       <div
-        className="  py-5 px-3 rounded-md lg: w-[535px]"
+        className="  py-5 px-3 rounded-md"
         style={{
           border: "1.5px solid #EDEFF5",
         }}
@@ -51,11 +53,11 @@ const FaqBox = () => {
       </div>
 
       <Modal isOpen={isModalOpen} onClose={closeModal}>
-        Edit Content Modal
+        <NewFaq/>
       </Modal>
       {/* Modal to delet item */}
       <Modal isOpen={isDeleteModal} onClose={closeDeleteModal}>
-        Delete Modal
+        <DeleteFaq/>
       </Modal>
     </>
   );
