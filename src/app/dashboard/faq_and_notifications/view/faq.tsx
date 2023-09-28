@@ -26,7 +26,10 @@ const Faqs = () => {
           ))}
 
           <div className="  w-[50] mx-auto">
-            <AddNewRoleComponent title="Click here to add new FAQ" />
+            <AddNewRoleComponent
+              title="Click here to add new FAQ"
+              modalProps={"Replace with content of the modal"}
+            />
           </div>
         </div>
       )}
