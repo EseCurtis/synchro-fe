@@ -65,7 +65,7 @@ const ActiveUsers = () => {
       ),
     },
     {
-      title: <p className="text-[#F2994A]">Suspended User</p>,
+      title: <p className="text-[#F2994A]">Suspend User</p>,
       icon: (
         <svg
           width="16"
@@ -87,7 +87,7 @@ const ActiveUsers = () => {
       ),
     },
     {
-      title: <p className="text-[#EB0000]">Deleted User</p>,
+      title: <p className="text-[#EB0000]">Delete User</p>,
       icon: (
         <svg
           width="16"

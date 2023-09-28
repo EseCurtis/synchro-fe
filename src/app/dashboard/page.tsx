@@ -165,7 +165,7 @@ const DashboardIndex = () => {
 
       {/* Transaction graph */}
       <div
-        className="w-full h-[250px] my-5 rounded-lg p-[16px] "
+        className="w-full h-[250px] my-5 rounded-lg p-[16px] mt-[4em]"
         style={{
           border: "1px solid #EDEFF5",
         }}
