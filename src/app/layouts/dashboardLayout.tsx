@@ -1,7 +1,7 @@
 import { FC, ReactNode } from "react";
 import DashboaradHeader from "../_components/dashboard/dashboardHeader";
 import DashboardBoardSidebar from "../_components/dashboard/dashboardSidebar";
-import customStyles from "./CustomStyles/dashboardLayout.module.css"
+import customStyles from "@/app/_components/customStyles/index.module.css"
 
 interface IDashboardLayout {
   children: ReactNode;

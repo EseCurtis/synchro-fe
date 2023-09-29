@@ -1,9 +1,14 @@
+"use client";
+
 import DashboardAction from "@/app/_components/dashboard/dashboardAction";
 import DefaultTable from "@/app/_components/table/defaultTable";
 import TablePagination from "@/app/_components/table/tablePagination";
 import { table } from "@/utils/contents/dummy/table";
-import React from "react";
+import React, { useState, Fragment } from "react";
 import Image from "../../../../../node_modules/next/image";
+import Dropdown from "@/app/_components/popups/dropDown";
+import Modal from "@/app/_components/popups/modal";
+import UserDetails from "../components/user_details";
 
 const header = [
   "Fullname Name ",
@@ -14,6 +19,16 @@ const header = [
 ];
 const style = "px-6 py-4 whitespace-no-wrap border-b border-gray-300";
 const UsersReport = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
   return (
     <div>
       <DashboardAction />
@@ -49,6 +64,7 @@ const UsersReport = () => {
                   width={32}
                   height={11}
                   alt=""
+                  onClick={openModal}
                 />
               </td>
             </tr>
@@ -56,6 +72,10 @@ const UsersReport = () => {
         })}
       </DefaultTable>
       <TablePagination />
+
+      <Modal isOpen={isModalOpen} onClose={closeModal}>
+        <UserDetails />
+      </Modal>
     </div>
   );
 };
