@@ -1,10 +1,26 @@
 import React, { InputHTMLAttributes } from "react";
+import CurrencyConverter from "../forms/currencyConverter";
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   name: string;
   label?: string;
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
+
+export const CurrencyInput: React.FC<InputProps> = ({ name, label, onChange, ...rest }) => {
+  return (
+    <div className="my-[15px]">
+      <div>
+        <label>{label}</label>
+      </div>
+      <CurrencyConverter 
+        name={name}
+        onChange={onChange}
+        {...rest}
+      />
+    </div>
+  );
+};
 
 const Input: React.FC<InputProps> = ({ name, label, onChange, ...rest }) => {
   return (

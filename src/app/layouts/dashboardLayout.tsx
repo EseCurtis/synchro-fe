@@ -19,7 +19,7 @@ const DashboardLayout: FC<IDashboardLayout> = ({
       <div className={`${customStyles.customScrollbar} h-[100vh] overflow-scroll overflow-x-hidden pb-[2em]`}>
         <DashboardBoardSidebar />
       </div>
-      <div className="w-[1148px] h-[100vh] py-5 px-4 mx-auto  overflow-y-scroll">
+      <div className="w-[1148px] h-[100vh] py-5 px-4 mx-auto pl-7 overflow-y-scroll">
         <DashboaradHeader title={title} quantity={quantity} />
         <div className="my-[2em]">{children}</div>
       </div>

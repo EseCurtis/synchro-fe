@@ -23,13 +23,13 @@ const deleteIcon = (
   </svg>
 );
 
-const DeleteFaq = () => {
+const DeleteCategory = () => {
   return (
     <div>
-      <h3 className="font-bold flex gap-2">{deleteIcon} Delete FAQ</h3>
+      <h3 className="font-bold flex gap-2">{deleteIcon} Delete category</h3>
 
       <div className="form items-left mt-4">
-        <p>Are you sure you want to delete “<b>Use the mobile USB pixel...</b>” from the FAQ section?</p>
+        <p>Are you sure you want to delete “<b>Motivation</b>” from the list of event's category?</p>
       </div>
 
       <div className=" mt-5 flex gap-4 items-center">
@@ -42,4 +42,4 @@ const DeleteFaq = () => {
   );
 };
 
-export default DeleteFaq;
+export default DeleteCategory;

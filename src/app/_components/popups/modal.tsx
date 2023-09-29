@@ -15,7 +15,7 @@ const Modal: FC<ModalProps> = ({ isOpen, onClose, children }) => {
   return isOpen ? (
     <div
       style={style}
-      className="fixed  mx-auto inset-0 flex items-center justify-center z-500"
+      className="fixed mx-auto my-auto inset-0 flex items-start justify-center z-500 "
     >
       <div className="fixed inset-0 bg-black opacity-50"></div>
 

@@ -44,7 +44,9 @@ const NewMember = () => {
 
       <div className=" mt-5 flex gap-4 items-center">
         <Button>Add Member</Button>
-        <Button>Cancel</Button>
+        <Button style={{ background: "white", color: "red" }} customClassName="text-red-500 border border-2 border-red-500">
+          Cancel
+        </Button>
       </div>
     </div>
   );

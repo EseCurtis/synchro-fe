@@ -4,6 +4,8 @@ import Delete_Circle from "@/app/_components/icons/delete_circle";
 import { pencil_edit } from "@/app/_components/icons/pencil_edit_icon";
 import Modal from "@/app/_components/popups/modal";
 import { useState } from "react";
+import DeleteCategory from "./delete_category";
+import NewCategory from "./new_category";
 
 interface ICatProps {
   icon: ReactNode;
@@ -38,7 +40,7 @@ const CategoriesBox: FC<ICatProps> = ({ icon, title }) => {
   return (
     <>
       <div
-        className=" w-[300px] px-5 rounded-md flex items-center justify-between"
+        className=" w-[300px] px-5 py-2 rounded-md flex items-center justify-between"
         style={styles}
       >
         <div className="flex gap-3 items-center">
@@ -55,11 +57,11 @@ const CategoriesBox: FC<ICatProps> = ({ icon, title }) => {
       </div>
 
       <Modal isOpen={isModalOpen} onClose={closeModal}>
-        Edit Content Modal
+        <NewCategory />
       </Modal>
       {/* Modal to delete item */}
       <Modal isOpen={isDeleteModal} onClose={closeDeleteModal}>
-        Delete Modal
+        <DeleteCategory />
       </Modal>
     </>
   );

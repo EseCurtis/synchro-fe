@@ -5,6 +5,7 @@ import React, { Fragment } from "react";
 import CategoriesBox from "../components/categoryBox";
 import { categoryDetails } from "../content";
 import { useState } from "react";
+import NewCategory from "../components/new_category";
 
 const Categories = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -58,8 +59,7 @@ const Categories = () => {
       </div>
 
       <Modal isOpen={isModalOpen} onClose={closeModal}>
-        Add New Categories modal
-        <p>Let your styling go here bro</p>
+        <NewCategory />
       </Modal>
     </>
   );

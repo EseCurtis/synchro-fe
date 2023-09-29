@@ -1,5 +1,6 @@
 import { Button } from "@/app/_components/button";
-import Input from "@/app/_components/input_fields";
+import CurrencyConverter from "@/app/_components/forms/currencyConverter";
+import Input, { CurrencyInput } from "@/app/_components/input_fields";
 import React from "react";
 
 const FeesConfigurations = () => {
@@ -7,25 +8,26 @@ const FeesConfigurations = () => {
     <div>
       <h3>Set fees configuration for the whole platform</h3>
 
-      <div className="my-3 flex flex-wrap gap-5 ">
-        <Input
-          type="text"
-          name="event"
-          placeholder="Placeholder"
-          label="Event tickets commission"
-        />
-        <Input
+      <div className="my-3 grid grid-cols-2 gap-5 ">
+        <CurrencyInput
           type="text"
           name="invoice"
           placeholder="Placeholder"
           label="Invoice payment commision"
         />
 
-        <Input
+        <CurrencyInput
           type="text"
-          name="withdrawal"
+          name="invoice"
           placeholder="Placeholder"
-          label="Withdrawal commision"
+          label="Invoice payment commision"
+        />
+
+        <CurrencyInput
+          type="text"
+          name="invoice"
+          placeholder="Placeholder"
+          label="Invoice payment commision"
         />
       </div>
 
