@@ -8,7 +8,7 @@ import React, { useState, Fragment } from "react";
 import Image from "../../../../../node_modules/next/image";
 import Dropdown from "@/app/_components/popups/dropDown";
 import Modal from "@/app/_components/popups/modal";
-import ViewInformation from "../components/viewInfo";
+import ViewInformation from "../components/EventDetails";
 
 const header = [
   "Business Name ",

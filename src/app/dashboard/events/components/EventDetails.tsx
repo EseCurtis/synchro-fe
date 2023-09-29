@@ -1,0 +1,278 @@
+import { Button } from "@/app/_components/button";
+import Badge from "@/app/_components/forms/badge";
+import customStyles from "@/app/_components/customStyles/index.module.css";
+import React from "react";
+import {
+  PiCalendar,
+  PiCalendarCheckLight,
+  PiMapPin,
+  PiMarkerCircle,
+  PiPerson,
+  PiTicket,
+} from "react-icons/pi";
+import { BiArrowFromRight, BiArrowToLeft, BiArrowToRight, BiInfoCircle, BiLeftArrow, BiUser } from "react-icons/bi";
+
+const hugIcon = (
+  <svg
+    width="29"
+    height="29"
+    viewBox="0 0 29 29"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <rect width="29" height="29" rx="14.5" fill="#EDF2F7" />
+    <path
+      d="M13.8393 13.6667C12.2766 13.6667 11.006 12.3953 11.006 10.8333C11.006 9.27133 12.2766 8 13.8393 8C15.402 8 16.6726 9.27133 16.6726 10.8333C16.6726 12.3953 15.402 13.6667 13.8393 13.6667ZM13.8393 9C12.828 9 12.006 9.822 12.006 10.8333C12.006 11.8447 12.828 12.6667 13.8393 12.6667C14.8506 12.6667 15.6726 11.8447 15.6726 10.8333C15.6726 9.822 14.85 9 13.8393 9ZM16.3333 20.5C16.3333 20.224 16.1093 20 15.8333 20H11.1666C10.1153 20 9.66663 19.5553 9.66663 18.5133C9.66663 17.846 9.87129 15.6667 12.5 15.6667H15.1666C16.2573 15.6667 17.0487 16.038 17.5193 16.77C17.6687 17.0027 17.9779 17.07 18.2099 16.9207C18.4426 16.7713 18.5093 16.462 18.3606 16.23C17.902 15.5166 16.9766 14.6667 15.1666 14.6667H12.5C9.67063 14.6667 8.66663 16.7387 8.66663 18.5133C8.66663 20.1167 9.55463 21 11.1666 21H15.8333C16.1093 21 16.3333 20.776 16.3333 20.5ZM19.0753 20.6313L20.8533 18.8534C21.0486 18.658 21.0486 18.3413 20.8533 18.146C20.658 17.9507 20.3413 17.9507 20.146 18.146L18.7213 19.57L18.186 19.0347C17.9907 18.8393 17.674 18.8393 17.4786 19.0347C17.2833 19.23 17.2833 19.5467 17.4786 19.742L18.3673 20.6307C18.4646 20.728 18.5927 20.7773 18.7207 20.7773C18.8487 20.7773 18.978 20.7287 19.0753 20.6313Z"
+      fill="#1A202C"
+    />
+  </svg>
+);
+
+const calenderIcon = (
+  <svg
+    width="29"
+    height="29"
+    viewBox="0 0 29 29"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <rect width="29" height="29" rx="14.5" fill="#EDF2F7" />
+    <path
+      d="M18.5 9H17.6667V8.5C17.6667 8.224 17.4427 8 17.1667 8C16.8907 8 16.6667 8.224 16.6667 8.5V9H12.3333V8.5C12.3333 8.224 12.1093 8 11.8333 8C11.5573 8 11.3333 8.224 11.3333 8.5V9H10.5C8.888 9 8 9.888 8 11.5V18.5C8 20.112 8.888 21 10.5 21H18.5C20.112 21 21 20.112 21 18.5V11.5C21 9.888 20.112 9 18.5 9ZM10.5 10H11.3333V10.5C11.3333 10.776 11.5573 11 11.8333 11C12.1093 11 12.3333 10.776 12.3333 10.5V10H16.6667V10.5C16.6667 10.776 16.8907 11 17.1667 11C17.4427 11 17.6667 10.776 17.6667 10.5V10H18.5C19.5513 10 20 10.4487 20 11.5V12H9V11.5C9 10.4487 9.44867 10 10.5 10ZM18.5 20H10.5C9.44867 20 9 19.5513 9 18.5V13H20V18.5C20 19.5513 19.5513 20 18.5 20ZM12.5133 15.1667C12.5133 15.5347 12.2153 15.8333 11.8467 15.8333C11.4787 15.8333 11.1766 15.5347 11.1766 15.1667C11.1766 14.7987 11.472 14.5 11.84 14.5H11.8467C12.2147 14.5 12.5133 14.7987 12.5133 15.1667ZM15.18 15.1667C15.18 15.5347 14.882 15.8333 14.5133 15.8333C14.1453 15.8333 13.8433 15.5347 13.8433 15.1667C13.8433 14.7987 14.1387 14.5 14.5067 14.5H14.5133C14.8813 14.5 15.18 14.7987 15.18 15.1667ZM17.8467 15.1667C17.8467 15.5347 17.5487 15.8333 17.18 15.8333C16.812 15.8333 16.5099 15.5347 16.5099 15.1667C16.5099 14.7987 16.8053 14.5 17.1733 14.5H17.18C17.548 14.5 17.8467 14.7987 17.8467 15.1667ZM12.5133 17.8333C12.5133 18.2013 12.2153 18.5 11.8467 18.5C11.4787 18.5 11.1766 18.2013 11.1766 17.8333C11.1766 17.4653 11.472 17.1667 11.84 17.1667H11.8467C12.2147 17.1667 12.5133 17.4653 12.5133 17.8333ZM15.18 17.8333C15.18 18.2013 14.882 18.5 14.5133 18.5C14.1453 18.5 13.8433 18.2013 13.8433 17.8333C13.8433 17.4653 14.1387 17.1667 14.5067 17.1667H14.5133C14.8813 17.1667 15.18 17.4653 15.18 17.8333ZM17.8467 17.8333C17.8467 18.2013 17.5487 18.5 17.18 18.5C16.812 18.5 16.5099 18.2013 16.5099 17.8333C16.5099 17.4653 16.8053 17.1667 17.1733 17.1667H17.18C17.548 17.1667 17.8467 17.4653 17.8467 17.8333Z"
+      fill="#1A202C"
+    />
+  </svg>
+);
+const locationIcon = (
+  <svg
+    width="29"
+    height="29"
+    viewBox="0 0 29 29"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <rect width="29" height="29" rx="14.5" fill="#EDF2F7" />
+    <path
+      d="M18.5 9H17.6667V8.5C17.6667 8.224 17.4427 8 17.1667 8C16.8907 8 16.6667 8.224 16.6667 8.5V9H12.3333V8.5C12.3333 8.224 12.1093 8 11.8333 8C11.5573 8 11.3333 8.224 11.3333 8.5V9H10.5C8.888 9 8 9.888 8 11.5V18.5C8 20.112 8.888 21 10.5 21H18.5C20.112 21 21 20.112 21 18.5V11.5C21 9.888 20.112 9 18.5 9ZM10.5 10H11.3333V10.5C11.3333 10.776 11.5573 11 11.8333 11C12.1093 11 12.3333 10.776 12.3333 10.5V10H16.6667V10.5C16.6667 10.776 16.8907 11 17.1667 11C17.4427 11 17.6667 10.776 17.6667 10.5V10H18.5C19.5513 10 20 10.4487 20 11.5V12H9V11.5C9 10.4487 9.44867 10 10.5 10ZM18.5 20H10.5C9.44867 20 9 19.5513 9 18.5V13H20V18.5C20 19.5513 19.5513 20 18.5 20ZM12.5133 15.1667C12.5133 15.5347 12.2153 15.8333 11.8467 15.8333C11.4787 15.8333 11.1766 15.5347 11.1766 15.1667C11.1766 14.7987 11.472 14.5 11.84 14.5H11.8467C12.2147 14.5 12.5133 14.7987 12.5133 15.1667ZM15.18 15.1667C15.18 15.5347 14.882 15.8333 14.5133 15.8333C14.1453 15.8333 13.8433 15.5347 13.8433 15.1667C13.8433 14.7987 14.1387 14.5 14.5067 14.5H14.5133C14.8813 14.5 15.18 14.7987 15.18 15.1667ZM17.8467 15.1667C17.8467 15.5347 17.5487 15.8333 17.18 15.8333C16.812 15.8333 16.5099 15.5347 16.5099 15.1667C16.5099 14.7987 16.8053 14.5 17.1733 14.5H17.18C17.548 14.5 17.8467 14.7987 17.8467 15.1667ZM12.5133 17.8333C12.5133 18.2013 12.2153 18.5 11.8467 18.5C11.4787 18.5 11.1766 18.2013 11.1766 17.8333C11.1766 17.4653 11.472 17.1667 11.84 17.1667H11.8467C12.2147 17.1667 12.5133 17.4653 12.5133 17.8333ZM15.18 17.8333C15.18 18.2013 14.882 18.5 14.5133 18.5C14.1453 18.5 13.8433 18.2013 13.8433 17.8333C13.8433 17.4653 14.1387 17.1667 14.5067 17.1667H14.5133C14.8813 17.1667 15.18 17.4653 15.18 17.8333ZM17.8467 17.8333C17.8467 18.2013 17.5487 18.5 17.18 18.5C16.812 18.5 16.5099 18.2013 16.5099 17.8333C16.5099 17.4653 16.8053 17.1667 17.1733 17.1667H17.18C17.548 17.1667 17.8467 17.4653 17.8467 17.8333Z"
+      fill="#1A202C"
+    />
+  </svg>
+);
+const groupIcon = (
+  <svg
+    width="29"
+    height="29"
+    viewBox="0 0 29 29"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <rect width="29" height="29" rx="14.5" fill="#EDF2F7" />
+    <path
+      d="M18.5 9H17.6667V8.5C17.6667 8.224 17.4427 8 17.1667 8C16.8907 8 16.6667 8.224 16.6667 8.5V9H12.3333V8.5C12.3333 8.224 12.1093 8 11.8333 8C11.5573 8 11.3333 8.224 11.3333 8.5V9H10.5C8.888 9 8 9.888 8 11.5V18.5C8 20.112 8.888 21 10.5 21H18.5C20.112 21 21 20.112 21 18.5V11.5C21 9.888 20.112 9 18.5 9ZM10.5 10H11.3333V10.5C11.3333 10.776 11.5573 11 11.8333 11C12.1093 11 12.3333 10.776 12.3333 10.5V10H16.6667V10.5C16.6667 10.776 16.8907 11 17.1667 11C17.4427 11 17.6667 10.776 17.6667 10.5V10H18.5C19.5513 10 20 10.4487 20 11.5V12H9V11.5C9 10.4487 9.44867 10 10.5 10ZM18.5 20H10.5C9.44867 20 9 19.5513 9 18.5V13H20V18.5C20 19.5513 19.5513 20 18.5 20ZM12.5133 15.1667C12.5133 15.5347 12.2153 15.8333 11.8467 15.8333C11.4787 15.8333 11.1766 15.5347 11.1766 15.1667C11.1766 14.7987 11.472 14.5 11.84 14.5H11.8467C12.2147 14.5 12.5133 14.7987 12.5133 15.1667ZM15.18 15.1667C15.18 15.5347 14.882 15.8333 14.5133 15.8333C14.1453 15.8333 13.8433 15.5347 13.8433 15.1667C13.8433 14.7987 14.1387 14.5 14.5067 14.5H14.5133C14.8813 14.5 15.18 14.7987 15.18 15.1667ZM17.8467 15.1667C17.8467 15.5347 17.5487 15.8333 17.18 15.8333C16.812 15.8333 16.5099 15.5347 16.5099 15.1667C16.5099 14.7987 16.8053 14.5 17.1733 14.5H17.18C17.548 14.5 17.8467 14.7987 17.8467 15.1667ZM12.5133 17.8333C12.5133 18.2013 12.2153 18.5 11.8467 18.5C11.4787 18.5 11.1766 18.2013 11.1766 17.8333C11.1766 17.4653 11.472 17.1667 11.84 17.1667H11.8467C12.2147 17.1667 12.5133 17.4653 12.5133 17.8333ZM15.18 17.8333C15.18 18.2013 14.882 18.5 14.5133 18.5C14.1453 18.5 13.8433 18.2013 13.8433 17.8333C13.8433 17.4653 14.1387 17.1667 14.5067 17.1667H14.5133C14.8813 17.1667 15.18 17.4653 15.18 17.8333ZM17.8467 17.8333C17.8467 18.2013 17.5487 18.5 17.18 18.5C16.812 18.5 16.5099 18.2013 16.5099 17.8333C16.5099 17.4653 16.8053 17.1667 17.1733 17.1667H17.18C17.548 17.1667 17.8467 17.4653 17.8467 17.8333Z"
+      fill="#1A202C"
+    />
+  </svg>
+);
+const ticketIcon = (
+  <svg
+    width="29"
+    height="29"
+    viewBox="0 0 29 29"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <rect width="29" height="29" rx="14.5" fill="#EDF2F7" />
+    <path
+      d="M18.5 9H17.6667V8.5C17.6667 8.224 17.4427 8 17.1667 8C16.8907 8 16.6667 8.224 16.6667 8.5V9H12.3333V8.5C12.3333 8.224 12.1093 8 11.8333 8C11.5573 8 11.3333 8.224 11.3333 8.5V9H10.5C8.888 9 8 9.888 8 11.5V18.5C8 20.112 8.888 21 10.5 21H18.5C20.112 21 21 20.112 21 18.5V11.5C21 9.888 20.112 9 18.5 9ZM10.5 10H11.3333V10.5C11.3333 10.776 11.5573 11 11.8333 11C12.1093 11 12.3333 10.776 12.3333 10.5V10H16.6667V10.5C16.6667 10.776 16.8907 11 17.1667 11C17.4427 11 17.6667 10.776 17.6667 10.5V10H18.5C19.5513 10 20 10.4487 20 11.5V12H9V11.5C9 10.4487 9.44867 10 10.5 10ZM18.5 20H10.5C9.44867 20 9 19.5513 9 18.5V13H20V18.5C20 19.5513 19.5513 20 18.5 20ZM12.5133 15.1667C12.5133 15.5347 12.2153 15.8333 11.8467 15.8333C11.4787 15.8333 11.1766 15.5347 11.1766 15.1667C11.1766 14.7987 11.472 14.5 11.84 14.5H11.8467C12.2147 14.5 12.5133 14.7987 12.5133 15.1667ZM15.18 15.1667C15.18 15.5347 14.882 15.8333 14.5133 15.8333C14.1453 15.8333 13.8433 15.5347 13.8433 15.1667C13.8433 14.7987 14.1387 14.5 14.5067 14.5H14.5133C14.8813 14.5 15.18 14.7987 15.18 15.1667ZM17.8467 15.1667C17.8467 15.5347 17.5487 15.8333 17.18 15.8333C16.812 15.8333 16.5099 15.5347 16.5099 15.1667C16.5099 14.7987 16.8053 14.5 17.1733 14.5H17.18C17.548 14.5 17.8467 14.7987 17.8467 15.1667ZM12.5133 17.8333C12.5133 18.2013 12.2153 18.5 11.8467 18.5C11.4787 18.5 11.1766 18.2013 11.1766 17.8333C11.1766 17.4653 11.472 17.1667 11.84 17.1667H11.8467C12.2147 17.1667 12.5133 17.4653 12.5133 17.8333ZM15.18 17.8333C15.18 18.2013 14.882 18.5 14.5133 18.5C14.1453 18.5 13.8433 18.2013 13.8433 17.8333C13.8433 17.4653 14.1387 17.1667 14.5067 17.1667H14.5133C14.8813 17.1667 15.18 17.4653 15.18 17.8333ZM17.8467 17.8333C17.8467 18.2013 17.5487 18.5 17.18 18.5C16.812 18.5 16.5099 18.2013 16.5099 17.8333C16.5099 17.4653 16.8053 17.1667 17.1733 17.1667H17.18C17.548 17.1667 17.8467 17.4653 17.8467 17.8333Z"
+      fill="#1A202C"
+    />
+  </svg>
+);
+
+const buttonClass =
+  "px-[5px] py-2 rounded-full text-[12px] text-black border border-2 border-gray-300 ";
+const buttonStyle = {
+  background: "var(--primary-bg-gradient)",
+  border: "none",
+  color: "#fff",
+};
+
+const EventDetails = () => {
+  return (
+    <div>
+      <div className="font-bold text-center">Event details</div>
+      <div
+        className={`mt-5 p-5 overflow-y-scroll h-[55vh] ${customStyles.customScrollbar}`}
+      >
+        <div className="bg-gray-300 rounded w-[100%] h-[100px] relative">
+          <div className="bg-gray-500 rounded-full w-[70px] h-[70px] absolute right-[1em] bottom-[-30%] border border-[2px] border-white"></div>
+          <p className="absolute font-bold left-[0] bottom-[-30px]">
+            Jakes Birthday Party
+          </p>
+        </div>
+
+        <div className="flex flex-wrap mt-10 w-[100%] gap-3">
+          <p className="flex items-center gap-3 w-[100%]">
+            {hugIcon}{" "}
+            <span className="text-sm text-gray-500">
+              Host: <u>Edd.Larkin32</u>
+            </span>
+          </p>
+          <div className="grid grid-cols-2 gap-3">
+            <p className="flex items-center gap-3">
+              {hugIcon}{" "}
+              <span className="text-sm text-gray-500">Social gathering</span>
+            </p>
+            <p className="flex items-center gap-3">
+              {hugIcon}{" "}
+              <span className="text-sm text-gray-500">Private event</span>
+            </p>
+          </div>
+        </div>
+
+        <div className="grid mt-7 gap-4">
+          <div className="grid grid-cols-2 gap-auto">
+            <p className="text-sm text-gray-400">Reasons for report</p>
+            <p className="text-sm font-bold">
+              Lorem ipsum dolor sit amet consectetur.
+            </p>
+          </div>
+          <div className="grid grid-cols-2 gap-auto">
+            <p className="text-sm text-gray-400">Reported by</p>
+            <p className="text-sm font-bold">Jerry Koepp</p>
+          </div>
+          <div className="grid grid-cols-2 gap-auto">
+            <p className="text-sm text-gray-400">Date reported</p>
+            <p className="text-sm font-bold">11:32pm, May 3rd, 2021</p>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-3 gap-2 w-[80%] h-[3em] m-auto p-3 mt-5">
+          <button className={buttonClass} style={buttonStyle}>
+            Events Info
+          </button>
+          <button className={buttonClass}>Guest</button>
+          <button className={buttonClass}>Tickets </button>
+        </div>
+
+        <div className="grid mt-9 gap-4">
+          <div className="flex items-center gap-2">
+            <span className="bg-gray-100 rounded-full p-2">
+              <PiCalendar />
+            </span>
+            <p className="text-sm">9:00 PM - 11:00 PM February 2023</p>
+          </div>
+          <div className="flex items-center gap-2">
+            <span className="bg-gray-100 rounded-full p-2">
+              <PiMapPin />
+            </span>
+            <p className="text-sm">
+              Maverick Plaza, 643 N. 10th street, New York, NY 10035
+            </p>
+          </div>
+          <div className="flex gap-2">
+            <span className="bg-gray-100 rounded-full p-2">
+              <PiPerson />
+            </span>
+            <div className="flex items-center gap-2">
+              <div className="flex text-sm gap-1">
+                <div className=" flex bg-green-200 p-1 rounded-full w-5 h-5 gap-2">
+                  <i className=" flex items-center bg-green-400 p-1 w-[100%] h-[100%] rounded-full text-white">
+                    <PiMarkerCircle />
+                  </i>
+                </div>
+                <span className="flex items-center whitespace-nowrap"> 32 going</span>
+              </div>
+
+              <div className="flex text-sm gap-1">
+                <div className=" flex bg-red-200 p-1 rounded-full w-5 h-5">
+                  <i className=" flex items-center bg-yellow-400 p-1 w-[100%] h-[100%] rounded-full text-white">
+                    <PiMarkerCircle />
+                  </i>
+                </div>
+                <span className="flex items-center whitespace-nowrap"> 12 maybe</span>
+              </div>
+
+              <div className="flex text-sm gap-1">
+                <div className=" flex bg-red-200 p-1 rounded-full w-5 h-5">
+                  <i className=" flex items-center bg-red-400 p-1 w-[100%] h-[100%] rounded-full text-white">
+                    <PiCalendarCheckLight />
+                  </i>
+                </div>
+                <span className="flex items-center whitespace-nowrap text-[12px]"> 5 not going</span>
+              </div>
+            </div>
+          </div>
+          <div className="flex items-center gap-2">
+            <span className="bg-gray-100 rounded-full p-2">
+              <PiTicket />
+            </span>
+            <p className="text-sm">Ticket type: Gold $5, Premium $8</p>
+          </div>
+        </div>
+
+        <div className="grid gap-3 mt-6">
+          <h4 className="flex items-center gap-2"><BiInfoCircle/> About</h4>
+          <p>Lorem ipsum dolor sit amet consectetur. Gravida mollis nisi in consequat neque amet urna ac. Scelerisque eget integer vestibulum quis et. Arcu quis ut eget orci pellentesque. Tincidunt facilisis aenean nunc quis ac nec dictumst.</p>
+        </div>
+
+        <div className="grid gap-3 mt-6">
+          <h4 className="flex items-center gap-2">Hashtags</h4>
+          <div className="flex gap-3">
+            <p>#party</p>
+            <p>#dance</p>
+            <p>#2023</p>
+          </div>
+        </div>
+
+        <div className="grid gap-3 mt-6">
+          <h4 className="flex items-center gap-2"><BiUser/> Collaborators</h4>
+          <div className="flex flex-col gap-7 mt-5">
+            <div className="flex gap-3 w-[100%]">
+              <div className="w-[55px] h-[55px] bg-gray-300 rounded-full"></div>
+              <div className="flex flex-col justify-center">
+                <h4>Courtney Henry.</h4>
+                <p className="text-gray-400"> Photography </p>
+              </div>
+              <div className="h-[100%] ml-auto mr-[0] flex items-center">
+                <BiArrowToRight />
+              </div>
+            </div>
+            <div className="flex gap-3 w-[100%]">
+              <div className="w-[55px] h-[55px] bg-gray-300 rounded-full"></div>
+              <div className="flex flex-col justify-center">
+                <h4>Roosevelt King</h4>
+                <p className="text-gray-400"> Catering </p>
+              </div>
+              <div className="h-[100%] ml-auto mr-[0] flex items-center">
+                <BiArrowToRight />
+              </div>
+            </div>
+            <div className="flex gap-3 w-[100%]">
+              <div className="w-[55px] h-[55px] bg-gray-300 rounded-full"></div>
+              <div className="flex flex-col justify-center">
+                <h4>Besty Labadie</h4>
+                <p className="text-gray-400"> Security </p>
+              </div>
+              <div className="h-[100%] ml-auto mr-[0] flex items-center">
+                <BiArrowToRight />
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <div className="mt-5 flex gap-4 items-center">
+        <Button>Suspend host</Button>
+        <Button
+          style={{ background: "white", color: "red" }}
+          customClassName="text-red-500 border border-2 border-red-500"
+        >
+          Resolve
+        </Button>
+      </div>
+    </div>
+  );
+};
+
+export default EventDetails;

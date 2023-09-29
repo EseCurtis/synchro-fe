@@ -2,8 +2,11 @@ import DashboardAction from "@/app/_components/dashboard/dashboardAction";
 import DefaultTable from "@/app/_components/table/defaultTable";
 import TablePagination from "@/app/_components/table/tablePagination";
 import { table } from "@/utils/contents/dummy/table";
-import React from "react";
+import React, { useState } from "react";
 import Image from "../../../../../node_modules/next/image";
+import Modal from "@/app/_components/popups/modal";
+import VenueDetails from "./components/venue_details";
+
 
 const header = [
   "Venue ",
@@ -16,6 +19,15 @@ const header = [
 
 const style = "px-6 py-4 whitespace-no-wrap border-b border-gray-300";
 const ApprovedVenues = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
   return (
     <div>
       <DashboardAction />
@@ -51,6 +63,7 @@ const ApprovedVenues = () => {
                   width={32}
                   height={11}
                   alt=""
+                  onClick={openModal}
                 />
               </td>
             </tr>
@@ -58,6 +71,10 @@ const ApprovedVenues = () => {
         })}
       </DefaultTable>
       <TablePagination />
+
+      <Modal isOpen={isModalOpen} onClose={closeModal}>
+        <VenueDetails/>
+      </Modal>
     </div>
   );
 };

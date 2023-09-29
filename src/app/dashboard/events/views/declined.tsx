@@ -7,7 +7,7 @@ import { table } from "@/utils/contents/dummy/table";
 import Modal from "@/app/_components/popups/modal";
 import Dropdown from "@/app/_components/popups/dropDown";
 import Image from "next/image";
-import ViewInformation from "../components/viewInfo";
+import ViewInformation from "../components/EventDetails";
 import React, { useState, Fragment } from "react";
 
 const header = [

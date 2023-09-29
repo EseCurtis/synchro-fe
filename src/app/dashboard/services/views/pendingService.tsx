@@ -3,8 +3,10 @@ import DefaultTable from "@/app/_components/table/defaultTable";
 import TablePagination from "@/app/_components/table/tablePagination";
 import { table } from "@/utils/contents/dummy/table";
 import { FiMoreHorizontal } from "react-icons/fi";
-import React from "react";
+import React, { useState } from "react";
 import Image from "../../../../../node_modules/next/image";
+import ServiceDetails from "../components/service_details";
+import Modal from "@/app/_components/popups/modal";
 
 const header = [
   "Services ",
@@ -16,6 +18,15 @@ const header = [
 
 const style = "px-6 py-4 whitespace-no-wrap border-b border-gray-300";
 const PendingService = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
   return (
     <div>
       <DashboardAction />
@@ -46,11 +57,12 @@ const PendingService = () => {
                 <h3>{_.date}</h3>
               </td>
               <td className={style}>
-                <Image
+              <Image
                   src="/images/icons/dashboard/table/more.svg"
                   width={32}
                   height={11}
                   alt=""
+                  onClick={openModal}
                 />
               </td>
             </tr>
@@ -58,6 +70,9 @@ const PendingService = () => {
         })}
       </DefaultTable>
       <TablePagination />
+      <Modal isOpen={isModalOpen} onClose={closeModal}>
+        <ServiceDetails/>
+      </Modal>
     </div>
   );
 };
