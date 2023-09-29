@@ -25,6 +25,7 @@ const data = [
 
 const RolesPage = () => {
   const [timer, setTimer] = useState<boolean>(true);
+
   setTimeout(() => {
     setTimer(false);
   }, 2500);
