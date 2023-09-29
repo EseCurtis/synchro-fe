@@ -29,7 +29,7 @@ const DeleteCategory = () => {
       <h3 className="font-bold flex gap-2">{deleteIcon} Delete category</h3>
 
       <div className="form items-left mt-4">
-        <p>Are you sure you want to delete “<b>Motivation</b>” from the list of event's category?</p>
+        <p>Are you sure you want to delete “<b>Motivation</b>” from the list of event&quot;s category?</p>
       </div>
 
       <div className=" mt-5 flex gap-4 items-center">
