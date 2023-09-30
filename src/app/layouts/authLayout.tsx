@@ -15,7 +15,7 @@ const AuthLayout: FC<IAuthProps> = ({
   return (
     <div className="flex flex-col sm:flex-row sm:h-[80vh] lg:h-[100vh] ">
       <div
-        className=" py-[1em] flex justify-center w-[100%] items-center text-white px-3 md:w-[1009px]  "
+        className="py-[1em] flex justify-center w-[100%] items-center text-white px-3 md:w-[1009px]  "
         style={{
           backgroundImage: "url(/images/background/background.svg)",
           backgroundRepeat: "no-repeat",
@@ -23,7 +23,7 @@ const AuthLayout: FC<IAuthProps> = ({
           backgroundPosition: "center",
         }}
       >
-        <div>
+        <div className="flex flex-col items-center justify-center">
           <Image
             src={"/images/auth.svg"}
             height="476"
@@ -62,18 +62,6 @@ const AuthLayout: FC<IAuthProps> = ({
             </div>
           </div>
           <div>{children}</div>
-          <p className="text-center my-3 text-gray-400">
-            Create an account?{" "}
-            <span
-              style={{
-                color: "black",
-                fontWeight: "bold",
-                cursor: "pointer",
-              }}
-            >
-              Contact sales
-            </span>
-          </p>
         </div>
       </div>
     </div>

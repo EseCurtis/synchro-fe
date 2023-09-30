@@ -14,7 +14,7 @@ export const SidebarNavs = [
     active: "/images/icons/sidebar/user_active.svg",
   },
   {
-    title: "events",
+    title: "Events",
     path: "/dashboard/events",
     icon: "",
     img: "/images/icons/sidebar/coupon.svg",
@@ -28,7 +28,7 @@ export const SidebarNavs = [
     active: "/images/icons/sidebar/venues_active.svg",
   },
   {
-    title: "kyc",
+    title: "KYC",
     path: "/dashboard/kyc",
     icon: "",
     img: "/images/icons/sidebar/kyc.svg",

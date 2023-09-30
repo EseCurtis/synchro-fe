@@ -41,7 +41,7 @@ const NotificationModal = () => {
         ref={modalRef}
         className="relative bg-gray-100 w-[3em] h-[3em] flex items-center justify-center rounded-full"
       >
-        <BiBell size={"1.5em"} onClick={openModal} />
+        <BiBell size={"24px"} onClick={openModal} />
 
         {isModalOpen && (
           <div

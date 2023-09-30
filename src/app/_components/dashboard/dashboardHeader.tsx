@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import React, { useRef, useState, useEffect } from "react";
 import { SlCalender } from "react-icons/sl";
@@ -11,32 +11,31 @@ interface DashboaradHeaderProps {
   quantity?: string;
 }
 
-const DashboaradHeader: React.FC<DashboaradHeaderProps> = ({ title, quantity }) => {
-  
-
+const DashboaradHeader: React.FC<DashboaradHeaderProps> = ({
+  title,
+  quantity,
+}) => {
   return (
     <div
-      className="flex justify-between"
+      className="flex justify-between items-center py-[1em]"
       style={{
         borderBottom: "1px solid #EDEFF5",
-        padding: "1em",
       }}
     >
       <div className="flex items-left gap-5">
         <p className="font-bold">{title}</p>
-        {quantity ? <p className="text-green-500">{quantity}</p> : ""}
       </div>
 
       <div className="flex items-center justify-between gap-[4em]">
         <div className="flex items-center gap-3">
-          <SlCalender size={"1.5em"} />
-          <p className="font-400">{moment().format("DD MM YYYY")}</p>
+          <SlCalender size={"24px"} />
+          <p className="font-400">{moment().format("MMM DD, yyyy")}</p>
         </div>
 
-        <NotificationModal/>
+        <NotificationModal />
 
         <div className="flex gap-2 items-center">
-          <div className="w-[41px] h-[41px] rounded-full bg-gray-500"></div>
+          <div className="w-[32px] h-[32px] rounded-full bg-gray-500"></div>
           <h3>Barbara Riley</h3>
         </div>
       </div>
