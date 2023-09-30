@@ -3,16 +3,7 @@ import React from "react";
 import DashboardLayout from "../layouts/dashboardLayout";
 import Image from "next/image";
 import { formatNumber } from "@/utils/formatNumber";
-import {
-  Chart as ChartJS,
-  ArcElement,
-  Tooltip,
-  Legend,
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-} from "chart.js";
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { Doughnut, Line } from "react-chartjs-2";
 import LineGraph from "../_components/charts/lineChart";
 ChartJS.register(ArcElement, Tooltip, Legend);

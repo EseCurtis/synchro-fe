@@ -1,8 +1,8 @@
+"use client";
 import DashboardAction from "@/app/_components/dashboard/dashboardAction";
 import DefaultTable from "@/app/_components/table/defaultTable";
 import TablePagination from "@/app/_components/table/tablePagination";
 import { table } from "@/utils/contents/dummy/table";
-import { FiMoreHorizontal } from "react-icons/fi";
 import React, { useState } from "react";
 import Image from "../../../../../node_modules/next/image";
 import ServiceDetails from "../components/service_details";
@@ -57,7 +57,7 @@ const PendingService = () => {
                 <h3>{_.date}</h3>
               </td>
               <td className={style}>
-              <Image
+                <Image
                   src="/images/icons/dashboard/table/more.svg"
                   width={32}
                   height={11}
@@ -71,7 +71,7 @@ const PendingService = () => {
       </DefaultTable>
       <TablePagination />
       <Modal isOpen={isModalOpen} onClose={closeModal}>
-        <ServiceDetails/>
+        <ServiceDetails />
       </Modal>
     </div>
   );
