@@ -1,21 +1,25 @@
-import React from "react";
+"use client"
+
+import React, { useRef, useState, useEffect } from "react";
 import { SlCalender } from "react-icons/sl";
 import { BiBell } from "react-icons/bi";
 import moment from "moment";
+import NotificationModal from "./components/notification_modal";
 
-const DashboaradHeader = ({
-  title,
-  quantity,
-}: {
-  title: any;
-  quantity: any;
-}) => {
+interface DashboaradHeaderProps {
+  title: string;
+  quantity?: string;
+}
+
+const DashboaradHeader: React.FC<DashboaradHeaderProps> = ({ title, quantity }) => {
+  
+
   return (
     <div
-      className="flex justify-between "
+      className="flex justify-between"
       style={{
         borderBottom: "1px solid #EDEFF5",
-        padding: "1em ",
+        padding: "1em",
       }}
     >
       <div className="flex items-left gap-5">
@@ -29,9 +33,7 @@ const DashboaradHeader = ({
           <p className="font-400">{moment().format("DD MM YYYY")}</p>
         </div>
 
-        <div className="bg-gray-100  w-[3em] h-[3em] flex items-center justify-center rounded-full ">
-          <BiBell size={"1.5em"} />
-        </div>
+        <NotificationModal/>
 
         <div className="flex gap-2 items-center">
           <div className="w-[41px] h-[41px] rounded-full bg-gray-500"></div>

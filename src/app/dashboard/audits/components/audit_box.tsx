@@ -10,7 +10,7 @@ const arrow_with_bar = (
     xmlns="http://www.w3.org/2000/svg"
   >
     <path
-      fill-rule="evenodd"
+      fillRule="evenodd"
       clip-rule="evenodd"
       d="M14.2002 13.9004L15.7002 14.8004L14.2002 15.7004V13.9004Z"
       fill="#2E2E2E"
@@ -25,13 +25,13 @@ const arrow_with_bar = (
     />
     <path
       opacity="0.2"
-      fill-rule="evenodd"
+      fillRule="evenodd"
       clip-rule="evenodd"
       d="M3 6C4.65685 6 6 4.65685 6 3C6 1.34315 4.65685 0 3 0C1.34315 0 0 1.34315 0 3C0 4.65685 1.34315 6 3 6Z"
       fill="#2E2E2E"
     />
     <path
-      fill-rule="evenodd"
+      fillRule="evenodd"
       clip-rule="evenodd"
       d="M3.0002 4.79922C3.99431 4.79922 4.8002 3.99333 4.8002 2.99922C4.8002 2.00511 3.99431 1.19922 3.0002 1.19922C2.00608 1.19922 1.2002 2.00511 1.2002 2.99922C1.2002 3.99333 2.00608 4.79922 3.0002 4.79922Z"
       fill="#2E2E2E"
