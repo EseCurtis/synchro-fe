@@ -6,7 +6,7 @@ import { table } from "@/utils/contents/dummy/table";
 import React, { useState } from "react";
 import Image from "../../../../../node_modules/next/image";
 import Modal from "@/app/_components/popups/modal";
-import VenueDetails from "./components/venue_details";
+import VenueDetails from "../components/venue_details";
 
 const header = [
   "Venue ",
