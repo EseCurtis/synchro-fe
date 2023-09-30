@@ -1,3 +1,4 @@
+"use client";
 import DashboardAction from "@/app/_components/dashboard/dashboardAction";
 import DefaultTable from "@/app/_components/table/defaultTable";
 import TablePagination from "@/app/_components/table/tablePagination";
@@ -6,7 +7,6 @@ import React, { useState } from "react";
 import Image from "../../../../../node_modules/next/image";
 import Modal from "@/app/_components/popups/modal";
 import VenueDetails from "./components/venue_details";
-
 
 const header = [
   "Venue ",
@@ -73,7 +73,7 @@ const ApprovedVenues = () => {
       <TablePagination />
 
       <Modal isOpen={isModalOpen} onClose={closeModal}>
-        <VenueDetails/>
+        <VenueDetails />
       </Modal>
     </div>
   );

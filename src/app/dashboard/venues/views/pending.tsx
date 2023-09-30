@@ -1,3 +1,4 @@
+"use client";
 import DashboardAction from "@/app/_components/dashboard/dashboardAction";
 import DefaultTable from "@/app/_components/table/defaultTable";
 import TablePagination from "@/app/_components/table/tablePagination";
@@ -72,7 +73,7 @@ const PendingVenues = () => {
       <TablePagination />
 
       <Modal isOpen={isModalOpen} onClose={closeModal}>
-        <VenueDetails/>
+        <VenueDetails />
       </Modal>
     </div>
   );

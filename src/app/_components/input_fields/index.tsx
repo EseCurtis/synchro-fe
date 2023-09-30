@@ -7,17 +7,18 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-export const CurrencyInput: React.FC<InputProps> = ({ name, label, onChange, ...rest }) => {
+export const CurrencyInput: React.FC<InputProps> = ({
+  name,
+  label,
+  onChange,
+  ...rest
+}) => {
   return (
     <div className="my-[15px]">
       <div>
         <label>{label}</label>
       </div>
-      <CurrencyConverter 
-        name={name}
-        onChange={onChange}
-        {...rest}
-      />
+      <CurrencyConverter name={name} onChange={onChange} {...rest} />
     </div>
   );
 };
@@ -26,12 +27,12 @@ const Input: React.FC<InputProps> = ({ name, label, onChange, ...rest }) => {
   return (
     <div className="my-[15px]">
       <div>
-        <label>{label}</label>
+        <label htmlFor={rest.id}>{label}</label>
       </div>
       <input
         name={name}
         onChange={onChange}
-        className=" my-[5px] px-[39px]  h-[48px] rounded-md w-[100%] sm:w-[461px]  outline-none  "
+        className="my-[5px] px-[16px]  h-[48px] rounded-md w-[100%] outline-none  "
         style={{
           border: "1px solid #DDE2E5",
         }}
