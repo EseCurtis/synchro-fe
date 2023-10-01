@@ -112,7 +112,7 @@ const DashboardIndex = () => {
                     className="font-bold "
                     style={{
                       fontSize: "24px",
-                      fontWeight: "700",
+                      // fontWeight: "700",
                     }}
                   >
                     {formatNumber(items.amount)}

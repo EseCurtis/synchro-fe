@@ -19,3 +19,9 @@
 
 body {
 }
+
+@layer components {
+  .spinner {
+    @apply h-5 w-5 animate-spin;
+  }
+}
