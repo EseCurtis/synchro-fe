@@ -40,7 +40,7 @@ const ServiceDetails = () => {
     <div>
       <div className="font-bold text-center">Services details</div>
       <div
-        className={`mt-5 p-5 overflow-y-scroll h-[55vh] ${customStyles.customScrollbar}`}
+        className={`mt-5 p-5 overflow-y-scroll max-h-[70vh] ${customStyles.customScrollbar}`}
       >
         <div className="bg-gray-300 rounded w-[100%] h-[100px] relative">
           <div className="bg-gray-500 rounded-full w-[70px] h-[70px] absolute right-[1em] bottom-[-30%] border border-[2px] border-white"></div>
@@ -109,15 +109,6 @@ const ServiceDetails = () => {
         </div>
 
         {tabContent}
-      </div>
-      <div className="mt-5 flex gap-4 items-center">
-        <Button>Suspend host</Button>
-        <Button
-          style={{ background: "white", color: "red" }}
-          customClassName="text-red-500 border border-2 border-red-500"
-        >
-          Resolve
-        </Button>
       </div>
     </div>
   );

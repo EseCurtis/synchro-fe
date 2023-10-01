@@ -1,4 +1,5 @@
-"use strict";
+"use client";
+
 import { FC, ReactNode } from "react";
 import DashboaradHeader from "../_components/dashboard/dashboardHeader";
 import DashboardBoardSidebar from "../_components/dashboard/dashboardSidebar";
