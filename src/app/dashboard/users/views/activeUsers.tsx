@@ -10,6 +10,8 @@ import Dropdown from "@/app/_components/popups/dropDown";
 import { useState } from "react";
 import Modal from "@/app/_components/popups/modal";
 import ViewSuspended from "../components/viewSuspended";
+import SuspendUser from "../components/suspendUser";
+import RemoveUser from "../components/removeUser";
 
 const header = [
   "Fullname ",
@@ -18,27 +20,31 @@ const header = [
   "Phone Number",
   "Last Active",
 ];
+
 const style = "px-6 py-4 whitespace-no-wrap border-b border-gray-300";
 const ActiveUsers = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalContent, setModalContent] = useState(<ViewSuspended />);
 
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
 
-  const openModal = () => {
+  const openModal = (content: any = <ViewSuspended />) => {
+    setModalContent(content)
     setIsModalOpen(true);
   };
 
   const closeModal = () => {
+    setModalContent(<ViewSuspended />)
     setIsModalOpen(false);
   };
 
   const dropDownData = [
     {
       title: (
-        <p className="text-[#041549]" onClick={openModal}>
+        <p className="text-[#041549]" onClick={() => openModal(<ViewSuspended />)}>
           View User
         </p>
       ),
@@ -65,7 +71,7 @@ const ActiveUsers = () => {
       ),
     },
     {
-      title: <p className="text-[#F2994A]">Suspend User</p>,
+      title: <p className="text-[#F2994A]" onClick={() => openModal(<SuspendUser/>)}>Suspend User</p>,
       icon: (
         <svg
           width="16"
@@ -87,7 +93,7 @@ const ActiveUsers = () => {
       ),
     },
     {
-      title: <p className="text-[#EB0000]">Delete User</p>,
+      title: <p className="text-[#EB0000]" onClick={() => openModal(<RemoveUser/>)}>Delete User</p>,
       icon: (
         <svg
           width="16"
@@ -117,6 +123,7 @@ const ActiveUsers = () => {
       ),
     },
   ];
+
   return (
     <div>
       <DashboardAction />
@@ -177,7 +184,7 @@ const ActiveUsers = () => {
       <TablePagination />
 
       <Modal isOpen={isModalOpen} onClose={closeModal}>
-        <ViewSuspended />
+        <div>{modalContent}</div>
       </Modal>
     </div>
   );

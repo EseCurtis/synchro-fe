@@ -10,7 +10,7 @@ interface IEventStat {
 const EventStat: FC<IEventStat> = ({ title, amount, icon }) => {
   return (
     <div>
-      <div className="flex h-[67px] gap-4 items-center  w-[250px]">
+      <div className="flex h-[67px] gap-4 items-center mb-5 w-[250px]">
         <div>{icon}</div>
         <div>
           <p className="text-second_primary_text">{title}</p>

@@ -1,3 +1,5 @@
+"use client";
+
 import React, { Fragment } from "react";
 import UserStat from "../components/userStat";
 import DefaultTable from "@/app/_components/table/defaultTable";
@@ -7,6 +9,9 @@ import Image from "next/image";
 import DashboardAction from "@/app/_components/dashboard/dashboardAction";
 import EventStat from "../components/userEventStat";
 import { venueViewData } from "../contents";
+import { useState } from "react";
+import Modal from "@/app/_components/popups/modal";
+import VenueDetails from "../components/user/venue_details";
 
 const header = [
   "Full Name",
@@ -17,9 +22,19 @@ const header = [
 ];
 
 const ViewUserVenues = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
   return (
     <div>
-      <div className="flex gap-5 my-[4em]">
+      <div className="flex gap-5 my-[4em] flex-wrap">
         {venueViewData.map((_, index) => (
           <Fragment key={index}>
             <EventStat icon={_.icon} title={_.title} amount={_.amount} />
@@ -61,12 +76,17 @@ const ViewUserVenues = () => {
                     width={32}
                     height={11}
                     alt=""
+                    onClick={openModal}
                   />
                 </td>
               </tr>
             );
           })}
         </DefaultTable>
+
+        <Modal isOpen={isModalOpen} onClose={closeModal}>
+          <VenueDetails />
+        </Modal>
       </div>
     </div>
   );

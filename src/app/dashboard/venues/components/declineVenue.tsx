@@ -29,7 +29,7 @@ const DeclineVenue = () => {
     <div>
       <h3 className="font-bold flex gap-2">{declineIcon} Decline Venue</h3>
       <div className="form items-left mt-4">
-        <p>Are you sure you want to decline <b>Jake`s Birthday Party event?</b></p>
+        <p>Are you sure you want to decline <b>Jake`s Birthday Party venue?</b></p>
       </div>
       <Input placeholder="Enter reasons" name="reasons" label="Reasons for declining"/>
     </div>
