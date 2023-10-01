@@ -15,7 +15,7 @@ const DashboardBoardSidebar = () => {
 
   return (
     <div
-      className="  w-[260px] py-5 px-5  h-[100vh] "
+      className="w-full py-5 px-5  h-[100vh] "
       style={{
         borderRight: "1px solid #CED3E4",
         backgroundImage: "url(/images/background/sidebar.png)",

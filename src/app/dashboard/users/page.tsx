@@ -1,3 +1,4 @@
+"use strict";
 import TabComponent from "@/app/_components/tab";
 import DashboardLayout from "@/app/layouts/dashboardLayout";
 import React from "react";
