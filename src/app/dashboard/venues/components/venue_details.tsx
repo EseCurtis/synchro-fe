@@ -134,28 +134,9 @@ const VenueDetails = () => {
                 </div>
               </div>
             </div>
-
-            <div className="text-center mt-7">
-              <h3 className="font-bold">Show more details</h3>
-            </div>
           </div>
         </>
       )}
-
-      <div className="mt-5 flex gap-4 items-center">
-        <Button
-          onClick={() => setDeclineIsOpen(!declineIsOpen)}
-          style={{ background: "red" }}
-        >
-          Decline
-        </Button>
-        <Button
-          style={{ background: "white", color: "red" }}
-          customClassName="text-red-500 border border-2 border-red-500"
-        >
-          Cancel
-        </Button>
-      </div>
     </div>
   );
 };

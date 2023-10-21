@@ -9,7 +9,7 @@ import ServicesReports from "./views/servicesReport";
 
 const data = [
   {
-    header: "Users",
+    header: "User",
     component: <UsersReport />,
   },
   {
@@ -17,13 +17,13 @@ const data = [
     component: <EventsReports />,
   },
   {
-    header: "Venues ",
+    header: "Feeds ",
     component: <VenuesReport />,
   },
-  {
-    header: "Services ",
-    component: <ServicesReports />,
-  },
+  // {
+  //   header: "Services ",
+  //   component: <ServicesReports />,
+  // },
 ];
 const ReportIssues = () => {
   return (

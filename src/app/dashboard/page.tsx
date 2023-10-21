@@ -126,7 +126,7 @@ const DashboardIndex = () => {
 
       <div className="flex justify-between gap-[20px]">
         <div
-          className="w-[50%] h-[250px] rounded-lg p-[16px] "
+          className="w-[50%] rounded-lg p-[16px] "
           style={{
             border: "1px solid #EDEFF5",
           }}
@@ -140,7 +140,7 @@ const DashboardIndex = () => {
 
         {/* gender  */}
         <div
-          className="w-[50%] h-[250px] rounded-lg p-[16px] "
+          className="w-[50%] rounded-lg p-[16px] "
           style={{
             border: "1px solid #EDEFF5",
           }}
@@ -156,7 +156,7 @@ const DashboardIndex = () => {
 
       {/* Transaction graph */}
       <div
-        className="w-full h-[250px] my-5 rounded-lg p-[16px] mt-[4em]"
+        className="w-full my-5 rounded-lg p-[16px] mt-[4em]"
         style={{
           border: "1px solid #EDEFF5",
         }}

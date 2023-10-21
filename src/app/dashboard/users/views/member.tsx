@@ -1,6 +1,16 @@
+import { useTQuery } from "@/hooks/api/useTQuery";
+import { useParams } from "next/navigation";
 import React from "react";
 
 const MembersView = () => {
+  const params = useParams();
+  const id = params.id;
+
+  const { data: userDetails } = useTQuery({
+    url: `/user/admin/users/${id}`,
+    queryKey: ["users", String(id)],
+  });
+
   return (
     <>
       <div>

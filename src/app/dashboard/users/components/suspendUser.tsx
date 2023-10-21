@@ -1,6 +1,10 @@
+import { AppToast } from "@/app/_components/AppToast";
 import { Button } from "@/app/_components/button";
 import Input from "@/app/_components/input_fields";
-import React from "react";
+import { useTMutation } from "@/hooks/api/useTMutation";
+import { useQueryClient } from "@tanstack/react-query";
+import React, { useState } from "react";
+import { toast } from "react-toastify";
 
 const suspendIcon = (
   <svg
@@ -24,39 +28,69 @@ const suspendIcon = (
   </svg>
 );
 
-const SuspendUser = () => {
+const SuspendUser = ({ user }: { user: any }) => {
+  const client = useQueryClient();
+
+  const { mutate, isLoading } = useTMutation({
+    url: `/user/admin/users/suspend`,
+    method: "post",
+    options: {
+      onSuccess() {
+        toast(<AppToast>User suspended successfully</AppToast>);
+        // client.invalidateQueries(["users"]);
+        window.location.reload();
+      },
+    },
+  });
+
+  const [reason, setReason] = useState("");
+
   return (
     <>
-      <div>
-        <h3 className="font-bold flex gap-2">{suspendIcon} Suspend User</h3>
-        <div className="form items-left mt-4">
-          <p>
-            Are you sure you want to suspend <b>Courtney Henry?</b> They will be
-            restricted from using the system.
-          </p>
+      <div className="flex flex-col gap-4">
+        <div>
+          <h3 className="font-bold flex gap-2">{suspendIcon} Suspend User</h3>
+
+          <div className="form items-left mt-4">
+            <p>
+              Are you sure you want to suspend <b>{user?.username}?</b> They
+              will be restricted from using the system.
+            </p>
+          </div>
         </div>
-        <Input
-          placeholder="Select option"
-          name="reasons"
-          label="Reasons for suspension"
-        />
-        <Input
-          placeholder="Enter reasons"
-          name="reasons"
-          label="Suspension notes"
-        />
-        <Input
-          placeholder="Select option"
-          name="reasons"
-          label="Suspension duration"
-        />
+
+        <div className="flex flex-col gap-1">
+          <Input
+            placeholder="Select option"
+            name="reasons"
+            label="Reasons for suspension"
+            onChange={(e) => {
+              setReason(e.target.value);
+            }}
+          />
+
+          <Input
+            placeholder="Select option"
+            name="reasons"
+            label="Suspension duration"
+            type="datetime-local"
+          />
+        </div>
       </div>
       <div className="mt-5 flex gap-4 items-center">
         <Button
           style={{ background: "#fac000" }}
+          isLoading={isLoading}
+          onClick={() => {
+            mutate({
+              userId: user?.id,
+              reason: reason,
+            });
+          }}
         >
           Suspend
         </Button>
+
         <Button
           style={{ background: "white", color: "red" }}
           customClassName="text-red-500 border border-2 border-red-500"

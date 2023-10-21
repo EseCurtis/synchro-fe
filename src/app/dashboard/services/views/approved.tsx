@@ -8,6 +8,8 @@ import React, { useState } from "react";
 import Image from "../../../../../node_modules/next/image";
 import Modal from "@/app/_components/popups/modal";
 import ServiceDetails from "../components/service_details";
+import { useTQuery } from "@/hooks/api/useTQuery";
+import moment from "moment";
 
 const header = [
   "Services ",
@@ -28,34 +30,36 @@ const ApprovedServices = () => {
   const closeModal = () => {
     setIsModalOpen(false);
   };
+  const { data } = useTQuery({
+    url: "/service/for-admin?status=rejected&page=1&limit=10",
+    queryKey: ["venues", "rejected-venues"],
+  });
+
+  // @ts-ignore
+  const services = data?.data?.data;
+
   return (
     <div>
       <DashboardAction />
       {/* @ts-ignore */}
       <DefaultTable header={header}>
-        {table?.map((_, key: number) => {
+        {services?.map((_: any, key: number) => {
           return (
             <tr key={key}>
               <td className={style}>
-                <div className="flex gap-5 items-center">
-                  <div className="w-[3em] h-[3em] bg-gray-500 rounded-md"></div>
-                  <div>
-                    <h3>{_.name}</h3>
-                    <p className="text-second_primary_text">{_.email}</p>
-                  </div>
-                </div>
+                <h3>{_.name}</h3>
               </td>
               <td className={style}>
-                <h3 className="underline">{_.location}</h3>
+                <h3>{_.address}</h3>
               </td>
               <td className={style}>
-                <h3>$120</h3>
+                <h3>{_?.packages?.length} Packages</h3>
               </td>
               <td className={style}>
-                <h3>$12,452</h3>
+                <h3>{_?.totalRatings}</h3>
               </td>
               <td className={style}>
-                <h3>{_.date}</h3>
+                <h3>{moment(_?.createdAt).format("MMM DD YYYY")}</h3>
               </td>
               <td className={style}>
                 <Image
@@ -70,7 +74,12 @@ const ApprovedServices = () => {
           );
         })}
       </DefaultTable>
-      <TablePagination />
+
+      {services?.length > 0 ? (
+        <TablePagination />
+      ) : (
+        <p className="pt-4 text-center">No data to display</p>
+      )}
 
       <Modal isOpen={isModalOpen} onClose={closeModal}>
         <ServiceDetails />

@@ -33,6 +33,10 @@ export type User = {
   totalEarning: number;
   totalWithdrawal: number;
   city: string;
+  name: string;
+  profileImage: string;
+  userRole: string;
+  createdAt: Date;
 };
 
 interface AuthContextType {
@@ -76,7 +80,7 @@ export function AuthProvider({ children }: PropsWithChildren<{}>) {
 
   const { mutate: getCurrentUser } = useGetUserWithoutContext({
     onSuccess(res) {
-      setUser(res);
+      setUser(res?.data);
       setLoading(false);
       if (pathname === "/") {
         push("/dashboard");

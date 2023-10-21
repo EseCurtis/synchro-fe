@@ -7,12 +7,15 @@ import React from "react";
 import Modal from "@/app/_components/popups/modal";
 import { useState } from "react";
 import ViewSuspended from "../components/viewSuspended";
+import { useTQuery } from "@/hooks/api/useTQuery";
+import { Spinner } from "@/app/_components/spinner/Spinner";
+import moment from "moment";
 
 const header = [
   "Fullname ",
   "Username",
-  "Reasons",
-  "Duration",
+  // "Reasons",
+  // "Duration",
   "Date Suspended",
 ];
 
@@ -39,47 +42,74 @@ const suspend_Icon = (
 
 const SuspendedUsers = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const openModal = () => {
-    setIsModalOpen(true);
-  };
+  const [activeUser, setActiveUser] = useState({});
 
   const closeModal = () => {
     setIsModalOpen(false);
   };
+
+  const [data, setData] = useState<any[]>([]);
+
+  const { isLoading, isRefetching } = useTQuery({
+    url: "/user/admin/users?suspended=true",
+    queryKey: ["users", "suspended-users"],
+    options: {
+      onSuccess(res) {
+        setData([...data, ...res?.data?.data]);
+      },
+    },
+  });
+
+  if (isLoading) {
+    return <Spinner />;
+  }
+
+  if (data.length < 1) {
+    return <p>No Data to show</p>;
+  }
 
   return (
     <div>
       <DashboardAction />
       {/* @ts-ignore */}
       <DefaultTable header={header}>
-        {table?.map((_, key: number) => {
+        {data?.map((_, key: number) => {
           return (
             <tr key={key}>
               <td className={style}>
                 <div className="flex gap-5 items-center">
-                  <div className="w-[3em] h-[3em] bg-gray-500 rounded-full"></div>
+                  {_?.profileImage ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
+                      src={_?.profileImage}
+                      className="w-[3em] h-[3em] bg-gray-500 rounded-full"
+                      alt=""
+                    />
+                  ) : (
+                    <div className="w-[3em] h-[3em] bg-gray-500 rounded-full"></div>
+                  )}
                   <div>
-                    <h3>{_.name}</h3>
+                    <h3>{_?.firstName ?? _?.username}</h3>
                     <p className="text-second_primary_text">{_.email}</p>
                   </div>
                 </div>
               </td>
               <td className={style}>
-                <h3>{_.name}</h3>
+                <h3>{_.username}</h3>
               </td>
               <td className={style}>
-                <h3>{_.gender}</h3>
-              </td>
-              <td className={style}>
-                <h3>{_.number}</h3>
-              </td>
-              <td className={style}>
-                <h3>{_.date}</h3>
+                <h3>{moment(_?.updatedAt).format("MMM DD YYYY")}</h3>
               </td>
 
               <td className={style}>
-                <h3 onClick={openModal}>{suspend_Icon}</h3>
+                <h3
+                  onClick={() => {
+                    setIsModalOpen(true);
+                    setActiveUser(_);
+                  }}
+                >
+                  {suspend_Icon}
+                </h3>
               </td>
             </tr>
           );
@@ -88,7 +118,7 @@ const SuspendedUsers = () => {
       <TablePagination />
 
       <Modal isOpen={isModalOpen} onClose={closeModal}>
-        <ViewSuspended />
+        <ViewSuspended user={activeUser} />
       </Modal>
     </div>
   );

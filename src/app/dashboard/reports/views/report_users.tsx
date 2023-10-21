@@ -9,6 +9,7 @@ import Image from "../../../../../node_modules/next/image";
 import Dropdown from "@/app/_components/popups/dropDown";
 import Modal from "@/app/_components/popups/modal";
 import UserDetails from "../components/user_details";
+import { useTQuery } from "@/hooks/api/useTQuery";
 
 const header = [
   "Fullname Name ",
@@ -29,12 +30,20 @@ const UsersReport = () => {
     setIsModalOpen(false);
   };
 
+  const { data } = useTQuery({
+    url: "/report/for-admin?type=feed&page=1&limit=10",
+    queryKey: ["venues", "user-report"],
+  });
+
+  // @ts-ignore
+  const reports = data?.data?.data;
+
   return (
     <div>
       <DashboardAction />
       {/* @ts-ignore */}
       <DefaultTable header={header}>
-        {table?.map((_, key: number) => {
+        {reports?.map((_: any, key: number) => {
           return (
             <tr key={key}>
               <td className={style}>

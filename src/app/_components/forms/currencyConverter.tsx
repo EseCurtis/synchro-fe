@@ -1,30 +1,35 @@
 "use client";
 
-import React, { useState, InputHTMLAttributes } from 'react';
+import React, { useState, InputHTMLAttributes } from "react";
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
-    name: string;
-    label?: string;
-    onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  name: string;
+  label?: string;
+  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-const CurrencyConverter: React.FC<InputProps> = ({ name, label, onChange, ...rest }) => {
-  const [amount, setAmount] = useState<any | ''>('');
-  const [selectedCurrency, setSelectedCurrency] = useState<string>('USD');
+const CurrencyConverter: React.FC<InputProps> = ({
+  name,
+  label,
+  onChange,
+  ...rest
+}) => {
+  const [amount, setAmount] = useState<any | "">("");
+  const [selectedCurrency, setSelectedCurrency] = useState<string>("USD");
 
   const handleAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     // Validate that the value is a number or an empty string (for clearing the field)
-    if (/^\d*\.?\d*$/.test(value) || value === '') {
+    if (/^\d*\.?\d*$/.test(value) || value === "") {
       // Use parseFloat to convert the value to a number or NaN
       const numericValue = parseFloat(value);
       // Check if it's a valid number or NaN
-      if (!isNaN(numericValue) || value === '') {
+      if (!isNaN(numericValue) || value === "") {
         setAmount(value);
+        onChange && onChange(e);
       }
     }
   };
-  
 
   const handleCurrencyChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedCurrency(e.target.value);

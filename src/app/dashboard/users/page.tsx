@@ -15,10 +15,10 @@ const data = [
     header: "Suspended Users",
     component: <SuspendedUsers />,
   },
-  {
-    header: "Deleted Users",
-    component: <DeletedUsers />,
-  },
+  // {
+  //   header: "Deleted Users",
+  //   component: <DeletedUsers />,
+  // },
 ];
 
 const Users = () => {

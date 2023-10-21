@@ -1,12 +1,20 @@
+"use client";
+import { useAuthContext } from "@/contexts/AuthContext";
+import moment from "moment";
 import React from "react";
 
 const ProfileInfo = () => {
+  const { user } = useAuthContext();
+
   return (
     <div>
-      <div className="rounded-full w-[80px] h-[80px] bg-gray-500"></div>
+      <img
+        src={user?.avatar}
+        className="rounded-full w-[80px] h-[80px] bg-gray-500 object-cover"
+      ></img>
       <div className="my-3">
-        <h3 className=" font-bold">Barbara Haley II</h3>
-        <p className=" text-text_primary">Greyson_Crooks22@hotmail.com</p>
+        <h3 className=" font-bold">{user?.name ?? user?.username}</h3>
+        <p className=" text-text_primary">{user?.email}</p>
       </div>
 
       <div className="my-10">
@@ -18,14 +26,19 @@ const ProfileInfo = () => {
             <h4 className="text-[#5D6D73]">Email address</h4>
             <h4 className="text-[#5D6D73]">Role</h4>
             <h4 className="text-[#5D6D73]">Date added</h4>
-            <h4 className="text-[#5D6D73]">Password</h4>
           </div>
           <div className="flex flex-col gap-8">
-            <h4 className="text-black font-bold">Barbara Haley II</h4>
-            <h4 className="text-black font-bold">Greyson_Crooks22@hotmail.com</h4>
-            <h4 className="text-black font-bold">Super Admin</h4>
-            <h4 className="text-black font-bold">May 3rd, 1993</h4>
-            <h4 className="text-black font-bold">    </h4>
+            <h4 className="text-black font-bold">
+              {user?.name ?? user?.username}
+            </h4>
+            <h4 className="text-black font-bold">{user?.email}</h4>
+            <h4 className="text-black font-bold capitalize">
+              {user?.userRole}
+            </h4>
+            <h4 className="text-black font-bold">
+              {moment(user?.createdAt).format("MMM DD YYYY")}
+            </h4>
+            <h4 className="text-black font-bold"> </h4>
           </div>
         </div>
 

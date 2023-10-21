@@ -7,15 +7,14 @@ import React, { useState } from "react";
 import Image from "../../../../../node_modules/next/image";
 import Modal from "@/app/_components/popups/modal";
 import VenueDetails from "../components/venue_details";
+import { useTQuery } from "@/hooks/api/useTQuery";
+import moment from "moment";
+import Link from "next/link";
+import { Spinner } from "@/app/_components/spinner/Spinner";
+import { useTMutation } from "@/hooks/api/useTMutation";
+import { useQueryClient } from "@tanstack/react-query";
 
-const header = [
-  "Venue ",
-  "Location",
-  "Price",
-  "Total Earned",
-  "Date Created",
-  "",
-];
+const header = ["Venue ", "User", "Location", "Type", "Date Created", ""];
 
 const style = "px-6 py-4 whitespace-no-wrap border-b border-gray-300";
 const PendingVenues = () => {
@@ -28,49 +27,96 @@ const PendingVenues = () => {
   const closeModal = () => {
     setIsModalOpen(false);
   };
+
+  const client = useQueryClient();
+
+  const { data } = useTQuery({
+    url: "/venue/for-admin?status=pending&page=1&limit=10",
+    queryKey: ["venues", "pending-venues"],
+  });
+
+  // @ts-ignore
+  const venue = data?.data?.data;
+
+  const { isLoading, mutate } = useTMutation({
+    url: "/venue/admin/update-status",
+    method: "put",
+    options: {
+      onSuccess() {
+        client.invalidateQueries(["venues"]);
+      },
+    },
+  });
+
   return (
     <div>
       <DashboardAction />
       {/* @ts-ignore */}
       <DefaultTable header={header}>
-        {table?.map((_, key: number) => {
+        {venue?.map((_: any, key: number) => {
           return (
             <tr key={key}>
               <td className={style}>
-                <div className="flex gap-5 items-center">
-                  <div className="w-[3em] h-[3em] bg-gray-500 rounded-full"></div>
-                  <div>
-                    <h3>{_.name}</h3>
-                    <p className="text-second_primary_text">{_.email}</p>
-                  </div>
+                <h3>{_.name}</h3>
+              </td>
+              <td className={style}>
+                <Link href={`/dashboard/users/${_?.user?.id}`}>
+                  <h3 className="underline">{_?.user?.username}</h3>
+                </Link>
+              </td>
+              <td className={style}>
+                <h3 className="w-[300px]">{_.address}</h3>
+              </td>
+              <td className={style}>
+                <h3>{_?.type}</h3>
+              </td>
+              <td className={style}>
+                <h3>{moment(_?.createdAt).format("MMM DD YYYY")}</h3>
+              </td>
+              <td className={style}>
+                <div>
+                  {isLoading ? (
+                    <Spinner />
+                  ) : (
+                    <div className="flex items-center justify-space-around">
+                      <button
+                        onClick={() => {
+                          mutate({ eventId: _?.id, status: "approved" });
+                        }}
+                      >
+                        <Image
+                          src="/images/icons/dashboard/table/tick.svg"
+                          width={80}
+                          height={80}
+                          alt=""
+                        />
+                      </button>
+
+                      <button
+                        onClick={() => {
+                          mutate({ eventId: _?.id, status: "rejected" });
+                        }}
+                      >
+                        <Image
+                          src="/images/icons/dashboard/table/times.svg"
+                          width={80}
+                          height={80}
+                          alt=""
+                        />
+                      </button>
+                    </div>
+                  )}
                 </div>
-              </td>
-              <td className={style}>
-                <h3 className="underline">{_.location}</h3>
-              </td>
-              <td className={style}>
-                <h3>$120</h3>
-              </td>
-              <td className={style}>
-                <h3>$12,452</h3>
-              </td>
-              <td className={style}>
-                <h3>{_.date}</h3>
-              </td>
-              <td className={style}>
-                <Image
-                  src="/images/icons/dashboard/table/more.svg"
-                  width={32}
-                  height={11}
-                  alt=""
-                  onClick={openModal}
-                />
               </td>
             </tr>
           );
         })}
       </DefaultTable>
-      <TablePagination />
+      {venue?.length > 0 ? (
+        <TablePagination />
+      ) : (
+        <p className="pt-4 text-center">No data to display</p>
+      )}
 
       <Modal isOpen={isModalOpen} onClose={closeModal}>
         <VenueDetails />

@@ -2,8 +2,22 @@ import { Button } from "@/app/_components/button";
 import React from "react";
 import { SecondaryButton } from "@/app/_components/button/secondaryButton";
 import Link from "next/link";
+import moment from "moment";
+import { useTMutation } from "@/hooks/api/useTMutation";
+import { toast } from "react-toastify";
+import { AppToast } from "@/app/_components/AppToast";
 
-const ViewSuspended = () => {
+const ViewSuspended = ({ user, onClose }: { user: any; onClose?: any }) => {
+  const { mutate, isLoading } = useTMutation({
+    url: `/user/admin/users/activate`,
+    method: "post",
+    options: {
+      onSuccess() {
+        toast(<AppToast>User account activated successfully</AppToast>);
+      },
+    },
+  });
+
   return (
     <div>
       <div className="flex justify-center">
@@ -13,11 +27,11 @@ const ViewSuspended = () => {
         <div className="  my-3 mx-auto bg-slate-500 w-[84px] h-[84px] rounded-full"></div>
 
         <div>
-          <h3>Auer and Sons</h3>
-          <p className="text-[#777E90] text-[13px]">Tara_Mante99</p>
+          <h3>{user?.name}</h3>
+          <p className="text-[#777E90] text-[13px]">@{user?.username}</p>
         </div>
         {/* Replace the id with the user id from databse here */}
-        <Link href={"/dashboard/users/id"}>
+        <Link href={`/dashboard/users/${user?.id}`}>
           <div className="bg-gray-300 text-[13px] cursor-pointer w-[fit-content] py-[.6em] my-[1em] rounded-full px-5 mx-auto ">
             View full profile
           </div>
@@ -35,23 +49,33 @@ const ViewSuspended = () => {
         </div>
 
         <div className="flex flex-col gap-5 text-right">
-          <h4 className="text-black text-sm font-bold">08012345678</h4>
           <h4 className="text-black text-sm font-bold">
-            Jessica.hanson@example.com
+            {user?.phone ?? "N/A"}
           </h4>
-          <h4 className="text-black text-sm font-bold">1,320 users</h4>
           <h4 className="text-black text-sm font-bold">
-            Lorem ipsum dolor sit amet.
+            {user?.email ?? "N/A"}
+          </h4>
+          <h4 className="text-black text-sm font-bold">
+            {user?.followerCount ?? 0} users
+          </h4>
+          <h4 className="text-black text-sm font-bold">
+            {user?.suspendReason ?? "N/A"}
           </h4>
           <h4 className="text-black text-sm font-bold">Ese Curtis</h4>
           <h4 className="text-black text-sm font-bold">
-            11:32pm, May 3rd, 2021
+            {moment(user?.updatedAt).format("MMM DD YYYY")}
           </h4>
         </div>
       </div>
+
       <div className="mt-7 flex gap-4 items-center">
-        <Button>Activate User</Button>
-        <SecondaryButton>Cancel</SecondaryButton>
+        <Button
+          isLoading={isLoading}
+          onClick={() => mutate({ userId: user.id })}
+        >
+          Reactivate User
+        </Button>
+        <SecondaryButton onClick={onClose}>Cancel</SecondaryButton>
       </div>
     </div>
   );
