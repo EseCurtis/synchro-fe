@@ -98,7 +98,7 @@ const SuspendedUsers = () => {
                 <h3>{_.username}</h3>
               </td>
               <td className={style}>
-                <h3>{moment(_?.updatedAt).format("MMM DD YYYY")}</h3>
+                <h3>{moment().format("MMM DD YYYY")}</h3>
               </td>
 
               <td className={style}>

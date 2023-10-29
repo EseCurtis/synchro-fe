@@ -10,11 +10,13 @@ import Dropdown from "@/app/_components/popups/dropDown";
 import Modal from "@/app/_components/popups/modal";
 import UserDetails from "../components/user_details";
 import { useTQuery } from "@/hooks/api/useTQuery";
+import moment from "moment";
 
 const header = [
-  "Fullname Name ",
-  "Reported By",
+  // "Fullname Name ",
+  "Title",
   "Reasons",
+  "Image",
   "Date Reported",
   "",
 ];
@@ -46,7 +48,7 @@ const UsersReport = () => {
         {reports?.map((_: any, key: number) => {
           return (
             <tr key={key}>
-              <td className={style}>
+              {/* <td className={style}>
                 <div className="flex gap-5 items-center">
                   <div className="w-[3em] h-[3em] bg-gray-500 rounded-full"></div>
                   <div>
@@ -54,18 +56,20 @@ const UsersReport = () => {
                     <p className="text-second_primary_text">{_.email}</p>
                   </div>
                 </div>
+              </td> */}
+              <td className={style}>
+                <h3>{_.title}</h3>
               </td>
               <td className={style}>
-                <h3>{_.name}</h3>
+                <h3>{_.description}</h3>
               </td>
               <td className={style}>
-                <h3>{_.gender}</h3>
+                <h3 className="underline">
+                  <a href={_?.imageUrl}>Open Image</a>
+                </h3>
               </td>
               <td className={style}>
-                <h3>{_.number}</h3>
-              </td>
-              <td className={style}>
-                <h3>{_.date}</h3>
+                <h3>{moment(_?.createdAt).format("MMM DD YYYY")}</h3>
               </td>
               <td className={style}>
                 <Image
