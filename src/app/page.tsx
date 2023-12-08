@@ -16,7 +16,7 @@ export default function Home() {
     method: "post",
     options: {
       onSuccess: (data) => {
-        signin(data.data);
+        signin(data.data.token);
       },
     },
   });
