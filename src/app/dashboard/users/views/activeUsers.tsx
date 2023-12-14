@@ -111,7 +111,7 @@ const ActiveUsers = () => {
     ];
   };
 
-  const { isLoading, data, hasNextPage, fetchNextPage, isRefetching } =
+  const { isLoading, data, hasNextPage, fetchNextPage, isFetchingNextPage } =
     usePaginatedQuery({
       url: "/user/admin/users?suspended=false",
       queryKey: ["users", "active-users"],
@@ -192,7 +192,12 @@ const ActiveUsers = () => {
         })}
       </DefaultTable>
 
-      <TablePagination loading={isRefetching} onFetchMore={fetchNextPage} />
+      <TablePagination
+        loading={isFetchingNextPage}
+        onFetchMore={() => {
+          fetchNextPage();
+        }}
+      />
 
       <Modal isOpen={isModalOpen} onClose={closeModal}>
         <div>{modalContent}</div>

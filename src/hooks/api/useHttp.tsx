@@ -25,7 +25,7 @@ export default function useHttp({
       Accept: "application/json",
       "Content-Type": "application/json",
     },
-    baseURL: "https://env-0465672.dal.togglebox.site",
+    baseURL: process.env.NEXT_PUBLIC_API_URL,
     // withCredentials: true,
     timeout: 30 * 1000,
     ...config,

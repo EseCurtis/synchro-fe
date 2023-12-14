@@ -50,7 +50,8 @@ export function usePaginatedQuery<T>({
     // @ts-ignore
     {
       enabled,
-      getNextPageParam: (lastPage: any) => lastPage.nextPage || undefined, // Simplified getNextPageParam
+      getNextPageParam: (lastPage: any) =>
+        lastPage?.data?.nextPage || undefined, // Simplified getNextPageParam
       onError: (e: any) => {
         console.error(e.response.data); // Use console.error for errors
         handleError(e);

@@ -6,78 +6,92 @@ import { formatNumber } from "@/utils/formatNumber";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { Doughnut, Line } from "react-chartjs-2";
 import LineGraph from "../_components/charts/lineChart";
+import { useTQuery } from "@/hooks/api/useTQuery";
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-const contentData = [
-  {
-    title: "Total Users",
-    amount: 10990,
-    img: "/images/icons/dashboard/user.svg",
-  },
-  {
-    title: "Total Events",
-    amount: 2000,
-    img: "/images/icons/dashboard/calender_icon.svg",
-  },
-  {
-    title: "Total Venues",
-    amount: 90300,
-    img: "/images/icons/dashboard/building.svg",
-  },
-  {
-    title: "Total Services",
-    amount: 23000,
-    img: "/images/icons/dashboard/user_dollar.svg",
-  },
-];
-
-const data = {
-  labels: ["Male", "Female"],
-  datasets: [
-    {
-      data: [10, 50],
-      backgroundColor: ["#37C89A", "#FFCC00"],
-    },
-  ],
-};
-
-const config = {
-  type: "doughnut",
-  data: data,
-  options: {
-    responsive: true,
-    plugins: {
-      legend: {
-        position: "top",
-      },
-      title: {
-        display: true,
-        text: "Chart.js Doughnut Chart",
-      },
-    },
-  },
-};
-
-const lineData = {
-  labels: ["January", "February", "March", "April", "May"],
-  datasets: [
-    {
-      label: "Sample Line Data",
-      data: [10, 20, 15, 25, 30],
-      borderColor: "green",
-      backgroundColor: "rgba(0, 128, 0, 0.2)",
-    },
-  ],
-};
-const lineOptions = {
-  scales: {
-    x: {
-      type: "category",
-    },
-  },
-};
-
 const DashboardIndex = () => {
+  const { data } = useTQuery({
+    url: "/report/totals",
+    queryKey: ["totals"],
+  });
+
+  console.log(data?.data);
+
+  const contentData = [
+    {
+      title: "Total Users",
+      amount: data?.data?.users ?? 0,
+      img: "/images/icons/dashboard/user.svg",
+    },
+    {
+      title: "Total Events",
+      amount: data?.data?.events ?? 0,
+      img: "/images/icons/dashboard/calender_icon.svg",
+    },
+    {
+      title: "Total Venues",
+      amount: data?.data?.venues ?? 0,
+      img: "/images/icons/dashboard/building.svg",
+    },
+    {
+      title: "Total Services",
+      amount: data?.data?.services ?? 0,
+      img: "/images/icons/dashboard/user_dollar.svg",
+    },
+  ];
+
+  const genderData = {
+    labels: ["Male", "Female", "None"],
+    datasets: [
+      {
+        data: [
+          data?.data?.genderMetrics?.males?.toFixed(0) ?? 0,
+          data?.data?.genderMetrics?.females?.toFixed(0) ?? 0,
+          data?.data?.genderMetrics?.none?.toFixed(0) ?? 0,
+        ],
+        backgroundColor: ["#37C89A", "#FFCC00", "#E95E2A"],
+      },
+    ],
+  };
+
+  console.log(genderData.datasets);
+
+  const config = {
+    type: "doughnut",
+    data: genderData,
+    options: {
+      responsive: true,
+      plugins: {
+        legend: {
+          position: "top",
+        },
+        title: {
+          display: true,
+          text: "Chart.js Doughnut Chart",
+        },
+      },
+    },
+  };
+
+  const lineData = {
+    labels: ["January", "February", "March", "April", "May"],
+    datasets: [
+      {
+        label: "Sample Line Data",
+        data: [10, 20, 15, 25, 30],
+        borderColor: "green",
+        backgroundColor: "rgba(0, 128, 0, 0.2)",
+      },
+    ],
+  };
+  const lineOptions = {
+    scales: {
+      x: {
+        type: "category",
+      },
+    },
+  };
+
   return (
     <DashboardLayout title="Dashboard">
       <div>
