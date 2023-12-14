@@ -97,12 +97,14 @@ const PendingVenues = () => {
                           mutate({ eventId: _?.id, status: "rejected" });
                         }}
                       >
-                        <Image
-                          src="/images/icons/dashboard/table/times.svg"
-                          width={80}
-                          height={80}
-                          alt=""
-                        />
+                        <div className="w-10 h-10">
+                          <img
+                            src="/images/icons/dashboard/table/more.svg"
+                            className="w-8 h-8"
+                            alt=""
+                            onClick={openModal}
+                          />
+                        </div>
                       </button>
                     </div>
                   )}

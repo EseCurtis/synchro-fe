@@ -10,6 +10,7 @@ import VenueDetails from "../components/venue_details";
 import { useTQuery } from "@/hooks/api/useTQuery";
 import moment from "moment";
 import Link from "next/link";
+import { usePaginatedQuery } from "@/hooks/api/usePaginatedQuery";
 
 const header = ["Venue ", "User", "Location", "Type", "Date Created", ""];
 
@@ -25,20 +26,21 @@ const ApprovedVenues = () => {
     setIsModalOpen(false);
   };
 
-  const { data } = useTQuery({
-    url: "/venue/for-admin?status=approved&page=1&limit=10",
-    queryKey: ["venues", "approved-venues"],
-  });
+  const { isLoading, data, hasNextPage, fetchNextPage, isFetchingNextPage } =
+    usePaginatedQuery({
+      url: "/venue/for-admin?status=approved",
+      queryKey: ["venues", "approved-venues"],
+      enabled: true,
+    });
 
-  // @ts-ignore
-  const venue = data?.data?.data;
+  const venues = data?.pages?.map((e: any) => e.data.data).flat() as any[];
 
   return (
     <div>
       <DashboardAction />
       {/* @ts-ignore */}
       <DefaultTable header={header}>
-        {venue?.map((_: any, key: number) => {
+        {venues?.map((_: any, key: number) => {
           return (
             <tr key={key}>
               <td className={style}>
@@ -59,21 +61,25 @@ const ApprovedVenues = () => {
                 <h3>{moment(_?.createdAt).format("MMM DD YYYY")}</h3>
               </td>
               <td className={style}>
-                <Image
-                  src="/images/icons/dashboard/table/more.svg"
-                  width={34}
-                  height={30}
-                  alt=""
-                  onClick={openModal}
-                />
+                <div className="w-10 h-10">
+                  <img
+                    src="/images/icons/dashboard/table/more.svg"
+                    className="w-8 h-8"
+                    alt=""
+                    onClick={openModal}
+                  />
+                </div>
               </td>
             </tr>
           );
         })}
       </DefaultTable>
 
-      {venue?.length > 0 ? (
-        <TablePagination />
+      {venues?.length > 0 ? (
+        <TablePagination
+          loading={isFetchingNextPage}
+          onFetchMore={fetchNextPage}
+        />
       ) : (
         <p className="pt-4 text-center">No data to display</p>
       )}

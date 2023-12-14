@@ -15,8 +15,6 @@ const DashboardIndex = () => {
     queryKey: ["totals"],
   });
 
-  console.log(data?.data);
-
   const contentData = [
     {
       title: "Total Users",

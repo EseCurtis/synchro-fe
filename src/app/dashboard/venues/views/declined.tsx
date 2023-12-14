@@ -66,13 +66,14 @@ const DeclinedVenues = () => {
                 <h3>{moment(_?.createdAt).format("MMM DD YYYY")}</h3>
               </td>
               <td className={style}>
-                <Image
-                  src="/images/icons/dashboard/table/more.svg"
-                  width={34}
-                  height={30}
-                  alt=""
-                  onClick={openModal}
-                />
+                <div className="w-10 h-10">
+                  <img
+                    src="/images/icons/dashboard/table/more.svg"
+                    className="w-8 h-8"
+                    alt=""
+                    onClick={openModal}
+                  />
+                </div>
               </td>
             </tr>
           );

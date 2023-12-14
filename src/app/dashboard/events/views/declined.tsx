@@ -3,18 +3,15 @@
 import DashboardAction from "@/app/_components/dashboard/dashboardAction";
 import DefaultTable from "@/app/_components/table/defaultTable";
 import TablePagination from "@/app/_components/table/tablePagination";
-import { table } from "@/utils/contents/dummy/table";
 import Modal from "@/app/_components/popups/modal";
-import Dropdown from "@/app/_components/popups/dropDown";
-import Image from "next/image";
 import ViewInformation from "../components/EventDetails";
 import React, { useState, Fragment } from "react";
-import { useTQuery } from "@/hooks/api/useTQuery";
 import { useTMutation } from "@/hooks/api/useTMutation";
 import { Spinner } from "@/app/_components/spinner/Spinner";
 import moment from "moment";
 import Link from "next/link";
 import { useQueryClient } from "@tanstack/react-query";
+import { usePaginatedQuery } from "@/hooks/api/usePaginatedQuery";
 
 const header = ["Business Name ", "User", "Category", "Date", ""];
 
@@ -36,10 +33,14 @@ const DeclinedEvents = () => {
     setIsModalOpen(false);
   };
 
-  const { data, refetch } = useTQuery({
-    url: "/event/for-admin?status=rejected&page=1&limit=10",
-    queryKey: ["events", "rejected-events"],
-  });
+  const { data, refetch, hasNextPage, fetchNextPage, isFetchingNextPage } =
+    usePaginatedQuery({
+      url: "/event/for-admin?status=rejected",
+      queryKey: ["events", "rejected-events"],
+      enabled: true,
+    });
+
+  const events = data?.pages?.map((e: any) => e.data.data).flat() as any[];
 
   const { isLoading, mutate } = useTMutation({
     url: "/event/admin/update-status",
@@ -52,9 +53,6 @@ const DeclinedEvents = () => {
     },
   });
 
-  // @ts-ignore
-  const events = data?.data?.data;
-
   return (
     <div>
       <DashboardAction />
@@ -65,10 +63,12 @@ const DeclinedEvents = () => {
             <tr key={key}>
               <td className={style}>
                 <div className="flex gap-5 items-center">
-                  <img
-                    src={_?.image}
-                    className="w-[3em] h-[3em] bg-gray-500 rounded-full object-cover"
-                  ></img>
+                  <div className="w-[3em] h-[3em]">
+                    <img
+                      src={_?.image}
+                      className="w-[3em] h-[3em] relative bg-gray-500 rounded-full object-cover"
+                    ></img>
+                  </div>
                   <div>
                     <h3>{_.name}</h3>
                   </div>
@@ -95,12 +95,13 @@ const DeclinedEvents = () => {
                         mutate({ eventId: _?.id, status: "approved" });
                       }}
                     >
-                      <Image
-                        src="/images/icons/dashboard/table/tick.svg"
-                        width={80}
-                        height={80}
-                        alt=""
-                      />
+                      <div className="w-20 h-20">
+                        <img
+                          src="/images/icons/dashboard/table/tick.svg"
+                          className="w-ful h-full object-contain"
+                          alt=""
+                        />
+                      </div>
                     </button>
                   </div>
                 )}
@@ -109,7 +110,11 @@ const DeclinedEvents = () => {
           );
         })}
       </DefaultTable>
-      <TablePagination />
+
+      <TablePagination
+        onFetchMore={fetchNextPage}
+        loading={isFetchingNextPage}
+      />
 
       <Modal isOpen={isModalOpen} onClose={closeModal}>
         <ViewInformation />
