@@ -10,6 +10,7 @@ import ViewSuspended from "../components/viewSuspended";
 import { useTQuery } from "@/hooks/api/useTQuery";
 import { Spinner } from "@/app/_components/spinner/Spinner";
 import moment from "moment";
+import { usePaginatedQuery } from "@/hooks/api/usePaginatedQuery";
 
 const header = [
   "Fullname ",
@@ -48,23 +49,20 @@ const SuspendedUsers = () => {
     setIsModalOpen(false);
   };
 
-  const [data, setData] = useState<any[]>([]);
+  const { isLoading, data, hasNextPage, fetchNextPage, isRefetching } =
+    usePaginatedQuery({
+      url: "/user/admin/users?suspended=true",
+      queryKey: ["users", "suspended-users"],
+      enabled: true,
+    });
 
-  const { isLoading, isRefetching } = useTQuery({
-    url: "/user/admin/users?suspended=true",
-    queryKey: ["users", "suspended-users"],
-    options: {
-      onSuccess(res) {
-        setData([...data, ...res?.data?.data]);
-      },
-    },
-  });
+  const users = data?.pages?.map((e: any) => e.data.data).flat() as any[];
 
   if (isLoading) {
     return <Spinner />;
   }
 
-  if (data.length < 1) {
+  if (users?.length < 1) {
     return <p>No Data to show</p>;
   }
 
@@ -73,7 +71,7 @@ const SuspendedUsers = () => {
       <DashboardAction />
       {/* @ts-ignore */}
       <DefaultTable header={header}>
-        {data?.map((_, key: number) => {
+        {users?.map((_, key: number) => {
           return (
             <tr key={key}>
               <td className={style}>
@@ -102,20 +100,22 @@ const SuspendedUsers = () => {
               </td>
 
               <td className={style}>
-                <h3
+                <button
                   onClick={() => {
                     setIsModalOpen(true);
                     setActiveUser(_);
                   }}
+                  className="w-8 h-8"
                 >
                   {suspend_Icon}
-                </h3>
+                </button>
               </td>
             </tr>
           );
         })}
       </DefaultTable>
-      <TablePagination />
+
+      <TablePagination loading={isRefetching} onFetchMore={fetchNextPage} />
 
       <Modal isOpen={isModalOpen} onClose={closeModal}>
         <ViewSuspended user={activeUser} />

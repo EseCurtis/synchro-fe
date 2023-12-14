@@ -32,11 +32,11 @@ const contentData = [
 ];
 
 const data = {
-  labels: ["#37C89A", "#FFCC00", "#E95E2A", "#1789FC"],
+  labels: ["Male", "Female"],
   datasets: [
     {
-      data: [10, 50, 50, 70],
-      backgroundColor: ["#37C89A", "#FFCC00", "#E95E2A", "#1789FC"],
+      data: [10, 50],
+      backgroundColor: ["#37C89A", "#FFCC00"],
     },
   ],
 };
@@ -147,7 +147,7 @@ const DashboardIndex = () => {
         >
           <h3 className="text-[16px] font-bold">Gender</h3>
 
-          <div>
+          <div className="w-[400px] mx-auto">
             {/* @ts-ignore */}
             <Doughnut data={config.data} options={config.options} />
           </div>
@@ -155,7 +155,7 @@ const DashboardIndex = () => {
       </div>
 
       {/* Transaction graph */}
-      <div
+      {/* <div
         className="w-full my-5 rounded-lg p-[16px] mt-[4em]"
         style={{
           border: "1px solid #EDEFF5",
@@ -163,7 +163,7 @@ const DashboardIndex = () => {
       >
         <h3 className="text-[16px] font-bold">Transaction graph with time</h3>
         <LineGraph />
-      </div>
+      </div> */}
     </DashboardLayout>
   );
 };

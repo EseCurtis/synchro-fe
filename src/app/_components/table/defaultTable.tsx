@@ -6,8 +6,8 @@ interface IProps {
 }
 const DefaultTable: FC<IProps> = ({ header, children }: IProps) => {
   return (
-    <>
-      <table className="min-w-full bg-white">
+    <div className="min-w-full">
+      <table className="w-full overflow-x-scroll bg-white">
         <thead>
           <tr>
             {header?.map((_, key) => {
@@ -25,7 +25,7 @@ const DefaultTable: FC<IProps> = ({ header, children }: IProps) => {
         </thead>
         <tbody>{children}</tbody>
       </table>
-    </>
+    </div>
   );
 };
 

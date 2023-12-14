@@ -1,27 +1,28 @@
 import React, { FC } from "react";
+import { Spinner } from "../spinner/Spinner";
 
 interface IProps {
   offset?: any;
   pages?: any;
+  onFetchMore: () => void;
+  loading: boolean;
 }
 
-const TablePagination: FC<IProps> = ({ offset = 3, pages = 320 }: IProps) => {
+const TablePagination: FC<IProps> = ({
+  offset = 3,
+  pages = 320,
+  loading,
+  onFetchMore,
+}: IProps) => {
   return (
     <>
-      <div className="flex justify-between mt-4 p-8">
-        <div className="flex items-left gap-3 page-count">
-          <p>{offset}</p>
-          <p>of</p>
-          <p>{pages}</p>
-        </div>
-
-        <div className="flex items-right gap-3 page-count">
-          <p>{"<"}</p>
-          <p>1</p>
-          <p>2</p>
-          <p>3</p>
-          <p>{">"}</p>
-        </div>
+      <div className="flex items-center justify-center mt-10">
+        <button
+          onClick={onFetchMore}
+          className="text-sm px-4 py-2 bg-neutral-200 rounded-full flex items-center gap-2"
+        >
+          {loading && <Spinner />} Load More
+        </button>
       </div>
     </>
   );

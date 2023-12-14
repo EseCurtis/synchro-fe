@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
 import DashboardAction from "@/app/_components/dashboard/dashboardAction";
 import DefaultTable from "@/app/_components/table/defaultTable";
@@ -13,6 +14,7 @@ import { useTQuery } from "@/hooks/api/useTQuery";
 import moment from "moment";
 import { Spinner } from "@/app/_components/spinner/Spinner";
 import { useRouter } from "next/navigation";
+import { usePaginatedQuery } from "@/hooks/api/usePaginatedQuery";
 
 const header = [
   "Fullname ",
@@ -109,17 +111,14 @@ const ActiveUsers = () => {
     ];
   };
 
-  const [data, setData] = useState<any[]>([]);
+  const { isLoading, data, hasNextPage, fetchNextPage, isRefetching } =
+    usePaginatedQuery({
+      url: "/user/admin/users?suspended=false",
+      queryKey: ["users", "active-users"],
+      enabled: true,
+    });
 
-  const { isLoading, isRefetching } = useTQuery({
-    url: "/user/admin/users?suspended=false",
-    queryKey: ["users", "active-users"],
-    options: {
-      onSuccess(res) {
-        setData([...data, ...res?.data?.data]);
-      },
-    },
-  });
+  const users = data?.pages?.map((e: any) => e.data.data).flat() as any[];
 
   if (isLoading) {
     return <Spinner />;
@@ -130,7 +129,7 @@ const ActiveUsers = () => {
       <DashboardAction />
       {/* @ts-ignore */}
       <DefaultTable header={header}>
-        {data?.map((_, key: number) => {
+        {users?.map((_, key: number) => {
           return (
             <tr key={key}>
               <Link href={`/dashboard/users/${_?.id}`}>
@@ -168,13 +167,14 @@ const ActiveUsers = () => {
               <td className={style}>
                 <Dropdown
                   view={
-                    <Image
-                      src="/images/icons/dashboard/table/more.svg"
-                      width={32}
-                      height={11}
-                      alt=""
-                      onClick={toggleDropdown}
-                    />
+                    <div className="w-10 h-10">
+                      <img
+                        src="/images/icons/dashboard/table/more.svg"
+                        alt=""
+                        onClick={toggleDropdown}
+                        className="w-8 h-8"
+                      />
+                    </div>
                   }
                 >
                   {dropDownData(_).map(({ title, icon }, index) => (
@@ -191,7 +191,8 @@ const ActiveUsers = () => {
           );
         })}
       </DefaultTable>
-      <TablePagination />
+
+      <TablePagination loading={isRefetching} onFetchMore={fetchNextPage} />
 
       <Modal isOpen={isModalOpen} onClose={closeModal}>
         <div>{modalContent}</div>
