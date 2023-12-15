@@ -13,6 +13,7 @@ import Link from "next/link";
 import { Spinner } from "@/app/_components/spinner/Spinner";
 import { useTMutation } from "@/hooks/api/useTMutation";
 import { useQueryClient } from "@tanstack/react-query";
+import { usePaginatedQuery } from "@/hooks/api/usePaginatedQuery";
 
 const header = ["Venue ", "User", "Location", "Type", "Date Created", ""];
 
@@ -30,13 +31,14 @@ const PendingVenues = () => {
 
   const client = useQueryClient();
 
-  const { data } = useTQuery({
-    url: "/venue/for-admin?status=pending&page=1&limit=10",
-    queryKey: ["venues", "pending-venues"],
-  });
+  const { data, hasNextPage, fetchNextPage, isFetchingNextPage } =
+    usePaginatedQuery({
+      url: "/venue/for-admin?status=pending",
+      queryKey: ["venues", "pending-venues"],
+      enabled: true,
+    });
 
-  // @ts-ignore
-  const venue = data?.data?.data;
+  const venue = data?.pages?.map((e: any) => e.data.data).flat() as any[];
 
   const { isLoading, mutate } = useTMutation({
     url: "/venue/admin/update-status",
@@ -115,7 +117,10 @@ const PendingVenues = () => {
         })}
       </DefaultTable>
       {venue?.length > 0 ? (
-        <TablePagination />
+        <TablePagination
+          loading={isFetchingNextPage}
+          onFetchMore={fetchNextPage}
+        />
       ) : (
         <p className="pt-4 text-center">No data to display</p>
       )}

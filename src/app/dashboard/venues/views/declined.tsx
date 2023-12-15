@@ -10,6 +10,7 @@ import VenueDetails from "../components/venue_details";
 import { useTQuery } from "@/hooks/api/useTQuery";
 import Link from "next/link";
 import moment from "moment";
+import { usePaginatedQuery } from "@/hooks/api/usePaginatedQuery";
 
 const header = [
   "Venue ",
@@ -32,20 +33,21 @@ const DeclinedVenues = () => {
     setIsModalOpen(false);
   };
 
-  const { data } = useTQuery({
-    url: "/venue/for-admin?status=rejected&page=1&limit=10",
-    queryKey: ["venues", "rejected-venues"],
-  });
+  const { isLoading, data, hasNextPage, fetchNextPage, isFetchingNextPage } =
+    usePaginatedQuery({
+      url: "/venue/for-admin?status=rejected&page=1&limit=10",
+      queryKey: ["venues", "rejected-venues"],
+      enabled: true,
+    });
 
-  // @ts-ignore
-  const venue = data?.data?.data;
+  const venues = data?.pages?.map((e: any) => e.data.data).flat() as any[];
 
   return (
     <div>
       <DashboardAction />
       {/* @ts-ignore */}
       <DefaultTable header={header}>
-        {venue?.map((_: any, key: number) => {
+        {venues?.map((_: any, key: number) => {
           return (
             <tr key={key}>
               <td className={style}>
@@ -79,8 +81,11 @@ const DeclinedVenues = () => {
           );
         })}
       </DefaultTable>
-      {venue?.length > 0 ? (
-        <TablePagination />
+      {venues?.length > 0 ? (
+        <TablePagination
+          loading={isFetchingNextPage}
+          onFetchMore={fetchNextPage}
+        />
       ) : (
         <p className="pt-4 text-center">No data to display</p>
       )}

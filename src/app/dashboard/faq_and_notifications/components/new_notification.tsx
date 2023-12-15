@@ -1,7 +1,24 @@
 import { Button } from "@/app/_components/button";
-import React from "react";
+import { Spinner } from "@/app/_components/spinner/Spinner";
+import { useTMutation } from "@/hooks/api/useTMutation";
+import React, { useState } from "react";
 
-const NewNotification = () => {
+const NewNotification = ({ refresh }: { refresh: () => void }) => {
+  const [body, setBody] = useState({
+    title: "",
+    message: "",
+    type: "",
+  });
+
+  const { isLoading, mutate } = useTMutation({
+    url: "/notification/send",
+    options: {
+      onSuccess() {
+        refresh();
+      },
+    },
+  });
+
   return (
     <div>
       <h3 className="font-bold">Send push notifications</h3>
@@ -18,6 +35,7 @@ const NewNotification = () => {
                 className="form-radio text-indigo-600"
                 name="notificationType"
                 value="push"
+                onChange={(e) => setBody({ ...body, type: e.target.value })}
               />
               <span className="ml-2">Push notification</span>
             </label>
@@ -27,6 +45,7 @@ const NewNotification = () => {
                 className="form-radio text-indigo-600"
                 name="notificationType"
                 value="email"
+                onChange={(e) => setBody({ ...body, type: e.target.value })}
               />
               <span className="ml-2">Email notification</span>
             </label>
@@ -41,6 +60,8 @@ const NewNotification = () => {
             id="title"
             placeholder="Enter name"
             className="mt-1 p-2 border rounded-md w-full focus:ring-indigo-500 focus:border-indigo-500"
+            onChange={(e) => setBody({ ...body, title: e.target.value })}
+            value={body.title}
           />
         </div>
         <div className="form-group mt-5">
@@ -52,13 +73,25 @@ const NewNotification = () => {
             placeholder="Enter body text"
             rows={7}
             className="mt-1 p-2 border rounded-md w-full focus:ring-indigo-300 focus:border-indigo-300 resize-none"
+            onChange={(e) => setBody({ ...body, message: e.target.value })}
+            value={body.message}
           ></textarea>
         </div>
       </div>
 
       <div className=" mt-5 flex gap-4 items-center">
-        <Button>Send Notification</Button>
-        <Button style={{ background: "white", color: "red" }} customClassName="text-red-500 border border-2 border-red-500">
+        <Button
+          onClick={() => {
+            mutate(body);
+          }}
+          isLoading={isLoading}
+        >
+          Send Notification
+        </Button>
+        <Button
+          style={{ background: "white", color: "red" }}
+          customClassName="text-red-500 border border-2 border-red-500"
+        >
           Cancel
         </Button>
       </div>

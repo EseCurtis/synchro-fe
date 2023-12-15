@@ -7,6 +7,7 @@ import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { Doughnut, Line } from "react-chartjs-2";
 import LineGraph from "../_components/charts/lineChart";
 import { useTQuery } from "@/hooks/api/useTQuery";
+import { useAuthContext } from "@/contexts/AuthContext";
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 const DashboardIndex = () => {
@@ -90,6 +91,8 @@ const DashboardIndex = () => {
     },
   };
 
+  const { user } = useAuthContext();
+
   return (
     <DashboardLayout title="Dashboard">
       <div>
@@ -100,7 +103,7 @@ const DashboardIndex = () => {
               fontWeight: "bold",
             }}
           >
-            Ese Curtis
+            {user?.firstName} {user?.lastName}
           </span>{" "}
           👋
         </h1>

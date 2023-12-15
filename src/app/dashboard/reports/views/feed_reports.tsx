@@ -23,7 +23,7 @@ const header = [
   "",
 ];
 const style = "px-6 py-4 whitespace-no-wrap border-b border-gray-300";
-const UsersReport = () => {
+const FeedsReport = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const openModal = () => {
@@ -36,8 +36,8 @@ const UsersReport = () => {
 
   const { isLoading, data, hasNextPage, fetchNextPage, isFetchingNextPage } =
     usePaginatedQuery({
-      url: "/report/for-admin?type=user",
-      queryKey: ["reports", "user-report"],
+      url: "/report/for-admin?type=feed",
+      queryKey: ["reports", "feed-report"],
       enabled: true,
     });
 
@@ -105,4 +105,4 @@ const UsersReport = () => {
   );
 };
 
-export default UsersReport;
+export default FeedsReport;
