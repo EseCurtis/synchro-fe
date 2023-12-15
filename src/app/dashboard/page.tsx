@@ -19,21 +19,25 @@ const DashboardIndex = () => {
   const contentData = [
     {
       title: "Total Users",
+      // @ts-ignore
       amount: data?.data?.users ?? 0,
       img: "/images/icons/dashboard/user.svg",
     },
     {
       title: "Total Events",
+      // @ts-ignore
       amount: data?.data?.events ?? 0,
       img: "/images/icons/dashboard/calender_icon.svg",
     },
     {
       title: "Total Venues",
+      // @ts-ignore
       amount: data?.data?.venues ?? 0,
       img: "/images/icons/dashboard/building.svg",
     },
     {
       title: "Total Services",
+      // @ts-ignore
       amount: data?.data?.services ?? 0,
       img: "/images/icons/dashboard/user_dollar.svg",
     },
@@ -44,8 +48,11 @@ const DashboardIndex = () => {
     datasets: [
       {
         data: [
+          // @ts-ignore
           data?.data?.genderMetrics?.males?.toFixed(0) ?? 0,
+          // @ts-ignore
           data?.data?.genderMetrics?.females?.toFixed(0) ?? 0,
+          // @ts-ignore
           data?.data?.genderMetrics?.none?.toFixed(0) ?? 0,
         ],
         backgroundColor: ["#37C89A", "#FFCC00", "#E95E2A"],
