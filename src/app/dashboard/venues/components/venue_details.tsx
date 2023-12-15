@@ -86,14 +86,14 @@ const VenueDetails = () => {
               </div>
             </div>
 
-            <div className="grid grid-cols-3 gap-2 w-[100%] m-auto my-7">
+            {/* <div className="grid grid-cols-3 gap-2 w-[100%] m-auto my-7">
               <button className={buttonClass} style={buttonStyle}>
                 Venue Info
               </button>
               <button className={buttonClass}>Photos</button>
               <button className={buttonClass}>Booking details</button>
               <button className={buttonClass}>Reviews</button>
-            </div>
+            </div> */}
 
             <div className="grid gap-3 mt-6">
               <h4 className="flex items-center gap-2">

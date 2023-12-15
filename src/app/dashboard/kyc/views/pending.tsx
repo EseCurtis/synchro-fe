@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/alt-text */
+/* eslint-disable @next/next/no-img-element */
 "use client";
 import DashboardAction from "@/app/_components/dashboard/dashboardAction";
 import DefaultTable from "@/app/_components/table/defaultTable";
@@ -16,6 +18,7 @@ import { useTMutation } from "@/hooks/api/useTMutation";
 import { useQueryClient } from "@tanstack/react-query";
 import moment from "moment";
 import { Spinner } from "@/app/_components/spinner/Spinner";
+import { usePaginatedQuery } from "@/hooks/api/usePaginatedQuery";
 
 const header = [
   "Business Name ",
@@ -45,11 +48,6 @@ const PendingKyc = () => {
     setIsModalOpen(false);
   };
 
-  const { data, refetch } = useTQuery({
-    url: "/user/admin/businesses?status=pending&page=1&limit=10",
-    queryKey: ["businesses", "pending-businesses"],
-  });
-
   const { isLoading, mutate } = useTMutation({
     url: "/user/admin/businesses/update-status",
     method: "put",
@@ -60,9 +58,6 @@ const PendingKyc = () => {
       },
     },
   });
-
-  // @ts-ignore
-  const businesses = data?.data?.data;
 
   const dropDownData = (business: any) => [
     {
@@ -97,6 +92,25 @@ const PendingKyc = () => {
       ),
     },
   ];
+
+  const {
+    isLoading: fetching,
+    data,
+    hasNextPage,
+    fetchNextPage,
+    isFetchingNextPage,
+    refetch,
+  } = usePaginatedQuery({
+    url: "/user/admin/businesses?status=pending",
+    queryKey: ["businesses", "pending-businesses"],
+    enabled: true,
+  });
+
+  const businesses = data?.pages?.map((e: any) => e.data.data).flat() as any[];
+
+  if (fetching) {
+    return <Spinner />;
+  }
 
   return (
     <div>
@@ -137,11 +151,9 @@ const PendingKyc = () => {
                           mutate({ userId: _?.id, status: "approved" });
                         }}
                       >
-                        <Image
+                        <img
                           src="/images/icons/dashboard/table/tick.svg"
-                          width={80}
-                          height={80}
-                          alt=""
+                          className="w-20 h-20 object-contain"
                         />
                       </button>
 
@@ -150,11 +162,9 @@ const PendingKyc = () => {
                           mutate({ userId: _?.id, status: "rejected" });
                         }}
                       >
-                        <Image
+                        <img
                           src="/images/icons/dashboard/table/times.svg"
-                          width={80}
-                          height={80}
-                          alt=""
+                          className="w-20 h-20 object-contain"
                         />
                       </button>
                     </div>
@@ -164,13 +174,14 @@ const PendingKyc = () => {
               <td className={style}>
                 <Dropdown
                   view={
-                    <Image
-                      src="/images/icons/dashboard/table/more.svg"
-                      width={30}
-                      height={30}
-                      alt=""
-                      onClick={toggleDropdown}
-                    />
+                    <div className="w-10 h-10">
+                      <img
+                        src="/images/icons/dashboard/table/more.svg"
+                        alt=""
+                        onClick={toggleDropdown}
+                        className="w-8 h-8 object-contain"
+                      />
+                    </div>
                   }
                 >
                   {dropDownData(_).map(({ title, icon }, index) => (
@@ -188,7 +199,10 @@ const PendingKyc = () => {
         })}
       </DefaultTable>
       {businesses?.length > 0 ? (
-        <TablePagination />
+        <TablePagination
+          loading={isFetchingNextPage}
+          onFetchMore={fetchNextPage}
+        />
       ) : (
         <p className="pt-4 text-center">No data to display</p>
       )}

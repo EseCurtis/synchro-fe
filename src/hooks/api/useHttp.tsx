@@ -1,4 +1,5 @@
 import { useAuthContext } from "@/contexts/AuthContext";
+import { baseUrl } from "@/helpers";
 import axios, { AxiosInstance, AxiosRequestConfig } from "axios";
 import { OutgoingHttpHeaders } from "http2";
 
@@ -25,7 +26,7 @@ export default function useHttp({
       Accept: "application/json",
       "Content-Type": "application/json",
     },
-    baseURL: process.env.NEXT_PUBLIC_API_URL,
+    baseURL: baseUrl,
     // withCredentials: true,
     timeout: 30 * 1000,
     ...config,
