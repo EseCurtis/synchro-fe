@@ -4,8 +4,8 @@ import { Spinner } from "../spinner/Spinner";
 interface IProps {
   offset?: any;
   pages?: any;
-  onFetchMore: () => void;
-  loading: boolean;
+  onFetchMore?: () => void;
+  loading?: boolean;
 }
 
 const TablePagination: FC<IProps> = ({
