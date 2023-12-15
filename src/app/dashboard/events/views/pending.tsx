@@ -16,7 +16,7 @@ import { useTMutation } from "@/hooks/api/useTMutation";
 import { Spinner } from "@/app/_components/spinner/Spinner";
 import { useQueryClient } from "@tanstack/react-query";
 
-const header = ["Business Name ", "User", "Category", "Date", "", ""];
+const header = ["Business Name ", "User", "Category", "Date", "Actions", ""];
 const style = "px-6 py-4 whitespace-no-wrap border-b border-gray-300";
 const PendingEvents = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);

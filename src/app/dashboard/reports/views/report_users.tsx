@@ -20,7 +20,7 @@ const header = [
   "Reasons",
   "Image",
   "Date Reported",
-  "",
+  "Actions",
 ];
 const style = "px-6 py-4 whitespace-no-wrap border-b border-gray-300";
 const UsersReport = () => {

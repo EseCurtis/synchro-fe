@@ -31,7 +31,7 @@ const AuditList = () => {
   return (
     <div>
       <DashboardAction />
-      {audits.map((_, key) => (
+      {audits?.map((_, key) => (
         <Fragment key={key}>
           <Audit_Box item={_} />
         </Fragment>

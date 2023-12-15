@@ -22,6 +22,7 @@ const header = [
   "Gender",
   "Phone Number",
   "Last Active",
+  "Actions",
 ];
 
 const style = "px-6 py-4 whitespace-no-wrap border-b border-gray-300";

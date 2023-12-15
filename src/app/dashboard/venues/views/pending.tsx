@@ -15,7 +15,14 @@ import { useTMutation } from "@/hooks/api/useTMutation";
 import { useQueryClient } from "@tanstack/react-query";
 import { usePaginatedQuery } from "@/hooks/api/usePaginatedQuery";
 
-const header = ["Venue ", "User", "Location", "Type", "Date Created", ""];
+const header = [
+  "Venue ",
+  "User",
+  "Location",
+  "Type",
+  "Date Created",
+  "Actions",
+];
 
 const style = "px-6 py-4 whitespace-no-wrap border-b border-gray-300";
 const PendingVenues = () => {

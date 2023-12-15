@@ -25,7 +25,7 @@ const header = [
   "Category",
   "File Upload",
   "Date Submitted",
-  "",
+  "Actions",
   "",
 ];
 const style = "px-6 py-4 whitespace-no-wrap border-b border-gray-300";

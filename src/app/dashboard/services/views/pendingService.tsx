@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
 import DashboardAction from "@/app/_components/dashboard/dashboardAction";
 import DefaultTable from "@/app/_components/table/defaultTable";
@@ -11,6 +12,8 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useTQuery } from "@/hooks/api/useTQuery";
 import { useTMutation } from "@/hooks/api/useTMutation";
 import moment from "moment";
+import { usePaginatedQuery } from "@/hooks/api/usePaginatedQuery";
+import { Spinner } from "@/app/_components/spinner/Spinner";
 
 const header = [
   "Services ",
@@ -18,6 +21,7 @@ const header = [
   "Packages",
   "Total Earned",
   "Date Created",
+  "Actions",
 ];
 
 const style = "px-6 py-4 whitespace-no-wrap border-b border-gray-300";
@@ -34,13 +38,33 @@ const PendingService = () => {
 
   const client = useQueryClient();
 
-  const { data } = useTQuery({
-    url: "/service/for-admin?status=pending&page=1&limit=10",
-    queryKey: ["venues", "pending-venues"],
+  const {
+    isLoading: fetching,
+    data,
+    hasNextPage,
+    fetchNextPage,
+    isFetchingNextPage,
+  } = usePaginatedQuery({
+    url: "/service/for-admin?status=pending",
+    queryKey: ["services", "pending-services"],
+    enabled: true,
   });
 
-  // @ts-ignore
-  const services = data?.data?.data;
+  const services = data?.pages?.map((e: any) => e.data.data).flat() as any[];
+
+  const { isLoading, mutate } = useTMutation({
+    url: "/service/admin/update-status",
+    method: "put",
+    options: {
+      onSuccess() {
+        client.invalidateQueries(["services"]);
+      },
+    },
+  });
+
+  if (fetching) {
+    return <Spinner />;
+  }
 
   return (
     <div>
@@ -66,13 +90,50 @@ const PendingService = () => {
                 <h3>{moment(_?.createdAt).format("MMM DD YYYY")}</h3>
               </td>
               <td className={style}>
-                <Image
-                  src="/images/icons/dashboard/table/more.svg"
-                  width={32}
-                  height={11}
-                  alt=""
-                  onClick={openModal}
-                />
+                {isLoading ? (
+                  <Spinner />
+                ) : (
+                  <div className="flex items-center justify-space-around">
+                    <button
+                      onClick={() => {
+                        mutate({ eventId: _?.id, status: "approved" });
+                      }}
+                    >
+                      <div className="w-20 h-20">
+                        <img
+                          src="/images/icons/dashboard/table/tick.svg"
+                          className="w-20 h-20 object-contain"
+                          alt=""
+                        />
+                      </div>
+                    </button>
+
+                    <button
+                      onClick={() => {
+                        mutate({ eventId: _?.id, status: "rejected" });
+                      }}
+                    >
+                      <div className="w-20 h-20">
+                        <img
+                          src="/images/icons/dashboard/table/times.svg"
+                          className="w-20 h-20 object-contain"
+                          alt=""
+                        />
+                      </div>
+                    </button>
+
+                    <button>
+                      <div className="w-10 h-10">
+                        <img
+                          src="/images/icons/dashboard/table/more.svg"
+                          className="w-8 h-8"
+                          alt=""
+                          onClick={openModal}
+                        />
+                      </div>
+                    </button>
+                  </div>
+                )}
               </td>
             </tr>
           );
@@ -80,7 +141,10 @@ const PendingService = () => {
       </DefaultTable>
 
       {services?.length > 0 ? (
-        <TablePagination />
+        <TablePagination
+          loading={isFetchingNextPage}
+          onFetchMore={fetchNextPage}
+        />
       ) : (
         <p className="pt-4 text-center">No data to display</p>
       )}

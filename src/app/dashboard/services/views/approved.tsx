@@ -10,6 +10,8 @@ import Modal from "@/app/_components/popups/modal";
 import ServiceDetails from "../components/service_details";
 import { useTQuery } from "@/hooks/api/useTQuery";
 import moment from "moment";
+import { usePaginatedQuery } from "@/hooks/api/usePaginatedQuery";
+import { Spinner } from "@/app/_components/spinner/Spinner";
 
 const header = [
   "Services ",
@@ -17,6 +19,7 @@ const header = [
   "Price",
   "Total Earned",
   "Date Created",
+  "Actions",
 ];
 
 const style = "px-6 py-4 whitespace-no-wrap border-b border-gray-300";
@@ -30,13 +33,19 @@ const ApprovedServices = () => {
   const closeModal = () => {
     setIsModalOpen(false);
   };
-  const { data } = useTQuery({
-    url: "/service/for-admin?status=rejected&page=1&limit=10",
-    queryKey: ["venues", "rejected-venues"],
-  });
 
-  // @ts-ignore
-  const services = data?.data?.data;
+  const { isLoading, data, hasNextPage, fetchNextPage, isFetchingNextPage } =
+    usePaginatedQuery({
+      url: "/service/for-admin?status=approved",
+      queryKey: ["services", "approved-services"],
+      enabled: true,
+    });
+
+  const services = data?.pages?.map((e: any) => e.data.data).flat() as any[];
+
+  if (isLoading) {
+    return <Spinner />;
+  }
 
   return (
     <div>
@@ -62,13 +71,16 @@ const ApprovedServices = () => {
                 <h3>{moment(_?.createdAt).format("MMM DD YYYY")}</h3>
               </td>
               <td className={style}>
-                <Image
-                  src="/images/icons/dashboard/table/more.svg"
-                  width={32}
-                  height={11}
-                  alt=""
-                  onClick={openModal}
-                />
+                <button>
+                  <div className="w-10 h-10">
+                    <img
+                      src="/images/icons/dashboard/table/more.svg"
+                      className="w-8 h-8"
+                      alt=""
+                      onClick={openModal}
+                    />
+                  </div>
+                </button>
               </td>
             </tr>
           );
@@ -76,7 +88,10 @@ const ApprovedServices = () => {
       </DefaultTable>
 
       {services?.length > 0 ? (
-        <TablePagination />
+        <TablePagination
+          loading={isFetchingNextPage}
+          onFetchMore={fetchNextPage}
+        />
       ) : (
         <p className="pt-4 text-center">No data to display</p>
       )}

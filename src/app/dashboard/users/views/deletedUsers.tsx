@@ -10,6 +10,7 @@ const header = [
   "Gender",
   "Phone number",
   "Date Deleted",
+  "Actions",
 ];
 
 const style = "px-6 py-4 whitespace-no-wrap border-b border-gray-300";

@@ -2,12 +2,10 @@
 import DashboardAction from "@/app/_components/dashboard/dashboardAction";
 import DefaultTable from "@/app/_components/table/defaultTable";
 import TablePagination from "@/app/_components/table/tablePagination";
-import { table } from "@/utils/contents/dummy/table";
 import React from "react";
 import Modal from "@/app/_components/popups/modal";
 import { useState } from "react";
 import ViewSuspended from "../components/viewSuspended";
-import { useTQuery } from "@/hooks/api/useTQuery";
 import { Spinner } from "@/app/_components/spinner/Spinner";
 import moment from "moment";
 import { usePaginatedQuery } from "@/hooks/api/usePaginatedQuery";
@@ -18,6 +16,7 @@ const header = [
   // "Reasons",
   // "Duration",
   "Date Suspended",
+  "Actions",
 ];
 
 const style = "px-6 py-4 whitespace-no-wrap border-b border-gray-300";
@@ -25,8 +24,8 @@ const style = "px-6 py-4 whitespace-no-wrap border-b border-gray-300";
 const suspend_Icon = (
   <svg
     cursor="pointer"
-    width="16"
-    height="16"
+    width="20"
+    height="20"
     viewBox="0 0 16 16"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
