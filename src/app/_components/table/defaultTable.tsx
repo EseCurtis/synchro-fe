@@ -6,18 +6,18 @@ interface IProps {
 }
 const DefaultTable: FC<IProps> = ({ header, children }: IProps) => {
   return (
-    <>
-      <table className="min-w-full bg-white">
+    <div className="min-w-full">
+      <table className="w-full overflow-x-scroll bg-white">
         <thead>
           <tr>
             {header?.map((_, key) => {
               return (
                 <th
                   key={key}
-                  className="px-6 py-3 border-b-2 border-gray-300 text-left text-sm leading-4 text-gray-600 uppercase tracking-wider"
+                  className="px-6 py-3 border-b-2 border-gray-300 text-left text-xs leading-4 text-gray-600 capitalize tracking-wider"
                 >
                   {/* @ts-ignore */}
-                  {_?.toUpperCase()}
+                  {_}
                 </th>
               );
             })}
@@ -25,7 +25,7 @@ const DefaultTable: FC<IProps> = ({ header, children }: IProps) => {
         </thead>
         <tbody>{children}</tbody>
       </table>
-    </>
+    </div>
   );
 };
 

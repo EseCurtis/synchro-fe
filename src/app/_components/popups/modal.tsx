@@ -9,6 +9,7 @@ interface ModalProps {
 const style = {
   width: "35%",
   minWidth: "30%",
+  marginTop: 50,
 };
 
 const Modal: FC<ModalProps> = ({ isOpen, onClose, children }) => {
@@ -22,7 +23,7 @@ const Modal: FC<ModalProps> = ({ isOpen, onClose, children }) => {
       <div className="relative bg-white p-10 rounded-lg z-50">
         <div
           onClick={onClose}
-          className="px-4 absolute top-0 my-2 cursor-pointer text-right top-2 right-2 text-gray-500 hover:text-gray-700"
+          className="px-4 absolute my-2 cursor-pointer text-right top-0 right-2 text-gray-500 hover:text-gray-700"
         >
           <h1 className="text-[1.5em]">&times;</h1>
         </div>

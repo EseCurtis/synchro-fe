@@ -6,78 +6,100 @@ import { formatNumber } from "@/utils/formatNumber";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { Doughnut, Line } from "react-chartjs-2";
 import LineGraph from "../_components/charts/lineChart";
+import { useTQuery } from "@/hooks/api/useTQuery";
+import { useAuthContext } from "@/contexts/AuthContext";
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-const contentData = [
-  {
-    title: "Total Users",
-    amount: 10990,
-    img: "/images/icons/dashboard/user.svg",
-  },
-  {
-    title: "Total Events",
-    amount: 2000,
-    img: "/images/icons/dashboard/calender_icon.svg",
-  },
-  {
-    title: "Total Venues",
-    amount: 90300,
-    img: "/images/icons/dashboard/building.svg",
-  },
-  {
-    title: "Total Services",
-    amount: 23000,
-    img: "/images/icons/dashboard/user_dollar.svg",
-  },
-];
-
-const data = {
-  labels: ["#37C89A", "#FFCC00", "#E95E2A", "#1789FC"],
-  datasets: [
-    {
-      data: [10, 50, 50, 70],
-      backgroundColor: ["#37C89A", "#FFCC00", "#E95E2A", "#1789FC"],
-    },
-  ],
-};
-
-const config = {
-  type: "doughnut",
-  data: data,
-  options: {
-    responsive: true,
-    plugins: {
-      legend: {
-        position: "top",
-      },
-      title: {
-        display: true,
-        text: "Chart.js Doughnut Chart",
-      },
-    },
-  },
-};
-
-const lineData = {
-  labels: ["January", "February", "March", "April", "May"],
-  datasets: [
-    {
-      label: "Sample Line Data",
-      data: [10, 20, 15, 25, 30],
-      borderColor: "green",
-      backgroundColor: "rgba(0, 128, 0, 0.2)",
-    },
-  ],
-};
-const lineOptions = {
-  scales: {
-    x: {
-      type: "category",
-    },
-  },
-};
-
 const DashboardIndex = () => {
+  const { data } = useTQuery({
+    url: "/report/totals",
+    queryKey: ["totals"],
+  });
+
+  const contentData = [
+    {
+      title: "Total Users",
+      // @ts-ignore
+      amount: data?.data?.users ?? 0,
+      img: "/images/icons/dashboard/user.svg",
+    },
+    {
+      title: "Total Events",
+      // @ts-ignore
+      amount: data?.data?.events ?? 0,
+      img: "/images/icons/dashboard/calender_icon.svg",
+    },
+    {
+      title: "Total Venues",
+      // @ts-ignore
+      amount: data?.data?.venues ?? 0,
+      img: "/images/icons/dashboard/building.svg",
+    },
+    {
+      title: "Total Services",
+      // @ts-ignore
+      amount: data?.data?.services ?? 0,
+      img: "/images/icons/dashboard/user_dollar.svg",
+    },
+  ];
+
+  const genderData = {
+    labels: ["Male", "Female", "None"],
+    datasets: [
+      {
+        data: [
+          // @ts-ignore
+          data?.data?.genderMetrics?.males?.toFixed(0) ?? 0,
+          // @ts-ignore
+          data?.data?.genderMetrics?.females?.toFixed(0) ?? 0,
+          // @ts-ignore
+          data?.data?.genderMetrics?.none?.toFixed(0) ?? 0,
+        ],
+        backgroundColor: ["#37C89A", "#FFCC00", "#E95E2A"],
+      },
+    ],
+  };
+
+  console.log(genderData.datasets);
+
+  const config = {
+    type: "doughnut",
+    data: genderData,
+    options: {
+      responsive: true,
+      plugins: {
+        legend: {
+          position: "top",
+        },
+        title: {
+          display: true,
+          text: "Chart.js Doughnut Chart",
+        },
+      },
+    },
+  };
+
+  const lineData = {
+    labels: ["January", "February", "March", "April", "May"],
+    datasets: [
+      {
+        label: "Sample Line Data",
+        data: [10, 20, 15, 25, 30],
+        borderColor: "green",
+        backgroundColor: "rgba(0, 128, 0, 0.2)",
+      },
+    ],
+  };
+  const lineOptions = {
+    scales: {
+      x: {
+        type: "category",
+      },
+    },
+  };
+
+  const { user } = useAuthContext();
+
   return (
     <DashboardLayout title="Dashboard">
       <div>
@@ -88,7 +110,7 @@ const DashboardIndex = () => {
               fontWeight: "bold",
             }}
           >
-            Ese Curtis
+            {user?.firstName} {user?.lastName}
           </span>{" "}
           👋
         </h1>
@@ -126,7 +148,7 @@ const DashboardIndex = () => {
 
       <div className="flex justify-between gap-[20px]">
         <div
-          className="w-[50%] h-[250px] rounded-lg p-[16px] "
+          className="w-[50%] rounded-lg p-[16px] "
           style={{
             border: "1px solid #EDEFF5",
           }}
@@ -140,14 +162,14 @@ const DashboardIndex = () => {
 
         {/* gender  */}
         <div
-          className="w-[50%] h-[250px] rounded-lg p-[16px] "
+          className="w-[50%] rounded-lg p-[16px] "
           style={{
             border: "1px solid #EDEFF5",
           }}
         >
           <h3 className="text-[16px] font-bold">Gender</h3>
 
-          <div>
+          <div className="w-[400px] mx-auto">
             {/* @ts-ignore */}
             <Doughnut data={config.data} options={config.options} />
           </div>
@@ -155,15 +177,15 @@ const DashboardIndex = () => {
       </div>
 
       {/* Transaction graph */}
-      <div
-        className="w-full h-[250px] my-5 rounded-lg p-[16px] mt-[4em]"
+      {/* <div
+        className="w-full my-5 rounded-lg p-[16px] mt-[4em]"
         style={{
           border: "1px solid #EDEFF5",
         }}
       >
         <h3 className="text-[16px] font-bold">Transaction graph with time</h3>
         <LineGraph />
-      </div>
+      </div> */}
     </DashboardLayout>
   );
 };

@@ -203,7 +203,7 @@ const svg = (
   </svg>
 );
 
-const NoNotifications = () => {
+const NoNotifications = ({ onOpen }: { onOpen: () => void }) => {
   return (
     <div className="w-[328px] my-[4em] text-center mx-auto ">
       <center>
@@ -214,7 +214,7 @@ const NoNotifications = () => {
       <p className="text-second_primary_text text-center">
         Click on the button to send a broadcast notifications.
       </p>
-      <Button>Send Notifications</Button>
+      <Button onClick={onOpen}>Send Notifications</Button>
     </div>
   );
 };

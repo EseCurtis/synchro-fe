@@ -31,13 +31,13 @@ const Dropdown: FC<IDropdown> = ({ view, children }) => {
 
   return (
     <div className="relative inline-block text-left" ref={dropdownRef}>
-      <div onClick={toggleDropdown} className="cursor-pointer">
+      <div onClick={toggleDropdown} className="cursor-pointer z-10">
         {view}
       </div>
 
       {isOpen && (
         <div
-          className="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5"
+          className="origin-top-right z-50 absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5"
           role="menu"
           aria-orientation="vertical"
           aria-labelledby="options-menu"

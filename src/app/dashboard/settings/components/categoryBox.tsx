@@ -8,7 +8,7 @@ import DeleteCategory from "./delete_category";
 import NewCategory from "./new_category";
 
 interface ICatProps {
-  icon: ReactNode;
+  icon: string;
   title: string;
 }
 
@@ -44,7 +44,7 @@ const CategoriesBox: FC<ICatProps> = ({ icon, title }) => {
         style={styles}
       >
         <div className="flex gap-3 items-center">
-          <div>{icon}</div>
+          <img src={icon} className="w-[32px] h-[32px] object-contain" alt="" />
 
           <h4>{title}</h4>
         </div>
@@ -56,9 +56,10 @@ const CategoriesBox: FC<ICatProps> = ({ icon, title }) => {
         </div>
       </div>
 
-      <Modal isOpen={isModalOpen} onClose={closeModal}>
+      {/* <Modal isOpen={isModalOpen} onClose={closeModal}>
         <NewCategory />
-      </Modal>
+      </Modal> */}
+
       {/* Modal to delete item */}
       <Modal isOpen={isDeleteModal} onClose={closeDeleteModal}>
         <DeleteCategory />

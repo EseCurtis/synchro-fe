@@ -1,4 +1,5 @@
 "use client";
+import moment from "moment";
 import React, { useState } from "react";
 
 const arrow_with_bar = (
@@ -74,13 +75,13 @@ const colabsIcon = (
   </svg>
 );
 
-const Audit_Box = () => {
+const Audit_Box = ({ item }: { item: any }) => {
   const [open, setOpen] = useState(false);
 
   const openAccordion = () => (!open ? setOpen(true) : setOpen(!true));
 
   const plusIcon = (
-    <div className="cursor-pointer" onClick={openAccordion}>
+    <div className="cursor-pointer">
       <svg
         width="24"
         height="24"
@@ -108,24 +109,11 @@ const Audit_Box = () => {
       <div className="flex gap-5 my-10">
         <div>{plusIcon}</div>
         <div className="flex justify-between  w-[80%]">
-          <p>
-            <span
-              style={{
-                color: "green",
-              }}
-            >
-              Ese
-            </span>{" "}
-            edited a user profile of{" "}
-            <span
-              style={{
-                color: "#2F80ED",
-              }}
-            >
-              Kylian Mbappe
-            </span>
+          <p>{item?.title}</p>
+          <p className="text-text_primary">
+            {moment(item?.created_at).format("MMM DD YYYY")} at{" "}
+            {moment(item?.created_at).format("HH:mm A")}
           </p>
-          <p className="text-text_primary">May 12 2020 at 2:30</p>
         </div>
       </div>
       {/* dropdown  */}

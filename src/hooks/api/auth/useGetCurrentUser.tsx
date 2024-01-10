@@ -7,6 +7,7 @@ import {
 } from "@tanstack/react-query";
 import axios from "axios";
 import { useTQuery } from "../useTQuery";
+import { baseUrl } from "@/helpers";
 
 export function useGetUserWithoutContext(
   options?: UseMutationOptions<any, unknown, any, unknown>
@@ -16,7 +17,7 @@ export function useGetUserWithoutContext(
   return useMutation(
     (accessToken: string) =>
       axios
-        .get(`${process.env.NEXT_PUBLIC_API_URL}/user/admin/me`, {
+        .get(`${baseUrl}/user/admin/me`, {
           headers: {
             Authorization: `Bearer ${accessToken}`,
             Accept: "application/json",

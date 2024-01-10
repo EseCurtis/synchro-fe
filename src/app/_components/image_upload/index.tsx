@@ -1,4 +1,6 @@
+import { useTMutation } from "@/hooks/api/useTMutation";
 import React, { useState } from "react";
+import { Spinner } from "../spinner/Spinner";
 
 const clipboardIcon = (
   <svg
@@ -15,9 +17,16 @@ const clipboardIcon = (
   </svg>
 );
 
-function ImageUpload() {
+function ImageUpload({
+  onDone,
+  id,
+}: {
+  onDone?: (image: string) => void;
+  id: string;
+}) {
   const [image, setImage] = useState<string | null>(null);
   const [isDragOver, setIsDragOver] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
@@ -29,6 +38,65 @@ function ImageUpload() {
     setIsDragOver(false);
   };
 
+  const readFile = (file: any) => {
+    const reader = new FileReader();
+
+    reader.onload = (e) => {
+      if (e.target) {
+        setImage(e.target.result as string);
+      }
+    };
+
+    reader.readAsDataURL(file);
+  };
+
+  const { mutate, isLoading } = useTMutation({
+    url: "/upload/image-signature",
+    method: "get",
+  });
+
+  const handleUpload = (file: any) => {
+    mutate(
+      {
+        file,
+      },
+      {
+        onSuccess: async (data) => {
+          try {
+            setLoading(true);
+
+            const formData = new FormData() as any;
+            formData.append("file", file);
+            const { cloudName, apiKey, signature, timestamp } = data.data;
+            formData.append("cloud_name", cloudName);
+            formData.append("api_key", apiKey);
+            formData.append("signature", signature);
+            formData.append("timestamp", timestamp);
+
+            const uploadRes = await fetch(
+              `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,
+              {
+                method: "post",
+                body: formData,
+              }
+            );
+
+            const res = await uploadRes.json();
+
+            onDone && onDone(res.secure_url);
+
+            readFile(file);
+
+            setLoading(false);
+          } catch (error) {
+            console.log(error);
+            setLoading(false);
+          }
+        },
+      }
+    );
+  };
+
   const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     setIsDragOver(false);
@@ -36,15 +104,7 @@ function ImageUpload() {
     const file = e.dataTransfer.files[0];
 
     if (file && file.type.startsWith("image/")) {
-      const reader = new FileReader();
-
-      reader.onload = (e) => {
-        if (e.target) {
-          setImage(e.target.result as string);
-        }
-      };
-
-      reader.readAsDataURL(file);
+      handleUpload(file);
     } else {
       alert("Please drop a valid image file.");
     }
@@ -54,15 +114,7 @@ function ImageUpload() {
     const file = e.target.files?.[0];
 
     if (file && file.type.startsWith("image/")) {
-      const reader = new FileReader();
-
-      reader.onload = (e) => {
-        if (e.target) {
-          setImage(e.target.result as string);
-        }
-      };
-
-      reader.readAsDataURL(file);
+      handleUpload(file);
     } else {
       alert("Please select a valid image file.");
     }
@@ -79,26 +131,28 @@ function ImageUpload() {
         onDrop={handleDrop}
       >
         <div className="mb-4 display flex items-center justify-center">
-          <p className="text-gray-600 flex gap-1">{clipboardIcon} Drag & drop or</p>
+          <p className="text-gray-600 flex gap-1">
+            {isLoading || loading ? <Spinner /> : clipboardIcon} Drag & drop or
+          </p>
           <input
             type="file"
-            id="fileInput"
+            id={id}
             className="hidden"
             onChange={handleFileInputChange}
           />
           <label
-            htmlFor="fileInput"
+            htmlFor={id}
             className="text-blue-500 hover:text-blue-600 py-2 px-1 rounded cursor-pointer"
           >
             Browse
           </label>
           <p className="text-gray-600 flex gap-1">to add files.</p>
         </div>
-        <div id="dropArea" className="hidden">
+        <div id={"dropArea" + id} className="hidden">
           <p className="text-gray-600">Drop your image here</p>
         </div>
       </div>
-      <div id="preview" className="mt-4">
+      <div id={"preview" + id} className="mt-4">
         {image && (
           <img src={image} alt="Uploaded" className="max-w-full mx-auto" />
         )}

@@ -5,6 +5,7 @@ import { useState } from "react";
 import { pencil_edit } from "@/app/_components/icons/pencil_edit_icon";
 import Modal from "@/app/_components/popups/modal";
 import NotificationDetails from "./notification_details";
+import moment from "moment";
 
 const notificationIcon = (
   <svg
@@ -45,7 +46,7 @@ const notificationIcon = (
   </svg>
 );
 
-const NotificationBox = () => {
+const NotificationBox = ({ item }: { item: any }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDeleteModal, setDeleteModal] = useState(false);
   const [isInfoModal, setInfoModal] = useState(false);
@@ -80,24 +81,27 @@ const NotificationBox = () => {
     <>
       <div className="flex items-center justify-between">
         <div className="flex gap-4 items-center">
-          <div className=" rounded-full flex w-[fit-content] h-[fit-content]" onClick={openInfoModal}>
+          <div
+            className=" rounded-full flex w-[fit-content] h-[fit-content]"
+            onClick={openInfoModal}
+          >
             {notificationIcon}
           </div>
           <div>
-            <h3 className="">Notification</h3>
-            <p className="text-other_text">
-              Lorem ipsum dolor sit amet consectetur. Massa amet viverra ut at
-            </p>
+            <h3 className="">{item?.title}</h3>
+            <p className="text-other_text">{item?.message}</p>
           </div>
         </div>
         <div className="flex  items-center gap-[20px]">
-          <p className="text-other_text">1 Aug</p>
-          <div className="flex gap-5 items-center">
+          <p className="text-other_text">
+            {moment(item?.createdAt).format("D MMM, YYYY")}
+          </p>
+          {/* <div className="flex gap-5 items-center">
             <div onClick={openModal} className="cursor-pointer">{pencil_edit}</div>
             <div onClick={openDeleteModal} className="cursor-pointer">
               <Delete_Circle />
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
 

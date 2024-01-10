@@ -5,6 +5,7 @@ import { SlCalender } from "react-icons/sl";
 import { BiBell } from "react-icons/bi";
 import moment from "moment";
 import NotificationModal from "./components/notification_modal";
+import { useAuthContext } from "@/contexts/AuthContext";
 
 interface DashboaradHeaderProps {
   title: string;
@@ -15,6 +16,8 @@ const DashboaradHeader: React.FC<DashboaradHeaderProps> = ({
   title,
   quantity,
 }) => {
+  const { user } = useAuthContext();
+
   return (
     <div
       className="flex justify-between items-center py-[1em]"
@@ -35,8 +38,16 @@ const DashboaradHeader: React.FC<DashboaradHeaderProps> = ({
         <NotificationModal />
 
         <div className="flex gap-2 items-center">
-          <div className="w-[32px] h-[32px] rounded-full bg-gray-500"></div>
-          <h3>Barbara Riley</h3>
+          <img
+            src={user?.profileImage}
+            className="w-[32px] h-[32px] rounded-full bg-gray-500 object-cover"
+            alt="profile image"
+          ></img>
+          <h3>
+            {user?.firstName
+              ? `${user?.firstName} ${user?.lastName}`
+              : user?.username}
+          </h3>
         </div>
       </div>
     </div>

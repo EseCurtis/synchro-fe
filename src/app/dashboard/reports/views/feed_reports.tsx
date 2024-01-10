@@ -1,29 +1,29 @@
 "use client";
+
 import DashboardAction from "@/app/_components/dashboard/dashboardAction";
 import DefaultTable from "@/app/_components/table/defaultTable";
 import TablePagination from "@/app/_components/table/tablePagination";
 import { table } from "@/utils/contents/dummy/table";
-import { FiMoreHorizontal } from "react-icons/fi";
-import React, { useState } from "react";
+import React, { useState, Fragment } from "react";
 import Image from "../../../../../node_modules/next/image";
+import Dropdown from "@/app/_components/popups/dropDown";
 import Modal from "@/app/_components/popups/modal";
-import ServiceDetails from "../components/service_details";
+import UserDetails from "../components/user_details";
 import { useTQuery } from "@/hooks/api/useTQuery";
 import moment from "moment";
 import { usePaginatedQuery } from "@/hooks/api/usePaginatedQuery";
 import { Spinner } from "@/app/_components/spinner/Spinner";
 
 const header = [
-  "Services ",
-  "Location",
-  "Price",
-  "Total Earned",
-  "Date Created",
+  // "Fullname Name ",
+  "Title",
+  "Reasons",
+  "Image",
+  "Date Reported",
   "Actions",
 ];
-
 const style = "px-6 py-4 whitespace-no-wrap border-b border-gray-300";
-const ApprovedServices = () => {
+const FeedsReport = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const openModal = () => {
@@ -36,12 +36,12 @@ const ApprovedServices = () => {
 
   const { isLoading, data, hasNextPage, fetchNextPage, isFetchingNextPage } =
     usePaginatedQuery({
-      url: "/service/for-admin?status=approved",
-      queryKey: ["services", "approved-services"],
+      url: "/report/for-admin?type=feed",
+      queryKey: ["reports", "feed-report"],
       enabled: true,
     });
 
-  const services = data?.pages?.map((e: any) => e.data.data).flat() as any[];
+  const reports = data?.pages?.map((e: any) => e.data.data).flat() as any[];
 
   if (isLoading) {
     return <Spinner />;
@@ -52,55 +52,57 @@ const ApprovedServices = () => {
       <DashboardAction />
       {/* @ts-ignore */}
       <DefaultTable header={header}>
-        {services?.map((_: any, key: number) => {
+        {reports?.map((_: any, key: number) => {
           return (
             <tr key={key}>
+              {/* <td className={style}>
+                <div className="flex gap-5 items-center">
+                  <div className="w-[3em] h-[3em] bg-gray-500 rounded-full"></div>
+                  <div>
+                    <h3>{_.name}</h3>
+                    <p className="text-second_primary_text">{_.email}</p>
+                  </div>
+                </div>
+              </td> */}
               <td className={style}>
-                <h3>{_.name}</h3>
+                <h3>{_.title}</h3>
               </td>
               <td className={style}>
-                <h3>{_.address}</h3>
+                <h3>{_.description}</h3>
               </td>
               <td className={style}>
-                <h3>{_?.packages?.length} Packages</h3>
-              </td>
-              <td className={style}>
-                <h3>{_?.totalRatings}</h3>
+                <h3 className="underline">
+                  <a href={_?.imageUrl}>Open Image</a>
+                </h3>
               </td>
               <td className={style}>
                 <h3>{moment(_?.createdAt).format("MMM DD YYYY")}</h3>
               </td>
               <td className={style}>
-                <button>
-                  <div className="w-10 h-10">
-                    <img
-                      src="/images/icons/dashboard/table/more.svg"
-                      className="w-8 h-8"
-                      alt=""
-                      onClick={openModal}
-                    />
-                  </div>
-                </button>
+                <div className="w-10 h-10">
+                  <img
+                    src="/images/icons/dashboard/table/more.svg"
+                    className="w-8 h-9"
+                    alt=""
+                    onClick={openModal}
+                  />
+                </div>
               </td>
             </tr>
           );
         })}
       </DefaultTable>
 
-      {services?.length > 0 ? (
-        <TablePagination
-          loading={isFetchingNextPage}
-          onFetchMore={fetchNextPage}
-        />
-      ) : (
-        <p className="pt-4 text-center">No data to display</p>
-      )}
+      <TablePagination
+        loading={isFetchingNextPage}
+        onFetchMore={fetchNextPage}
+      />
 
       <Modal isOpen={isModalOpen} onClose={closeModal}>
-        <ServiceDetails />
+        <UserDetails />
       </Modal>
     </div>
   );
 };
 
-export default ApprovedServices;
+export default FeedsReport;

@@ -2,6 +2,7 @@
 
 import React, { FC, ReactNode, useState } from "react";
 import styles from "./index.module.css";
+import { useAuthContext } from "@/contexts/AuthContext";
 
 interface ITabData {
   header: string;
@@ -22,18 +23,22 @@ const TabComponent: FC<IpropsData> = ({ data }: IpropsData) => {
   return (
     <div>
       <div className={`flex gap-[3em] ${styles.tab}`}>
-        {data?.map((tab, index) => (
-          <button
-            key={index}
-            onClick={() => handleTabClick(index)}
-            className={`tab-button ${
-              activeTab === index ? styles.active_tab : ""
-            }`}
-          >
-            {tab?.header}
-          </button>
-        ))}
+        {data?.map(
+          (tab, index) =>
+            tab?.header && (
+              <button
+                key={index}
+                onClick={() => handleTabClick(index)}
+                className={`tab-button ${
+                  activeTab === index ? styles.active_tab : ""
+                }`}
+              >
+                {tab?.header}
+              </button>
+            )
+        )}
       </div>
+
       <div className="tab-content my-10">
         {data.map((tab, index) => (
           <div

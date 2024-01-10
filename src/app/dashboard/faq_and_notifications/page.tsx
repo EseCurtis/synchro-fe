@@ -6,12 +6,12 @@ import Notifications from "./view/notification";
 
 const data = [
   {
-    header: "FAQs",
-    component: <Faqs />,
-  },
-  {
     header: "NOTIFICATIONS ",
     component: <Notifications />,
+  },
+  {
+    header: "FAQs",
+    component: <Faqs />,
   },
 ];
 const Faqs_and_notifications = () => {

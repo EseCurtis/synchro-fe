@@ -6,10 +6,11 @@ import UsersReport from "./views/report_users";
 import EventsReports from "./views/events";
 import VenuesReport from "./views/venuesReport";
 import ServicesReports from "./views/servicesReport";
+import FeedsReport from "./views/feed_reports";
 
 const data = [
   {
-    header: "Users",
+    header: "User",
     component: <UsersReport />,
   },
   {
@@ -17,13 +18,13 @@ const data = [
     component: <EventsReports />,
   },
   {
-    header: "Venues ",
-    component: <VenuesReport />,
+    header: "Feeds ",
+    component: <FeedsReport />,
   },
-  {
-    header: "Services ",
-    component: <ServicesReports />,
-  },
+  // {
+  //   header: "Services ",
+  //   component: <ServicesReports />,
+  // },
 ];
 const ReportIssues = () => {
   return (

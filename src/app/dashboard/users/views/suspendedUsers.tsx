@@ -2,18 +2,21 @@
 import DashboardAction from "@/app/_components/dashboard/dashboardAction";
 import DefaultTable from "@/app/_components/table/defaultTable";
 import TablePagination from "@/app/_components/table/tablePagination";
-import { table } from "@/utils/contents/dummy/table";
 import React from "react";
 import Modal from "@/app/_components/popups/modal";
 import { useState } from "react";
 import ViewSuspended from "../components/viewSuspended";
+import { Spinner } from "@/app/_components/spinner/Spinner";
+import moment from "moment";
+import { usePaginatedQuery } from "@/hooks/api/usePaginatedQuery";
 
 const header = [
   "Fullname ",
   "Username",
-  "Reasons",
-  "Duration",
+  // "Reasons",
+  // "Duration",
   "Date Suspended",
+  "Actions",
 ];
 
 const style = "px-6 py-4 whitespace-no-wrap border-b border-gray-300";
@@ -21,8 +24,8 @@ const style = "px-6 py-4 whitespace-no-wrap border-b border-gray-300";
 const suspend_Icon = (
   <svg
     cursor="pointer"
-    width="16"
-    height="16"
+    width="20"
+    height="20"
     viewBox="0 0 16 16"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
@@ -39,56 +42,82 @@ const suspend_Icon = (
 
 const SuspendedUsers = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const openModal = () => {
-    setIsModalOpen(true);
-  };
+  const [activeUser, setActiveUser] = useState({});
 
   const closeModal = () => {
     setIsModalOpen(false);
   };
+
+  const { isLoading, data, hasNextPage, fetchNextPage, isRefetching } =
+    usePaginatedQuery({
+      url: "/user/admin/users?suspended=true",
+      queryKey: ["users", "suspended-users"],
+      enabled: true,
+    });
+
+  const users = data?.pages?.map((e: any) => e.data.data).flat() as any[];
+
+  if (isLoading) {
+    return <Spinner />;
+  }
+
+  if (users?.length < 1) {
+    return <p>No Data to show</p>;
+  }
 
   return (
     <div>
       <DashboardAction />
       {/* @ts-ignore */}
       <DefaultTable header={header}>
-        {table?.map((_, key: number) => {
+        {users?.map((_, key: number) => {
           return (
             <tr key={key}>
               <td className={style}>
                 <div className="flex gap-5 items-center">
-                  <div className="w-[3em] h-[3em] bg-gray-500 rounded-full"></div>
+                  {_?.profileImage ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
+                      src={_?.profileImage}
+                      className="w-[3em] h-[3em] bg-gray-500 rounded-full"
+                      alt=""
+                    />
+                  ) : (
+                    <div className="w-[3em] h-[3em] bg-gray-500 rounded-full"></div>
+                  )}
                   <div>
-                    <h3>{_.name}</h3>
+                    <h3>{_?.firstName ?? _?.username}</h3>
                     <p className="text-second_primary_text">{_.email}</p>
                   </div>
                 </div>
               </td>
               <td className={style}>
-                <h3>{_.name}</h3>
+                <h3>{_.username}</h3>
               </td>
               <td className={style}>
-                <h3>{_.gender}</h3>
-              </td>
-              <td className={style}>
-                <h3>{_.number}</h3>
-              </td>
-              <td className={style}>
-                <h3>{_.date}</h3>
+                <h3>{moment().format("MMM DD YYYY")}</h3>
               </td>
 
               <td className={style}>
-                <h3 onClick={openModal}>{suspend_Icon}</h3>
+                <button
+                  onClick={() => {
+                    setIsModalOpen(true);
+                    setActiveUser(_);
+                  }}
+                  className="w-8 h-8"
+                >
+                  {suspend_Icon}
+                </button>
               </td>
             </tr>
           );
         })}
       </DefaultTable>
-      <TablePagination />
+
+      <TablePagination loading={isRefetching} onFetchMore={fetchNextPage} />
 
       <Modal isOpen={isModalOpen} onClose={closeModal}>
-        <ViewSuspended />
+        <ViewSuspended user={activeUser} />
       </Modal>
     </div>
   );
