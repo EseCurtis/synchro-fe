@@ -25,9 +25,11 @@ const header = [
 const style = "px-6 py-4 whitespace-no-wrap border-b border-gray-300";
 const ApprovedServices = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedService, setSelectedService] = useState({});
 
-  const openModal = () => {
+  const openModal = (service: any) => {
     setIsModalOpen(true);
+    setSelectedService(service);
   };
 
   const closeModal = () => {
@@ -77,7 +79,7 @@ const ApprovedServices = () => {
                       src="/images/icons/dashboard/table/more.svg"
                       className="w-8 h-8"
                       alt=""
-                      onClick={openModal}
+                      onClick={() => openModal(_)}
                     />
                   </div>
                 </button>
@@ -97,7 +99,7 @@ const ApprovedServices = () => {
       )}
 
       <Modal isOpen={isModalOpen} onClose={closeModal}>
-        <ServiceDetails />
+        <ServiceDetails data={selectedService}/>
       </Modal>
     </div>
   );

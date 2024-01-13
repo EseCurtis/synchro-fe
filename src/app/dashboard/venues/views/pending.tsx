@@ -27,9 +27,11 @@ const header = [
 const style = "px-6 py-4 whitespace-no-wrap border-b border-gray-300";
 const PendingVenues = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedData, setSelectedData] = useState({});
 
-  const openModal = () => {
+  const openModal = (data: any) => {
     setIsModalOpen(true);
+    setSelectedData(data);
   };
 
   const closeModal = () => {
@@ -133,7 +135,7 @@ const PendingVenues = () => {
       )}
 
       <Modal isOpen={isModalOpen} onClose={closeModal}>
-        <VenueDetails />
+        <VenueDetails data={selectedData} />
       </Modal>
     </div>
   );

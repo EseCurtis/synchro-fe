@@ -31,7 +31,7 @@ const buttonStyle = {
   color: "#fff",
 };
 
-const VenueDetails = () => {
+const VenueDetails = ({ data }: { data: any }) => {
   const [tabContent, setTabContent] = useState<any>(<Info />);
 
   return (

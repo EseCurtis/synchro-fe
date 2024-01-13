@@ -28,7 +28,7 @@ const buttonStyle = {
   color: "#fff",
 };
 
-const VenueDetails = () => {
+const VenueDetails = ({ data }: { data: any }) => {
   const [declineIsOpen, setDeclineIsOpen] = useState(false);
 
   return (

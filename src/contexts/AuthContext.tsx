@@ -60,6 +60,7 @@ export const AuthContext = createContext<AuthContextType>({
   isMenuOpen: true,
   setIsMenuOpen: () => {},
 });
+
 export const useAuthContext = () => useContext(AuthContext);
 
 export function AuthProvider({ children }: PropsWithChildren<{}>) {
