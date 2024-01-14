@@ -2,9 +2,10 @@ import React, { FC } from "react";
 
 interface IPropsBadge {
   status: "Active" | "Inactive" | "Disabled" | "Pending";
+  label?: string
 }
 
-const Badge: FC<IPropsBadge> = ({ status }: IPropsBadge) => {
+const Badge: FC<IPropsBadge> = ({ status, label }: IPropsBadge) => {
   let badge_status;
   let text_col;
   if (status === "Active") {
@@ -25,7 +26,7 @@ const Badge: FC<IPropsBadge> = ({ status }: IPropsBadge) => {
         background: badge_status,
       }}
     >
-      <p className={`font-600  ${text_col}`}>{status}</p>
+      <p className={`font-600  ${text_col}`}>{label || status}</p>
     </div>
   );
 };

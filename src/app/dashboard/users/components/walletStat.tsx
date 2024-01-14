@@ -38,7 +38,7 @@ const WalletStat = ({ walletHistory }: { walletHistory: any }) => {
         <div>
           <p className="text-second_primary_text">Wallet Balance</p>
           <h1 className="text-[25px] my-3 font-black leading-[30px]">
-            {formatNumber(walletBalance)}
+            ${formatNumber(walletBalance)}
           </h1>
         </div>
       </div>

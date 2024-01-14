@@ -1,13 +1,32 @@
-//@ts-nocheck
 import React, { Fragment, useState, useEffect, useRef } from "react";
 import NoNotifications from "./no_notifications";
 import NotificationItem from "./notification_item";
 import { BiBell } from "react-icons/bi";
+import { useParams } from "next/navigation";
+import { usePaginatedQuery } from "@/hooks/api/usePaginatedQuery";
+import customStyles from "@/app/_components/customStyles/index.module.css";
 
 const NotificationModal = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [view, setView] = useState(true);
   const modalRef = useRef(null);
+
+  const params = useParams();
+  const id = params.id;
+
+  const {
+    data: notificationResponse,
+    fetchNextPage,
+    isFetchingNextPage,
+  }: any = usePaginatedQuery({
+    url: `/notification`,
+    queryKey: ["user", "notification"],
+    enabled: true,
+  });
+
+  const notificationHistory = notificationResponse?.pages
+    ?.map((e: any) => e.data.data)
+    .flat() as any[];
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -21,8 +40,9 @@ const NotificationModal = () => {
   };
 
   useEffect(() => {
-    const closeModal_Effect = (event) => {
-      if (modalRef.current && !modalRef.current.contains(event.target)) {
+    const closeModal_Effect = (event: any) => {
+      //@ts-ignore
+      if (modalRef.current && !modalRef.current!.contains(event.target)) {
         closeModal();
         setView(true);
       }
@@ -52,11 +72,11 @@ const NotificationModal = () => {
               <span className="absolute bg-white rounded rotate-45 w-5 h-5 top-[-10px] right-[35px] border-t border-l"></span>
 
               <div className="flex items-center justify-center h-[100%] ">
-                {!view ? (
-                  <div className="flex flex-col gap-4 w-[100%] h-[100%]">
-                    {[1, 2, 3, 1].map((i, j) => (
+                {(!view && notificationHistory.length > 0) ? (
+                  <div className={`${customStyles.customScrollbar} flex flex-col overflow-y-auto gap-4 w-[100%] h-[100%] custom-scroll`}>
+                    {notificationHistory?.map((data, j) => (
                       <Fragment key={j}>
-                        <NotificationItem />
+                        <NotificationItem {...data} />
                       </Fragment>
                     ))}
                   </div>

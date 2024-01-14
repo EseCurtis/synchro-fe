@@ -20,7 +20,7 @@ const notificationIcon = (
       cy="21"
       r="20"
       fill="#E9A084"
-      fill-opacity="0.06"
+      fillOpacity="0.06"
       stroke="#E9A084"
       stroke-opacity="0.56"
     />

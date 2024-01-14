@@ -27,7 +27,7 @@ const PreviewBox = () => {
   const id = params.id;
 
   const { data: userDetails } = useTQuery({
-    url: `/user/admin/users/${id}`,
+    url: `/user/${id}`,
     queryKey: ["users", String(id)],
   });
 

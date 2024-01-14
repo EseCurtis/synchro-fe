@@ -1,11 +1,6 @@
 import React, { FC } from "react";
-import {
-  FaMoneyCheckAlt,
-  FaMoneyBill,
-  FaTicketAlt,
-  FaUndo,
-  FaWallet,
-} from "react-icons/fa";
+import { GoArrowDownLeft, GoArrowUpRight } from "react-icons/go";
+import { MdArrowOutward } from "react-icons/md";
 
 interface TransactionIconProps {
   transactionType: string;
@@ -14,37 +9,37 @@ interface TransactionIconProps {
 const TransactionIcon: FC<TransactionIconProps> = ({ transactionType }) => {
   const getIcon = (type: string) => {
     switch (type) {
-      case "quote_payment":
-        return <FaMoneyCheckAlt />;
+      // case "quote_payment":
+      //   return <FaMoneyCheckAlt />;
       case "fundings":
-        return <FaMoneyBill />;
-      case "event-ticket":
-        return <FaTicketAlt />;
+        return <MdArrowOutward />;
+      // case "event-ticket":
+      //   return <FaTicketAlt />;
       case "booking_refund":
-        return <FaUndo />;
-      case "booking_payment":
-        return <FaWallet />;
+        return <GoArrowUpRight />;
+      // case "booking_payment":
+      //   return <FaWallet />;
       // Add more cases for other transaction types if needed
       default:
-        return null;
+        return <GoArrowDownLeft />;
     }
   };
 
   const getIconColor = (type: string) => {
     switch (type) {
-      case "quote_payment":
-        return "bg-blue-200 text-blue-500";
+      // case "quote_payment":
+      //   return "bg-blue-200 text-blue-500";
       case "fundings":
         return "bg-green-200 text-green-500";
-      case "event-ticket":
-        return "bg-purple-200 text-purple-500";
+      // case "event-ticket":
+      //   return "bg-purple-200 text-purple-500";
       case "booking_refund":
-        return "bg-orange-200 text-orange-500";
-      case "booking_payment":
-        return "bg-pink-200 text-pink-500";
-      // Add more cases for other transaction types if needed
+        return "bg-green-200 text-green-500";
+      // case "booking_payment":
+      //   return "bg-pink-200 text-pink-500";
+      // // Add more cases for other transaction types if needed
       default:
-        return "bg-gray-200";
+        return "bg-pink-200 text-pink-500";
     }
   };
 

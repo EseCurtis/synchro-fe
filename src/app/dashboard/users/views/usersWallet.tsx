@@ -1,12 +1,10 @@
-import React, { Fragment, useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import DefaultTable from "@/app/_components/table/defaultTable";
 import { TABLE_STYLE } from "@/constant";
-import { table } from "@/utils/contents/dummy/table";
 import Image from "next/image";
 import DashboardAction from "@/app/_components/dashboard/dashboardAction";
 import WalletStat from "../components/walletStat";
 import { formatNumber } from "@/utils/formatNumber";
-import { useTQuery } from "@/hooks/api/useTQuery";
 import { useParams } from "next/navigation";
 import moment from "moment";
 import TransactionIcon from "@/app/_components/wallet/TransactionIcon";
@@ -25,7 +23,7 @@ const ViewUsersWallet = () => {
     isFetchingNextPage,
   }: any = usePaginatedQuery({
     url: `/wallet/history?userId=${id}`,
-    queryKey: [],
+    queryKey: ["wallet", "user-wallet-history"],
     enabled: true,
   });
 
@@ -33,9 +31,6 @@ const ViewUsersWallet = () => {
     ?.map((e: any) => e.data.data)
     .flat() as any[];
 
-  useEffect(() => {
-    console.log(walletResponse);
-  }, [walletResponse]);
 
   return (
     <div>
@@ -61,7 +56,7 @@ const ViewUsersWallet = () => {
                     </div>
                   </td>
                   <td className={TABLE_STYLE}>
-                    <h3>{formatNumber(_?.amount)}</h3>
+                    <h3>${formatNumber(_?.amount)}</h3>
                   </td>
                   <td className={TABLE_STYLE}>
                     <h3>{_?.paymentMethod}</h3>

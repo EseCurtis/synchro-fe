@@ -1,15 +1,18 @@
-import React from "react";
+import React, { HTMLAttributes } from "react";
 
-interface ModalTabButtonProps {
+interface ModalTabButtonProps extends HTMLAttributes<HTMLButtonElement> {
   isActive: boolean;
   onClick: () => void;
-  label: String;
+  label: string;
+  customClass?: string;
 }
 
 const ModalTabButton: React.FC<ModalTabButtonProps> = ({
   isActive,
   onClick,
-  label
+  label,
+  customClass,
+  ...rest
 }) => {
   const buttonClass =
     "px-[5px] py-2 rounded-full text-[12px] text-black border border-2 border-gray-300";
@@ -22,9 +25,10 @@ const ModalTabButton: React.FC<ModalTabButtonProps> = ({
 
   return (
     <button
-      className={isActive ? `${buttonClass} active-tab` : buttonClass}
+      className={`${customClass} ${isActive ? `active-tab` : ``}  ${buttonClass}`}
       style={isActive ? buttonStyle : undefined}
       onClick={onClick}
+      {...rest}
     >
       {label}
     </button>

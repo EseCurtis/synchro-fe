@@ -1,6 +1,6 @@
 "use client";
 
-import React, { Fragment } from "react";
+import React, { Fragment, useEffect } from "react";
 import UserStat from "../components/userStat";
 import DefaultTable from "@/app/_components/table/defaultTable";
 import { TABLE_STYLE } from "@/constant";
@@ -12,16 +12,22 @@ import { eventViewData } from "../contents";
 import { useState } from "react";
 import Modal from "@/app/_components/popups/modal";
 import EventDetails from "../components/user/event_details";
+import { usePaginatedQuery } from "@/hooks/api/usePaginatedQuery";
+import { useParams } from "next/navigation";
+import TablePagination from "@/app/_components/table/tablePagination";
 
 const header = [
-  "Full Name",
-  "Username",
-  "Gender",
-  "Phone Number",
-  "Last Active",
+  "Event title",
+  "Category",
+  "Location",
+  "Event Date",
+  "",
 ];
 
 const ViewUserEvent = () => {
+  const params = useParams();
+  const id = params.id;
+
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const openModal = () => {
@@ -31,6 +37,24 @@ const ViewUserEvent = () => {
   const closeModal = () => {
     setIsModalOpen(false);
   };
+
+  const {
+    data,
+    fetchNextPage,
+    isFetchingNextPage,
+  }: any = usePaginatedQuery({
+    url: `event/user/${id}`,
+    queryKey: [],
+    enabled: true,
+  });
+
+  const events = data?.pages
+    ?.map((e: any) => e.data.data)
+    .flat() as any[];
+
+    useEffect(() => {
+      console.log(events);
+    }, []);
 
   return (
     <div>
@@ -46,7 +70,7 @@ const ViewUserEvent = () => {
         <DashboardAction />
         {/* @ts-ignore */}
         <DefaultTable header={header}>
-          {table?.map((_, key: number) => {
+          {events?.map((_, key: number) => {
             return (
               <tr key={key}>
                 <td className={TABLE_STYLE}>
@@ -83,6 +107,15 @@ const ViewUserEvent = () => {
             );
           })}
         </DefaultTable>
+
+        {events?.length > 0 ? (
+          <TablePagination
+            loading={isFetchingNextPage}
+            onFetchMore={fetchNextPage}
+          />
+        ) : (
+          <p className="pt-4 text-center">No data to display</p>
+        )}
 
         <Modal isOpen={isModalOpen} onClose={closeModal}>
           <EventDetails />

@@ -50,6 +50,7 @@ const DashboardBoardSidebar = () => {
                   width={24}
                   height={24}
                   alt="icons"
+                  
                   style={{ display: _.path === pathname ? "unset" : "none" }}
                 />
                 <Image
