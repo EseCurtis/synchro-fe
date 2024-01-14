@@ -18,14 +18,13 @@ import {
 import { useTQuery } from "@/hooks/api/useTQuery";
 import { useParams, useSearchParams } from "next/navigation";
 import { useTMutation } from "@/hooks/api/useTMutation";
+import { Spinner } from "@/app/_components/spinner/Spinner";
 import { toast } from "react-toastify";
 import { AppToast } from "@/app/_components/AppToast";
 
 const PreviewBox = () => {
   const params = useParams();
   const id = params.id;
-
-  //jiii
 
   const { data: userDetails } = useTQuery({
     url: `/user/admin/users/${id}`,

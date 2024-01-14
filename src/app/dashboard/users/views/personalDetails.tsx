@@ -2,7 +2,11 @@ import moment from "moment";
 import React from "react";
 
 const PersonalDetails = ({ user }: { user: any }) => {
-  console.log(user)
+  const fullName =
+    user?.firstName && user?.lastName
+      ? `${user.firstName} ${user.lastName}`
+      : null;
+  const displayFullName = fullName && fullName.length > 1 ? fullName : "N/A";
   return (
     <>
       <div>
@@ -19,7 +23,9 @@ const PersonalDetails = ({ user }: { user: any }) => {
           </div>
 
           <div className="flex flex-col gap-[3em]">
-            <h4 className="text-black">{(user?.firstName + " " + user?.lastName).length > 1 ? (user?.firstName + " " + user?.lastName) : "N/A"}</h4>
+            <h4 className="text-black">
+              {displayFullName}
+            </h4>
             <h4 className="text-black">{user?.username}</h4>
             <h4 className="text-black">{user?.phone ?? "N/A"}</h4>
             <h4 className="text-black">{user?.email}</h4>

@@ -1,11 +1,13 @@
 import { Button } from "@/app/_components/button";
 import customStyles from "@/app/_components/customStyles/index.module.css";
-import React, { useState } from "react";
+import React, { Fragment, ReactNode, useEffect, useState } from "react";
 import Info from "./venue/info";
 import ModalTabButton from "@/app/_components/button/modalTabButton";
 import Reviews from "./venue/reviews";
 import BookingDetails from "./venue/bookingDetails";
 import Photos from "./venue/photos";
+import { PiStar, PiUsers } from "react-icons/pi";
+import Image from "next/image";
 
 const hugIcon = (
   <svg
@@ -31,62 +33,92 @@ const buttonStyle = {
   color: "#fff",
 };
 
-const VenueDetails = ({ data }: { data: any }) => {
-  const [tabContent, setTabContent] = useState<any>(<Info />);
-
+const Categories: React.FC<any> = ({ dataset }: { dataset: any[] }) => {
   return (
-    <div>
+    <>
+      {dataset.map((item, i) => {
+        <Fragment key={i}>
+          <p className="flex items-center gap-3">
+            {hugIcon} <span className="text-sm text-gray-500">{item}</span>
+          </p>
+        </Fragment>;
+      })}
+    </>
+  );
+};
+
+const InfoSpan = ({
+  icon,
+  children,
+}: {
+  icon: ReactNode;
+  children: ReactNode;
+}) => {
+  return (
+    <div className="flex items-center gap-3">
+      <span className="bg-gray-300/50 w-[29px] h-[29px] rounded-full flex items-center justify-center">
+        {icon}
+      </span>
+      <span className="text-sm text-gray-500">
+        <span className="text-[11px] text-gray-500">{children}</span>
+      </span>
+    </div>
+  );
+};
+
+const VenueDetails = ({ data }: { data: any }) => {
+  const [tabContent, setTabContent] = useState<any>(<Info venue={data} />);
+
+  return (<div>
       <div className="font-bold text-center">Venue details</div>
+      
       <div
         className={`mt-5 p-5 overflow-y-scroll max-h-[70vh] ${customStyles.customScrollbar}`}
       >
         <div className="bg-gray-300 rounded w-[100%] h-[100px] relative">
-          <div className="bg-gray-500 rounded-full w-[70px] h-[70px] absolute right-[1em] bottom-[-30%] border border-[2px] border-white"></div>
+          <div className="w-full h-full absolute overflow-clip flex items-center justify-center rounded ">
+            <Image
+              src={JSON.parse(data.images[0])["url"]}
+              alt={data.user.username}
+              width={400}
+              height={100}
+              className="bg-[linear-gradient(#00000040,#fff)]"
+            />
+          </div>
+          <div className="overflow-clip bg-gray-500 rounded-full w-[70px] h-[70px] absolute right-[1em] bottom-[-30%] border-[2px] border-white">
+            <Image
+              src={data.user.profileImage}
+              alt={data.user.username}
+              width={100}
+              height={100}
+            />
+          </div>
           <p className="absolute font-bold left-[0] bottom-[-30px]">
-            Jakes Birthday Party
+            {data.name}
           </p>
         </div>
 
-        <div className="flex flex-wrap mt-10 w-[100%] gap-3">
-          <p className="flex items-center gap-3 w-[100%]">
-            {hugIcon}{" "}
-            <span className="text-sm text-gray-500">
-              Host: <u>Edd.Larkin32</u>
+        <div className="grid grid-cols-2 flex-wrap mt-10 w-[100%] gap-3">
+          <InfoSpan icon={hugIcon}>
+            Host: <u>{data.user.username}</u>
+          </InfoSpan>
+          <InfoSpan icon={<PiUsers />}>
+            Venue Type: <span>{data.type}</span>
+          </InfoSpan>
+          <InfoSpan icon={<PiStar />}>
+            <span>{data.size} guests capacity</span>
+          </InfoSpan>
+          <InfoSpan icon={<PiStar />}>
+            <span>
+              {data.totalRatings} ({data.totalReviews} reviews)
             </span>
-          </p>
-          <div className="grid grid-cols-2 gap-3">
-            <p className="flex items-center gap-3">
-              {hugIcon}{" "}
-              <span className="text-sm text-gray-500">Social gathering</span>
-            </p>
-            <p className="flex items-center gap-3">
-              {hugIcon}{" "}
-              <span className="text-sm text-gray-500">Private event</span>
-            </p>
-          </div>
-        </div>
-
-        <div className="grid mt-7 gap-4">
-          <div className="grid grid-cols-2 gap-auto">
-            <p className="text-sm text-gray-400">Reasons for report</p>
-            <p className="text-sm font-bold">
-              Lorem ipsum dolor sit amet consectetur.
-            </p>
-          </div>
-          <div className="grid grid-cols-2 gap-auto">
-            <p className="text-sm text-gray-400">Reported by</p>
-            <p className="text-sm font-bold">Jerry Koepp</p>
-          </div>
-          <div className="grid grid-cols-2 gap-auto">
-            <p className="text-sm text-gray-400">Date reported</p>
-            <p className="text-sm font-bold">11:32pm, May 3rd, 2021</p>
-          </div>
+          </InfoSpan>
         </div>
 
         <div className="grid grid-cols-3 gap-2 w-[100%] m-auto my-7">
           <ModalTabButton
             isActive={tabContent.type === Info}
-            onClick={() => setTabContent(<Info />)}
+            onClick={() => setTabContent(<Info venue={data} />)}
             label="Venue Info"
           />
           <ModalTabButton

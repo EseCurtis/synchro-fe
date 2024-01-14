@@ -1,0 +1,85 @@
+[
+  {
+    "id": "55a56488-b406-4b41-b73c-7441565f6b0a",
+    "createdAt": "2023-10-17T20:31:55.154Z",
+    "updatedAt": "2023-10-17T20:31:55.154Z",
+    "country": "Nigeria",
+    "address": "Ojodu Abiodun Road, Ojodu, Nigeria",
+    "apartment": "21",
+    "city": "Ifo",
+    "state": "Ojodu",
+    "zip": "100011",
+    "lat": "6.6539717",
+    "lng": "3.3654790",
+    "userId": "5be6e18e-4bde-4af9-909c-6d03b1bb430d",
+    "name": "New location",
+    "description": "This is a location for everyone",
+    "categories": ["Event", "Church", "Birthday"],
+    "size": "200",
+    "rules": "No littering",
+    "isWifi": false,
+    "wifiPassword": null,
+    "arrivalInstructions": "No noise",
+    "images": [
+      "{\"id\":\"E6nG6hDT2iNmfT0r2cz06\",\"url\":\"https://res.cloudinary.com/digital-specie/image/upload/v1697574653/uobf4tjed3hkfxfm05bg.jpg\",\"fileType\":\"image\"}"
+    ],
+    "cancellationPolicy": "Very Flexible",
+    "hours": [
+      "{\"day\":\"Monday\",\"times\":[{\"id\":\"5tcOSla4Z4wXKg2t26Ma0\",\"from\":\"2023-10-17T08:28:14.000Z\",\"to\":\"2023-10-17T20:28:14.400Z\"}]}",
+      "{\"day\":\"Tuesday\",\"times\":[{\"id\":\"-ftgbf0PKDWQB2KmUIejF\",\"from\":\"2023-10-17T09:28:14.000Z\",\"to\":\"2023-10-17T20:33:14.000Z\"}]}"
+    ],
+    "hourlyRate": "10.00",
+    "minHours": 10,
+    "moreHoursDiscount": 10,
+    "dailyRate": "100.00",
+    "totalRatings": "0.0",
+    "totalReviews": 0,
+    "isCleaningFeeIncluded": true,
+    "cleaningFee": "20.00",
+    "maxNumberOfGuests": 0,
+    "amenities": [
+      "Wifi",
+      "Parking space(s)",
+      "Projector",
+      "TV",
+      "Public transportation",
+      "Restrooms",
+      "Outdoor area",
+      "Security",
+      "Janitorial services",
+      "Wheelchair accessible",
+      "Street level access"
+    ],
+    "type": "House",
+    "minAge": 12,
+    "maxAge": 100,
+    "likers": [],
+    "likeCount": 0,
+    "status": "approved",
+    "user": {
+      "profileImage": "https://res.cloudinary.com/digital-specie/image/upload/v1683399969/rksfm9rgjp3nao8g9qmv.jpg",
+      "username": "codemobii.me",
+      "firstName": "Jimmy",
+      "lastName": "Newtron",
+      "bio": "My life and money",
+      "id": "5be6e18e-4bde-4af9-909c-6d03b1bb430d",
+      "business": {
+        "id": "6d1f7069-f474-4d0f-abbc-deecf0553ad4",
+        "name": "John’s Biz",
+        "description": "This is muse site",
+        "email": "Johno@gmail.com",
+        "phone": "9131930198",
+        "website": "Johno.com",
+        "dob": "2023-08-08T20:03:58.000Z",
+        "businessCategoryId": "3642b77c-0807-4203-a896-489ed68400e7",
+        "businessCategory": {
+          "id": "3642b77c-0807-4203-a896-489ed68400e7",
+          "name": "Health & Wellness",
+          "image": "dddd",
+          "white_icon": "dddd",
+          "black_icon": "dddd"
+        }
+      }
+    }
+  }
+]

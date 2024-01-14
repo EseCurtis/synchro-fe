@@ -12,6 +12,8 @@ const NotificationItem: React.FC<INotificationItem> = ({
 }) => {
   const [expanded, setExpanded] = useState<boolean>(false);
 
+
+
   return (
     <div
       className={`flex w-[100%] p-4 pt-1 items-center gap-4 border-b ${
@@ -31,31 +33,24 @@ const NotificationItem: React.FC<INotificationItem> = ({
       </div>
 
       <div
-        className={`animate transition-[4s]  rounded-md ${
+        className={`animate transition-[4s] ${
           expanded ? "flex flex-col item w-full h-full p-3 bg-white  " : ""
-        } absolute top-0 right-0 z-50`}
+        } absolute top-0 right-0`}
       >
-        
         <u
           className={`cursor-pointer text-xs top-0 right-5 bg-gray-500/10 p-1 px-2 rounded-full ${
-            !expanded ? "hidden " : " ml-auto"
+            !expanded ? "relative" : " ml-auto"
           }`}
           onClick={() => setExpanded(!expanded)}
         >
           {expanded ? "Close" : "Click to view"}
         </u>
+
         <div className={`${!expanded ? "hidden" : ""} py-3 `}>
           <b className="text-sm">{title}</b>
           <p className="text-xs">{message}</p>
         </div>
       </div>
-
-      <u
-          className={`cursor-pointer text-[10px] top-0 right-5 bg-gray-500/10 p-1 px-2 rounded-full absolute`}
-          onClick={() => setExpanded(!expanded)}
-        >
-          {expanded ? "Close" : "Click to view"}
-        </u>
     </div>
   );
 };
