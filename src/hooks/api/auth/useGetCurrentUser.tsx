@@ -1,0 +1,42 @@
+import {
+  useMutation,
+  UseMutationOptions,
+  UseMutationResult,
+  UseQueryResult,
+  UseQueryOptions,
+} from "@tanstack/react-query";
+import axios from "axios";
+import { useTQuery } from "../useTQuery";
+import { baseUrl } from "@/helpers";
+
+export function useGetUserWithoutContext(
+  options?: UseMutationOptions<any, unknown, any, unknown>
+): UseMutationResult<unknown, unknown, any, unknown> {
+  // Using a useMutation as opposed to useQuery for this GET request so
+  // it can be invoked by "mutate" only when needed
+  return useMutation(
+    (accessToken: string) =>
+      axios
+        .get(`${baseUrl}/user/admin/me`, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+        })
+        .then((res) => res.data),
+    options
+  );
+}
+
+export function useGetCurrentUser(
+  options?: UseQueryOptions<any, any, any, string[]>
+): UseQueryResult<any, unknown> {
+  // Using a useMutation as opposed to useQuery for this GET request so
+  // it can be invoked by "mutate" only when needed
+  return useTQuery({
+    queryKey: ["user"],
+    url: "/user/admin/me",
+    options,
+  });
+}

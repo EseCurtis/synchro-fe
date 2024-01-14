@@ -1,0 +1,41 @@
+{
+    "name": "Sample Event",
+    "description": "This is a sample event description.",
+    "image": "sample-image-url.jpg",
+    "fileType": "Image",
+    "location": "Sample Location",
+    "date": "2024-01-15T12:00:00Z",
+    "startTime": "2024-01-15T12:00:00Z",
+    "endTime": "2024-01-15T18:00:00Z",
+    "capacity": 100,
+    "isFree": true,
+    "isPaid": false,
+    "isOnline": true,
+    "isPhysical": false,
+    "isPrivate": false,
+    "isPublic": true,
+    "eventCategoryId": "sample-category-id",
+    "hashtags": ["sample", "event"],
+    "location_lat": 37.7749,
+    "location_lng": -122.4194,
+    "guestVisiblity": true,
+    "eventTickets": [
+      {
+        "name": "General Admission",
+        "quantity": 150,
+        "currency": "USD",
+        "price": 20.0,
+        "currencyLabel": "$"
+      },
+      {
+        "name": "VIP Access",
+        "quantity": 50,
+        "currency": "USD",
+        "price": 50.0,
+        "currencyLabel": "$"
+      }
+    ],
+    "venueId": "sample-venue-id",
+    "services": ["Catering", "Security"]
+  }
+  
