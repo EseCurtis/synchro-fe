@@ -1,15 +1,20 @@
 import { useTQuery } from "@/hooks/api/useTQuery";
+import moment from "moment";
 import { useParams } from "next/navigation";
-import React from "react";
+import React, { useEffect } from "react";
 
-const MembersView = () => {
+const MembersView = ({ user }: {user: any}) => {
   const params = useParams();
   const id = params.id;
 
-  const { data: userDetails } = useTQuery({
+  const { data: userDetails }: any =  useTQuery({
     url: `/user/admin/users/${id}`,
     queryKey: ["users", String(id)],
-  });
+  }).data;
+
+  // useEffect(() => {
+  //   console.log(userDetails);
+  // }, [userDetails]);
 
   return (
     <>
@@ -27,12 +32,20 @@ const MembersView = () => {
           </div>
 
           <div className="flex flex-col gap-[3em]">
-            <h4 className="text-black">Ese Curtis</h4>
-            <h4 className="text-black">Louisa Walachi</h4>
-            <h4 className="text-black">08012345678</h4>
-            <h4 className="text-black">Jessica.hanson@example.com</h4>
-            <h4 className="text-black">Male</h4>
-            <h4 className="text-black">25rd December 2007</h4>
+            <h4 className="text-black">{userDetails?.name ?? "N/A"}</h4>
+            <h4 className="text-black">{userDetails?.username}</h4>
+            <h4 className="text-black">{userDetails?.phone ?? "N/A"}</h4>
+            <h4 className="text-black">{userDetails?.email}</h4>
+            <h4 className="text-black">{userDetails?.gender ?? "N/A"}</h4>
+            <h4 className="text-black">
+              {moment(userDetails?.dob).format("MMM DD YYYY")}
+            </h4>
+            <h4 className="text-black">
+              {moment(userDetails?.last_login).format("MMM DD YYYY")}
+            </h4>
+            <h4 className="text-black">
+              {moment(userDetails?.createdAt).format("MMM DD YYYY")}
+            </h4>
           </div>
         </div>
       </div>

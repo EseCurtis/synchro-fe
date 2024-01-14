@@ -1,7 +1,16 @@
 import { formatNumber } from "@/utils/formatNumber";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
-const WalletStat = () => {
+const WalletStat = ({ walletResponse }: { walletResponse: any }) => {
+  const [walletBalance, setWalletBalance] = useState(0); 
+
+  useEffect(() => {
+    if(walletResponse?.data) {
+      const { data: walletHistory } = walletResponse.data;
+      setWalletBalance(walletHistory[0].balance);
+    }
+  }, [walletResponse]);
+
   return (
     <div>
       <div className="flex h-[67px] gap-4 items-center  w-[250px]">
@@ -30,7 +39,7 @@ const WalletStat = () => {
         <div>
           <p className="text-second_primary_text">Wallet Balance</p>
           <h1 className="text-[25px] my-3 font-black leading-[30px]">
-            {formatNumber(217560)}
+            {formatNumber(walletBalance)}
           </h1>
         </div>
       </div>

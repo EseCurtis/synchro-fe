@@ -41,7 +41,7 @@ const PreviewBox = () => {
     },
     user?.isBusiness && {
       header: "Business Details ",
-      component: <MembersView />,
+      component: <MembersView user={user} />,
     },
     {
       header: "Users",

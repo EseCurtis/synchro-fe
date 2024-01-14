@@ -13,9 +13,9 @@ const FilterComponent = () => {
         }}
       >
         <option value="">
-          <BiFilterAlt /> Filter
+          Filter
         </option>
-        <ExportButton />
+        {/* <ExportButton /> */}
       </select>
     </div>
   );
