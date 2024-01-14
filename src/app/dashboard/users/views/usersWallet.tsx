@@ -10,31 +10,37 @@ import { useTQuery } from "@/hooks/api/useTQuery";
 import { useParams } from "next/navigation";
 import moment from "moment";
 import TransactionIcon from "@/app/_components/wallet/TransactionIcon";
+import { usePaginatedQuery } from "@/hooks/api/usePaginatedQuery";
+import TablePagination from "@/app/_components/table/tablePagination";
 
 const header = ["Transaction ID", "Amount", "Source", "Recipiant", "Date"];
 
 const ViewUsersWallet = () => {
   const params = useParams();
   const id = params.id;
-  const [walletHistory, setWalletHistory] = useState<any>([]);
 
-  const {data: walletResponse }: any = useTQuery({
-    url: `/wallet/history?userId=${id}&page=1&limit=10`,
-    queryKey: ["data"],
+  const {
+    data: walletResponse,
+    fetchNextPage,
+    isFetchingNextPage,
+  }: any = usePaginatedQuery({
+    url: `/wallet/history?userId=${id}`,
+    queryKey: [],
+    enabled: true,
   });
 
-  useEffect(() => {
-    setWalletHistory(walletResponse?.data);
-  }, [walletResponse]);
+  const walletHistory = walletResponse?.pages
+    ?.map((e: any) => e.data.data)
+    .flat() as any[];
 
   useEffect(() => {
-    console.log(walletHistory);
-  }, [walletHistory]);
+    console.log(walletResponse);
+  }, [walletResponse]);
 
   return (
     <div>
       <div className="flex gap-5 my-[4em]">
-        <WalletStat walletResponse={walletResponse}/>
+        <WalletStat walletHistory={walletHistory} />
       </div>
 
       <div className="my-[3em]">
@@ -42,13 +48,14 @@ const ViewUsersWallet = () => {
         <DashboardAction />
         {/* @ts-ignore */}
         <DefaultTable header={header}>
-          {walletHistory?.data! && walletHistory?.data?.map((_: any, key: number) => {
+          {walletHistory &&
+            walletHistory?.map((_: any, key: number) => {
               return (
                 <tr key={key}>
                   <td className={TABLE_STYLE}>
                     <div className="flex gap-5 items-center justify-start w-full">
                       <div className="grid">
-                        <TransactionIcon transactionType={_?.transactionType}/>
+                        <TransactionIcon transactionType={_?.transactionType} />
                       </div>
                       <h3 className="text-sm col-span-1">{_?.id}</h3>
                     </div>
@@ -77,6 +84,15 @@ const ViewUsersWallet = () => {
               );
             })}
         </DefaultTable>
+
+        {walletHistory?.length > 0 ? (
+          <TablePagination
+            loading={isFetchingNextPage}
+            onFetchMore={fetchNextPage}
+          />
+        ) : (
+          <p className="pt-4 text-center">No data to display</p>
+        )}
       </div>
     </div>
   );

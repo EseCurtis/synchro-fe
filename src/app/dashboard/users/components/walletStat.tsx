@@ -1,15 +1,14 @@
 import { formatNumber } from "@/utils/formatNumber";
 import React, { useEffect, useState } from "react";
 
-const WalletStat = ({ walletResponse }: { walletResponse: any }) => {
+const WalletStat = ({ walletHistory }: { walletHistory: any }) => {
   const [walletBalance, setWalletBalance] = useState(0); 
 
   useEffect(() => {
-    if(walletResponse?.data) {
-      const { data: walletHistory } = walletResponse.data;
+    if(walletHistory) {
       setWalletBalance(walletHistory[0].balance);
     }
-  }, [walletResponse]);
+  }, [walletHistory]);
 
   return (
     <div>
