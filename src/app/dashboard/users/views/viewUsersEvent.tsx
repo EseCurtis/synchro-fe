@@ -29,9 +29,11 @@ const ViewUserEvent = () => {
   const id = params.id;
 
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedData, setSelectedData] = useState({});
 
-  const openModal = () => {
+  const openModal = (data: any) => {
     setIsModalOpen(true);
+    setSelectedData(data);
   };
 
   const closeModal = () => {
@@ -52,9 +54,9 @@ const ViewUserEvent = () => {
     ?.map((e: any) => e.data.data)
     .flat() as any[];
 
-    useEffect(() => {
-      console.log(events);
-    }, []);
+    // useEffect(() => {
+    //   console.log(events);
+    // }, []);
 
   return (
     <div>
@@ -100,7 +102,7 @@ const ViewUserEvent = () => {
                     width={32}
                     height={11}
                     alt=""
-                    onClick={openModal}
+                    onClick={() => openModal(_)}
                   />
                 </td>
               </tr>
@@ -118,7 +120,7 @@ const ViewUserEvent = () => {
         )}
 
         <Modal isOpen={isModalOpen} onClose={closeModal}>
-          <EventDetails />
+          <EventDetails event={selectedData}/>
         </Modal>
       </div>
     </div>

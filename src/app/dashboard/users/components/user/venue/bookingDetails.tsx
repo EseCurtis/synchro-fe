@@ -1,4 +1,5 @@
 import Badge from "@/app/_components/forms/badge";
+import moment from "moment";
 import React, { Fragment } from "react";
 
 const Item = ({ label, value }: { label: any; value: any }) => {
@@ -12,17 +13,33 @@ const Item = ({ label, value }: { label: any; value: any }) => {
   );
 };
 
-const BookingDetails = () => {
+const BookingDetails = ({ venue }: { venue: any }) => {
+  const date = JSON.parse(venue.hours[0]);
+
   const bookingDetails = [
-    { label: "Start date & time", value: "11:32pm, May 3rd, 2021" },
-    { label: "End date & time", value: "11:32pm, May 5th, 2021" },
-    { label: "Event title", value: "Jake`s birthday party" },
-    { label: "No attendees", value: "1,243 guests" },
-    { label: "Chosen package", value: "Wedding package" },
-    { label: "Subtotal", value: "$1,258" },
-    { label: "Processing fee", value: "$6.31" },
-    { label: "Total amount", value: "$1,253.31" },
-    { label: "Booking status", value: <Badge status="Active" /> },
+    {
+      label: "Start date & time",
+      value: moment(date.day.from).format("h:mma, MMM Do, YYYY"),
+    },
+    {
+      label: "End date & time",
+      value: moment(date.day.to).format("h:mma, MMM Do, YYYY"),
+    },
+    { label: "Event title", value: venue.name },
+    { label: "No attendees", value: `${venue.maxNumberOfGuests} Guests` },
+    { label: "Chosen package", value: venue.chosenPackage || "N/A" },
+    { label: "Subtotal", value: `$${venue.subtotal || "00"}` },
+    { label: "Processing fee", value: `$${venue.processingFeee || "00"}` },
+    { label: "Total amount", value: `$${venue.totalAmount || "00"}` },
+    {
+      label: "Booking status",
+      value: (
+        <Badge
+          label={venue.status}
+          status={venue.status === "approved" ? "Active" : "Inactive"}
+        />
+      ),
+    },
   ];
 
   return (

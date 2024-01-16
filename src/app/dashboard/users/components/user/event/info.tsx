@@ -8,8 +8,9 @@ import {
     PiTicket,
   } from "react-icons/pi";
   import { BiArrowToRight, BiInfoCircle, BiUser } from "react-icons/bi";
+import moment from "moment";
 
-const Info = () => {
+const Info = ({ data}: { data: any}) => {
     return (
         <div>
               <div className="grid mt-9 gap-4">
@@ -17,7 +18,7 @@ const Info = () => {
                   <span className="bg-gray-100 rounded-full p-2">
                     <PiCalendar />
                   </span>
-                  <p className="text-sm">9:00 PM - 11:00 PM February 2023</p>
+                  <p className="text-sm">{moment(data.startTime).format("h:mm A")} - {moment(data.endTime).format("h:mm A MMMM YYYY")}</p>
                 </div>
                 <div className="flex items-center gap-2">
                   <span className="bg-gray-100 rounded-full p-2">

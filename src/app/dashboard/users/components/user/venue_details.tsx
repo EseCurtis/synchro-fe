@@ -123,17 +123,17 @@ const VenueDetails = ({ data }: { data: any }) => {
           />
           <ModalTabButton
             isActive={tabContent.type === Photos}
-            onClick={() => setTabContent(<Photos />)}
+            onClick={() => setTabContent(<Photos venue={data} />)}
             label="Photos"
           />
           <ModalTabButton
             isActive={tabContent.type === BookingDetails}
-            onClick={() => setTabContent(<BookingDetails />)}
+            onClick={() => setTabContent(<BookingDetails venue={data} />)}
             label="Booking details"
           />
           <ModalTabButton
             isActive={tabContent.type === Reviews}
-            onClick={() => setTabContent(<Reviews />)}
+            onClick={() => setTabContent(<Reviews venue={data} />)}
             label="Reviews"
           />
         </div>

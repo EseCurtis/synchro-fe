@@ -1,6 +1,6 @@
 
 
-const Tickets = () => {
+const Tickets = ({ data}: { data: any}) => {
     return (
         <>Tickets</>
     )

@@ -35,40 +35,49 @@ const Item = () => {
   );
 };
 
-const Reviews = () => {
+const Reviews = ({ venue }: { venue: any }) => {
+  const reviews = venue?.reviews || [];
   return (
     <div>
       <h1 className="flex text-left gap-2 mb-3">
         Reviews{" "}
-        <span className="bg-green-200 text-green-400 p-1 py-1 rounded text-sm">
-          32
+        <span className="bg-green-200/50 text-green-400 p-1 py-1 rounded text-sm">
+          {reviews.length}
         </span>
       </h1>
 
-      <div className="flex items-center">
-        <Input
-          name="search"
-          type="search"
-          placeholder="Search for anything..."
-          style={{
-            width: "100%",
-            border: "1px solid #EEE",
-          }}
-        />
-        <FilterComponent/>
-      </div>
+      {reviews.length > 0 ? (
+        <>
+          <div className="flex items-center">
+            <Input
+              name="search"
+              type="search"
+              placeholder="Search for anything..."
+              style={{
+                width: "100%",
+                border: "1px solid #EEE",
+              }}
+            />
+            <FilterComponent />
+          </div>
 
-      <div className="grid gap-4 px-3">
-        {[...Array(6)].map((_, index) => (
-          <Item key={index} />
-        ))}
+          <div className="grid gap-4 px-3">
+            {reviews.map((_: any, index: any) => (
+              <Item key={index} {..._} />
+            ))}
 
-        <div className="text-center mt-7">
-          <h3 className="w-[auto] font-bold p-3 px-2 cursor-pointer rounded border border-gray-300">
-            Load more
-          </h3>
+            <div className="text-center mt-7">
+              <h3 className="w-[auto] font-bold p-3 px-2 cursor-pointer rounded border border-gray-300">
+                Load more
+              </h3>
+            </div>
+          </div>
+        </>
+      ) : (
+        <div className="text-center flex items-center justify-center p-3">
+          <span className="font-semibold text-gray-500/40">No Reviews Yet</span>
         </div>
-      </div>
+      )}
     </div>
   );
 };

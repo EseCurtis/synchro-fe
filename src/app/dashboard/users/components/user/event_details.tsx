@@ -30,8 +30,8 @@ const buttonStyle = {
   color: "#fff",
 };
 
-const EventDetails = () => {
-  const [tabContent, setTabContent] = useState<any>(<Info />);
+const EventDetails = ({ event }: { event: any }) => {
+  const [tabContent, setTabContent] = useState<any>(<Info data={event} />);
   const [declineIsOpen, setDeclineIsOpen] = useState(false);
 
   return (
@@ -45,9 +45,9 @@ const EventDetails = () => {
             className={`mt-5 p-5 overflow-y-scroll max-h-[70vh] ${customStyles.customScrollbar}`}
           >
             <div className="bg-gray-300 rounded w-[100%] h-[100px] relative">
-              <div className="bg-gray-500 rounded-full w-[70px] h-[70px] absolute right-[1em] bottom-[-30%] border border-[2px] border-white"></div>
+              <div className="bg-gray-500 rounded-full w-[70px] h-[70px] absolute right-[1em] bottom-[-30%] border-[2px] border-white"></div>
               <p className="absolute font-bold left-[0] bottom-[-30px]">
-                Jakes Birthday Party
+                {event.name}
               </p>
             </div>
 
@@ -55,7 +55,7 @@ const EventDetails = () => {
               <p className="flex items-center gap-3 w-[100%]">
                 {hugIcon}{" "}
                 <span className="text-sm text-gray-500">
-                  Host: <u>Edd.Larkin32</u>
+                  Host: <u>{event.host}</u>
                 </span>
               </p>
               <div className="grid grid-cols-2 gap-3">
@@ -72,7 +72,7 @@ const EventDetails = () => {
               </div>
             </div>
 
-            <div className="grid mt-7 gap-4">
+            {/* <div className="grid mt-7 gap-4">
               <div className="grid grid-cols-2 gap-auto">
                 <p className="text-sm text-gray-400">Reasons for report</p>
                 <p className="text-sm font-bold">
@@ -87,24 +87,24 @@ const EventDetails = () => {
                 <p className="text-sm text-gray-400">Date reported</p>
                 <p className="text-sm font-bold">11:32pm, May 3rd, 2021</p>
               </div>
-            </div>
+            </div> */}
 
             <div className="grid grid-cols-3 gap-2 w-[80%] h-[3em] m-auto p-3 mt-5">
               <ModalTabButton
                 isActive={tabContent.type === Info}
-                onClick={() => setTabContent(<Info />)}
+                onClick={() => setTabContent(<Info data={event} />)}
                 label="Events Info"
               />
 
               <ModalTabButton
                 isActive={tabContent.type === Guests}
-                onClick={() => setTabContent(<Guests />)}
+                onClick={() => setTabContent(<Guests data={event}  />)}
                 label="Guest"
               />
-              
+
               <ModalTabButton
                 isActive={tabContent.type === Tickets}
-                onClick={() => setTabContent(<Tickets />)}
+                onClick={() => setTabContent(<Tickets data={event}  />)}
                 label="Tickets"
               />
             </div>

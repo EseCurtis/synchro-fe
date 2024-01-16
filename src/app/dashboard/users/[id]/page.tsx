@@ -105,8 +105,8 @@ const PreviewBox = () => {
         </div>
 
         <div className="flex ">
-          {/* <div>{editIcon}</div> */}
-          {/* <button
+          <div>{editIcon}</div>
+          <button
             onClick={() => {
               if (user.suspended) {
                 mutate({
@@ -121,8 +121,8 @@ const PreviewBox = () => {
             }}
           >
             {isLoading || unsuspending ? <Spinner /> : noActionIcon}
-          </button> */}
-          {/* <div>{deleteIcon}</div> */}
+          </button>
+          <div>{deleteIcon}</div>
         </div>
       </div>
 

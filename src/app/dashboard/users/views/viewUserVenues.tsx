@@ -109,10 +109,11 @@ const ViewUserVenues = () => {
                 <td className={TABLE_STYLE}>
                   <Image
                     src="/images/icons/dashboard/table/more.svg"
-                    width={32}
-                    height={11}
+                    width={62}
+                    height={21}
                     alt=""
                     onClick={() => openModal(venue)}
+                    className="cursor-pointer"
                   />
                 </td>
               </tr>

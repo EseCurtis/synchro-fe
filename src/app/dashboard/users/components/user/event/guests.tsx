@@ -1,6 +1,6 @@
 
 
-const Guests = () => {
+const Guests = ({ data}: { data: any}) => {
     return (
         <>Guests</>
     )
