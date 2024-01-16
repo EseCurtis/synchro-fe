@@ -42,22 +42,22 @@ export const eventViewData = [
   {
     title: "Invited Events",
     icon: userFollowersIcon,
-    amount: 3400,
+    amount: 12,
   },
   {
     title: "Events Attended",
     icon: userFollowersIcon,
-    amount: 2000,
+    amount: 5,
   },
   {
     title: "Tickets Bought",
     icon: eventTotalTicketIcon,
-    amount: 10000,
+    amount: 1,
   },
   {
     title: "Total Tickets Values",
     icon: titcketValueIcon,
-    amount: 400,
+    amount: 3,
   },
 ];
 
@@ -65,23 +65,23 @@ export const venueViewData = [
   {
     title: "Booked Venues",
     icon: bookedVenueIcon,
-    amount: 3400,
+    amount: 2,
   },
   {
     title: "Total Booked Value",
     icon: bookedValueIcon,
-    amount: 2000,
+    amount: 240,
   },
 
   {
     title: "Venues Created",
     icon: venueCreatedIcon,
-    amount: 400,
+    amount: 1,
   },
   {
     title: "Total venue income",
     icon: totalVenueIcon,
-    amount: 10000,
+    amount: 200,
   },
 ];
 

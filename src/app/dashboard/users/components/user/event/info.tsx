@@ -25,7 +25,7 @@ const Info = ({ data}: { data: any}) => {
                     <PiMapPin />
                   </span>
                   <p className="text-sm">
-                    Maverick Plaza, 643 N. 10th street, New York, NY 10035
+                    {data.location}
                   </p>
                 </div>
                 <div className="flex gap-2">
@@ -41,7 +41,7 @@ const Info = ({ data}: { data: any}) => {
                       </div>
                       <span className="flex items-center whitespace-nowrap">
                         {" "}
-                        32 going
+                        {data.going} going
                       </span>
                     </div>
 
@@ -53,7 +53,7 @@ const Info = ({ data}: { data: any}) => {
                       </div>
                       <span className="flex items-center whitespace-nowrap">
                         {" "}
-                        12 maybe
+                       {data.maybeGoing} maybe
                       </span>
                     </div>
 
@@ -65,7 +65,7 @@ const Info = ({ data}: { data: any}) => {
                       </div>
                       <span className="flex items-center whitespace-nowrap text-[12px]">
                         {" "}
-                        5 not going
+                        {data.notGoing} not going
                       </span>
                     </div>
                   </div>
@@ -83,10 +83,7 @@ const Info = ({ data}: { data: any}) => {
                   <BiInfoCircle /> About
                 </h4>
                 <p>
-                  Lorem ipsum dolor sit amet consectetur. Gravida mollis nisi in
-                  consequat neque amet urna ac. Scelerisque eget integer
-                  vestibulum quis et. Arcu quis ut eget orci pellentesque.
-                  Tincidunt facilisis aenean nunc quis ac nec dictumst.
+                  {data.decription}
                 </p>
               </div>
 
