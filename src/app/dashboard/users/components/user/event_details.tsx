@@ -5,6 +5,8 @@ import Info from "./event/info";
 import Guests from "./event/guests";
 import Tickets from "./event/tickets";
 import ModalTabButton from "@/app/_components/button/modalTabButton";
+import Image from "next/image";
+import { useTQuery } from "@/hooks/api/useTQuery";
 
 const hugIcon = (
   <svg
@@ -34,6 +36,13 @@ const EventDetails = ({ event }: { event: any }) => {
   const [tabContent, setTabContent] = useState<any>(<Info data={event} />);
   const [declineIsOpen, setDeclineIsOpen] = useState(false);
 
+  const { data: userDetails }: { data: any } = useTQuery({
+    url: `/user/admin/users/${event?.userId}`,
+    queryKey: ["users", String(event?.userId)],
+  });
+
+  const authorInfo = userDetails?.data;
+
   return (
     <div>
       {declineIsOpen ? (
@@ -45,7 +54,23 @@ const EventDetails = ({ event }: { event: any }) => {
             className={`mt-5 p-5 overflow-y-scroll max-h-[70vh] ${customStyles.customScrollbar}`}
           >
             <div className="bg-gray-300 rounded w-[100%] h-[100px] relative">
-              <div className="bg-gray-500 rounded-full w-[70px] h-[70px] absolute right-[1em] bottom-[-30%] border-[2px] border-white"></div>
+              <div className="w-full h-full absolute overflow-clip flex items-center justify-center rounded ">
+                <Image
+                  src={event.image}
+                  alt={event.name}
+                  width={400}
+                  height={100}
+                  className="bg-[linear-gradient(#00000040,#fff)]"
+                />
+              </div>
+              <div className="bg-gray-500 rounded-full w-[70px] h-[70px] overflow-clip absolute right-[1em] bottom-[-30%] border-[2px] border-white">
+                <Image
+                  src={authorInfo?.profileImage}
+                  width={70}
+                  height={70}
+                  alt={authorInfo?.name}
+                />
+              </div>
               <p className="absolute font-bold left-[0] bottom-[-30px]">
                 {event.name}
               </p>
@@ -55,7 +80,10 @@ const EventDetails = ({ event }: { event: any }) => {
               <p className="flex items-center gap-3 w-[100%]">
                 {hugIcon}{" "}
                 <span className="text-sm text-gray-500">
-                  Host: <u>{event.host}</u>
+                  Host:{" "}
+                  <u>
+                    {authorInfo?.firstName} {authorInfo.lastName}
+                  </u>
                 </span>
               </p>
               <div className="grid grid-cols-2 gap-3">
@@ -98,13 +126,13 @@ const EventDetails = ({ event }: { event: any }) => {
 
               <ModalTabButton
                 isActive={tabContent.type === Guests}
-                onClick={() => setTabContent(<Guests data={event}  />)}
+                onClick={() => setTabContent(<Guests data={event} />)}
                 label="Guest"
               />
 
               <ModalTabButton
                 isActive={tabContent.type === Tickets}
-                onClick={() => setTabContent(<Tickets data={event}  />)}
+                onClick={() => setTabContent(<Tickets data={event} />)}
                 label="Tickets"
               />
             </div>

@@ -82,7 +82,7 @@ const getAmenityIcon = (amenity: string) => {
 };
 
 const Availability = ({ hours }: any) => {
-  hours = hours.map((hour: any) => {
+  hours = hours?.map((hour: any) => {
     const parsedHour = JSON.parse(hour);
     const startDate = moment(parsedHour.times[0].from);
     const endDate = moment(parsedHour.times[parsedHour.times.length - 1].to);
@@ -93,7 +93,7 @@ const Availability = ({ hours }: any) => {
     <div className="grid gap-3 mt-6">
       <h4 className="flex items-center gap-2">Availability</h4>
       <div className="unordered-list list-disc">
-        {hours.map((hour: any, i: number) => {
+        {hours?.map((hour: any, i: number) => {
           return (
             <Fragment key={i}>
               <li className="flex gap-3 text-sm">• {hour}</li>
