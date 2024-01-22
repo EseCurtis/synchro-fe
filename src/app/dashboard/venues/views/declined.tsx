@@ -6,11 +6,12 @@ import { table } from "@/utils/contents/dummy/table";
 import React, { useState } from "react";
 import Image from "../../../../../node_modules/next/image";
 import Modal from "@/app/_components/popups/modal";
-import VenueDetails from "../components/venue_details";
+import VenueDetails from "../../users/components/user/venue_details";
 import { useTQuery } from "@/hooks/api/useTQuery";
 import Link from "next/link";
 import moment from "moment";
 import { usePaginatedQuery } from "@/hooks/api/usePaginatedQuery";
+import NoData from "@/app/_components/table/NoData";
 
 const header = [
   "Venue ",
@@ -46,50 +47,52 @@ const DeclinedVenues = () => {
 
   return (
     <div>
-      <DashboardAction />
-      {/* @ts-ignore */}
-      <DefaultTable header={header}>
-        {venues?.map((_: any, key: number) => {
-          return (
-            <tr key={key}>
-              <td className={style}>
-                <h3>{_.name}</h3>
-              </td>
-              <td className={style}>
-                <Link href={`/dashboard/users/${_?.user?.id}`}>
-                  <h3 className="underline">{_?.user?.username}</h3>
-                </Link>
-              </td>
-              <td className={style}>
-                <h3>{_.address}</h3>
-              </td>
-              <td className={style}>
-                <h3>{_?.type}</h3>
-              </td>
-              <td className={style}>
-                <h3>{moment(_?.createdAt).format("MMM DD YYYY")}</h3>
-              </td>
-              <td className={style}>
-                <div className="w-10 h-10">
-                  <img
-                    src="/images/icons/dashboard/table/more.svg"
-                    className="w-8 h-8"
-                    alt=""
-                    onClick={openModal}
-                  />
-                </div>
-              </td>
-            </tr>
-          );
-        })}
-      </DefaultTable>
       {venues?.length > 0 ? (
-        <TablePagination
-          loading={isFetchingNextPage}
-          onFetchMore={fetchNextPage}
-        />
+        <>
+          <DashboardAction />
+          {/* @ts-ignore */}
+          <DefaultTable header={header}>
+            {venues?.map((_: any, key: number) => {
+              return (
+                <tr key={key}>
+                  <td className={style}>
+                    <h3>{_.name}</h3>
+                  </td>
+                  <td className={style}>
+                    <Link href={`/dashboard/users/${_?.user?.id}`}>
+                      <h3 className="underline">{_?.user?.username}</h3>
+                    </Link>
+                  </td>
+                  <td className={style}>
+                    <h3>{_.address}</h3>
+                  </td>
+                  <td className={style}>
+                    <h3>{_?.type}</h3>
+                  </td>
+                  <td className={style}>
+                    <h3>{moment(_?.createdAt).format("MMM DD YYYY")}</h3>
+                  </td>
+                  <td className={style}>
+                    <div className="w-10 h-10">
+                      <img
+                        src="/images/icons/dashboard/table/more.svg"
+                        className="w-8 h-8"
+                        alt=""
+                        onClick={openModal}
+                      />
+                    </div>
+                  </td>
+                </tr>
+              );
+            })}
+          </DefaultTable>
+          <TablePagination
+            loading={isFetchingNextPage}
+            onFetchMore={fetchNextPage}
+          />
+        </>
       ) : (
-        <p className="pt-4 text-center">No data to display</p>
+        <NoData/>
       )}
 
       <Modal isOpen={isModalOpen} onClose={closeModal}>

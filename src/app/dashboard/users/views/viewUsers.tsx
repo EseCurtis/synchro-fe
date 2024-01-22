@@ -15,6 +15,8 @@ import moment from "moment";
 import ModalTabButton from "@/app/_components/button/modalTabButton";
 import TablePagination from "@/app/_components/table/tablePagination";
 import { usePaginatedQuery } from "@/hooks/api/usePaginatedQuery";
+import NoData from "@/app/_components/table/NoData";
+import { TStringIndexObject } from "@/utils/types";
 
 const header = [
   "Full Name",
@@ -55,7 +57,7 @@ const ViewUsers = ({ user }: { user: any }) => {
     enabled: !!user?.id,
   });
 
-  const userData = {
+  const userData: TStringIndexObject = {
     // @ts-ignore
     followers: followersResponse?.pages
       ?.map((e: any) => e.data.data)
@@ -119,64 +121,69 @@ const ViewUsers = ({ user }: { user: any }) => {
                 isActive={displayedRecords[0] == _}
                 customClass="px-[20px!important]"
                 onClick={() => {
-                  //@ts-ignore
                   setDisplayedRecords([_, userData[_]]);
-                  //@ts-ignore
-                  setDisplayedRecordsActions([ userData[`${_}Actions`][0], userData[`${_}Actions`][1] ]);
+                  setDisplayedRecordsActions([
+                    userData[`${_}Actions`][0],
+                    userData[`${_}Actions`][1],
+                  ]);
                 }}
               />
             </Fragment>
           ))}
         </div>
-        <DashboardAction />
-        {/* @ts-ignore */}
-        <DefaultTable header={header}>
-          {(displayedRecords[1] || userData["followers"])?.map(
-            (_: any, key: number) => {
-              return (
-                <tr key={key}>
-                  <td className={TABLE_STYLE}>
-                    <div className="flex gap-5 items-center">
-                      {_?.profileImage ? (
-                        // eslint-disable-next-line @next/next/no-img-element
-                        <img
-                          src={_?.profileImage}
-                          className="w-[3em] h-[3em] bg-gray-500 rounded-full"
-                          alt=""
-                        />
-                      ) : (
-                        <div className="w-[3em] h-[3em] bg-gray-500 rounded-full"></div>
-                      )}
-                      <div>
-                        <h3>{_?.follower?.name ?? _?.follower?.username}</h3>
-                      </div>
-                    </div>
-                  </td>
-                  <td className={TABLE_STYLE}>
-                    <h3>{_?.follower?.username}</h3>
-                  </td>
-                  <td className={TABLE_STYLE}>
-                    <h3>{_?.follower?.gender ?? "N/A"}</h3>
-                  </td>
-                  <td className={TABLE_STYLE}>
-                    <h3>{_?.followe?.number ?? "N/A"}</h3>
-                  </td>
-                  <td className={TABLE_STYLE}>
-                    <h3>{moment(_?.createdAt).format("MMM DD YYYY")}</h3>
-                  </td>
-                </tr>
-              );
-            }
-          )}
-        </DefaultTable>
 
         {displayedRecords[1]?.length > 0 ? (
-          <TablePagination
-            loading={displayedRecordsActions[1]}
-            onFetchMore={displayedRecordsActions[0]}
-          />
+          <>
+            <DashboardAction />
+            {/* @ts-ignore */}
+            <DefaultTable header={header}>
+              {(displayedRecords[1] || userData["followers"])?.map(
+                (_: any, key: number) => {
+                  return (
+                    <tr key={key}>
+                      <td className={TABLE_STYLE}>
+                        <div className="flex gap-5 items-center">
+                          {_?.profileImage ? (
+                            // eslint-disable-next-line @next/next/no-img-element
+                            <img
+                              src={_?.profileImage}
+                              className="w-[3em] h-[3em] bg-gray-500 rounded-full"
+                              alt=""
+                            />
+                          ) : (
+                            <div className="w-[3em] h-[3em] bg-gray-500 rounded-full"></div>
+                          )}
+                          <div>
+                            <h3>
+                              {_?.follower?.name ?? _?.follower?.username}
+                            </h3>
+                          </div>
+                        </div>
+                      </td>
+                      <td className={TABLE_STYLE}>
+                        <h3>{_?.follower?.username}</h3>
+                      </td>
+                      <td className={TABLE_STYLE}>
+                        <h3>{_?.follower?.gender ?? "N/A"}</h3>
+                      </td>
+                      <td className={TABLE_STYLE}>
+                        <h3>{_?.followe?.number ?? "N/A"}</h3>
+                      </td>
+                      <td className={TABLE_STYLE}>
+                        <h3>{moment(_?.createdAt).format("MMM DD YYYY")}</h3>
+                      </td>
+                    </tr>
+                  );
+                }
+              )}
+            </DefaultTable>
+            <TablePagination
+              loading={displayedRecordsActions[1]}
+              onFetchMore={displayedRecordsActions[0]}
+            />
+          </>
         ) : (
-          <p className="pt-4 text-center">No data to display</p>
+          <NoData />
         )}
       </div>
     </div>

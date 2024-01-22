@@ -15,26 +15,11 @@ import moment from "moment";
 import { useTMutation } from "@/hooks/api/useTMutation";
 import { Spinner } from "@/app/_components/spinner/Spinner";
 import { useQueryClient } from "@tanstack/react-query";
+import EventDetails from "../../users/components/user/event_details";
 
 const header = ["Business Name ", "User", "Category", "Date", "Actions", ""];
 const style = "px-6 py-4 whitespace-no-wrap border-b border-gray-300";
 const PendingEvents = () => {
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const client = useQueryClient();
-
-  const toggleDropdown = () => {
-    setIsDropdownOpen(!isDropdownOpen);
-  };
-
-  const openModal = () => {
-    setIsModalOpen(true);
-  };
-
-  const closeModal = () => {
-    setIsModalOpen(false);
-  };
-
   const { data, refetch } = useTQuery({
     url: "/event/for-admin?status=pending&page=1&limit=10",
     queryKey: ["events", "pending-events"],
@@ -53,6 +38,24 @@ const PendingEvents = () => {
 
   // @ts-ignore
   const events = data?.data?.data;
+
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [activeData, setActiveData] = useState({});
+  const client = useQueryClient();
+
+  const toggleDropdown = (data: any) => {
+    setIsDropdownOpen(!isDropdownOpen);
+    setActiveData(data)
+  };
+
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
 
   const dropDownData = [
     {
@@ -156,7 +159,7 @@ const PendingEvents = () => {
                       width={30}
                       height={33}
                       alt=""
-                      onClick={toggleDropdown}
+                      onClick={() => toggleDropdown(_)}
                     />
                   }
                 >
@@ -177,7 +180,7 @@ const PendingEvents = () => {
       <TablePagination />
 
       <Modal isOpen={isModalOpen} onClose={closeModal}>
-        <ViewInformation />
+        <EventDetails event={activeData} />
       </Modal>
     </div>
   );

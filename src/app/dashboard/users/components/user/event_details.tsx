@@ -82,7 +82,7 @@ const EventDetails = ({ event }: { event: any }) => {
                 <span className="text-sm text-gray-500">
                   Host:{" "}
                   <u>
-                    {authorInfo?.firstName} {authorInfo.lastName}
+                    {authorInfo?.firstName} {authorInfo?.lastName}
                   </u>
                 </span>
               </p>

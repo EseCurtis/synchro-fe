@@ -6,7 +6,7 @@ import { table } from "@/utils/contents/dummy/table";
 import React, { useState } from "react";
 import Image from "../../../../../node_modules/next/image";
 import Modal from "@/app/_components/popups/modal";
-import VenueDetails from "../components/venue_details";
+import VenueDetails from "../../users/components/user/venue_details";
 import { useTQuery } from "@/hooks/api/useTQuery";
 import moment from "moment";
 import Link from "next/link";
@@ -14,6 +14,7 @@ import { Spinner } from "@/app/_components/spinner/Spinner";
 import { useTMutation } from "@/hooks/api/useTMutation";
 import { useQueryClient } from "@tanstack/react-query";
 import { usePaginatedQuery } from "@/hooks/api/usePaginatedQuery";
+import NoData from "@/app/_components/table/NoData";
 
 const header = [
   "Venue ",
@@ -61,7 +62,10 @@ const PendingVenues = () => {
 
   return (
     <div>
-      <DashboardAction />
+      
+      {venue?.length > 0 ? (
+        <>
+        <DashboardAction />
       {/* @ts-ignore */}
       <DefaultTable header={header}>
         {venue?.map((_: any, key: number) => {
@@ -125,13 +129,13 @@ const PendingVenues = () => {
           );
         })}
       </DefaultTable>
-      {venue?.length > 0 ? (
         <TablePagination
           loading={isFetchingNextPage}
           onFetchMore={fetchNextPage}
         />
+        </>
       ) : (
-        <p className="pt-4 text-center">No data to display</p>
+        <NoData/>
       )}
 
       <Modal isOpen={isModalOpen} onClose={closeModal}>

@@ -87,7 +87,7 @@ export const venueViewData = [
 
 export const serviceViewData = [
   {
-    title: "Booked Venues",
+    title: "Booked Services",
     icon: bookedServiceIcon,
     amount: 400,
   },
@@ -98,12 +98,12 @@ export const serviceViewData = [
   },
 
   {
-    title: "Venues Created",
+    title: "Services Created",
     icon: serviceCreatedIcon,
     amount: 93212,
   },
   {
-    title: "Total venue income",
+    title: "Total service income",
     icon: serviceIncomeIcon,
     amount: 90218,
   },
