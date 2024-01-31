@@ -42,6 +42,7 @@ const PendingService = () => {
 
   const closeModal = () => {
     setIsModalOpen(false);
+    setSuspendUserOpened(false);
   };
 
   const client = useQueryClient();
@@ -180,7 +181,7 @@ const PendingService = () => {
 
       <Modal isOpen={isModalOpen} onClose={closeModal}>
         {suspendUserOpened ? (
-          <SuspendUser user={selectedService?.user} />
+          <SuspendUser user={selectedService?.user} onClose={closeModal} />
         ) : (
           <ServiceDetails data={selectedService} onSuspendUser={onSuspendUser} />
         )}

@@ -28,7 +28,7 @@ const suspendIcon = (
   </svg>
 );
 
-const SuspendUser = ({ user }: { user: any }) => {
+const SuspendUser = ({ user, onClose = () => {} }: { user: any, onClose?: any }) => {
   const client = useQueryClient();
 
   const { mutate, isLoading } = useTMutation({
@@ -46,7 +46,7 @@ const SuspendUser = ({ user }: { user: any }) => {
   const [reason, setReason] = useState("");
 
   return (
-    <>
+    <div className="flex flex-col">
       <div className="flex flex-col gap-4">
         <div>
           <h3 className="font-bold flex gap-2">{suspendIcon} Suspend User</h3>
@@ -94,11 +94,12 @@ const SuspendUser = ({ user }: { user: any }) => {
         <Button
           style={{ background: "white", color: "red" }}
           customClassName="text-red-500 border border-2 border-red-500"
+          onClick={onClose}
         >
           Cancel
         </Button>
       </div>
-    </>
+    </div>
   );
 };
 
