@@ -15,6 +15,8 @@ import moment from "moment";
 import { usePaginatedQuery } from "@/hooks/api/usePaginatedQuery";
 import { Spinner } from "@/app/_components/spinner/Spinner";
 import NoData from "@/app/_components/table/NoData";
+import { User } from "@/contexts/AuthContext";
+import SuspendUser from "../../users/components/suspendUser";
 
 const header = [
   "Services ",
@@ -28,12 +30,15 @@ const header = [
 const style = "px-6 py-4 whitespace-no-wrap border-b border-gray-300";
 const PendingService = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedService, setSelectedService] = useState({});
+  const [selectedService, setSelectedService] = useState<any>({});
 
   const openModal = (service: any) => {
     setIsModalOpen(true);
     setSelectedService(service);
   };
+
+  const [suspendUserOpened, setSuspendUserOpened] = useState(false);
+  const onSuspendUser = () => setSuspendUserOpened(true);
 
   const closeModal = () => {
     setIsModalOpen(false);
@@ -48,8 +53,8 @@ const PendingService = () => {
     fetchNextPage,
     isFetchingNextPage,
   } = usePaginatedQuery({
-    url: "/service/for-admin?status=pending",
-    queryKey: ["services", "pending-services"],
+    url: "/service/for-admin?status=approved",
+    queryKey: ["services", "xpending-services"],
     enabled: true,
   });
 
@@ -80,19 +85,39 @@ const PendingService = () => {
               return (
                 <tr key={key}>
                   <td className={style}>
-                    <h3>{_.name}</h3>
+                    <div className="flex gap-2">
+                      <div className="flex overflow-hidden w-[3em] h-[3em] bg-gray-500 rounded-lg">
+                        <Image
+                          src={JSON.parse(_?.images[0]).url}
+                          className="w-[100%] h-[100%] object-fit"
+                          alt=""
+                          width={50}
+                          height={50}
+                        />
+                      </div>
+                      <div className="flex flex-col">
+                        <h3 className="text-sm whitespace-nowrap">{_.name}</h3>
+                        <u className="text-xs text-gray-400">
+                          @{_.user.username}
+                        </u>
+                      </div>
+                    </div>
                   </td>
                   <td className={style}>
-                    <h3>{_.address}</h3>
+                    <h3 className="text-sm">{_.address}</h3>
                   </td>
                   <td className={style}>
-                    <h3>{_?.packages?.length} Packages</h3>
+                    <h3 className="whitespace-nowrap text-sm">
+                      {_?.packages?.length} Packages
+                    </h3>
                   </td>
                   <td className={style}>
-                    <h3>{_?.totalRatings}</h3>
+                    <h3 className="text-sm">{_?.totalRatings}</h3>
                   </td>
                   <td className={style}>
-                    <h3>{moment(_?.createdAt).format("MMM DD YYYY")}</h3>
+                    <h3 className="text-sm">
+                      {moment(_?.createdAt).format("MMM DD YYYY")}
+                    </h3>
                   </td>
                   <td className={style}>
                     {isLoading ? (
@@ -150,11 +175,15 @@ const PendingService = () => {
           />
         </>
       ) : (
-        <NoData/>
+        <NoData />
       )}
 
       <Modal isOpen={isModalOpen} onClose={closeModal}>
-        <ServiceDetails data={selectedService} />
+        {suspendUserOpened ? (
+          <SuspendUser user={selectedService?.user} />
+        ) : (
+          <ServiceDetails data={selectedService} onSuspendUser={onSuspendUser} />
+        )}
       </Modal>
     </div>
   );

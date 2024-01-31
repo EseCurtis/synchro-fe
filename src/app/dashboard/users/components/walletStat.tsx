@@ -6,7 +6,7 @@ const WalletStat = ({ walletHistory }: { walletHistory: any }) => {
 
   useEffect(() => {
     if(walletHistory) {
-      setWalletBalance(walletHistory[0].balance);
+      setWalletBalance(walletHistory[0]?.balance || 0);
     }
   }, [walletHistory]);
 

@@ -1,7 +1,7 @@
 import React, { FC } from "react";
 
 interface IPropsBadge {
-  status: "Active" | "Inactive" | "Disabled" | "Pending";
+  status: "Active" | "Inactive" | "Disabled" | "Pending" | "approved";
   label?: string;
 }
 
@@ -9,7 +9,7 @@ const Badge: FC<IPropsBadge> = ({ status, label }: IPropsBadge) => {
   let badge_status;
   let text_col;
   
-  if (status === "Active") {
+  if (status === "Active" || status === "approved") {
     badge_status = "#2EB8721F";
     text_col = "text-success_text";
   } else if (status === "Pending") {

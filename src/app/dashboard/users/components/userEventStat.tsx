@@ -3,7 +3,7 @@ import React, { FC, ReactNode } from "react";
 
 interface IEventStat {
   title: string;
-  amount: number;
+  amount: number | string;
   icon: ReactNode;
 }
 

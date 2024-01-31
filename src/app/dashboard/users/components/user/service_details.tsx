@@ -4,8 +4,10 @@ import ModalTabButton from "@/app/_components/button/modalTabButton";
 import Reviews from "./service/reviews";
 import BookingDetails from "./service/bookingDetails";
 import Photos from "./service/photos";
-import Info from "./venue/info";
+import Info from "./service/info";
 import React, { useState } from "react";
+import Image from "next/image";
+import { FaInfo, FaInfoCircle, FaStar, FaUserCheck } from "react-icons/fa";
 
 const hugIcon = (
   <svg
@@ -23,8 +25,6 @@ const hugIcon = (
   </svg>
 );
 
-
-
 const buttonClass =
   "px-[2px] py-2 rounded-full text-[12px] text-black border border-2 border-gray-300 ";
 const buttonStyle = {
@@ -33,8 +33,10 @@ const buttonStyle = {
   color: "#fff",
 };
 
-const ServiceDetails = ({ data}: { data: any}) => {
-  const [tabContent, setTabContent] = useState<any>(<Info />);
+const ServiceDetails = ({ data }: { data: any }) => {
+  const [tabContent, setTabContent] = useState<any>(<Info data={data}/>);
+  const authorInfo = data.user;
+  data.image = JSON.parse(data.images[0]).url;
 
   return (
     <div>
@@ -43,67 +45,79 @@ const ServiceDetails = ({ data}: { data: any}) => {
         className={`mt-5 p-5 overflow-y-scroll max-h-[70vh] ${customStyles.customScrollbar}`}
       >
         <div className="bg-gray-300 rounded w-[100%] h-[100px] relative">
-          <div className="bg-gray-500 rounded-full w-[70px] h-[70px] absolute right-[1em] bottom-[-30%] border border-[2px] border-white"></div>
+          <div className="w-full h-full absolute overflow-clip flex items-center justify-center rounded ">
+            <Image
+              src={data.image}
+              alt={data.name}
+              width={400}
+              height={100}
+              className="bg-[linear-gradient(#00000040,#fff)]"
+            />
+          </div>
+          <div className="bg-gray-500 rounded-full w-[70px] h-[70px] overflow-clip absolute right-[1em] bottom-[-30%] border-[2px] border-white">
+            <Image
+              src={authorInfo?.profileImage}
+              width={70}
+              height={70}
+              alt={authorInfo?.name}
+            />
+          </div>
           <p className="absolute font-bold left-[0] bottom-[-30px]">
-            Jakes Birthday Party
+            {data.name}
           </p>
         </div>
 
-        <div className="flex flex-wrap mt-10 w-[100%] gap-3">
+        <div className="flex flex-wrap mt-[4em] w-[100%] gap-3">
           <p className="flex items-center gap-3 w-[100%]">
-            {hugIcon}{" "}
+            <div className="w-[25px] h-[25px] bg-gray-300 text-gray-700 flex items-center justify-center rounded-full">
+              <FaUserCheck />
+            </div>
             <span className="text-sm text-gray-500">
-              Host: <u>Edd.Larkin32</u>
+              Host:
+              <u>
+                {authorInfo?.firstname} {authorInfo?.lastname}
+              </u>
             </span>
           </p>
           <div className="grid grid-cols-2 gap-3">
             <p className="flex items-center gap-3">
-              {hugIcon}{" "}
-              <span className="text-sm text-gray-500">Social gathering</span>
+              <div className="w-[25px] h-[25px] bg-gray-300 text-gray-700 flex items-center justify-center rounded-full">
+                <FaInfoCircle />
+              </div>
+              <span className="text-sm text-gray-500">
+                {data?.businessCategory.name}
+              </span>
             </p>
             <p className="flex items-center gap-3">
-              {hugIcon}{" "}
-              <span className="text-sm text-gray-500">Private event</span>
+              <div className="w-[25px] h-[25px] bg-gray-300 text-gray-700 flex items-center justify-center rounded-full">
+                <FaStar />
+              </div>
+              <span className="text-sm text-gray-500">
+                {data.totalRatings}({data.totalReviews} Reviews)
+              </span>
             </p>
-          </div>
-        </div>
-
-        <div className="grid mt-7 gap-4">
-          <div className="grid grid-cols-2 gap-auto">
-            <p className="text-sm text-gray-400">Reasons for report</p>
-            <p className="text-sm font-bold">
-              Lorem ipsum dolor sit amet consectetur.
-            </p>
-          </div>
-          <div className="grid grid-cols-2 gap-auto">
-            <p className="text-sm text-gray-400">Reported by</p>
-            <p className="text-sm font-bold">Jerry Koepp</p>
-          </div>
-          <div className="grid grid-cols-2 gap-auto">
-            <p className="text-sm text-gray-400">Date reported</p>
-            <p className="text-sm font-bold">11:32pm, May 3rd, 2021</p>
           </div>
         </div>
 
         <div className="grid grid-cols-3 gap-2 w-[100%] m-auto my-7">
           <ModalTabButton
             isActive={tabContent.type === Info}
-            onClick={() => setTabContent(<Info />)}
-            label="Venue Info"
+            onClick={() => setTabContent(<Info data={data} />)}
+            label="Service Info"
           />
           <ModalTabButton
             isActive={tabContent.type === Photos}
-            onClick={() => setTabContent(<Photos />)}
+            onClick={() => setTabContent(<Photos data={data} />)}
             label="Photos"
           />
           <ModalTabButton
             isActive={tabContent.type === BookingDetails}
-            onClick={() => setTabContent(<BookingDetails />)}
-            label="Booking details"
+            onClick={() => setTabContent(<BookingDetails data={data} />)}
+            label="Bookings"
           />
           <ModalTabButton
             isActive={tabContent.type === Reviews}
-            onClick={() => setTabContent(<Reviews />)}
+            onClick={() => setTabContent(<Reviews data={data}/>)}
             label="Reviews"
           />
         </div>

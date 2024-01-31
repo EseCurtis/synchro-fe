@@ -4,8 +4,8 @@ import DefaultTable from "@/app/_components/table/defaultTable";
 import TablePagination from "@/app/_components/table/tablePagination";
 import { table } from "@/utils/contents/dummy/table";
 import { FiMoreHorizontal } from "react-icons/fi";
-import React, { useState } from "react";
-import Image from "../../../../../node_modules/next/image";
+import React, { useEffect, useState } from "react";
+import Image from "next/image";
 import Modal from "@/app/_components/popups/modal";
 import { useTQuery } from "@/hooks/api/useTQuery";
 import moment from "moment";
@@ -46,6 +46,10 @@ const ApprovedServices = () => {
 
   const services = data?.pages?.map((e: any) => e.data.data).flat() as any[];
 
+  useEffect(() => {
+    console.log(services);
+  }, [services]);
+
   if (isLoading) {
     return <Spinner />;
   }
@@ -62,19 +66,39 @@ const ApprovedServices = () => {
               return (
                 <tr key={key}>
                   <td className={style}>
-                    <h3>{_.name}</h3>
+                    <div className="flex gap-2">
+                      <div className="flex overflow-hidden w-[3em] h-[3em] bg-gray-500 rounded-lg">
+                        <Image
+                          src={JSON.parse(_?.images[0]).url}
+                          className="w-[100%] h-[100%] object-fit"
+                          alt=""
+                          width={50}
+                          height={50}
+                        />
+                      </div>
+                      <div className="flex flex-col">
+                        <h3 className="text-sm whitespace-nowrap">{_.name}</h3>
+                        <u className="text-xs text-gray-400">
+                          @{_.user.username}
+                        </u>
+                      </div>
+                    </div>
                   </td>
                   <td className={style}>
-                    <h3>{_.address}</h3>
+                    <h3 className="text-sm">{_.address}</h3>
                   </td>
                   <td className={style}>
-                    <h3>{_?.packages?.length} Packages</h3>
+                    <h3 className="whitespace-nowrap text-sm">
+                      {_?.packages?.length} Packages
+                    </h3>
                   </td>
                   <td className={style}>
-                    <h3>{_?.totalRatings}</h3>
+                    <h3 className="text-sm">{_?.totalRatings}</h3>
                   </td>
                   <td className={style}>
-                    <h3>{moment(_?.createdAt).format("MMM DD YYYY")}</h3>
+                    <h3 className="text-sm">
+                      {moment(_?.createdAt).format("MMM DD YYYY")}
+                    </h3>
                   </td>
                   <td className={style}>
                     <button>
@@ -98,7 +122,7 @@ const ApprovedServices = () => {
           />
         </>
       ) : (
-        <NoData/>
+        <NoData />
       )}
 
       <Modal isOpen={isModalOpen} onClose={closeModal}>

@@ -20,6 +20,14 @@ import TablePagination from "@/app/_components/table/tablePagination";
 import ModalTabButton from "@/app/_components/button/modalTabButton";
 import { TStringIndexObject } from "@/utils/types";
 import NoData from "@/app/_components/table/NoData";
+import {
+  bookedValueIcon,
+  bookedVenueIcon,
+  totalVenueIcon,
+  venueCreatedIcon,
+} from "@/app/_components/icons/preview/venuesStatIcon";
+import BookedVenues from "./VenueTables/BookedVenues";
+import CreatedVenues from "./VenueTables/CreatedVenues";
 
 const header = ["Venue", "Location", "Price", "Status", "Date"];
 
@@ -28,8 +36,8 @@ const ViewUserVenues = () => {
   const id = params.id;
 
   const bookedVenues: any = usePaginatedQuery({
-    url: `venue/user?userId=${id}`,
-    queryKey: ["venues", String(id)],
+    url: `booking/accepted/${id}?type=venue`,
+    queryKey: ["booked-venues", String(id)],
     enabled: true,
   });
 
@@ -42,6 +50,7 @@ const ViewUserVenues = () => {
   const tabDatas: TStringIndexObject = {
     "Booked venues": {
       response: bookedVenues,
+      tableRow: BookedVenues,
       data: bookedVenues?.data?.pages
         ?.map((e: any) => e.data.data)
         .flat() as any[],
@@ -62,6 +71,30 @@ const ViewUserVenues = () => {
     },
   };
 
+  const venueViewData = [
+    {
+      title: "Booked Venues",
+      icon: bookedVenueIcon,
+      amount: tabDatas["Booked venues"]?.data?.length,
+    },
+    {
+      title: "Total Booked Value",
+      icon: bookedValueIcon,
+      amount: 240,
+    },
+
+    {
+      title: "Venues Created",
+      icon: venueCreatedIcon,
+      amount: 1,
+    },
+    {
+      title: "Total venue income",
+      icon: totalVenueIcon,
+      amount: 200,
+    },
+  ];
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedData, setSelectedData] = useState({});
   const [activeTab, setActiveTab] = useState("Booked venues");
@@ -79,6 +112,14 @@ const ViewUserVenues = () => {
   useEffect(() => {
     setActiveTabData(tabDatas[activeTab]);
   }, [activeTab]);
+
+  useEffect(() => {
+    setActiveTab("Booked venues");
+  }, [])
+
+  // useEffect(() => {
+  //   console.log(activeTabData);
+  // }, [activeTabData]);
 
   return (
     <div>
@@ -112,68 +153,19 @@ const ViewUserVenues = () => {
             {/* @ts-ignore */}
             <DefaultTable header={header}>
               {activeTabData?.data?.map((venue: any, key: number) => {
-                const formattedDateRanges = venue.hours.map((hour: any) => {
-                  const parsedHour = JSON.parse(hour);
-                  const startDate = moment(parsedHour.times[0].from);
-                  const endDate = moment(
-                    parsedHour.times[parsedHour.times.length - 1].to
-                  );
-                  return `${startDate.format("MMMM Do")} - ${endDate.format(
-                    "Do, YYYY"
-                  )}`;
-                });
+                
 
-                return (
-                  <tr key={key}>
-                    <td className={TABLE_STYLE}>
-                      <div className="flex gap-5 items-center">
-                        <div className="w-[5em] h-[3em] flex items-center justify-center bg-gray-500 rounded-md overflow-clip">
-                          <Image
-                            src={JSON.parse(venue.images[0])["url"]}
-                            width={140}
-                            height={100}
-                            alt="lll"
-                          />
-                        </div>
-                        <div>
-                          <h3>{venue.name}</h3>
-                          <p className="text-second_primary_text ">
-                            {venue.user.username}
-                          </p>
-                        </div>
-                      </div>
-                    </td>
-                    <td className={TABLE_STYLE}>
-                      <h3 className="text-[14px]">{venue.address}</h3>
-                    </td>
-                    <td className={TABLE_STYLE}>
-                      <h3 className="text-[14px]">${venue.hourlyRate}/hr</h3>
-                    </td>
-                    <td className={TABLE_STYLE}>
-                      <h3 className="text-[14px]">
-                        <Badge
-                          label={venue.status}
-                          status={
-                            venue.status === "approved" ? "Active" : "Inactive"
-                          }
-                        />
-                      </h3>
-                    </td>
-                    <td className={TABLE_STYLE}>
-                      <h3 className="text-[14px]">{formattedDateRanges[1]}</h3>
-                    </td>
-                    <td className={TABLE_STYLE}>
-                      <Image
-                        src="/images/icons/dashboard/table/more.svg"
-                        width={62}
-                        height={21}
-                        alt=""
-                        onClick={() => openModal(venue)}
-                        className="cursor-pointer"
-                      />
-                    </td>
-                  </tr>
-                );
+                return <Fragment key={key}>
+                  {activeTabData?.tableRow({
+                    venue,
+                    openModal,
+                  }) || (
+                    <CreatedVenues
+                      venue={venue}
+                      openModal={openModal}
+                    />
+                  )}
+                </Fragment>;
               })}
             </DefaultTable>
             <TablePagination

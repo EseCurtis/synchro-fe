@@ -1,0 +1,89 @@
+{
+    "id": "64549c0c-faec-4986-8936-d3109e4949f0",
+    "createdAt": "2023-06-09T17:39:08.684Z",
+    "updatedAt": "2023-06-09T17:39:08.684Z",
+    "userId": "6b20f84d-4794-4b82-9b84-cdf37755fffb",
+    "serviceId": "214c8cc5-0e94-4738-b296-27c852c03f6a",
+    "venueId": null,
+    "businessUserId": "b75461a4-be5a-42f9-8d5b-d26f524b1ca3",
+    "fromDate": "2023-06-09T17:31:45.961Z",
+    "toDate": "2023-06-12T17:31:45.000Z",
+    "fromTime": "2023-06-09T16:30:45.000Z",
+    "toTime": "2023-06-09T18:30:45.000Z",
+    "description": "Please do this for a brother ",
+    "transactionId": null,
+    "totalAmount": "2600.00",
+    "bookType": "service",
+    "package": {
+        "name": "Wedding",
+        "amount": "1300",
+        "description": "New packages comes with new things and news things with new packages"
+    },
+    "status": "accepted",
+    "cancelReason": null,
+    "userPaid": false,
+    "eventTitle": null,
+    "attendees": null,
+    "reviewed": false,
+    "service": {
+        "id": "214c8cc5-0e94-4738-b296-27c852c03f6a",
+        "createdAt": "2023-06-07T07:57:18.708Z",
+        "updatedAt": "2023-06-07T07:57:18.708Z",
+        "country": "Nigeria",
+        "address": "Lagos - Ibadan Expressway, Nigeria",
+        "apartment": "12",
+        "city": "Ikeja",
+        "state": "Lagos",
+        "zip": "100011",
+        "lat": "6.9235877",
+        "lng": "3.6364221",
+        "businessCategoryId": "6f1e2a5b-74ef-456a-b60c-a2fc2396c675",
+        "userId": "b75461a4-be5a-42f9-8d5b-d26f524b1ca3",
+        "benefits": [
+            "Nice",
+            "Good"
+        ],
+        "description": "What are the thing we want that we don’t want but we want actually.",
+        "images": [
+            "{\"id\":\"4PpzfVJkpswABHfiyhSaS\",\"url\":\"https://res.cloudinary.com/digital-specie/image/upload/v1686123452/aqoh0dnfigmcusv08lyl.jpg\",\"fileType\":\"image\"}",
+            "{\"id\":\"JiGbTYAzSzl5QZ1HOoRPQ\",\"url\":\"https://res.cloudinary.com/digital-specie/image/upload/v1686123486/nyb71bmrykehg1jwbzls.jpg\",\"fileType\":\"image\"}"
+        ],
+        "packages": [
+            "{\"name\":\"Nice package\",\"amount\":550,\"description\":\"This is the paclage i was actually talking about. Please pay attention\",\"id\":\"vh0iftKtP_4dynlbLagi3\"}",
+            "{\"name\":\"Wedding\",\"amount\":\"1300\",\"description\":\"New packages comes with new things and news things with new packages\"}"
+        ],
+        "cancellationPolicy": "Flexible",
+        "name": "Jimmy Newtron",
+        "totalRatings": "0.0",
+        "totalReviews": 0,
+        "status": "pending",
+        "businessCategory": {
+            "id": "6f1e2a5b-74ef-456a-b60c-a2fc2396c675",
+            "createdAt": "2023-01-28T17:35:54.210Z",
+            "updatedAt": "2023-01-28T17:35:54.210Z",
+            "name": "Health & Wellness",
+            "description": "This is the description",
+            "image": "dddd",
+            "followerCount": 1,
+            "white_icon": null,
+            "black_icon": null
+        }
+    },
+    "venue": null,
+    "user": {
+        "profileImage": "https://res.cloudinary.com/digital-specie/image/upload/v1680508040/hiimypmawayblpcmkdrm.jpg",
+        "username": "ijele",
+        "firstName": "Timothy",
+        "lastName": "Oluchi",
+        "bio": "This is my life. I love how I live it. ❤️💕💕",
+        "id": "6b20f84d-4794-4b82-9b84-cdf37755fffb"
+    },
+    "businessUser": {
+        "profileImage": "https://res.cloudinary.com/digital-specie/image/upload/v1685887502/bz3mvqewdvisacetgyoa.jpg",
+        "username": "cepoye8791",
+        "firstName": "Jimmy",
+        "lastName": "Newtron",
+        "bio": null,
+        "id": "b75461a4-be5a-42f9-8d5b-d26f524b1ca3"
+    }
+}

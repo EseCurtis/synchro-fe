@@ -8,7 +8,6 @@ import { table } from "@/utils/contents/dummy/table";
 import Image from "next/image";
 import DashboardAction from "@/app/_components/dashboard/dashboardAction";
 import EventStat from "../components/userEventStat";
-import { eventViewData } from "../contents";
 import { useState } from "react";
 import Modal from "@/app/_components/popups/modal";
 import EventDetails from "../components/user/event_details";
@@ -20,6 +19,14 @@ import EventCategory from "../components/EventCategory";
 import ModalTabButton from "@/app/_components/button/modalTabButton";
 import { TStringIndexObject } from "@/utils/types";
 import NoData from "@/app/_components/table/NoData";
+import EventsCreated from "./EventTables/EventsCreated";
+import Tickets from "./EventTables/Tickets";
+import { userFollowersIcon } from "@/app/_components/icons/preview/usersStatIcon";
+import {
+  eventTotalTicketIcon,
+  titcketValueIcon,
+} from "@/app/_components/icons/preview/eventsStatIcons";
+import TicketDetails from "../components/user/ticket_details";
 
 const header = ["Event title", "Category", "Location", "Event Date", ""];
 
@@ -40,17 +47,43 @@ const ViewUserEvent = () => {
   });
 
   const tickets: any = usePaginatedQuery({
-    url: `event/user/${id}`,
-    queryKey: [],
+    url: `ticket/${id}`,
+    queryKey: ["ticket", String(id)],
     enabled: true,
   });
 
-  const tabDatas: TStringIndexObject = {
+  interface NoData {
+    title: string;
+    description: string;
+  }
+
+  interface TabData {
+    response: any;
+    data: any[];
+    noData: NoData;
+    total?: number;
+    totalBought?: number;
+    header?: string[];
+    tableRow?: any;
+    modalDetails?: any;
+  }
+
+  const getFlatData = (response: any): any[] =>
+    response?.data?.pages?.map((e: any) => e.data.data).flat() || [];
+
+  const calculateTotalBought = (tickets: any[]): number =>
+    tickets
+      .map((ticket: any) => parseFloat(ticket?.eventTicket.price) || 0)
+      .reduce(
+        (accumulator: number, currentPrice: number) =>
+          accumulator + currentPrice,
+        0
+      );
+
+  const tabDatas: Record<string, TabData> = {
     "Events Created": {
       response: eventsCreated,
-      data: eventsCreated?.data?.pages
-        ?.map((e: any) => e.data.data)
-        .flat() as any[],
+      data: getFlatData(eventsCreated),
       noData: {
         title: "No events created",
         description:
@@ -59,7 +92,7 @@ const ViewUserEvent = () => {
     },
     "Other Events": {
       response: otherEvents,
-      data: [],
+      data: getFlatData(otherEvents),
       noData: {
         title: "No other events",
         description:
@@ -68,17 +101,45 @@ const ViewUserEvent = () => {
     },
     Tickets: {
       response: tickets,
-      data: [],
+      data: getFlatData(tickets),
+      total: getFlatData(tickets).length,
+      totalBought: calculateTotalBought(getFlatData(tickets)),
+      header: ["Event Title", "Ticket Bought", "Ticket Value", "Event Date"],
+      tableRow: Tickets,
+      modalDetails: TicketDetails,
       noData: {
         title: "No tickets bought",
         description:
-          "This user don’t haven’t gotten a ticket yet, if they do, it will show here...",
+          "This user hasn't bought any tickets yet. If they do, it will show here...",
       },
     },
   };
 
+  const eventViewData = [
+    {
+      title: "Invited Events",
+      icon: userFollowersIcon,
+      amount: tabDatas["Events Created"].data.length,
+    },
+    {
+      title: "Events Attended",
+      icon: userFollowersIcon,
+      amount: 0,
+    },
+    {
+      title: "Tickets Bought",
+      icon: eventTotalTicketIcon,
+      amount: tabDatas["Tickets"].data.length,
+    },
+    {
+      title: "Total Tickets Values",
+      icon: titcketValueIcon,
+      amount: `$${tabDatas["Tickets"].totalBought}`,
+    },
+  ];
+
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedData, setSelectedData] = useState({});
+  const [selectedData, setSelectedData] = useState<any>({});
   const [activeTab, setActiveTab] = useState("Events Created");
   const [activeTabData, setActiveTabData] = useState<any>(tabDatas[activeTab]);
 
@@ -93,7 +154,8 @@ const ViewUserEvent = () => {
 
   useEffect(() => {
     setActiveTabData(tabDatas[activeTab]);
-    console.log(activeTabData);
+    //console.log("Tickets:",tickets?.data?.pages?.map((e: any) => e.data).flat());
+    //console.log(tabDatas[activeTab],activeTabData);
   }, [activeTab]);
 
   return (
@@ -124,48 +186,15 @@ const ViewUserEvent = () => {
         {activeTabData?.data?.length > 0 && (
           <>
             <DashboardAction />
-            <DefaultTable header={header as []}>
+            <DefaultTable header={(activeTabData.header || header) as []}>
               {activeTabData?.data?.map((_: any, key: number) => {
+                const tableRowProps = { openModal, _ };
+                console.log(activeTabData);
                 return (
-                  <tr key={key}>
-                    <td className={TABLE_STYLE}>
-                      <div className="flex gap-5 items-center">
-                        <div className="w-[5em] h-[3em] flex items-center justify-center bg-gray-500 rounded-md overflow-clip">
-                          <Image
-                            src={_.image}
-                            width={140}
-                            height={100}
-                            alt="lll"
-                          />
-                        </div>
-                        <div>
-                          <h3>{_.name}</h3>
-                          <p className="text-second_primary_text"></p>
-                        </div>
-                      </div>
-                    </td>
-                    <td className={TABLE_STYLE}>
-                      <h3>
-                        <EventCategory eventCategoryId={_.eventCategoryId} />
-                      </h3>
-                    </td>
-                    <td className={TABLE_STYLE}>
-                      <h3>{_.location}</h3>
-                    </td>
-                    <td className={TABLE_STYLE}>
-                      <h3>{moment(_.date).format("MMM DD YYYY h:m:s")}</h3>
-                    </td>
-                    <td className={TABLE_STYLE}>
-                      <Image
-                        src="/images/icons/dashboard/table/more.svg"
-                        width={32}
-                        height={11}
-                        alt=""
-                        onClick={() => openModal(_)}
-                        className="cursor-pointer"
-                      />
-                    </td>
-                  </tr>
+                  <Fragment key={key}>
+                    {activeTabData.tableRow(tableRowProps) ||
+                      EventsCreated(tableRowProps)}
+                  </Fragment>
                 );
               })}
             </DefaultTable>
@@ -182,8 +211,19 @@ const ViewUserEvent = () => {
         )}
 
         <Modal isOpen={isModalOpen} onClose={closeModal}>
-          <EventDetails event={selectedData} />
-        </Modal>
+          {activeTabData?.modalDetails ? (
+            activeTabData.modalDetails({ data: selectedData, openEvent: () => {
+              setSelectedData(selectedData?.eventTicket?.event);
+              setActiveTab("Events Created");
+            } })
+          ) : (
+            <EventDetails event={selectedData} />
+          )}
+        </Modal> 
+
+        <div className="hidden">
+          <TicketDetails data={tabDatas["Tickets"].data[0]}/>
+        </div>
       </div>
     </div>
   );
