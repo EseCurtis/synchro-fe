@@ -53,7 +53,7 @@ const Info = ({ data }: any) => {
               item = JSON.parse(item);
 
               return (
-                <div className="col-span-1">
+                <div className="col-span-1" key={key}>
                   <div className="flex flex-col gap-3">
                     <div className="flex items-center gap-3 text-xs">
                       <div className="bg-gray-200 rounded-full p-1">
@@ -79,7 +79,7 @@ const Info = ({ data }: any) => {
           <div className="flex gap-2 mt-3">
             {data.benefits.map((item: any, key: any) => {
               return (
-                <div className="col-span-1">
+                <div className="col-span-1" key={key}>
                   <span className="bg-gray-200 px-3 py-1 rounded-full">
                     {item}
                   </span>
