@@ -17,6 +17,8 @@ import { Spinner } from "@/app/_components/spinner/Spinner";
 import NoData from "@/app/_components/table/NoData";
 import { User } from "@/contexts/AuthContext";
 import SuspendUser from "../../users/components/suspendUser";
+import DeclineVenue from "../../venues/components/declineVenue";
+import DeclineService from "../components/declineService";
 
 const header = [
   "Services ",
@@ -38,7 +40,7 @@ const PendingService = () => {
   };
 
   const [suspendUserOpened, setSuspendUserOpened] = useState(false);
-  const onSuspendUser = () => setSuspendUserOpened(true);
+  const onDecline = () => setSuspendUserOpened(true);
 
   const closeModal = () => {
     setIsModalOpen(false);
@@ -54,8 +56,8 @@ const PendingService = () => {
     fetchNextPage,
     isFetchingNextPage,
   } = usePaginatedQuery({
-    url: "/service/for-admin?status=approved",
-    queryKey: ["services", "xpending-services"],
+    url: "/service/for-admin?status=pending",
+    queryKey: ["services", "pending-services"],
     enabled: true,
   });
 
@@ -116,7 +118,7 @@ const PendingService = () => {
                     <h3 className="text-sm">{_?.totalRatings}</h3>
                   </td>
                   <td className={style}>
-                    <h3 className="text-sm">
+                    <h3 className="text-sm whitespace-nowrap">
                       {moment(_?.createdAt).format("MMM DD YYYY")}
                     </h3>
                   </td>
@@ -125,33 +127,27 @@ const PendingService = () => {
                       <Spinner />
                     ) : (
                       <div className="flex items-center justify-space-around">
-                        <button
-                          onClick={() => {
-                            mutate({ eventId: _?.id, status: "approved" });
-                          }}
-                        >
-                          <div className="w-20 h-20">
-                            <img
-                              src="/images/icons/dashboard/table/tick.svg"
-                              className="w-20 h-20 object-contain"
-                              alt=""
-                            />
-                          </div>
-                        </button>
+                        <div className="flex gap-0  w-[200px]">
+                          <Image
+                            src="/images/icons/dashboard/table/tick.svg"
+                            alt=""
+                            width={72}
+                            height={72}
+                            onClick={() => {
+                              mutate({ eventId: _?.id, status: "approved" });
+                            }}
+                          />
 
-                        <button
-                          onClick={() => {
-                            mutate({ eventId: _?.id, status: "rejected" });
-                          }}
-                        >
-                          <div className="w-20 h-20">
-                            <img
-                              src="/images/icons/dashboard/table/times.svg"
-                              className="w-20 h-20 object-contain"
-                              alt=""
-                            />
-                          </div>
-                        </button>
+                          <Image
+                            src="/images/icons/dashboard/table/times.svg"
+                            alt=""
+                            width={72}
+                            height={72}
+                            onClick={() => {
+                              mutate({ eventId: _?.id, status: "rejected" });
+                            }}
+                          />
+                        </div>
 
                         <button>
                           <div className="w-10 h-10">
@@ -181,9 +177,15 @@ const PendingService = () => {
 
       <Modal isOpen={isModalOpen} onClose={closeModal}>
         {suspendUserOpened ? (
-          <SuspendUser user={selectedService?.user} onClose={closeModal} />
+          <DeclineService service={selectedService} onClose={closeModal} />
         ) : (
-          <ServiceDetails data={selectedService} onSuspendUser={onSuspendUser} />
+          <ServiceDetails
+            data={selectedService}
+            onDecline={onDecline}
+            onApprove={() => {
+              mutate({ eventId: selectedService?.id, status: "approved" });
+            }}
+          />
         )}
       </Modal>
     </div>

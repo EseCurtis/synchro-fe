@@ -31,7 +31,17 @@ const buttonStyle = {
   color: "#fff",
 };
 
-const ServiceDetails = ({ data, onSuspendUser }: { data: any, onSuspendUser: any }) => {
+const ServiceDetails = ({
+  data,
+  onDecline,
+  onApprove,
+  isDeclined,
+}: {
+  data: any;
+  onDecline?: any;
+  onApprove: any;
+  isDeclined?: any;
+}) => {
   const [tabContent, setTabContent] = useState<any>(<Info data={data} />);
   const authorInfo = data.user;
   data.image = JSON.parse(data.images[0]).url;
@@ -111,17 +121,27 @@ const ServiceDetails = ({ data, onSuspendUser }: { data: any, onSuspendUser: any
         </div>
 
         {tabContent}
-        
       </div>
-      <div className="mt-5 flex gap-4 items-center">
-          <Button onClick={onSuspendUser}>Suspend host</Button>
+      {isDeclined ? (
+        <div className="mt-5 flex flex-col gap-4 items-center">
+          <div className="border border-yellow-400 p-3 rounded-lg bg-yellow-100/40 text-sm w-full">
+            <b>Reasons For Rejection:</b>
+            <p>{data?.rejectionReason || "No reason specified"}</p>
+          </div>
+          <Button onClick={onApprove}>Approve</Button>
+        </div>
+      ) : (
+        <div className="mt-5 flex gap-4 items-center">
+          <Button onClick={onApprove}>Approve</Button>
           <Button
+            onClick={onDecline}
             style={{ background: "white", color: "red" }}
             customClassName="text-red-500 border border-2 border-red-500"
           >
-            Resolve
+            Decline
           </Button>
         </div>
+      )}
     </div>
   );
 };

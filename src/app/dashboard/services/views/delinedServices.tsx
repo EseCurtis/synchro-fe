@@ -26,7 +26,7 @@ const header = [
 const style = "px-6 py-4 whitespace-no-wrap border-b border-gray-300";
 const DeclineServices = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedService, setSelectedService] = useState({});
+  const [selectedService, setSelectedService] = useState<any>({});
 
   const openModal = (service: any) => {
     setIsModalOpen(true);
@@ -58,6 +58,7 @@ const DeclineServices = () => {
     options: {
       onSuccess() {
         client.invalidateQueries(["services"]);
+        closeModal()
       },
     },
   });
@@ -77,19 +78,39 @@ const DeclineServices = () => {
               return (
                 <tr key={key}>
                   <td className={style}>
-                    <h3>{_.name}</h3>
+                    <div className="flex gap-2">
+                      <div className="flex overflow-hidden w-[3em] h-[3em] bg-gray-500 rounded-lg">
+                        <Image
+                          src={JSON.parse(_?.images[0]).url}
+                          className="w-[100%] h-[100%] object-fit"
+                          alt=""
+                          width={50}
+                          height={50}
+                        />
+                      </div>
+                      <div className="flex flex-col">
+                        <h3 className="text-sm whitespace-nowrap">{_.name}</h3>
+                        <u className="text-xs text-gray-400">
+                          @{_.user.username}
+                        </u>
+                      </div>
+                    </div>
                   </td>
                   <td className={style}>
-                    <h3>{_.address}</h3>
+                    <h3 className="text-sm">{_.address}</h3>
                   </td>
                   <td className={style}>
-                    <h3>{_?.packages?.length} Packages</h3>
+                    <h3 className="whitespace-nowrap text-sm">
+                      {_?.packages?.length} Packages
+                    </h3>
                   </td>
                   <td className={style}>
-                    <h3>{_?.totalRatings}</h3>
+                    <h3 className="text-sm">{_?.totalRatings}</h3>
                   </td>
                   <td className={style}>
-                    <h3>{moment(_?.createdAt).format("MMM DD YYYY")}</h3>
+                    <h3 className="text-sm whitespace-nowrap">
+                      {moment(_?.createdAt).format("MMM DD YYYY")}
+                    </h3>
                   </td>
                   <td className={style}>
                     {isLoading ? (
@@ -134,11 +155,18 @@ const DeclineServices = () => {
           />
         </>
       ) : (
-        <NoData/>
+        <NoData />
       )}
 
       <Modal isOpen={isModalOpen} onClose={closeModal}>
-        <ServiceDetails data={selectedService} />
+        <ServiceDetails
+          data={selectedService}
+          onApprove={() => {
+            mutate({ eventId: selectedService?.id, status: "approved" });
+          }}
+
+          isDeclined
+        />
       </Modal>
     </div>
   );
