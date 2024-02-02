@@ -105,13 +105,14 @@ const UpdateCategory = ({ isEvent, category, categoryType, onClose }: any) => {
         <Button
           isLoading={isLoading || isLoadingEvent}
           onClick={() => {
-            isEvent ? mutate(data) : mutateBusiness(data);
+            isEvent ? mutate({update: data}) : mutateBusiness({update: data});
           }}
         >
           Update Category
         </Button>
 
         <Button
+          onClick={onClose}
           style={{ background: "white", color: "red" }}
           customClassName="text-red-500 border border-2 border-red-500"
         >
