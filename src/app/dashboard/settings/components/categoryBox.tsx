@@ -6,17 +6,20 @@ import Modal from "@/app/_components/popups/modal";
 import { useState } from "react";
 import DeleteCategory from "./delete_category";
 import NewCategory from "./new_category";
+import UpdateCategory from "./update_category";
 
 interface ICatProps {
   icon: string;
   title: string;
+  category: any;
+  categoryType: "event-category" | "business-category";
 }
 
 const styles = {
   border: "1px solid #E2E8F0",
 };
 
-const CategoriesBox: FC<ICatProps> = ({ icon, title }) => {
+const CategoriesBox: FC<ICatProps> = ({ icon, title, category, categoryType }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDeleteModal, setDeleteModal] = useState(false);
 
@@ -56,13 +59,13 @@ const CategoriesBox: FC<ICatProps> = ({ icon, title }) => {
         </div>
       </div>
 
-      {/* <Modal isOpen={isModalOpen} onClose={closeModal}>
-        <NewCategory />
-      </Modal> */}
+      <Modal isOpen={isModalOpen} onClose={closeModal}>
+        <UpdateCategory isEvent={categoryType == "event-category"} category={category} onClose={closeDeleteModal} categoryType={categoryType} />
+      </Modal>
 
       {/* Modal to delete item */}
       <Modal isOpen={isDeleteModal} onClose={closeDeleteModal}>
-        <DeleteCategory />
+        <DeleteCategory  category={category} categoryType={categoryType} onClose={closeDeleteModal}/>
       </Modal>
     </>
   );

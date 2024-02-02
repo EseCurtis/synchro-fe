@@ -95,7 +95,7 @@ const Categories = () => {
           <>
             {event_categories?.map((_: any, key: number) => (
               <Fragment key={key}>
-                <CategoriesBox title={_?.name} icon={_.image} />
+                <CategoriesBox title={_?.name} icon={_.image} category={_} categoryType="event-category" />
               </Fragment>
             ))}
           </>
@@ -103,7 +103,7 @@ const Categories = () => {
           <>
             {business_categories?.map((_: any, key: number) => (
               <Fragment key={key}>
-                <CategoriesBox title={_?.name} icon={_.image} />
+                <CategoriesBox title={_?.name} icon={_.image} category={_} categoryType="business-category"  />
               </Fragment>
             ))}
           </>

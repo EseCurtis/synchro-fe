@@ -1,5 +1,10 @@
+import { AppToast } from "@/app/_components/AppToast";
 import { Button } from "@/app/_components/button";
+import { Spinner } from "@/app/_components/spinner/Spinner";
+import { useTMutation } from "@/hooks/api/useTMutation";
+import { useQueryClient } from "@tanstack/react-query";
 import React from "react";
+import { toast } from "react-toastify";
 
 const deleteIcon = (
   <svg
@@ -23,18 +28,47 @@ const deleteIcon = (
   </svg>
 );
 
-const DeleteCategory = () => {
+const DeleteCategory = ({
+  category,
+  categoryType = "event-category",
+  onClose,
+}: any) => {
+  const routePoint = categoryType.replace("-category", "_categories");
+
+  const client = useQueryClient();
+  const { isLoading, mutate } = useTMutation({
+    url: `/category/${routePoint}/delete/${category.id}`,
+    method: "post",
+    options: {
+      onSuccess() {
+        client.invalidateQueries(["category", categoryType]);
+        onClose();
+        toast(<AppToast>Category Deleted</AppToast>, {
+          type: "success",
+          autoClose: 1000,
+        });
+      },
+    },
+  });
+
   return (
     <div>
       <h3 className="font-bold flex gap-2">{deleteIcon} Delete category</h3>
 
       <div className="form items-left mt-4">
-        <p>Are you sure you want to delete “<b>Motivation</b>” from the list of event&quot;s category?</p>
+        <p>
+          Are you sure you want to delete “<b>{category.name}</b>” from the list
+          of {categoryType.replace("-", " ")}?
+        </p>
       </div>
 
       <div className=" mt-5 flex gap-4 items-center">
-        <Button>Delete</Button>
-        <Button style={{ background: "white", color: "red" }} customClassName="text-red-500 border border-2 border-red-500">
+        <Button onClick={() => mutate({})}>Delete {isLoading && <Spinner/> }</Button>
+        <Button
+          onClick={onClose}
+          style={{ background: "white", color: "red" }}
+          customClassName="text-red-500 border border-2 border-red-500"
+        >
           Cancel
         </Button>
       </div>
