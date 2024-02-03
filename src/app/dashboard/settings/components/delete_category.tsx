@@ -47,7 +47,7 @@ const DeleteCategory = ({
           type: "success",
           autoClose: 1000,
         });
-      },
+      }
     },
   });
 

@@ -6,10 +6,12 @@ import React from "react";
 const ProfileInfo = () => {
   const { user } = useAuthContext();
 
+  console.log(user)
+
   return (
     <div>
       <img
-        src={user?.avatar}
+        src={user?.profileImage}
         className="rounded-full w-[80px] h-[80px] bg-gray-500 object-cover"
       ></img>
       <div className="my-3">

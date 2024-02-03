@@ -19,12 +19,14 @@ const clipboardIcon = (
 
 function ImageUpload({
   onDone,
+  defaultImage = null,
   id,
 }: {
   onDone?: (image: string) => void;
+  defaultImage?: string | null;
   id: string;
 }) {
-  const [image, setImage] = useState<string | null>(null);
+  const [image, setImage] = useState<string | null>(defaultImage);
   const [isDragOver, setIsDragOver] = useState(false);
   const [loading, setLoading] = useState(false);
 

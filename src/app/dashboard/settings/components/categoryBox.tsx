@@ -7,6 +7,7 @@ import { useState } from "react";
 import DeleteCategory from "./delete_category";
 import NewCategory from "./new_category";
 import UpdateCategory from "./update_category";
+import { brokenImageUrl } from "@/constant";
 
 interface ICatProps {
   icon: string;
@@ -47,7 +48,7 @@ const CategoriesBox: FC<ICatProps> = ({ icon, title, category, categoryType }) =
         style={styles}
       >
         <div className="flex gap-3 items-center">
-          <img src={icon} className="w-[32px] h-[32px] object-contain" alt="" />
+          <img src={icon || brokenImageUrl} className="w-[32px] h-[32px] object-contain bg-slate-900/70 rounded-full" alt="" />
 
           <h4>{title}</h4>
         </div>
@@ -60,7 +61,7 @@ const CategoriesBox: FC<ICatProps> = ({ icon, title, category, categoryType }) =
       </div>
 
       <Modal isOpen={isModalOpen} onClose={closeModal}>
-        <UpdateCategory isEvent={categoryType == "event-category"} category={category} onClose={closeDeleteModal} categoryType={categoryType} />
+        <UpdateCategory isEvent={categoryType == "event-category"} category={category} onClose={closeModal} categoryType={categoryType} />
       </Modal>
 
       {/* Modal to delete item */}

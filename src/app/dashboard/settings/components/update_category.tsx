@@ -22,7 +22,7 @@ const UpdateCategory = ({ isEvent, category, categoryType, onClose }: any) => {
     method: "post",
     options: {
       onSuccess: () => {
-        client.invalidateQueries(["category", categoryType]);
+        client.invalidateQueries(["category", "event-category"]);
         onClose();
         toast(<AppToast>Category Updated</AppToast>, {
           type: "success",
@@ -37,12 +37,16 @@ const UpdateCategory = ({ isEvent, category, categoryType, onClose }: any) => {
     method: "post",
     options: {
       onSuccess: () => {
-        client.invalidateQueries(["category", categoryType]);
+        client.invalidateQueries(["category", "business-category"]);
         onClose();
         toast(<AppToast>Category Updated</AppToast>, {
           type: "success",
           autoClose: 1000,
         });
+      },
+      
+      onError() {
+        //onClose();
       },
     },
   });
@@ -83,6 +87,7 @@ const UpdateCategory = ({ isEvent, category, categoryType, onClose }: any) => {
             onDone={(image: string) => {
               setData({ ...data, image });
             }}
+            defaultImage={data.image}
             id="normalImage"
           />
         </div>
@@ -96,6 +101,7 @@ const UpdateCategory = ({ isEvent, category, categoryType, onClose }: any) => {
             onDone={(image: string) => {
               setData({ ...data, white_icon: image });
             }}
+            defaultImage={data.white_icon}
             id="white_icon"
           />
         </div>
@@ -109,6 +115,7 @@ const UpdateCategory = ({ isEvent, category, categoryType, onClose }: any) => {
           }}
         >
           Update Category
+          
         </Button>
 
         <Button
