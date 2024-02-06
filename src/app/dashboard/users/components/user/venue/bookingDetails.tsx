@@ -36,7 +36,7 @@ const BookingDetails = ({ venue }: { venue: any }) => {
     },
     { label: "Event title", value: venue.name },
     { label: "No attendees", value: `${booking?.attendees} Guests` },
-    { label: "Chosen package", value: booking?.package || "N/A" },
+    { label: "Chosen package", value: booking?.package?.name || "N/A" },
     // { label: "Subtotal", value: `$${booking.userPaid || "00"}` },
     // { label: "Processing fee", value: `$${booking.totalAmount || "00"}` },
     { label: "Total amount", value: `$${booking?.totalAmount || "00"}` },

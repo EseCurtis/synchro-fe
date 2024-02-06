@@ -1,3 +1,5 @@
+import { string } from "yup";
+
 export type TStringIndexObject = {
     [key: string]: any;
 };
@@ -18,7 +20,9 @@ export interface Booking {
     transactionId: string;
     totalAmount: string;
     bookType: "service" | "venue"; // Assuming these are the only two possible types
-    package: string | null;
+    package: {
+        id: string, name: string, amount: string, description: string
+    };
     status: "accepted" | "rejected" | "pending"; // You can add other possible statuses
     cancelReason: string | null;
     userPaid: boolean;
