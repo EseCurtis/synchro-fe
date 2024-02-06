@@ -11,7 +11,7 @@ const Tickets: React.FC<IOtherEvents> = ({ _, openModal }) => {
     const eventTicket = _?.eventTicket;
     const event = _?.eventTicket?.event;
 
-    console.log(_);
+   // console.log(_);
   return (
     <tr>
       <td className={TABLE_STYLE}>

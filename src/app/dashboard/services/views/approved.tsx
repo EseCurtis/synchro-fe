@@ -47,7 +47,7 @@ const ApprovedServices = () => {
   const services = data?.pages?.map((e: any) => e.data.data).flat() as any[];
 
   useEffect(() => {
-    console.log(services);
+    //console.log(services);
   }, [services]);
 
   if (isLoading) {

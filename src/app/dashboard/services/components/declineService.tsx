@@ -43,7 +43,7 @@ const DeclineService = ({ service, onClose }: any) => {
     },
   });
 
-  console.log("Seervii", service);
+  //console.log("Seervii", service);
 
   return (
     <div>

@@ -24,7 +24,7 @@ const BookingDetails = ({ data: service }: { data: any }) => {
   });
 
   const booking: Booking = bookingResponse?.data;
-  console.log("booking",booking);
+  //console.log("booking",booking);
   // // return 0;
   // const date = JSON.parse(service.hours[0]);
 

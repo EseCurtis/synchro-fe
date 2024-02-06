@@ -52,7 +52,7 @@ const Reviews = ({ data: service }: { data: any }) => {
     [];
 
 
-    console.log(reviews)
+   // console.log(reviews)
   
   return (
     <div>

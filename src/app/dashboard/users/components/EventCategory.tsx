@@ -13,7 +13,7 @@ const EventCategory = ({ eventCategoryId }: { eventCategoryId: string }) => {
     [];
 
   useEffect(() => {
-    console.log(category);
+   // console.log(category);
   }, [category]);
 
   return (

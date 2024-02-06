@@ -6,7 +6,7 @@ import React from "react";
 const ProfileInfo = () => {
   const { user } = useAuthContext();
 
-  console.log(user)
+  //console.log(user)
 
   return (
     <div>

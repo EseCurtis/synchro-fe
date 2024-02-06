@@ -60,7 +60,7 @@ const DashboardIndex = () => {
     ],
   };
 
-  console.log(genderData.datasets);
+  //console.log(genderData.datasets);
 
   const config = {
     type: "doughnut",

@@ -108,7 +108,7 @@ const TicketDetails = ({ data, openEvent }: TicketDetailsProps) => {
 
   const formattedTimeRange = `${startTime} - ${endTime} ${monthYear}`;
 
-  console.log("Dayat", data);
+ // console.log("Dayat", data);
 
   return (
     <div>
