@@ -51,7 +51,7 @@ const EventDetails = ({ event }: { event: any }) => {
         <>
           <div className="font-bold text-center">Event details</div>
           <div
-            className={`mt-5 p-5 overflow-y-scroll max-h-[70vh] ${customStyles.customScrollbar}`}
+            className={`soverflow-y-scroll max-h-[70vh] ${customStyles.customScrollbar}`}
           >
             <div className="bg-gray-300 rounded w-[100%] h-[100px] relative">
               <div className="w-full h-full absolute overflow-clip flex items-center justify-center rounded ">
@@ -82,7 +82,7 @@ const EventDetails = ({ event }: { event: any }) => {
                 <span className="text-sm text-gray-500">
                   Host:{" "}
                   <u>
-                    {authorInfo?.firstName} {authorInfo?.lastName}
+                    @{authorInfo?.uername}
                   </u>
                 </span>
               </p>

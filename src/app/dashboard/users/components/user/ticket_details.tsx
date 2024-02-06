@@ -115,7 +115,7 @@ const TicketDetails = ({ data, openEvent }: TicketDetailsProps) => {
       <div className="font-bold text-center">Ticket details</div>
 
       <div
-        className={`mt-2 p-5 overflow-y-scroll max-h-[70vh] ${customStyles.customScrollbar}`}
+        className={`mt-2 py-5 overflow-y-scroll max-h-[70vh] ${customStyles.customScrollbar}`}
       >
         <div className=" rounded w-[100%]  relative flex flex-col gap-3 text-center items-center">
           <Image src={"/images/qr-code.svg"} alt="qr-code" width={337} height={278} />

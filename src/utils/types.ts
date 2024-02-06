@@ -26,3 +26,57 @@ export interface Booking {
     attendees: number;
     reviewed: boolean;
 }
+export interface Review {
+    id: string;
+    createdAt: string;
+    updatedAt: string;
+    content: string;
+    rating: string; // Assuming rating can be a string, can be adjusted to number if needed
+    userId: string;
+    revieweeId: string;
+    venueId: string | null;
+    serviceId: string | null;
+    bookingId: string;
+    user: {
+        id: string;
+        firstName: string;
+        lastName: string;
+        username: string;
+        profileImage: string;
+        coverImage: string | null;
+        bio: string | null;
+        location: string | null;
+        website: string | null;
+        private: boolean;
+        isBusiness: boolean;
+        showActivity: boolean;
+        showLocation: boolean;
+        followingCount: number;
+        followerCount: number;
+        appType: string; // Assuming this can be a string, can be enum if types are limited
+        userState: string;
+        postCount: number;
+        lastSeen: string | null;
+    };
+    reviewee: {
+        id: string;
+        firstName: string;
+        lastName: string;
+        username: string;
+        profileImage: string;
+        coverImage: string | null;
+        bio: string | null;
+        location: string | null;
+        website: string | null;
+        private: boolean;
+        isBusiness: boolean;
+        showActivity: boolean;
+        showLocation: boolean;
+        followingCount: number;
+        followerCount: number;
+        appType: string; // Assuming this can be a string, can be enum if types are limited
+        userState: string;
+        postCount: number;
+        lastSeen: string | null;
+    };
+}

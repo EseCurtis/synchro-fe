@@ -75,7 +75,7 @@ const ServiceDetails = ({ data }: { data: any }) => {
             <span className="text-sm text-gray-500">
               Host:
               <u>
-                {authorInfo?.firstname} {authorInfo?.lastname}
+                @{authorInfo?.username} {authorInfo?.lastname}
               </u>
             </span>
           </p>

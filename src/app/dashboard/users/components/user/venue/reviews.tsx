@@ -1,8 +1,10 @@
 import FilterComponent from "@/app/_components/forms/filterComponent";
 import Input from "@/app/_components/input_fields";
+import { usePaginatedQuery } from "@/hooks/api/usePaginatedQuery";
+import { Review } from "@/utils/types";
 import { BiSolidStar, BiStar } from "react-icons/bi";
 
-const Item = () => {
+const Item = ({}: Review) => {
   return (
     <div className="flex gap-3 mt-4 pb-3 border-b border-gray-200">
       <div className="w-[15%] flex">
@@ -36,7 +38,17 @@ const Item = () => {
 };
 
 const Reviews = ({ venue }: { venue: any }) => {
-  const reviews = venue?.reviews || [];
+  const reviewsResponse: any = usePaginatedQuery({
+    url: `review/?type=venue&venueId=${venue.id}`,
+    queryKey: ["review", "venue", String(venue.id)],
+    enabled: true,
+  });
+  const reviews: Review[] =
+    (reviewsResponse?.data?.pages
+      ?.map((e: any) => e.data.data)
+      .flat() as any[]) ||
+    [];
+
   return (
     <div>
       <h1 className="flex text-left gap-2 mb-3">
