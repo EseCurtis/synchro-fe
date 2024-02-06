@@ -36,6 +36,7 @@ const ApprovedVenues = () => {
     setIsModalOpen(false);
   };
 
+
   const { isLoading, data, hasNextPage, fetchNextPage, isFetchingNextPage } =
     usePaginatedQuery({
       url: "/venue/for-admin?status=approved",
@@ -56,21 +57,39 @@ const ApprovedVenues = () => {
               return (
                 <tr key={key}>
                   <td className={style}>
-                    <h3>{_.name}</h3>
+                    <div className="flex gap-2">
+                      <div className="flex overflow-hidden w-[3em] h-[3em] bg-gray-500 rounded-lg">
+                        <Image
+                          src={JSON.parse(_?.images[0]).url}
+                          className="w-[100%] h-[100%] object-fit"
+                          alt=""
+                          width={50}
+                          height={50}
+                        />
+                      </div>
+                      <div className="flex flex-col">
+                        <h3 className="text-sm whitespace-nowrap">{_.name}</h3>
+                        <u className="text-xs text-gray-400">
+                          @{_.user.username}
+                        </u>
+                      </div>
+                    </div>
                   </td>
                   <td className={style}>
-                    <Link href={`/dashboard/users/${_?.user?.id}`}>
-                      <h3 className="underline">{_?.user?.username}</h3>
-                    </Link>
+                    <h3 className="text-sm">{_.address}</h3>
                   </td>
                   <td className={style}>
-                    <h3>{_.address}</h3>
+                    <h3 className="whitespace-nowrap text-sm">
+                      {_?.packages?.length} Packages
+                    </h3>
                   </td>
                   <td className={style}>
-                    <h3>{_?.type}</h3>
+                    <h3 className="text-sm">{_?.totalRatings}</h3>
                   </td>
                   <td className={style}>
-                    <h3>{moment(_?.createdAt).format("MMM DD YYYY")}</h3>
+                    <h3 className="text-sm">
+                      {moment(_?.createdAt).format("MMM DD YYYY")}
+                    </h3>
                   </td>
                   <td className={style}>
                     <div className="w-10 h-10">

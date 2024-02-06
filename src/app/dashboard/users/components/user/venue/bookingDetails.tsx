@@ -1,4 +1,7 @@
 import Badge from "@/app/_components/forms/badge";
+import NoData from "@/app/_components/table/NoData";
+import { useTQuery } from "@/hooks/api/useTQuery";
+import { Booking } from "@/utils/types";
 import moment from "moment";
 import React, { Fragment } from "react";
 
@@ -14,29 +17,35 @@ const Item = ({ label, value }: { label: any; value: any }) => {
 };
 
 const BookingDetails = ({ venue }: { venue: any }) => {
-  const date = JSON.parse(venue.hours[0]);
+  const { data: bookingResponse }: any = useTQuery({
+    url: `/booking/by-venue-id/${venue.id}?type=venue`,
+    queryKey: ["service", "booking-detail", String(venue.id)],
+  });
+
+  const booking: Booking = bookingResponse?.data;
+
 
   const bookingDetails = [
     {
       label: "Start date & time",
-      value: moment(date.day.from).format("h:mma, MMM Do, YYYY"),
+      value: moment(booking?.fromDate).format("h:mma, MMM Do, YYYY"),
     },
     {
       label: "End date & time",
-      value: moment(date.day.to).format("h:mma, MMM Do, YYYY"),
+      value: moment(booking?.toDate).format("h:mma, MMM Do, YYYY"),
     },
     { label: "Event title", value: venue.name },
-    { label: "No attendees", value: `${venue.maxNumberOfGuests} Guests` },
-    { label: "Chosen package", value: venue.chosenPackage || "N/A" },
-    { label: "Subtotal", value: `$${venue.subtotal || "00"}` },
-    { label: "Processing fee", value: `$${venue.processingFeee || "00"}` },
-    { label: "Total amount", value: `$${venue.totalAmount || "00"}` },
+    { label: "No attendees", value: `${booking?.attendees} Guests` },
+    { label: "Chosen package", value: booking?.package || "N/A" },
+    // { label: "Subtotal", value: `$${booking.userPaid || "00"}` },
+    // { label: "Processing fee", value: `$${booking.totalAmount || "00"}` },
+    { label: "Total amount", value: `$${booking?.totalAmount || "00"}` },
     {
       label: "Booking status",
       value: (
         <Badge
-          label={venue.status}
-          status={venue.status === "approved" ? "Active" : "Inactive"}
+          label={booking?.status}
+          status={booking?.status === "accepted" ? "Active" : "Inactive"}
         />
       ),
     },
@@ -44,11 +53,16 @@ const BookingDetails = ({ venue }: { venue: any }) => {
 
   return (
     <div className="grid mt-9 gap-4">
-      {bookingDetails.map((i, j) => (
+      {booking?.status && bookingDetails.map((i, j) => (
         <Fragment key={j}>
           <Item label={i.label} value={i.value} />
         </Fragment>
       ))}
+
+      {!booking?.status && <NoData
+        title="No Bookings Yet."
+        description="All Bookings get listed here."
+      />}
     </div>
   );
 };

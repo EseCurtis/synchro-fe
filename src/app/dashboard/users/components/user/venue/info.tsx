@@ -142,7 +142,7 @@ const Info = ({ venue }: any) => {
         <h4 className="flex items-center gap-2">
           <BiInfoCircle /> About
         </h4>
-        <p>{data?.description}</p>
+        <p className="text-sm">{data?.description}</p>
       </div>
 
       <div className="grid gap-3 mt-6">

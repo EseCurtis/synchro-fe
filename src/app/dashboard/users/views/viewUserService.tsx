@@ -27,12 +27,12 @@ const ViewUserService = () => {
   const id = params.id;
 
   const bookedServices: any = usePaginatedQuery({
-    url: `event/user/${id}`,
+    url: `booking/accepted/${id}?type=service`,
     queryKey: ["services-wait", String(id)],
     enabled: true,
   });
   const createdServices: any = usePaginatedQuery({
-    url: `event/user/${id}`,
+    url: `venue/user?userId=${id}`,
     queryKey: ["services-wait", String(id)],
     enabled: true,
   });
