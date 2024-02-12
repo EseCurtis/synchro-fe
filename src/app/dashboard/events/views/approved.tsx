@@ -12,6 +12,7 @@ import {
   getMonthName,
 } from "@/helpers";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
+import ApprovedEventsByDate from "./approvedByDate";
 
 const header = [
   "Business Name ",
@@ -51,6 +52,9 @@ const ApprovedEvents = () => {
     return generateMonthData(year);
     return generateEventsMonthData(events, year);
   };
+
+  const [openedDate, setOpenedDate] = useState<boolean | number>(false);
+  const [openedDateEvents, setOpenedDateEvents] = useState<any[]>(false);
   const [year, setYear] = useState<Date>(2023);
   const [month, setMonth] = useState<number>(new Date().getMonth());
   const [yearlyData, setYearlyData] = useState<any[]>(
@@ -68,6 +72,14 @@ const ApprovedEvents = () => {
     prev: () => monthSwitch.canPrev && setMonth(month - 1),
   };
 
+  const dateOpen = {
+    open: (day: number, events: any[]) => {
+      setOpenedDate(day)
+      setOpenedDateEvents(events)
+    },
+    close: () => setOpenedDate(false),
+  };
+
   useEffect(() => {
     setYearlyData(
       generativeFunction(events, year) || generativeFunction(events)
@@ -77,23 +89,15 @@ const ApprovedEvents = () => {
     setMonthlyData(yearlyData[month] || yearlyData[0]);
   }, [yearlyData, month]);
 
-  return (
+  return openedDate ? (
+    <ApprovedEventsByDate events={openedDateEvents} actions={dateOpen}/>
+  ) : (
     <>
       <div
         style={{
           margin: "4em 0",
         }}
       >
-        {/* <Calendar
-          localizer={localizer}
-          events={events}
-          startAccessor="start"
-          endAccessor="end"
-          onSelectEvent={(event) => {
-            console.log(event);
-          }}
-          style={{ height: 500 }}
-        /> */}
         <div className="pb-7 flex items-center justify-between">
           <div className="flex  items-center gap-4 ">
             <div className="flex gap-3">
@@ -115,7 +119,7 @@ const ApprovedEvents = () => {
             </h3>
           </div>
 
-          <select name="" id="" onChange={e=> setYear(e.target.value)}>
+          <select name="" id="" onChange={(e) => setYear(e.target.value)}>
             <option value="2023">2023</option>
             <option value="2024">2024</option>
           </select>
@@ -124,6 +128,7 @@ const ApprovedEvents = () => {
           rangeData={{ month, year }}
           days={monthlyData?.days}
           events={events}
+          dateOpenActions={dateOpen}
         />
       </div>
     </>

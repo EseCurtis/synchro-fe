@@ -48,10 +48,10 @@ const EventDetails = ({ event }: { event: any }) => {
       {declineIsOpen ? (
         declineIsOpen
       ) : (
-        <>
-          <div className="font-bold text-center">Event details</div>
+        <div className="p-3">
+          <div className="font-bold text-center mb-7">Event details</div>
           <div
-            className={`soverflow-y-scroll max-h-[70vh] ${customStyles.customScrollbar}`}
+            className={`overflow-y-scroll max-h-[70vh] ${customStyles.customScrollbar}`}
           >
             <div className="bg-gray-300 rounded w-[100%] h-[100px] relative">
               <div className="w-full h-full absolute overflow-clip flex items-center justify-center rounded ">
@@ -139,7 +139,7 @@ const EventDetails = ({ event }: { event: any }) => {
 
             {tabContent}
           </div>
-        </>
+        </div>
       )}
     </div>
   );
