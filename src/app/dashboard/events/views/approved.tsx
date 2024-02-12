@@ -1,10 +1,17 @@
 //@ts-nocheck
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Calendar, momentLocalizer } from "react-big-calendar";
 import moment from "moment";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import { useTQuery } from "@/hooks/api/useTQuery";
+import CustomCalendar from "../components/CustomCalendar";
+import {
+  generateEventsMonthData,
+  generateMonthData,
+  getMonthName,
+} from "@/helpers";
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
 const header = [
   "Business Name ",
@@ -37,8 +44,38 @@ const ApprovedEvents = () => {
     title: event?.name,
     start: new Date(event?.startTime),
     end: new Date(event?.endTime),
-    event: event,
+    data: event,
   }));
+
+  const generativeFunction = (events, year) => {
+    return generateMonthData(year);
+    return generateEventsMonthData(events, year);
+  };
+  const [year, setYear] = useState<Date>(2023);
+  const [month, setMonth] = useState<number>(new Date().getMonth());
+  const [yearlyData, setYearlyData] = useState<any[]>(
+    generativeFunction(events, year)
+  );
+  const [monthlyData, setMonthlyData] = useState<{
+    month: string;
+    days: number[];
+  }>(yearlyData[month]);
+
+  const monthSwitch = {
+    canPrev: month >= 0,
+    canNext: month < yearlyData.length,
+    next: () => monthSwitch.canNext && setMonth(month + 1),
+    prev: () => monthSwitch.canPrev && setMonth(month - 1),
+  };
+
+  useEffect(() => {
+    setYearlyData(
+      generativeFunction(events, year) || generativeFunction(events)
+    );
+  }, [year]);
+  useEffect(() => {
+    setMonthlyData(yearlyData[month] || yearlyData[0]);
+  }, [yearlyData, month]);
 
   return (
     <>
@@ -47,7 +84,7 @@ const ApprovedEvents = () => {
           margin: "4em 0",
         }}
       >
-        <Calendar
+        {/* <Calendar
           localizer={localizer}
           events={events}
           startAccessor="start"
@@ -56,6 +93,37 @@ const ApprovedEvents = () => {
             console.log(event);
           }}
           style={{ height: 500 }}
+        /> */}
+        <div className="pb-7 flex items-center justify-between">
+          <div className="flex  items-center gap-4 ">
+            <div className="flex gap-3">
+              <FaChevronLeft
+                onClick={monthSwitch.prev}
+                className={`${
+                  !monthSwitch.canPrev && "opacity-30 cursor-default"
+                } hover:opacity-50 cursor-pointer`}
+              />
+              <FaChevronRight
+                onClick={monthSwitch.next}
+                className={`${
+                  !monthSwitch.canNext && "opacity-30 cursor-default"
+                } hover:opacity-50 cursor-pointer`}
+              />
+            </div>
+            <h3 className="font-bold">
+              {getMonthName(monthlyData?.month)} {year}
+            </h3>
+          </div>
+
+          <select name="" id="" onChange={e=> setYear(e.target.value)}>
+            <option value="2023">2023</option>
+            <option value="2024">2024</option>
+          </select>
+        </div>
+        <CustomCalendar
+          rangeData={{ month, year }}
+          days={monthlyData?.days}
+          events={events}
         />
       </div>
     </>
