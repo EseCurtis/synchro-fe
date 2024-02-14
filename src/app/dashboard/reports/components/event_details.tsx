@@ -10,8 +10,6 @@ import {
   PiTicket,
 } from "react-icons/pi";
 import { BiArrowToRight, BiInfoCircle, BiUser } from "react-icons/bi";
-import { useTQuery } from "@/hooks/api/useTQuery";
-import SuspendUser from "../../users/components/suspendUser";
 
 const hugIcon = (
   <svg
@@ -37,33 +35,13 @@ const buttonStyle = {
   color: "#fff",
 };
 
-const EventDetails = ({ data, onClose }: any) => {
-  const [suspendIsOpen, setSuspendIsOpen] = useState(false);
-  const { data: eventDetails, isLoading }: any = useTQuery({
-    url: `/user/admin/events/${data.eventId}`,
-    queryKey: ["users", String(data.eventId)],
-  });
-
-  const { data: reporterDetails, isLoading: reporterIsLoading }: any =
-    useTQuery({
-      url: `/user/admin/users/${data.reportableId}`,
-      queryKey: ["users", String(data.reportableId)],
-    });
-
-    const { data: reporterDetails, isLoading: reporterIsLoading }: any =
-    useTQuery({
-      url: `/user/admin/users/${data.reportableId}`,
-      queryKey: ["users", String(data.reportableId)],
-    });
-
-  const event = eventDetails?.data;
-  const reporter = reporterDetails?.data;
-  const host = reporterDetails?.data;
+const EventDetails = () => {
+  const [declineIsOpen, setDeclineIsOpen] = useState(false);
 
   return (
     <div>
-      {suspendIsOpen ? (
-        <SuspendUser />
+      {declineIsOpen ? (
+        declineIsOpen
       ) : (
         <>
           <div className="font-bold text-center">Event details</div>
