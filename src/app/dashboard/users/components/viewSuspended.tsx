@@ -9,17 +9,7 @@ import { AppToast } from "@/app/_components/AppToast";
 import { useTQuery } from "@/hooks/api/useTQuery";
 
 const ViewSuspended = ({ user, onClose }: { user: any; onClose?: any }) => {
-  if(user?.reportableId) {
-    const { data: userDetails } = useTQuery({
-      url: `/user/admin/users/${user?.userId}`,
-      queryKey: ["users", String(user?.userId)],
-    });
 
-    // @ts-ignore
-    user = userDetails?.data;
-
-    console.log("it matched")
-  }
 
   const { mutate, isLoading } = useTMutation({
     url: `/user/admin/users/activate`,
