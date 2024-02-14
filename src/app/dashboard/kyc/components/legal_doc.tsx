@@ -3,7 +3,7 @@ import { FaEye, FaFilePdf } from "react-icons/fa";
 export const LegalDocItem = ({ doc }: { doc: string }) => {
   return (
     <>
-      {!doc ? (
+      {doc ? (
         <div>
           <div className="border-orange-400 border p-3 rounded-lg bg-orange-300/20 flex items-center justify-between">
             <div className="flex gap-2 items-center text-sm">

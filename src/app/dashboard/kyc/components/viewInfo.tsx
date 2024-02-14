@@ -4,7 +4,7 @@ import moment from "moment";
 import React from "react";
 import { LegalDocItem } from "./legal_doc";
 
-const ViewInformation = ({ business }: { business: any }) => {
+const ViewInformation = ({ business, onClose }: { business: any, onClose: any }) => {
   return (
     <div className="h-full overflow-y-auto p-5 mt-4 pt-0">
       <div className="text-center my-5">
@@ -54,6 +54,7 @@ const ViewInformation = ({ business }: { business: any }) => {
         <Button
           style={{ background: "white", color: "red" }}
           customClassName="text-red-500 border border-2 border-red-500"
+          onClick={onClose}
         >
           Close
         </Button>

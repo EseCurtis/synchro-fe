@@ -70,7 +70,7 @@ const ApprovedKyc = () => {
       title: (
         <p
           className="text-[#041549]"
-          onClick={() => openModal(<ViewInformation business={business} />)}
+          onClick={() => openModal(<ViewInformation business={business}  onClose={closeModal} />)}
         >
           View business user
         </p>
@@ -107,7 +107,7 @@ const ApprovedKyc = () => {
         {businesses?.map((_: any, key: number) => {
           return (
             <tr key={key}>
-              <td className={style} onClick={openModal}>
+              <td className={style} >
                 <div className="flex gap-5 items-center">
                   <img
                     src={_?.user?.profileImage}

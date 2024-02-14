@@ -16,6 +16,7 @@ import { useTMutation } from "@/hooks/api/useTMutation";
 import { useQueryClient } from "@tanstack/react-query";
 import moment from "moment";
 import { Spinner } from "@/app/_components/spinner/Spinner";
+import LegalDoc from "../components/legal_doc";
 
 const header = [
   "Business Name ",
@@ -69,7 +70,11 @@ const DeclinedKyc = () => {
       title: (
         <p
           className="text-[#041549]"
-          onClick={() => openModal(<ViewInformation business={business} />)}
+          onClick={() =>
+            openModal(
+              <ViewInformation business={business} onClose={closeModal} />
+            )
+          }
         >
           View business user
         </p>
@@ -105,8 +110,8 @@ const DeclinedKyc = () => {
       <DefaultTable header={header}>
         {businesses?.map((_: any, key: number) => {
           return (
-            <tr key={key}>
-              <td className={style} onClick={openModal}>
+            <tr key={key} className="text-sm">
+              <td className={style}>
                 <div className="flex gap-5 items-center">
                   <img
                     src={_?.user?.profileImage}
@@ -121,7 +126,23 @@ const DeclinedKyc = () => {
                 <h3>{_?.businessCategory?.name}</h3>
               </td>
               <td className={style}>
-                <h3 className="underline">Legal Document.pdf</h3>
+                {!_?.kycDocument ? (
+                  <div>
+                    <span
+                      className="bg-yellow-400/20 whitespace-nowrap text-yellow-600 p-2 rounded-lg text-xs cursor-pointer"
+                      onClick={() => openModal(<LegalDoc business={_} />)}
+                    >
+                      No Legal Document
+                    </span>
+                  </div>
+                ) : (
+                  <h3
+                    className="underline cursor-pointer"
+                    onClick={() => openModal(<LegalDoc business={_} />)}
+                  >
+                    Legal Document.pdf..
+                  </h3>
+                )}
               </td>
               <td className={style}>
                 <h3>{moment(_?.createdAt).format("MMM DD YYYY")}</h3>
