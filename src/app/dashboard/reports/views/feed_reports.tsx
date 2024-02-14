@@ -13,6 +13,7 @@ import { useTQuery } from "@/hooks/api/useTQuery";
 import moment from "moment";
 import { usePaginatedQuery } from "@/hooks/api/usePaginatedQuery";
 import { Spinner } from "@/app/_components/spinner/Spinner";
+import { FaExternalLinkAlt } from "react-icons/fa";
 
 const header = [
   // "Fullname Name ",
@@ -54,7 +55,7 @@ const FeedsReport = () => {
       <DefaultTable header={header}>
         {reports?.map((_: any, key: number) => {
           return (
-            <tr key={key}>
+            <tr key={key} className="text-sm">
               {/* <td className={style}>
                 <div className="flex gap-5 items-center">
                   <div className="w-[3em] h-[3em] bg-gray-500 rounded-full"></div>
@@ -71,8 +72,14 @@ const FeedsReport = () => {
                 <h3>{_.description}</h3>
               </td>
               <td className={style}>
-                <h3 className="underline">
-                  <a href={_?.imageUrl}>Open Image</a>
+                <h3 className="">
+                  {_?.imageUrl ? (
+                    <a href={_?.imageUrl}  target="_blank" className="hover:underline text-blue-500 cursor-pointer flex gap-2 items-center">Open Image <FaExternalLinkAlt/></a>
+                  ) : (
+                    <div className="bg-orange-300/20 border border-orange-400 text-orange-500 p-2 rounded-lg text-sm">
+                      No Image Submitted
+                    </div>
+                  )}
                 </h3>
               </td>
               <td className={style}>

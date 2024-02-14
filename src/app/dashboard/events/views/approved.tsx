@@ -35,7 +35,7 @@ const ApprovedEvents = () => {
   ];
 
   const { data } = useTQuery({
-    url: "/event/for-admin?status=approved&page=1&limit=10",
+    url: "/event/for-admin?status=approved&page=1&limit=1000000000",
     queryKey: ["events", "approved-events"],
   });
 
@@ -66,8 +66,8 @@ const ApprovedEvents = () => {
   }>(yearlyData[month]);
 
   const monthSwitch = {
-    canPrev: month >= 0,
-    canNext: month < yearlyData.length,
+    canPrev: month > 0,
+    canNext: month < yearlyData.length-1,
     next: () => monthSwitch.canNext && setMonth(month + 1),
     prev: () => monthSwitch.canPrev && setMonth(month - 1),
   };

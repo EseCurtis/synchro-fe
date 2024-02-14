@@ -16,6 +16,8 @@ import { useTMutation } from "@/hooks/api/useTMutation";
 import { useQueryClient } from "@tanstack/react-query";
 import moment from "moment";
 import { Spinner } from "@/app/_components/spinner/Spinner";
+import LegalDoc from "../components/legal_doc";
+import Badge from "@/app/_components/forms/badge";
 
 const header = [
   "Business Name ",
@@ -120,7 +122,20 @@ const ApprovedKyc = () => {
                 <h3>{_?.businessCategory?.name}</h3>
               </td>
               <td className={style}>
-                <h3 className="underline">Legal Document.pdf</h3>
+              {!(_?.kycDocument) ? (
+                  <div>
+                    <span className="bg-yellow-400/20 whitespace-nowrap text-yellow-600 p-2 rounded-lg text-xs cursor-pointer" onClick={() => openModal(<LegalDoc business={_} />)}>
+                    No Legal Document
+                    </span>
+                  </div>
+                ) : (
+                  <h3
+                    className="underline cursor-pointer"
+                    onClick={() => openModal(<LegalDoc business={_} />)}
+                  >
+                    Legal Document.pdf..
+                  </h3>
+                )}
               </td>
               <td className={style}>
                 <h3>{moment(_?.createdAt).format("MMM DD YYYY")}</h3>

@@ -82,7 +82,7 @@ const EventDetails = ({ event }: { event: any }) => {
                 <span className="text-sm text-gray-500">
                   Host:{" "}
                   <u>
-                    @{authorInfo?.uername}
+                    @{authorInfo?.username}
                   </u>
                 </span>
               </p>
@@ -117,7 +117,7 @@ const EventDetails = ({ event }: { event: any }) => {
               </div>
             </div> */}
 
-            <div className="grid grid-cols-3 gap-2 w-[80%] h-[3em] m-auto p-3 mt-5">
+            <div className="grid grid-cols-3 gap-2 w-[90%] h-[3em] m-auto p-3 mt-5">
               <ModalTabButton
                 isActive={tabContent.type === Info}
                 onClick={() => setTabContent(<Info data={event} />)}

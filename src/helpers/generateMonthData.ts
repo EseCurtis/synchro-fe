@@ -1,3 +1,5 @@
+import moment from "moment";
+
 export function generateMonthData(year: number = new Date().getFullYear()): { month: string, days: number[] }[] {
     const monthData: { month: string, days: number[] }[] = [];
     for (let month = 1; month <= 12; month++) {
@@ -24,9 +26,10 @@ export function generateEventsMonthData(events: { start: string }[], year: numbe
     return monthData;
 }
 
-export function getDayName(dayNumber: number): string {
-    const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-    return days[dayNumber];
+export function getDayName(dayNumber: number, month: number, year: number): string {
+    const dateString = `${year}-${month+1}-${dayNumber}`;
+    console.log("ds", dateString);
+    return moment(dateString, "YYYY-MM-DD").format("dddd");
 }
 
 

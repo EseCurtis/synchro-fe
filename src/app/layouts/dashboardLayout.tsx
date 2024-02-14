@@ -34,7 +34,7 @@ const DashboardLayout: FC<IDashboardLayout> = ({
       >
         <DashboardBoardSidebar />
       </div>
-      <div className="w-full h-screen px-4 mx-auto pl-7 overflow-y-scroll">
+      <div className="w-full h-screen px-4 mx-auto pl-7 overflow-y-scroll main-board">
         <DashboaradHeader title={title!} quantity={quantity} />
         <div className="my-[2em]">{children}</div>
       </div>

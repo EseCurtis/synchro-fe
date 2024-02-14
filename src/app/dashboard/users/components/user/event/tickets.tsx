@@ -9,10 +9,12 @@ import Image from "next/image";
 import { FaArrowRight } from "react-icons/fa";
 
 const Item = ({ data }: { data: any }) => {
+
+  //console.log("Dayta", data);
   
   const { data: userDetails }: { data: any } = useTQuery({
-    url: `/user/admin/users/${data.userId}`,
-    queryKey: ["users", String(data.userId)],
+    url: `/user/admin/users/${data?.userId}`,
+    queryKey: ["users", String(data?.userId)],
   });
   
   const userInfo = userDetails?.data;
@@ -39,14 +41,18 @@ const Item = ({ data }: { data: any }) => {
 };
 
 const Tickets = ({ data }: { data: any }) => {
+  console.log("fressher",data)
   const response: any = usePaginatedQuery({
-    url: `ticket/${data.id}`,
-    queryKey: ["ticket", String(data.id)],
+    url: `ticket/all`,
+    queryKey: ["ticket", "all"],
     enabled: true,
   });
+
   const getFlatData = (response: any): any[] =>
-  response?.data?.pages?.map((e: any) => e.data.data).flat() || [];
-  const tickets = getFlatData(response) ||data?.guests || [];
+  response?.data?.pages?.map((e: any) => e.data).flat() || [];
+  const tickets = (getFlatData(response) || data?.guests || [])?.filter((ticket) => {
+    return ticket.eventId == data.id;
+  });
   return (
     <div>
       <h1 className="flex text-left gap-2 mb-3 mt-7">
@@ -85,7 +91,7 @@ const Tickets = ({ data }: { data: any }) => {
         </>
       ) : (
         <div className="text-center flex items-center justify-center p-3">
-          <span className="font-semibold text-gray-500/40">No Reviews Yet</span>
+          <span className="font-semibold text-gray-500/40">No Tickets Yet</span>
         </div>
       )}
     </div>

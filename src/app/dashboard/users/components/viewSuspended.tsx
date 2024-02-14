@@ -6,8 +6,21 @@ import moment from "moment";
 import { useTMutation } from "@/hooks/api/useTMutation";
 import { toast } from "react-toastify";
 import { AppToast } from "@/app/_components/AppToast";
+import { useTQuery } from "@/hooks/api/useTQuery";
 
 const ViewSuspended = ({ user, onClose }: { user: any; onClose?: any }) => {
+  if(user?.reportableId) {
+    const { data: userDetails } = useTQuery({
+      url: `/user/admin/users/${user?.userId}`,
+      queryKey: ["users", String(user?.userId)],
+    });
+
+    // @ts-ignore
+    user = userDetails?.data;
+
+    console.log("it matched")
+  }
+
   const { mutate, isLoading } = useTMutation({
     url: `/user/admin/users/activate`,
     method: "post",
@@ -17,6 +30,8 @@ const ViewSuspended = ({ user, onClose }: { user: any; onClose?: any }) => {
       },
     },
   });
+
+
 
   return (
     <div>
@@ -44,7 +59,7 @@ const ViewSuspended = ({ user, onClose }: { user: any; onClose?: any }) => {
           <h4 className="text-[#5D6D73] text-sm">Email Address</h4>
           <h4 className="text-[#5D6D73] text-sm">Total followers</h4>
           <h4 className="text-[#5D6D73] text-sm">Reasons for suspension</h4>
-          <h4 className="text-[#5D6D73] text-sm">Suspended by</h4>
+          {/* <h4 className="text-[#5D6D73] text-sm">Suspended by</h4> */}
           <h4 className="text-[#5D6D73] text-sm">Date Suspended</h4>
         </div>
 
@@ -61,7 +76,7 @@ const ViewSuspended = ({ user, onClose }: { user: any; onClose?: any }) => {
           <h4 className="text-black text-sm font-bold">
             {user?.suspendReason ?? "N/A"}
           </h4>
-          <h4 className="text-black text-sm font-bold">Ese Curtis</h4>
+          {/* <h4 className="text-black text-sm font-bold">Ese Curtis</h4> */}
           <h4 className="text-black text-sm font-bold">
             {moment(user?.updatedAt).format("MMM DD YYYY")}
           </h4>

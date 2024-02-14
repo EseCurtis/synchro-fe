@@ -1,0 +1,21 @@
+{
+    "data": {
+        "data": [
+            {
+                "id": "3880713b-c9fa-496d-8e0f-878a7581b5ee",
+                "createdAt": "2023-12-15T22:17:14.535Z",
+                "updatedAt": "2023-12-15T22:17:14.535Z",
+                "userId": "8ec59e13-c656-4f42-9234-3c822de7fc27",
+                "reportType": "user",
+                "title": "I just don’t like it",
+                "description": "This guy is testing like user",
+                "reportableId": "15d148bd-ad78-45f5-8e98-b29e6c97cf3a",
+                "imageUrl": ""
+            }
+        ],
+        "total": 1,
+        "nextPage": null,
+        "prevPage": null
+    },
+    "statusCode": 200
+}

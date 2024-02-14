@@ -61,11 +61,11 @@ const CustomCalendar: React.FC<ICustomCalendar> = ({
   dateOpenActions,
 }) => {
   return (
-    <div className="grid grid-cols-7 w-full h-full">
-      {days?.slice(0, 7)?.map((day) => (
+    <div className="grid grid-cols-7 w-full h-full border-l border-r">
+      {days?.slice(1, 8)?.map((day) => (
         <Fragment key={day}>
-          <div className="col-span-1 text-center py-2">
-            <p>{getDayName(day-1)}</p>
+          <div className="col-span-1 text-center py-2 border-t ">
+            <p>{getDayName(day, rangeData.month, rangeData.year)}</p>
           </div>
         </Fragment>
       ))}
