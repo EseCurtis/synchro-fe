@@ -26,8 +26,10 @@ const header = [
 const style = "px-6 py-4 whitespace-no-wrap border-b border-gray-300";
 const FeedsReport = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selected, setSelected] = useState();
 
-  const openModal = () => {
+  const openModal = (data: any) => {
+    setSelected(data);
     setIsModalOpen(true);
   };
 
@@ -91,7 +93,7 @@ const FeedsReport = () => {
                     src="/images/icons/dashboard/table/more.svg"
                     className="w-8 h-9"
                     alt=""
-                    onClick={openModal}
+                    onClick={() => openModal(_)}
                   />
                 </div>
               </td>
@@ -106,7 +108,7 @@ const FeedsReport = () => {
       />
 
       <Modal isOpen={isModalOpen} onClose={closeModal}>
-        <UserDetails />
+        <UserDetails  data={selected} onClose={closeModal} />
       </Modal>
     </div>
   );

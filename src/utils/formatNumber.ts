@@ -2,6 +2,7 @@ export const formatNumber = (num: number | string): string => {
   let addCurrency = false;
 
   if (typeof num === "string") {
+    num = "00";
     if (num[0] === "$") {
       addCurrency = true;
       num = parseFloat(num.slice(1).replace(/,/g, ""));
@@ -9,5 +10,6 @@ export const formatNumber = (num: number | string): string => {
   }
 
   const numFormat = new Intl.NumberFormat();
-  return (addCurrency ? "$" : "") + numFormat.format(num as number | bigint);
+  const formatted =(addCurrency ? "$" : "") + numFormat.format(num as number | bigint);
+  return String((isNaN(Number(formatted))) ? 0 : formatted);
 };

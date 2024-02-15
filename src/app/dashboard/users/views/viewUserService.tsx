@@ -28,12 +28,12 @@ const ViewUserService = () => {
 
   const bookedServices: any = usePaginatedQuery({
     url: `booking/accepted/${id}?type=service`,
-    queryKey: ["services-wait", String(id)],
+    queryKey: ["services-wait-x", String(id)],
     enabled: true,
   });
   const createdServices: any = usePaginatedQuery({
-    url: `venue/user?userId=${id}`,
-    queryKey: ["services-wait", String(id)],
+    url: `service/user/all/${id}`,
+    queryKey: ["user-services-x", String(id)],
     enabled: true,
   });
 
@@ -46,11 +46,13 @@ const ViewUserService = () => {
     },
     "Created services": {
       response: createdServices,
-      data: [],
+      data: createdServices?.data?.pages
+      ?.map((e: any) => e.data.data)
+      .flat() as any[],
     },
   };
 
-  const [activeTab, setActiveTab] = useState("Booked services");
+  const [activeTab, setActiveTab] = useState("");
   const [activeTabData, setActiveTabData] = useState<any>(tabDatas[activeTab]);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -97,7 +99,9 @@ const ViewUserService = () => {
             <DashboardAction />
             {/* @ts-ignore */}
             <DefaultTable header={header}>
-              {activeTabData?.data?.map((_: any, key: number) => {
+              {activeTabData?.data?.map((serviceInfo: any, key: number) => {
+                const  _ = serviceInfo?.service;
+                _.image = JSON.parse(_.images[0])?.url
                 return (
                   <tr key={key}>
                     <td className={TABLE_STYLE}>

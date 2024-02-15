@@ -6,6 +6,7 @@ import { useTQuery } from "@/hooks/api/useTQuery";
 import moment from "moment";
 import { Spinner } from "@/app/_components/spinner/Spinner";
 import SuspendUser from "../../users/components/suspendUser";
+import Image from "next/image";
 
 const UserDetails = ({ data, onClose }: any) => {
   const [suspendIsOpen, setSuspendIsOpen] = useState<boolean>(false);
@@ -36,7 +37,14 @@ const UserDetails = ({ data, onClose }: any) => {
             <h3 className="font-bold">Details of report</h3>
           </div>
           <div className="text-center my-5">
-            <div className="  my-3 mx-auto bg-slate-500 w-[84px] h-[84px] rounded-full"></div>
+            <div className="overflow-clip  my-3 mx-auto bg-slate-500 w-[84px] h-[84px] rounded-full">
+              <Image
+                src={user?.profileImage}
+                width={100}
+                height={100}
+                alt={user?.firstName}
+              />
+            </div>
 
             <div>
               <h3>
@@ -52,37 +60,59 @@ const UserDetails = ({ data, onClose }: any) => {
             </Link>
           </div>
 
-          <div className="flex justify-between">
-            <div className="flex flex-col gap-5">
-              <h4 className="text-[#5D6D73] text-sm">Phone number</h4>
-              <h4 className="text-[#5D6D73] text-sm">Email Address</h4>
-              <h4 className="text-[#5D6D73] text-sm">Total followers</h4>
-              <h4 className="text-[#5D6D73] text-sm">Reasons for Report</h4>
-              <h4 className="text-[#5D6D73] text-sm">Reported by</h4>
-              <h4 className="text-[#5D6D73] text-sm">Date Reported</h4>
-            </div>
+          <table className="border-collapse [&_td]:text-xs [&_td]:text-left  [&_td:second-child]:text-xs ">
+            <tbody>
+              <tr>
+                <td className="px-4 py-2 !whitespace-nowrap flex font-bold">
+                  Phone number
+                </td>
+                <td className="px-4 py-2 !text-right">
+                  {user?.phone ?? "N/A"}
+                </td>
+              </tr>
+              <tr>
+                <td className="px-4 py-2 !whitespace-nowrap flex font-bold">
+                  Email Address
+                </td>
+                <td className="px-4 py-2 !text-right">
+                  {user?.email ?? "N/A"}
+                </td>
+              </tr>
+              <tr>
+                <td className="px-4 py-2 !whitespace-nowrap flex font-bold">
+                  Total followers
+                </td>
+                <td className="px-4 py-2 !text-right">
+                  {user?.followerCount ?? "0"} users
+                </td>
+              </tr>
+              <tr>
+                <td className="px-4 py-2 !whitespace-nowrap flex font-bold">
+                  Reasons for Report
+                </td>
+                <td className="px-4 py-2 !text-right">
+                  {data?.description ?? "N/A"}
+                </td>
+              </tr>
+              <tr>
+                <td className="px-4 py-2 !whitespace-nowrap flex font-bold">
+                  Reported by
+                </td>
+                <td className="px-4 py-2 !text-right">
+                  {reporter?.firstname ?? "Anonymous User"}
+                </td>
+              </tr>
+              <tr>
+                <td className="px-4 py-2 !whitespace-nowrap flex font-bold">
+                  Date Reported
+                </td>
+                <td className="px-4 py-2 !text-right">
+                  {moment(data?.createdAt).format("h:mma, MMMM Do, YYYY")}
+                </td>
+              </tr>
+            </tbody>
+          </table>
 
-            <div className="flex flex-col gap-5 text-right">
-              <h4 className="text-black text-sm font-bold">
-                {user?.phone ?? "N/A"}
-              </h4>
-              <h4 className="text-black text-sm font-bold">
-                {user?.email ?? "N/A"}
-              </h4>
-              <h4 className="text-black text-sm font-bold">
-                {user?.followerCount ?? "0"} users
-              </h4>
-              <h4 className="text-black text-sm font-bold">
-                {user?.suspendReason ?? "N/A"}
-              </h4>
-              <h4 className="text-black text-sm font-bold">
-                {reporter?.username ?? "N/A"}
-              </h4>
-              <h4 className="text-black text-sm font-bold">
-                {moment(data?.createdAt).format("h:mma, MMMM Do, YYYY")}
-              </h4>
-            </div>
-          </div>
           <div className="mt-7 flex gap-4 items-center">
             <Button onClick={() => setSuspendIsOpen(true)}>Suspend</Button>
             <SecondaryButton onClick={onClose}>Resolve</SecondaryButton>

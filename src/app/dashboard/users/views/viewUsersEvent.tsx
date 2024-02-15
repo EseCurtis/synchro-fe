@@ -140,8 +140,8 @@ const ViewUserEvent = () => {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedData, setSelectedData] = useState<any>({});
-  const [activeTab, setActiveTab] = useState("Events Created");
-  const [activeTabData, setActiveTabData] = useState<any>(tabDatas[activeTab]);
+  const [activeTab, setActiveTab] = useState("");
+  const [activeTabData, setActiveTabData] = useState<any>();
 
   const openModal = (data: any) => {
     setIsModalOpen(true);
@@ -157,6 +157,10 @@ const ViewUserEvent = () => {
     //console.log("Tickets:",tickets?.data?.pages?.map((e: any) => e.data).flat());
     //console.log(tabDatas[activeTab],activeTabData);
   }, [activeTab]);
+
+  useEffect(() => {
+    //setActiveTab("Events Created");
+  }, []);
 
   return (
     <div>
@@ -192,7 +196,8 @@ const ViewUserEvent = () => {
                 console.log(activeTabData);
                 return (
                   <Fragment key={key}>
-                    {activeTabData.tableRow(tableRowProps) ||
+                    {(activeTabData?.tableRow &&
+                      activeTabData?.tableRow(tableRowProps)) ||
                       EventsCreated(tableRowProps)}
                   </Fragment>
                 );
@@ -212,17 +217,20 @@ const ViewUserEvent = () => {
 
         <Modal isOpen={isModalOpen} onClose={closeModal}>
           {activeTabData?.modalDetails ? (
-            activeTabData.modalDetails({ data: selectedData, openEvent: () => {
-              setSelectedData(selectedData?.eventTicket?.event);
-              setActiveTab("Events Created");
-            } })
+            activeTabData.modalDetails({
+              data: selectedData,
+              openEvent: () => {
+                setSelectedData(selectedData?.eventTicket?.event);
+                setActiveTab("Events Created");
+              },
+            })
           ) : (
             <EventDetails event={selectedData} />
           )}
-        </Modal> 
+        </Modal>
 
         <div className="hidden">
-          <TicketDetails data={tabDatas["Tickets"].data[0]}/>
+          <TicketDetails data={tabDatas["Tickets"].data[0]} />
         </div>
       </div>
     </div>

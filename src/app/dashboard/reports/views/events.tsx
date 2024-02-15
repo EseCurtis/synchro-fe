@@ -110,7 +110,7 @@ const EventsReports = () => {
 
       <Modal isOpen={isModalOpen} onClose={closeModal}>
         {/* <EventDetails data={selected} onClose={closeModal}/> */}
-        <UserDetails/>
+        <UserDetails data={selected} onClose={closeModal}/>
       </Modal>
     </div>
   );

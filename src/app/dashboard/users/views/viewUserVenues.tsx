@@ -97,7 +97,7 @@ const ViewUserVenues = () => {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedData, setSelectedData] = useState({});
-  const [activeTab, setActiveTab] = useState("Booked venues");
+  const [activeTab, setActiveTab] = useState("");
   const [activeTabData, setActiveTabData] = useState<any>(tabDatas[activeTab]);
 
   const openModal = (data: any) => {
@@ -114,7 +114,7 @@ const ViewUserVenues = () => {
   }, [activeTab]);
 
   useEffect(() => {
-    setActiveTab("Booked venues");
+    setActiveTab("");
   }, [])
 
   // useEffect(() => {
