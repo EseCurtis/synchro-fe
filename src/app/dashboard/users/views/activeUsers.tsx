@@ -3,7 +3,7 @@
 import DashboardAction from "@/app/_components/dashboard/dashboardAction";
 import DefaultTable from "@/app/_components/table/defaultTable";
 import TablePagination from "@/app/_components/table/tablePagination";
-import React, { Fragment } from "react";
+import React, { Fragment, useEffect } from "react";
 import Image from "../../../../../node_modules/next/image";
 import Link from "next/link";
 import Dropdown from "@/app/_components/popups/dropDown";
@@ -30,6 +30,7 @@ const ActiveUsers = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalContent, setModalContent] = useState<any>();
+  const [filteredUsers, setFilteredUsers] = useState<any[]>([]);
 
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
@@ -84,7 +85,9 @@ const ActiveUsers = () => {
         title: (
           <p
             className="text-[#F2994A]"
-            onClick={() => openModal(<SuspendUser user={user} />)}
+            onClick={() =>
+              openModal(<SuspendUser user={user} onClose={closeModal} />)
+            }
           >
             Suspend User
           </p>
@@ -120,6 +123,9 @@ const ActiveUsers = () => {
     });
 
   const users = data?.pages?.map((e: any) => e.data.data).flat() as any[];
+  useEffect(() => {
+    setFilteredUsers(users);
+  }, []);
 
   if (isLoading) {
     return <Spinner />;
@@ -127,32 +133,39 @@ const ActiveUsers = () => {
 
   return (
     <div>
-      <DashboardAction />
+      <DashboardAction
+        pool={users}
+        setMatch={setFilteredUsers}
+        matchQuery={["firstName", "username"]}
+      />
       {/* @ts-ignore */}
       <DefaultTable header={header}>
-        {users?.map((_, key: number) => {
+        {filteredUsers?.map((_, key: number) => {
           return (
-            <tr key={key}>
-              <Link href={`/dashboard/users/${_?.id}`}>
-                <td className={style}>
-                  <div className="flex gap-5 items-center">
-                    {_?.profileImage ? (
-                      // eslint-disable-next-line @next/next/no-img-element
-                      <img
-                        src={_?.profileImage}
-                        className="w-[3em] h-[3em] bg-gray-500 rounded-full object-cover"
-                        alt=""
-                      />
-                    ) : (
-                      <div className="w-[3em] h-[3em] bg-gray-500 rounded-full"></div>
-                    )}
-                    <div>
-                      <h3>{_?.firstName ?? _?.username}</h3>
-                      <p className="text-second_primary_text">{_.email}</p>
-                    </div>
+            <tr key={key} className="text-sm">
+              <td
+                className={`${style} cursor-pointer`}
+                onClick={() => {
+                  push(`/dashboard/users/${_?.id}`);
+                }}
+              >
+                <div className="flex gap-5 items-center">
+                  {_?.profileImage ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
+                      src={_?.profileImage}
+                      className="w-[3em] h-[3em] bg-gray-500 rounded-full object-cover"
+                      alt=""
+                    />
+                  ) : (
+                    <div className="w-[3em] h-[3em] bg-gray-500 rounded-full"></div>
+                  )}
+                  <div>
+                    <h3>{_?.firstName ?? _?.username}</h3>
+                    <p className="text-second_primary_text">{_.email}</p>
                   </div>
-                </td>
-              </Link>
+                </div>
+              </td>
               <td className={style}>
                 <h3>{_.username}</h3>
               </td>

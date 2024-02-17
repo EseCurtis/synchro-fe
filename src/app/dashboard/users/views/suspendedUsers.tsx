@@ -2,7 +2,7 @@
 import DashboardAction from "@/app/_components/dashboard/dashboardAction";
 import DefaultTable from "@/app/_components/table/defaultTable";
 import TablePagination from "@/app/_components/table/tablePagination";
-import React from "react";
+import React, { useEffect } from "react";
 import Modal from "@/app/_components/popups/modal";
 import { useState } from "react";
 import ViewSuspended from "../components/viewSuspended";
@@ -43,6 +43,7 @@ const suspend_Icon = (
 const SuspendedUsers = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [activeUser, setActiveUser] = useState({});
+  const [filteredUsers, setFilteredUsers] = useState<any[]>([]);
 
   const closeModal = () => {
     setIsModalOpen(false);
@@ -56,6 +57,9 @@ const SuspendedUsers = () => {
     });
 
   const users = data?.pages?.map((e: any) => e.data.data).flat() as any[];
+  useEffect(() => {
+    setFilteredUsers(users);
+  }, []);
 
   if (isLoading) {
     return <Spinner />;
@@ -67,10 +71,14 @@ const SuspendedUsers = () => {
 
   return (
     <div>
-      <DashboardAction />
+      <DashboardAction
+        pool={users}
+        setMatch={setFilteredUsers}
+        matchQuery={["firstName", "username"]}
+      />
       {/* @ts-ignore */}
       <DefaultTable header={header}>
-        {users?.map((_, key: number) => {
+        {filteredUsers?.map((_, key: number) => {
           return (
             <tr key={key}>
               <td className={style}>

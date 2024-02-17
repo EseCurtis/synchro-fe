@@ -1,5 +1,8 @@
-import React, { InputHTMLAttributes } from "react";
+"use client";
+
+import React, { InputHTMLAttributes, useState } from "react";
 import CurrencyConverter from "../forms/currencyConverter";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   name: string;
@@ -31,20 +34,33 @@ const Input: React.FC<InputProps> = ({
   onChange,
   ...rest
 }) => {
+  const [isVisible, setIsVisible] = useState<boolean>(true);
+
   return (
     <div className="my-[15px] flex flex-col gap-[5px]">
       <div>
         <label htmlFor={rest.id}>{label}</label>
       </div>
-      <input
-        name={name}
-        onChange={onChange}
-        className="px-[16px]  h-[48px] rounded-md w-[100%] outline-none  "
-        style={{
-          border: "1px solid #DDE2E5",
-        }}
-        {...rest}
-      />
+      <div className="relative">
+        <input
+          name={name}
+          onChange={onChange}
+          className="px-[16px]  h-[48px] rounded-md w-[100%] outline-none  "
+          style={{
+            border: "1px solid #DDE2E5",
+          }}
+          {...rest}
+          type={!isVisible ? rest.type : "text"}
+        />
+        {rest.type == "password" && (
+          <div
+            className="absolute top-[50%] right-5 translate-y-[-50%] cursor-pointer"
+            onClick={() => setIsVisible(!isVisible)}
+          >
+            {isVisible ? <FaEyeSlash /> : <FaEye />}
+          </div>
+        )}
+      </div>
       {error && <p className="text-[14px] text-red-500">{error}</p>}
     </div>
   );
