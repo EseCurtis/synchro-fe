@@ -1,6 +1,6 @@
 "use client";
 import moment from "moment";
-import React, { useState } from "react";
+import React, { Fragment, useState } from "react";
 
 const arrow_with_bar = (
   <svg
@@ -68,8 +68,8 @@ const colabsIcon = (
         gradientUnits="userSpaceOnUse"
         gradientTransform="translate(0.92285 10.0432) rotate(26.716) scale(28.9933 227.853)"
       >
-        <stop stop-color="#E73C01" />
-        <stop offset="0.697917" stop-color="#0512D2" />
+        <stop stopColor="#E73C01" />
+        <stop offset="0.697917" stopColor="#0512D2" />
       </radialGradient>
     </defs>
   </svg>
@@ -106,43 +106,52 @@ const Audit_Box = ({ item }: { item: any }) => {
 
   return (
     <div>
-      <div className="flex gap-5 my-10">
-        <div>{plusIcon}</div>
-        <div className="flex justify-between  w-[80%]">
-          <p>{item?.title}</p>
+      <div className="flex gap-5 my-10 [&_a]:underline">
+        <div onClick={openAccordion}>{!open ? plusIcon : colabsIcon}</div>
+        <div className="flex justify-between w-[80%]">
+          <p>
+            <a href={`/user/${item?.data?.user.id}`}>
+              {item?.data?.user.username}
+            </a>{" "}
+            {item?.data?.action}{" "}
+            <a href={`/user/${item?.data?.reportable.id}`}>
+              {item?.data?.reportable.username}
+            </a>
+          </p>
           <p className="text-text_primary">
-            {moment(item?.created_at).format("MMM DD YYYY")} at{" "}
-            {moment(item?.created_at).format("HH:mm A")}
+            {moment(item?.data?.created_at).format("MMM DD YYYY")} at{" "}
+            {moment(item?.data?.created_at).format("HH:mm A")}
           </p>
         </div>
       </div>
       {/* dropdown  */}
       {open && (
         <div>
-          <div className="flex gap-5 my-5">
-            <div>{colabsIcon}</div>
-            <div className="flex justify-between  w-[80%]">
-              <p>Imani edited a user profile of Kwame Eugene</p>
-              <p className="text-text_primary">May 12 2020 at 2:30</p>
-            </div>
-          </div>
-
           {/* support items */}
-          <div className="flex gap-5 my-5 pl-10">
-            <div>{arrow_with_bar}</div>
-            <div className="flex justify-between  w-[80%]">
-              <p>Imani edited a user profile of Kwame Eugene</p>
-              <p className="text-text_primary">May 12 2020 at 2:30</p>
-            </div>
-          </div>
-          {/* support items */}
-          <div className="flex gap-5 my-5 pl-10">
-            <div>{arrow_with_bar}</div>
-            <div className="flex justify-between  w-[80%]">
-              <p>Imani edited a user profile of Kwame Eugene</p>
-              <p className="text-text_primary">May 12 2020 at 2:30</p>
-            </div>
-          </div>
+          {item?.trails?.map((trail: any, key: any) => (
+            <Fragment key={key}>
+              <div className="flex gap-5 my-5 pl-10 [&_a]:underline">
+                <div>{arrow_with_bar}</div>
+                <div className="flex justify-between  w-[80%]">
+                  <p>
+                    <a href={`/user/${trail?.user.id}`}>
+                      {trail?.user.username}
+                    </a>{" "}
+                    {trail?.action}{" "}
+                    <a href={`/user/${trail?.reportable.id}`}>
+                      {trail?.reportable.username}
+                    </a>
+                  </p>
+                  <p className="text-text_primary">
+                    <p className="text-text_primary">
+                      {moment(trail?.created_at).format("MMM DD YYYY")} at{" "}
+                      {moment(trail?.created_at).format("HH:mm A")}
+                    </p>
+                  </p>
+                </div>
+              </div>
+            </Fragment>
+          ))}
         </div>
       )}
     </div>
