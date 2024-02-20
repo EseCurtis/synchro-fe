@@ -119,8 +119,8 @@ const Audit_Box = ({ item }: { item: any }) => {
             </a>
           </p>
           <p className="text-text_primary">
-            {moment(item?.data?.created_at).format("MMM DD YYYY")} at{" "}
-            {moment(item?.data?.created_at).format("HH:mm A")}
+            {moment(item?.data?.createdAt).format("MMM DD YYYY")} at{" "}
+            {moment(item?.data?.createdAt).format("HH:mm A")}
           </p>
         </div>
       </div>
@@ -144,8 +144,8 @@ const Audit_Box = ({ item }: { item: any }) => {
                   </p>
                   <p className="text-text_primary">
                     <p className="text-text_primary">
-                      {moment(trail?.created_at).format("MMM DD YYYY")} at{" "}
-                      {moment(trail?.created_at).format("HH:mm A")}
+                      {moment(trail?.createdAt).format("MMM DD YYYY")} at{" "}
+                      {moment(trail?.createdAt).format("HH:mm A")}
                     </p>
                   </p>
                 </div>
