@@ -6,7 +6,8 @@ interface DataItem {
     reportableId: string;
     user: User;
     reportable: Reportable;
-    action: string
+    action: string,
+    fallbackReportable: User
 }
 
 interface User {
@@ -53,6 +54,11 @@ const groupByDate = (data: DataItem[]): Group[] => {
     for (let item of data) {
         let createdAt: number = new Date(item.createdAt).getTime();
         item.action = item.title.split(" ").slice(1, -1).join(" ");
+        item.fallbackReportable = {
+            username: item.title.split(" ").reverse()[0],
+        } as User;
+        item.reportable = {} as User;
+
         if (!currentGroup || createdAt - currentGroup.createdAt > interval) {
             currentGroup = {
                 title: item.title,

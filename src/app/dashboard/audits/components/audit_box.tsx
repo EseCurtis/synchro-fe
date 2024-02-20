@@ -114,8 +114,9 @@ const Audit_Box = ({ item }: { item: any }) => {
               {item?.data?.user.username}
             </a>{" "}
             {item?.data?.action}{" "}
-            <a href={`/user/${item?.data?.reportable.id}`}>
-              {item?.data?.reportable.username}
+            <a href={`/user/${item?.data?.reportable?.id || item?.data?.user?.id}`}>
+              {item?.data?.reportable.username ||
+                item?.data?.fallbackReportable?.username}
             </a>
           </p>
           <p className="text-text_primary">
@@ -138,8 +139,11 @@ const Audit_Box = ({ item }: { item: any }) => {
                       {trail?.user.username}
                     </a>{" "}
                     {trail?.action}{" "}
-                    <a href={`/user/${trail?.reportable.id}`}>
-                      {trail?.reportable.username}
+                    <a
+                      href={`/user/${trail?.reportable?.id || trail?.user?.id}`}
+                    >
+                      {trail?.reportable.username ||
+                        trail?.fallbackReportable?.username}
                     </a>
                   </p>
                   <p className="text-text_primary">
