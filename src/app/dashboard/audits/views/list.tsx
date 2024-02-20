@@ -19,7 +19,7 @@ const AuditList = () => {
   // group by 5 mins
   const grouped = groupByDate(audits)
 
-  console.log(grouped)
+  //console.log(grouped)
 
 
   return (
