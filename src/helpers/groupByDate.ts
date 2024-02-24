@@ -42,11 +42,12 @@ interface Group {
 }
 
 const groupByDate = (data: DataItem[]): Group[] => {
+    if(data?.length < 1 || !data) return [];
     // Convert 5 minutes to milliseconds
     const interval: number = 5 * 60 * 1000;
 
     // Sort the data by createdAt
-    data.sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime());
+    data?.sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime());
 
     // Group the data
     let groups: Group[] = [];
@@ -57,7 +58,7 @@ const groupByDate = (data: DataItem[]): Group[] => {
         item.fallbackReportable = {
             username: item.title.split(" ").reverse()[0],
         } as User;
-        item.reportable = {} as User;
+        //item.reportable = {} as User;
 
         if (!currentGroup || createdAt - currentGroup.createdAt > interval) {
             currentGroup = {
