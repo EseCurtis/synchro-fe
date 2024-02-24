@@ -5,9 +5,10 @@ import { usePaginatedQuery } from "@/hooks/api/usePaginatedQuery";
 import moment from "moment";
 import TablePagination from "@/app/_components/table/tablePagination";
 import groupByDate from "@/helpers/groupByDate";
+import { Spinner } from "@/app/_components/spinner/Spinner";
 
 const AuditList = () => {
-  const { data, hasNextPage, fetchNextPage, isFetchingNextPage } =
+  const { data, isLoading, hasNextPage, fetchNextPage, isFetchingNextPage } =
     usePaginatedQuery({
       url: "/report/audit-trails",
       queryKey: ["audits"],
@@ -21,6 +22,9 @@ const AuditList = () => {
 
   //console.log(grouped)
 
+  if (isLoading) {
+    return <Spinner />;
+  }
 
   return (
     <div>
