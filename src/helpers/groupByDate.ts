@@ -55,6 +55,7 @@ const groupByDate = (data: DataItem[]): Group[] => {
     for (let item of data) {
         let createdAt: number = new Date(item.createdAt).getTime();
         item.action = item.title.split(" ").slice(1, -1).join(" ");
+        item.reportable.username = item.title.split(" ").reverse()[0];
         item.fallbackReportable = {
             username: item.title.split(" ").reverse()[0],
         } as User;
