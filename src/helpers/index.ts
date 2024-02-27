@@ -8,5 +8,5 @@ export * from "./grenerateColor";
 export * from "./generateMonthData";
 export * from "./filterEventsByDate";
 
-export const baseUrl = "http://127.0.0.1:1400";
-export const baseUrlx = "https://env-0465672.dal.togglebox.site";
+export const baseUrlx = "http://127.0.0.1:1400";
+export const baseUrl = "https://env-0465672.dal.togglebox.site";
