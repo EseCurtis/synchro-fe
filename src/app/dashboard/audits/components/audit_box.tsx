@@ -110,11 +110,11 @@ const Audit_Box = ({ item }: { item: any }) => {
         <div onClick={openAccordion}>{!open ? plusIcon : colabsIcon}</div>
         <div className="flex justify-between w-[80%]">
           <p>
-            <a href={`/user/${item?.data?.user.id}`}>
+            <a href={`/dashboard/users/${item?.data?.user.id}`}>
               {item?.data?.user.username}
             </a>{" "}
             {item?.data?.action}{" "}
-            <a href={`/user/${item?.data?.reportable?.id || item?.data?.user?.id}`}>
+            <a href={`/dashboard/users/${item?.data?.reportable?.id || item?.data?.user?.id}`}>
               {item?.data?.reportable.username ||
                 item?.data?.fallbackReportable?.username}
             </a>
@@ -135,7 +135,7 @@ const Audit_Box = ({ item }: { item: any }) => {
                 <div>{arrow_with_bar}</div>
                 <div className="flex justify-between  w-[80%]">
                   <p>
-                    <a href={`/user/${trail?.user.id}`}>
+                    <a href={`/dashboard/users/${trail?.user.id}`}>
                       {trail?.user.username}
                     </a>{" "}
                     {trail?.action}{" "}
