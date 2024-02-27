@@ -112,12 +112,31 @@ const Audit_Box = ({ item }: { item: any }) => {
           <p>
             <a href={`/dashboard/users/${item?.data?.user.id}`}>
               {item?.data?.user.username}
-            </a>{" "}
-            {item?.data?.action}{" "}
-            <a href={`/dashboard/users/${item?.data?.reportable?.id || item?.data?.user?.id}`}>
-              {item?.data?.reportable.username ||
-                item?.data?.fallbackReportable?.username}
             </a>
+            &nbsp;
+            {item?.data?.action}
+            &nbsp;
+            {(item.data.auditType !== "user" && (
+              <>
+                <a href={`/dashboard/users/${item?.data?.reportable?.userId}`}>
+                  {item?.data?.reportable?.user?.username || "User"}'s
+                </a>
+                &nbsp;
+                <span>{item?.data?.auditType} </span>
+                <span className="font-bold italics">
+                  {item?.data?.reportable.username}
+                </span>
+              </>
+            )) || (
+              <>
+                <span>{item?.data?.auditType}</span>
+                &nbsp;
+                <a href={`/dashboard/users/${item?.data?.reportable?.id}`}>
+                  {item?.data?.reportable.firstName ||
+                    item?.data?.fallbackReportable?.username}
+                </a>
+              </>
+            )}
           </p>
           <p className="text-text_primary">
             {moment(item?.data?.createdAt).format("MMM DD YYYY")} at{" "}
@@ -137,14 +156,35 @@ const Audit_Box = ({ item }: { item: any }) => {
                   <p>
                     <a href={`/dashboard/users/${trail?.user.id}`}>
                       {trail?.user.username}
-                    </a>{" "}
-                    {trail?.action}{" "}
-                    <a
-                      href={`/user/${trail?.reportable?.id || trail?.user?.id}`}
-                    >
-                      {trail?.reportable.username ||
-                        trail?.fallbackReportable?.username}
                     </a>
+                    &nbsp;
+                    {trail?.action}
+                    &nbsp;
+                    {(trail.auditType !== "user" && (
+                      <>
+                        <a
+                          href={`/dashboard/users/${trail?.reportable?.userId}`}
+                        >
+                          {trail?.reportable?.user?.username || "User"}'s
+                        </a>
+                        &nbsp;
+                        <span>{trail?.auditType} </span>
+                        <span className="font-bold italics">
+                          {trail?.reportable.username}
+                        </span>
+                      </>
+                    )) || (
+                      <>
+                        <span>{trail?.auditType}</span>
+                        &nbsp;
+                        <a
+                          href={`/dashboard/users/${trail?.reportable?.id}`}
+                        >
+                          {trail?.reportable.firstName ||
+                            trail?.fallbackReportable?.username}
+                        </a>
+                      </>
+                    )}
                   </p>
                   <p className="text-text_primary">
                     <p className="text-text_primary">

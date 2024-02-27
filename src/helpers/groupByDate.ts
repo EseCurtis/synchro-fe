@@ -7,6 +7,7 @@ interface DataItem {
     user: User;
     reportable: Reportable;
     action: string,
+    auditType: string,
     fallbackReportable: User
 }
 
@@ -41,21 +42,26 @@ interface Group {
     createdAt: number;
 }
 
-const groupByDate = (data: DataItem[]): Group[] => {
+const groupByDate = (data: any): Group[] => {
     if(data?.length < 1 || !data) return [];
     // Convert 5 minutes to milliseconds
     const interval: number = 5 * 60 * 1000;
 
     // Sort the data by createdAt
-    data?.sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime());
+    data?.sort((a: any, b: any) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime());
 
     // Group the data
     let groups: Group[] = [];
     let currentGroup: Group | null = null;
     for (let item of data) {
         let createdAt: number = new Date(item.createdAt).getTime();
-        item.action = item.title.split(" ").slice(1, -1).join(" ");
+        item.action = item.action || item.title.split(" ").slice(1, -1).join(" ");
         item.reportable.username = item.title.split(" ").reverse()[0];
+
+        if(item.auditType !== "user") {
+            item.reportable.username = (item.reportable as any).name;
+        }
+
         item.fallbackReportable = {
             username: item.title.split(" ").reverse()[0],
         } as User;
