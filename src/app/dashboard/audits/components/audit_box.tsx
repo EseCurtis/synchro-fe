@@ -163,7 +163,7 @@ const Audit_Box = ({ item }: { item: any }) => {
                     {(trail.auditType !== "user" && (
                       <>
                         <a
-                          href={`/dashboard/users/${trail?.reportable?.userId}`}
+                          href={`/dashboard/users/${trail?.reportable?.user.id}`}
                         >
                           {trail?.reportable?.user?.username || "User"}&apos;s
                         </a>
@@ -177,9 +177,7 @@ const Audit_Box = ({ item }: { item: any }) => {
                       <>
                         <span>{trail?.auditType}</span>
                         &nbsp;
-                        <a
-                          href={`/dashboard/users/${trail?.reportable?.id}`}
-                        >
+                        <a href={`/dashboard/users/${trail?.reportable?.id}`}>
                           {trail?.reportable.firstName ||
                             trail?.fallbackReportable?.username}
                         </a>
