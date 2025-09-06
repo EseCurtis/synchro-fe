@@ -1,24 +1,17 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 import DashboardAction from "@/app/_components/dashboard/dashboardAction";
-import DefaultTable from "@/app/_components/table/defaultTable";
-import TablePagination from "@/app/_components/table/tablePagination";
-import { table } from "@/utils/contents/dummy/table";
-import React, { useState } from "react";
-import Image from "../../../../../node_modules/next/image";
-import ServiceDetails from "../components/service_details";
 import Modal from "@/app/_components/popups/modal";
-import { useQueryClient } from "@tanstack/react-query";
-import { useTQuery } from "@/hooks/api/useTQuery";
-import { useTMutation } from "@/hooks/api/useTMutation";
-import moment from "moment";
-import { usePaginatedQuery } from "@/hooks/api/usePaginatedQuery";
 import { Spinner } from "@/app/_components/spinner/Spinner";
+import DefaultTable from "@/app/_components/table/defaultTable";
 import NoData from "@/app/_components/table/NoData";
-import { User } from "@/contexts/AuthContext";
-import SuspendUser from "../../users/components/suspendUser";
-import DeclineVenue from "../../venues/components/declineVenue";
+import TablePagination from "@/app/_components/table/tablePagination";
+import { usePendingServices, useUpdateServiceStatus } from "@/hooks/api/v2/services";
+import moment from "moment";
+import { useState } from "react";
+import Image from "../../../../../node_modules/next/image";
 import DeclineService from "../components/declineService";
+import ServiceDetails from "../components/service_details";
 
 const header = [
   "Services ",
@@ -47,31 +40,16 @@ const PendingService = () => {
     setSuspendUserOpened(false);
   };
 
-  const client = useQueryClient();
-
   const {
     isLoading: fetching,
     data,
     hasNextPage,
     fetchNextPage,
     isFetchingNextPage,
-  } = usePaginatedQuery({
-    url: "/service/for-admin?status=pending",
-    queryKey: ["services", "pending-services"],
-    enabled: true,
-  });
+  } = usePendingServices();
 
   const services = data?.pages?.map((e: any) => e.data.data).flat() as any[];
-
-  const { isLoading, mutate } = useTMutation({
-    url: "/service/admin/update-status",
-    method: "put",
-    options: {
-      onSuccess() {
-        client.invalidateQueries(["services"]);
-      },
-    },
-  });
+  const { isLoading, mutate } = useUpdateServiceStatus();
 
   if (fetching) {
     return <Spinner />;

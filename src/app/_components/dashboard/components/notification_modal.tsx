@@ -1,10 +1,10 @@
-import React, { Fragment, useState, useEffect, useRef } from "react";
+import customStyles from "@/app/_components/customStyles/index.module.css";
+import { useUserNotifications } from "@/hooks/api/v2/notifications";
+import { useParams } from "next/navigation";
+import { Fragment, useEffect, useRef, useState } from "react";
+import { BiBell } from "react-icons/bi";
 import NoNotifications from "./no_notifications";
 import NotificationItem from "./notification_item";
-import { BiBell } from "react-icons/bi";
-import { useParams } from "next/navigation";
-import { usePaginatedQuery } from "@/hooks/api/usePaginatedQuery";
-import customStyles from "@/app/_components/customStyles/index.module.css";
 
 const NotificationModal = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -18,11 +18,7 @@ const NotificationModal = () => {
     data: notificationResponse,
     fetchNextPage,
     isFetchingNextPage,
-  }: any = usePaginatedQuery({
-    url: `/notification`,
-    queryKey: ["user", "notification"],
-    enabled: true,
-  });
+  }: any = useUserNotifications();
 
   const notificationHistory = notificationResponse?.pages
     ?.map((e: any) => e.data.data)

@@ -1,10 +1,7 @@
-import { AppToast } from "@/app/_components/AppToast";
 import { Button } from "@/app/_components/button";
 import Input from "@/app/_components/input_fields";
-import { useTMutation } from "@/hooks/api/useTMutation";
-import { useQueryClient } from "@tanstack/react-query";
-import React, { useState } from "react";
-import { toast } from "react-toastify";
+import { useSuspendUser } from "@/hooks/api/v2/users";
+import { useState } from "react";
 
 const suspendIcon = (
   <svg
@@ -29,19 +26,7 @@ const suspendIcon = (
 );
 
 const SuspendUser = ({ user, onClose = () => {} }: { user: any, onClose?: any }) => {
-  const client = useQueryClient();
-
-  const { mutate, isLoading } = useTMutation({
-    url: `/user/admin/users/suspend`,
-    method: "post",
-    options: {
-      onSuccess() {
-        toast(<AppToast>User suspended successfully</AppToast>);
-        // client.invalidateQueries(["users"]);
-        window.location.reload();
-      },
-    },
-  });
+  const { mutate, isLoading } = useSuspendUser();
 
   const [reason, setReason] = useState("");
 

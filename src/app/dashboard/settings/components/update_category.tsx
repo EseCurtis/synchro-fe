@@ -1,10 +1,7 @@
-import { AppToast } from "@/app/_components/AppToast";
 import { Button } from "@/app/_components/button";
 import ImageUpload from "@/app/_components/image_upload";
-import { useTMutation } from "@/hooks/api/useTMutation";
-import { useQueryClient } from "@tanstack/react-query";
-import React, { useState } from "react";
-import { toast } from "react-toastify";
+import { useUpdateBusinessCategory, useUpdateEventCategory } from "@/hooks/api/v2/settings";
+import { useState } from "react";
 
 const UpdateCategory = ({ isEvent, category, categoryType, onClose }: any) => {
   const [data, setData] = useState({
@@ -15,41 +12,8 @@ const UpdateCategory = ({ isEvent, category, categoryType, onClose }: any) => {
     black_icon: "Nill",
   });
 
-  const client = useQueryClient();
-
-  const { mutate, isLoading } = useTMutation({
-    url: `/category/event_categories/update/${category.id}`,
-    method: "post",
-    options: {
-      onSuccess: () => {
-        client.invalidateQueries(["category", "event-category"]);
-        onClose();
-        toast(<AppToast>Category Updated</AppToast>, {
-          type: "success",
-          autoClose: 1000,
-        });
-      },
-    },
-  });
-
-  const { mutate: mutateBusiness, isLoading: isLoadingEvent } = useTMutation({
-    url: `/category/business_categories/update/${category.id}`,
-    method: "post",
-    options: {
-      onSuccess: () => {
-        client.invalidateQueries(["category", "business-category"]);
-        onClose();
-        toast(<AppToast>Category Updated</AppToast>, {
-          type: "success",
-          autoClose: 1000,
-        });
-      },
-      
-      onError() {
-        //onClose();
-      },
-    },
-  });
+  const { mutate, isLoading } = useUpdateEventCategory();
+  const { mutate: mutateBusiness, isLoading: isLoadingEvent } = useUpdateBusinessCategory();
 
   return (
     <div>

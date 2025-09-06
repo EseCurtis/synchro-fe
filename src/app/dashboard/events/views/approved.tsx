@@ -1,17 +1,17 @@
 //@ts-nocheck
 "use client";
-import React, { useEffect, useState } from "react";
-import { Calendar, momentLocalizer } from "react-big-calendar";
-import moment from "moment";
-import "react-big-calendar/lib/css/react-big-calendar.css";
-import { useTQuery } from "@/hooks/api/useTQuery";
-import CustomCalendar from "../components/CustomCalendar";
 import {
-  generateEventsMonthData,
-  generateMonthData,
-  getMonthName,
+    generateEventsMonthData,
+    generateMonthData,
+    getMonthName,
 } from "@/helpers";
+import { useApprovedEvents } from "@/hooks/api/v2/events";
+import moment from "moment";
+import { useEffect, useState } from "react";
+import { momentLocalizer } from "react-big-calendar";
+import "react-big-calendar/lib/css/react-big-calendar.css";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
+import CustomCalendar from "../components/CustomCalendar";
 import ApprovedEventsByDate from "./approvedByDate";
 
 const header = [
@@ -34,10 +34,7 @@ const ApprovedEvents = () => {
     },
   ];
 
-  const { data } = useTQuery({
-    url: "/event/for-admin?status=approved&page=1&limit=1000000000",
-    queryKey: ["events", "approved-events"],
-  });
+  const { data } = useApprovedEvents();
 
   const eventsData = data?.data?.data;
 

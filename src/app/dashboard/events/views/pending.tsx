@@ -1,40 +1,23 @@
 "use client";
 
 import DashboardAction from "@/app/_components/dashboard/dashboardAction";
-import DefaultTable from "@/app/_components/table/defaultTable";
-import TablePagination from "@/app/_components/table/tablePagination";
-import { table } from "@/utils/contents/dummy/table";
-import React, { useState, Fragment } from "react";
-import Image from "../../../../../node_modules/next/image";
 import Dropdown from "@/app/_components/popups/dropDown";
 import Modal from "@/app/_components/popups/modal";
-import ViewInformation from "../components/EventDetails";
-import { useTQuery } from "@/hooks/api/useTQuery";
-import Link from "next/link";
-import moment from "moment";
-import { useTMutation } from "@/hooks/api/useTMutation";
 import { Spinner } from "@/app/_components/spinner/Spinner";
-import { useQueryClient } from "@tanstack/react-query";
+import DefaultTable from "@/app/_components/table/defaultTable";
+import TablePagination from "@/app/_components/table/tablePagination";
+import { usePendingEvents, useUpdateEventStatus } from "@/hooks/api/v2/events";
+import moment from "moment";
+import Link from "next/link";
+import { Fragment, useState } from "react";
+import Image from "../../../../../node_modules/next/image";
 import EventDetails from "../../users/components/user/event_details";
 
 const header = ["Business Name ", "User", "Category", "Date", "Actions", ""];
 const style = "px-6 py-4 whitespace-no-wrap border-b border-gray-300";
 const PendingEvents = () => {
-  const { data, refetch } = useTQuery({
-    url: "/event/for-admin?status=pending&page=1&limit=10",
-    queryKey: ["events", "pending-events"],
-  });
-
-  const { isLoading, mutate } = useTMutation({
-    url: "/event/admin/update-status",
-    method: "put",
-    options: {
-      onSuccess() {
-        refetch();
-        client.invalidateQueries(["events"]);
-      },
-    },
-  });
+  const { data, refetch } = usePendingEvents();
+  const { isLoading, mutate } = useUpdateEventStatus();
 
   // @ts-ignore
   const events = data?.data?.data;
@@ -42,7 +25,6 @@ const PendingEvents = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [activeData, setActiveData] = useState({});
-  const client = useQueryClient();
 
   const toggleDropdown = (data: any) => {
     setIsDropdownOpen(!isDropdownOpen);

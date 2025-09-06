@@ -1,23 +1,15 @@
 "use client";
 import DashboardAction from "@/app/_components/dashboard/dashboardAction";
+import Dropdown from "@/app/_components/popups/dropDown";
+import Modal from "@/app/_components/popups/modal";
 import DefaultTable from "@/app/_components/table/defaultTable";
 import TablePagination from "@/app/_components/table/tablePagination";
-import { table } from "@/utils/contents/dummy/table";
-import React from "react";
-import Image from "next/image";
-import Modal from "@/app/_components/popups/modal";
-import ViewInformation from "../components/viewInfo";
-import { useState, Fragment } from "react";
-import Dropdown from "@/app/_components/popups/dropDown";
-import DeclineKYC from "../components/decline_kyc";
-import Toast from "../components/toast";
-import { useTQuery } from "@/hooks/api/useTQuery";
-import { useTMutation } from "@/hooks/api/useTMutation";
-import { useQueryClient } from "@tanstack/react-query";
+import { useApprovedKycBusinesses, useUpdateKycBusinessStatus } from "@/hooks/api/v2/kyc";
 import moment from "moment";
-import { Spinner } from "@/app/_components/spinner/Spinner";
+import Image from "next/image";
+import { Fragment, useState } from "react";
 import LegalDoc from "../components/legal_doc";
-import Badge from "@/app/_components/forms/badge";
+import ViewInformation from "../components/viewInfo";
 
 const header = [
   "Business Name ",
@@ -31,7 +23,6 @@ const ApprovedKyc = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalContent, setModalContent] = useState();
-  const client = useQueryClient();
 
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
@@ -46,21 +37,8 @@ const ApprovedKyc = () => {
     setIsModalOpen(false);
   };
 
-  const { data, refetch } = useTQuery({
-    url: "/user/admin/businesses?status=approved&page=1&limit=10",
-    queryKey: ["businesses", "approved-businesses"],
-  });
-
-  const { isLoading, mutate } = useTMutation({
-    url: "/user/admin/businesses/update-status",
-    method: "put",
-    options: {
-      onSuccess() {
-        refetch();
-        client.invalidateQueries(["businesses"]);
-      },
-    },
-  });
+  const { data, refetch } = useApprovedKycBusinesses();
+  const { isLoading, mutate } = useUpdateKycBusinessStatus();
 
   // @ts-ignore
   const businesses = data?.data?.data;

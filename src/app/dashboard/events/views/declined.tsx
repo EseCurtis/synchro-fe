@@ -1,17 +1,15 @@
 "use client";
 
 import DashboardAction from "@/app/_components/dashboard/dashboardAction";
+import Modal from "@/app/_components/popups/modal";
+import { Spinner } from "@/app/_components/spinner/Spinner";
 import DefaultTable from "@/app/_components/table/defaultTable";
 import TablePagination from "@/app/_components/table/tablePagination";
-import Modal from "@/app/_components/popups/modal";
-import ViewInformation from "../components/EventDetails";
-import React, { useState, Fragment } from "react";
-import { useTMutation } from "@/hooks/api/useTMutation";
-import { Spinner } from "@/app/_components/spinner/Spinner";
+import { useDeclinedEvents, useUpdateEventStatus } from "@/hooks/api/v2/events";
 import moment from "moment";
 import Link from "next/link";
-import { useQueryClient } from "@tanstack/react-query";
-import { usePaginatedQuery } from "@/hooks/api/usePaginatedQuery";
+import { useState } from "react";
+import ViewInformation from "../components/EventDetails";
 
 const header = ["Business Name ", "User", "Category", "Date", ""];
 
@@ -19,7 +17,6 @@ const style = "px-6 py-4 whitespace-no-wrap border-b border-gray-300";
 const DeclinedEvents = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const client = useQueryClient();
 
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
@@ -33,25 +30,9 @@ const DeclinedEvents = () => {
     setIsModalOpen(false);
   };
 
-  const { data, refetch, hasNextPage, fetchNextPage, isFetchingNextPage } =
-    usePaginatedQuery({
-      url: "/event/for-admin?status=rejected",
-      queryKey: ["events", "rejected-events"],
-      enabled: true,
-    });
-
+  const { data, refetch, hasNextPage, fetchNextPage, isFetchingNextPage } = useDeclinedEvents();
   const events = data?.pages?.map((e: any) => e.data.data).flat() as any[];
-
-  const { isLoading, mutate } = useTMutation({
-    url: "/event/admin/update-status",
-    method: "put",
-    options: {
-      onSuccess() {
-        refetch();
-        client.invalidateQueries(["events"]);
-      },
-    },
-  });
+  const { isLoading, mutate } = useUpdateEventStatus();
 
   return (
     <div>
