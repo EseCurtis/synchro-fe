@@ -1,12 +1,12 @@
 "use client";
 import { useAuthContext } from "@/contexts/AuthContext";
+import { useTMutation } from "@/hooks/api/useTMutation";
+import { useFormik } from "formik";
+import Link from "next/link";
+import { object, string } from "yup";
 import { Button } from "./_components/button";
 import Input from "./_components/input_fields";
 import AuthLayout from "./layouts/authLayout";
-import Link from "next/link";
-import { useTMutation } from "@/hooks/api/useTMutation";
-import { Form, useFormik } from "formik";
-import { object, string } from "yup";
 
 export default function Home() {
   const { signin } = useAuthContext();
@@ -15,6 +15,7 @@ export default function Home() {
     url: "/user/login",
     method: "post",
     options: {
+
       onSuccess: (data) => {
         signin(data.data.token);
       },
