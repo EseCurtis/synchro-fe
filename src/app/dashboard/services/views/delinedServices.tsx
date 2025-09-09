@@ -1,18 +1,17 @@
 "use client";
 import DashboardAction from "@/app/_components/dashboard/dashboardAction";
-import DefaultTable from "@/app/_components/table/defaultTable";
-import TablePagination from "@/app/_components/table/tablePagination";
-import React, { useState } from "react";
-import Image from "../../../../../node_modules/next/image";
 import Modal from "@/app/_components/popups/modal";
-import ServiceDetails from "../components/service_details";
-import { useTQuery } from "@/hooks/api/useTQuery";
-import moment from "moment";
-import { usePaginatedQuery } from "@/hooks/api/usePaginatedQuery";
 import { Spinner } from "@/app/_components/spinner/Spinner";
+import DefaultTable from "@/app/_components/table/defaultTable";
+import NoData from "@/app/_components/table/NoData";
+import TablePagination from "@/app/_components/table/tablePagination";
+import { usePaginatedQuery } from "@/hooks/api/usePaginatedQuery";
 import { useTMutation } from "@/hooks/api/useTMutation";
 import { useQueryClient } from "@tanstack/react-query";
-import NoData from "@/app/_components/table/NoData";
+import moment from "moment";
+import { useState } from "react";
+import Image from "../../../../../node_modules/next/image";
+import ServiceDetails from "../components/service_details";
 
 const header = [
   "Services ",
@@ -45,7 +44,7 @@ const DeclineServices = () => {
     fetchNextPage,
     isFetchingNextPage,
   } = usePaginatedQuery({
-    url: "/service/for-admin?status=rejected",
+    url: "/admin/services/for-admin?status=rejected",
     queryKey: ["services", "rejected-services"],
     enabled: true,
   });
@@ -53,7 +52,7 @@ const DeclineServices = () => {
   const services = data?.pages?.map((e: any) => e.data.data).flat() as any[];
 
   const { isLoading, mutate } = useTMutation({
-    url: "/service/admin/update-status",
+    url: "/admin/services/update-status",
     method: "put",
     options: {
       onSuccess() {

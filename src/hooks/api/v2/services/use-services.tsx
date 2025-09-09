@@ -5,7 +5,7 @@ import { useQueryClient } from "@tanstack/react-query";
 // Hook for getting pending services with pagination
 export function usePendingServices() {
   return usePaginatedQuery({
-    url: "/service/for-admin?status=pending",
+    url: "/admin/services/for-admin?status=pending",
     queryKey: ["services", "pending-services"],
     enabled: true,
   });
@@ -16,7 +16,7 @@ export function useUpdateServiceStatus() {
   const client = useQueryClient();
   
   return useTMutation({
-    url: "/service/admin/update-status",
+    url: "/admin/services/update-status",
     method: "put",
     options: {
       onSuccess() {
@@ -25,3 +25,4 @@ export function useUpdateServiceStatus() {
     },
   });
 }
+

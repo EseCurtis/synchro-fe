@@ -4,7 +4,7 @@ import { useEffect } from "react";
 
 const EventCategory = ({ eventCategoryId }: { eventCategoryId: string }) => {
   const { data }: { data: any } = useTQuery({
-    url: "/category/event_categories",
+    url: "/admin/categories/event_categories",
     queryKey: ["category", "event_categories"],
   });
 

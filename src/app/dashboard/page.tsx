@@ -1,18 +1,17 @@
 "use client";
-import React from "react";
-import DashboardLayout from "../layouts/dashboardLayout";
-import Image from "next/image";
-import { formatNumber } from "@/utils/formatNumber";
-import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
-import { Doughnut, Line } from "react-chartjs-2";
-import LineGraph from "../_components/charts/lineChart";
-import { useTQuery } from "@/hooks/api/useTQuery";
 import { useAuthContext } from "@/contexts/AuthContext";
+import { useTQuery } from "@/hooks/api/useTQuery";
+import { formatNumber } from "@/utils/formatNumber";
+import { ArcElement, Chart as ChartJS, Legend, Tooltip } from "chart.js";
+import Image from "next/image";
+import { Doughnut } from "react-chartjs-2";
+import LineGraph from "../_components/charts/lineChart";
+import DashboardLayout from "../layouts/dashboardLayout";
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 const DashboardIndex = () => {
   const { data } = useTQuery({
-    url: "/report/totals",
+    url: "/admin/reports/totals",
     queryKey: ["totals"],
   });
 

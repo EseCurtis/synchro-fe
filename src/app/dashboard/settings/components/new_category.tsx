@@ -1,7 +1,7 @@
 import { Button } from "@/app/_components/button";
 import ImageUpload from "@/app/_components/image_upload";
 import { useTMutation } from "@/hooks/api/useTMutation";
-import React, { useState } from "react";
+import { useState } from "react";
 
 const NewCategory = ({ isEvent }: { isEvent: boolean }) => {
   const [data, setData] = useState({
@@ -13,7 +13,7 @@ const NewCategory = ({ isEvent }: { isEvent: boolean }) => {
   });
 
   const { mutate, isLoading } = useTMutation({
-    url: "/category/create/event_category",
+    url: "/admin/categories/create/event_category",
     method: "post",
     options: {
       onSuccess: () => {
@@ -23,7 +23,7 @@ const NewCategory = ({ isEvent }: { isEvent: boolean }) => {
   });
 
   const { mutate: mutateBusiness, isLoading: isLoadingEvent } = useTMutation({
-    url: "/category/create/business_category",
+    url: "/admin/categories/create/business_category",
     method: "post",
     options: {
       onSuccess: () => {

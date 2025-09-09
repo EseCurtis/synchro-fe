@@ -1,12 +1,12 @@
 "use client";
-import NoNotifications from "@/app/_components/no_data/no_notification";
-import React, { Fragment, useState } from "react";
-import NotificationBox from "../components/notificationBox";
-import Modal from "@/app/_components/popups/modal";
 import { Button } from "@/app/_components/button";
-import NewNotification from "../components/new_notification";
-import { usePaginatedQuery } from "@/hooks/api/usePaginatedQuery";
+import NoNotifications from "@/app/_components/no_data/no_notification";
+import Modal from "@/app/_components/popups/modal";
 import TablePagination from "@/app/_components/table/tablePagination";
+import { usePaginatedQuery } from "@/hooks/api/usePaginatedQuery";
+import { Fragment, useState } from "react";
+import NewNotification from "../components/new_notification";
+import NotificationBox from "../components/notificationBox";
 
 const Notifications = () => {
   const [view, setView] = useState(true);
@@ -28,7 +28,7 @@ const Notifications = () => {
     fetchNextPage,
     isFetchingNextPage,
   } = usePaginatedQuery({
-    url: "/notification/for-admin",
+    url: "/admin/notifications/for-admin",
     queryKey: ["notifications"],
     enabled: true,
   });

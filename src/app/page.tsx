@@ -12,7 +12,7 @@ export default function Home() {
   const { signin } = useAuthContext();
 
   const { mutate, isLoading } = useTMutation({
-    url: "/user/login",
+    url: "/auth/login",
     method: "post",
     options: {
 

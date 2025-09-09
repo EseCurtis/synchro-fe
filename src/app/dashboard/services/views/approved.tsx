@@ -1,18 +1,15 @@
 "use client";
 import DashboardAction from "@/app/_components/dashboard/dashboardAction";
-import DefaultTable from "@/app/_components/table/defaultTable";
-import TablePagination from "@/app/_components/table/tablePagination";
-import { table } from "@/utils/contents/dummy/table";
-import { FiMoreHorizontal } from "react-icons/fi";
-import React, { useEffect, useState } from "react";
-import Image from "next/image";
 import Modal from "@/app/_components/popups/modal";
-import { useTQuery } from "@/hooks/api/useTQuery";
-import moment from "moment";
-import { usePaginatedQuery } from "@/hooks/api/usePaginatedQuery";
 import { Spinner } from "@/app/_components/spinner/Spinner";
-import ServiceDetails from "../../users/components/user/service_details";
+import DefaultTable from "@/app/_components/table/defaultTable";
 import NoData from "@/app/_components/table/NoData";
+import TablePagination from "@/app/_components/table/tablePagination";
+import { usePaginatedQuery } from "@/hooks/api/usePaginatedQuery";
+import moment from "moment";
+import Image from "next/image";
+import { useEffect, useState } from "react";
+import ServiceDetails from "../../users/components/user/service_details";
 
 const header = [
   "Services ",
@@ -39,7 +36,7 @@ const ApprovedServices = () => {
 
   const { isLoading, data, hasNextPage, fetchNextPage, isFetchingNextPage } =
     usePaginatedQuery({
-      url: "/service/for-admin?status=approved",
+      url: "/admin/services/for-admin?status=approved",
       queryKey: ["services", "approved-services"],
       enabled: true,
     });

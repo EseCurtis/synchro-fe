@@ -1,21 +1,15 @@
 "use client";
 
 import DashboardAction from "@/app/_components/dashboard/dashboardAction";
+import Modal from "@/app/_components/popups/modal";
+import { Spinner } from "@/app/_components/spinner/Spinner";
 import DefaultTable from "@/app/_components/table/defaultTable";
 import TablePagination from "@/app/_components/table/tablePagination";
-import { table } from "@/utils/contents/dummy/table";
-import React, { useState, Fragment } from "react";
-import Image from "../../../../../node_modules/next/image";
-import Dropdown from "@/app/_components/popups/dropDown";
-import Modal from "@/app/_components/popups/modal";
-import UserDetails from "../components/user_details";
-import { useTQuery } from "@/hooks/api/useTQuery";
-import moment from "moment";
 import { usePaginatedQuery } from "@/hooks/api/usePaginatedQuery";
-import { Spinner } from "@/app/_components/spinner/Spinner";
-import SuspendUser from "../../users/components/suspendUser";
-import ViewSuspended from "../../users/components/viewSuspended";
+import moment from "moment";
+import { useState } from "react";
 import { FaExternalLinkAlt } from "react-icons/fa";
+import UserDetails from "../components/user_details";
 
 const header = [
   // "Fullname Name ",
@@ -41,7 +35,7 @@ const UsersReport = () => {
 
   const { isLoading, data, hasNextPage, fetchNextPage, isFetchingNextPage } =
     usePaginatedQuery({
-      url: "/report/for-admin?type=user",
+      url: "/admin/reports/for-admin?type=user",
       queryKey: ["reports", "user-report"],
       enabled: true,
     });

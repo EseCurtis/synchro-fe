@@ -18,3 +18,7 @@ export * from './settings';
 
 // Notifications hooks
 export * from './notifications';
+
+// Reports hooks
+export * from './reports';
+

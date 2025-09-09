@@ -1,11 +1,9 @@
-import { AppToast } from "@/app/_components/AppToast";
 import { Button } from "@/app/_components/button";
 import Input from "@/app/_components/input_fields";
 import { Spinner } from "@/app/_components/spinner/Spinner";
 import { useTMutation } from "@/hooks/api/useTMutation";
 import { useQueryClient } from "@tanstack/react-query";
-import React, { useState } from "react";
-import { toast } from "react-toastify";
+import { useState } from "react";
 
 const declineIcon = (
   <svg
@@ -33,7 +31,7 @@ const DeclineService = ({ service, onClose }: any) => {
   const [reason, setReason] = useState("");
   const client = useQueryClient();
   const { isLoading, mutate } = useTMutation({
-    url: "/service/admin/update-status",
+    url: "/admin/services/update-status",
     method: "put",
     options: {
       onSuccess() {

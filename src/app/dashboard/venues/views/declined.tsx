@@ -1,17 +1,14 @@
 "use client";
 import DashboardAction from "@/app/_components/dashboard/dashboardAction";
-import DefaultTable from "@/app/_components/table/defaultTable";
-import TablePagination from "@/app/_components/table/tablePagination";
-import { table } from "@/utils/contents/dummy/table";
-import React, { useState } from "react";
-import Image from "../../../../../node_modules/next/image";
 import Modal from "@/app/_components/popups/modal";
-import VenueDetails from "../../users/components/user/venue_details";
-import { useTQuery } from "@/hooks/api/useTQuery";
-import Link from "next/link";
-import moment from "moment";
-import { usePaginatedQuery } from "@/hooks/api/usePaginatedQuery";
+import DefaultTable from "@/app/_components/table/defaultTable";
 import NoData from "@/app/_components/table/NoData";
+import TablePagination from "@/app/_components/table/tablePagination";
+import { usePaginatedQuery } from "@/hooks/api/usePaginatedQuery";
+import moment from "moment";
+import { useState } from "react";
+import Image from "../../../../../node_modules/next/image";
+import VenueDetails from "../../users/components/user/venue_details";
 
 const header = [
   "Venue ",
@@ -38,7 +35,7 @@ const DeclinedVenues = () => {
 
   const { isLoading, data, hasNextPage, fetchNextPage, isFetchingNextPage } =
     usePaginatedQuery({
-      url: "/venue/for-admin?status=rejected&page=1&limit=10",
+      url: "/admin/venues/for-admin?status=rejected&page=1&limit=10",
       queryKey: ["venues", "rejected-venues"],
       enabled: true,
     });

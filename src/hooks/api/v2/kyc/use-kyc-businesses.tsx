@@ -6,7 +6,7 @@ import { useQueryClient } from "@tanstack/react-query";
 // Hook for getting approved KYC businesses
 export function useApprovedKycBusinesses() {
   return useTQuery({
-    url: "/user/admin/businesses?status=approved&page=1&limit=10",
+    url: "/admin/users/businesses?status=approved&page=1&limit=10",
     queryKey: ["businesses", "approved-businesses"],
   });
 }
@@ -14,7 +14,7 @@ export function useApprovedKycBusinesses() {
 // Hook for getting pending KYC businesses with pagination
 export function usePendingKycBusinesses() {
   return usePaginatedQuery({
-    url: "/user/admin/businesses?status=pending",
+    url: "/admin/users/businesses?status=pending",
     queryKey: ["businesses", "pending-businesses"],
     enabled: true,
   });
@@ -25,7 +25,7 @@ export function useUpdateKycBusinessStatus() {
   const client = useQueryClient();
   
   return useTMutation({
-    url: "/user/admin/businesses/update-status",
+    url: "/admin/users/businesses/update-status",
     method: "put",
     options: {
       onSuccess() {
@@ -34,3 +34,4 @@ export function useUpdateKycBusinessStatus() {
     },
   });
 }
+

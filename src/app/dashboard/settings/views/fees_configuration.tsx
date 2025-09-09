@@ -1,16 +1,15 @@
 "use client";
 import { AppToast } from "@/app/_components/AppToast";
 import { Button } from "@/app/_components/button";
-import CurrencyConverter from "@/app/_components/forms/currencyConverter";
-import Input, { CurrencyInput } from "@/app/_components/input_fields";
+import { CurrencyInput } from "@/app/_components/input_fields";
 import { useTMutation } from "@/hooks/api/useTMutation";
 import { useTQuery } from "@/hooks/api/useTQuery";
-import React, { useState } from "react";
+import { useState } from "react";
 import { toast } from "react-toastify";
 
 const FeesConfigurations = () => {
   useTQuery({
-    url: "/settings",
+    url: "/admin/settings",
     queryKey: ["settings"],
     options: {
       onSuccess: (res: any) => {
@@ -25,7 +24,7 @@ const FeesConfigurations = () => {
   });
 
   const { mutate, isLoading } = useTMutation({
-    url: "/settings",
+    url: "/admin/settings",
     method: "post",
     options: {
       onSuccess: () => {

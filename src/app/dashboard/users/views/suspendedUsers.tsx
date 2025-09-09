@@ -1,14 +1,13 @@
 "use client";
 import DashboardAction from "@/app/_components/dashboard/dashboardAction";
+import Modal from "@/app/_components/popups/modal";
+import { Spinner } from "@/app/_components/spinner/Spinner";
 import DefaultTable from "@/app/_components/table/defaultTable";
 import TablePagination from "@/app/_components/table/tablePagination";
-import React, { useEffect } from "react";
-import Modal from "@/app/_components/popups/modal";
-import { useState } from "react";
-import ViewSuspended from "../components/viewSuspended";
-import { Spinner } from "@/app/_components/spinner/Spinner";
-import moment from "moment";
 import { usePaginatedQuery } from "@/hooks/api/usePaginatedQuery";
+import moment from "moment";
+import { useEffect, useState } from "react";
+import ViewSuspended from "../components/viewSuspended";
 
 const header = [
   "Fullname ",
@@ -51,7 +50,7 @@ const SuspendedUsers = () => {
 
   const { isLoading, data, hasNextPage, fetchNextPage, isRefetching } =
     usePaginatedQuery({
-      url: "/user/admin/users?suspended=true",
+      url: "/admin/users?suspended=true",
       queryKey: ["users", "suspended-users"],
       enabled: true,
     });

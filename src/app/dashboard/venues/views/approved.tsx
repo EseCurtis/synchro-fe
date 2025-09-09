@@ -1,17 +1,14 @@
 "use client";
 import DashboardAction from "@/app/_components/dashboard/dashboardAction";
-import DefaultTable from "@/app/_components/table/defaultTable";
-import TablePagination from "@/app/_components/table/tablePagination";
-import { table } from "@/utils/contents/dummy/table";
-import React, { useState } from "react";
-import Image from "../../../../../node_modules/next/image";
 import Modal from "@/app/_components/popups/modal";
-import { useTQuery } from "@/hooks/api/useTQuery";
-import moment from "moment";
-import Link from "next/link";
-import { usePaginatedQuery } from "@/hooks/api/usePaginatedQuery";
-import VenueDetails from "../../users/components/user/venue_details";
+import DefaultTable from "@/app/_components/table/defaultTable";
 import NoData from "@/app/_components/table/NoData";
+import TablePagination from "@/app/_components/table/tablePagination";
+import { usePaginatedQuery } from "@/hooks/api/usePaginatedQuery";
+import moment from "moment";
+import { useState } from "react";
+import Image from "../../../../../node_modules/next/image";
+import VenueDetails from "../../users/components/user/venue_details";
 
 const header = [
   "Venue ",
@@ -39,7 +36,7 @@ const ApprovedVenues = () => {
 
   const { isLoading, data, hasNextPage, fetchNextPage, isFetchingNextPage } =
     usePaginatedQuery({
-      url: "/venue/for-admin?status=approved",
+      url: "/admin/venues/for-admin?status=approved",
       queryKey: ["venues", "approved-venues"],
       enabled: true,
     });

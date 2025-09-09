@@ -1,7 +1,6 @@
 import { Button } from "@/app/_components/button";
-import { Spinner } from "@/app/_components/spinner/Spinner";
 import { useTMutation } from "@/hooks/api/useTMutation";
-import React, { useState } from "react";
+import { useState } from "react";
 
 const NewNotification = ({ refresh }: { refresh: () => void }) => {
   const [body, setBody] = useState({
@@ -11,7 +10,7 @@ const NewNotification = ({ refresh }: { refresh: () => void }) => {
   });
 
   const { isLoading, mutate } = useTMutation({
-    url: "/notification/send",
+    url: "/admin/notifications/send",
     options: {
       onSuccess() {
         refresh();

@@ -6,7 +6,7 @@ export function useSuspendUser() {
   const client = useQueryClient();
   
   return useTMutation({
-    url: `/user/admin/users/suspend`,
+    url: `/admin/users/suspend`,
     method: "post",
     options: {
       onSuccess() {

@@ -1,20 +1,16 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 import DashboardAction from "@/app/_components/dashboard/dashboardAction";
+import Dropdown from "@/app/_components/popups/dropDown";
+import Modal from "@/app/_components/popups/modal";
+import { Spinner } from "@/app/_components/spinner/Spinner";
 import DefaultTable from "@/app/_components/table/defaultTable";
 import TablePagination from "@/app/_components/table/tablePagination";
-import React, { Fragment, useEffect } from "react";
-import Image from "../../../../../node_modules/next/image";
-import Link from "next/link";
-import Dropdown from "@/app/_components/popups/dropDown";
-import { useState } from "react";
-import Modal from "@/app/_components/popups/modal";
-import SuspendUser from "../components/suspendUser";
-import { useTQuery } from "@/hooks/api/useTQuery";
-import moment from "moment";
-import { Spinner } from "@/app/_components/spinner/Spinner";
-import { useRouter } from "next/navigation";
 import { usePaginatedQuery } from "@/hooks/api/usePaginatedQuery";
+import moment from "moment";
+import { useRouter } from "next/navigation";
+import { Fragment, useEffect, useState } from "react";
+import SuspendUser from "../components/suspendUser";
 
 const header = [
   "Fullname ",
@@ -117,7 +113,7 @@ const ActiveUsers = () => {
 
   const { isLoading, data, hasNextPage, fetchNextPage, isFetchingNextPage } =
     usePaginatedQuery({
-      url: "/user/admin/users?suspended=false",
+      url: "/admin/users?suspended=false",
       queryKey: ["users", "active-users"],
       enabled: true,
     });
