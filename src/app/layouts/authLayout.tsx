@@ -46,7 +46,7 @@ const AuthLayout: FC<IAuthProps> = ({
             right: "15em",
             boxShadow: "0px 50px 77px 0px rgba(176, 183, 195, 0.22)",
           }}
-          className="bg-white px-[2em] rounded-xl w-[500px] h-[550px] sm:static lg:absolute"
+          className="bg-white overflow-y-scroll px-[2em] rounded-xl w-[500px] h-[550px] sm:static lg:absolute"
         >
           <div className="text-center">
             <Image

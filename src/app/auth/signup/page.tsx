@@ -64,7 +64,7 @@ export default function AdminSignupPage() {
         )
         .required("Password is required"),
       confirmPassword: string()
-        .oneOf([formik?.values?.password], "Passwords must match")
+      
         .required("Please confirm your password"),
       role: string().required("Role is required"),
       permissions: array().of(string()),
@@ -251,12 +251,12 @@ export default function AdminSignupPage() {
         </div>
 
         {/* Submit Button */}
-        <Button type="submit" isLoading={isLoading} className="w-full">
+        <Button type="submit" isLoading={isLoading} >
           Create Admin Account
         </Button>
 
         {/* Login Link */}
-        <div className="text-center mt-4">
+        <div className="text-center mt-4 pb-3">
           <p className="text-sm text-gray-600">
             Already have an account?{" "}
             <Link href="/" className="text-blue-600 hover:underline">
