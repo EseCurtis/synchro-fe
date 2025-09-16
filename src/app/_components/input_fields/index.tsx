@@ -1,8 +1,8 @@
 "use client";
 
-import React, { InputHTMLAttributes, useState } from "react";
-import CurrencyConverter from "../forms/currencyConverter";
+import React, { InputHTMLAttributes, SelectHTMLAttributes, useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import CurrencyConverter from "../forms/currencyConverter";
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   name: string;
@@ -61,6 +61,47 @@ const Input: React.FC<InputProps> = ({
           </div>
         )}
       </div>
+      {error && <p className="text-[14px] text-red-500">{error}</p>}
+    </div>
+  );
+};
+
+interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
+  name: string;
+  label?: string;
+  error?: any;
+  options: { value: string; label: string }[];
+  onChange?: (event: React.ChangeEvent<HTMLSelectElement>) => void;
+}
+
+export const Select: React.FC<SelectProps> = ({
+  name,
+  error,
+  label,
+  options,
+  onChange,
+  ...rest
+}) => {
+  return (
+    <div className="my-[15px] flex flex-col gap-[5px]">
+      <div>
+        <label htmlFor={rest.id}>{label}</label>
+      </div>
+      <select
+        name={name}
+        onChange={onChange}
+        className="px-[16px] h-[48px] rounded-md w-[100%] outline-none bg-white"
+        style={{
+          border: "1px solid #DDE2E5",
+        }}
+        {...rest}
+      >
+        {options.map((option) => (
+          <option key={option.value} value={option.value}>
+            {option.label}
+          </option>
+        ))}
+      </select>
       {error && <p className="text-[14px] text-red-500">{error}</p>}
     </div>
   );
