@@ -12,23 +12,22 @@ export default function Home() {
   const { signin } = useAuthContext();
 
   const { mutate, isLoading } = useTMutation({
-    url: "/auth/login",
+    url: "/admin/auth/login",
     method: "post",
     options: {
-
       onSuccess: (data) => {
-        signin(data.data.token);
+        signin(data.data.tokens.accessToken);
       },
     },
   });
 
   const formik = useFormik({
     initialValues: {
-      identifier: "",
+      email: "",
       password: "",
     },
     validationSchema: object({
-      identifier: string().required("Email is required"),
+      email: string().email("Invalid email").required("Email is required"),
       password: string().required("Password is required"),
     }),
 
@@ -46,15 +45,15 @@ export default function Home() {
         <Input
           label="Email"
           placeholder="Email"
-          {...formik.getFieldProps("identifier")}
-          error={formik.touched.identifier && formik.errors.identifier}
+          {...formik.getFieldProps("email")}
+          error={formik.touched.email && formik.errors.email}
         />
         <Input
           label="Password"
           type="password"
           placeholder="Password"
           {...formik.getFieldProps("password")}
-          error={formik.touched.identifier && formik.errors.password}
+          error={formik.touched.password && formik.errors.password}
         />
 
         <Link href={"/auth/password"}>

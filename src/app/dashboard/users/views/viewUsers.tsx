@@ -1,22 +1,19 @@
-import React, { Fragment, useEffect, useState } from "react";
-import UserStat from "../components/userStat";
-import DefaultTable from "@/app/_components/table/defaultTable";
-import { TABLE_STYLE } from "@/constant";
-import { table } from "@/utils/contents/dummy/table";
-import Image from "next/image";
+import ModalTabButton from "@/app/_components/button/modalTabButton";
 import DashboardAction from "@/app/_components/dashboard/dashboardAction";
 import {
-  userBlockedIcon,
-  userFollowersIcon,
-  userFollowingIcon,
+    userBlockedIcon,
+    userFollowersIcon,
+    userFollowingIcon,
 } from "@/app/_components/icons/preview/usersStatIcon";
-import { useTQuery } from "@/hooks/api/useTQuery";
-import moment from "moment";
-import ModalTabButton from "@/app/_components/button/modalTabButton";
-import TablePagination from "@/app/_components/table/tablePagination";
-import { usePaginatedQuery } from "@/hooks/api/usePaginatedQuery";
+import DefaultTable from "@/app/_components/table/defaultTable";
 import NoData from "@/app/_components/table/NoData";
+import TablePagination from "@/app/_components/table/tablePagination";
+import { TABLE_STYLE } from "@/constant";
+import { usePaginatedQuery } from "@/hooks/api/usePaginatedQuery";
 import { TStringIndexObject } from "@/utils/types";
+import moment from "moment";
+import { Fragment, useState } from "react";
+import UserStat from "../components/userStat";
 
 const header = [
   "Full Name",
@@ -32,7 +29,7 @@ const ViewUsers = ({ user }: { user: any }) => {
     fetchNextPage: followers_fetchNextPage,
     isFetchingNextPage: followers_isFetchingNextPage,
   } = usePaginatedQuery({
-    url: `/follow/followers?userId=${user?.id}`,
+    url: `/admin/users/${user?.id}/followers`,
     queryKey: ["follow", String(user?.id)],
     enabled: !!user?.id,
   });
@@ -42,7 +39,7 @@ const ViewUsers = ({ user }: { user: any }) => {
     fetchNextPage: following_fetchNextPage,
     isFetchingNextPage: following_isFetchingNextPage,
   } = usePaginatedQuery({
-    url: `/follow/followings?userId=${user?.id}`,
+    url: `/admin/users/${user?.id}/following`,
     queryKey: ["following", String(user?.id)],
     enabled: !!user?.id,
   });
@@ -52,7 +49,7 @@ const ViewUsers = ({ user }: { user: any }) => {
     fetchNextPage: blocked_fetchNextPage,
     isFetchingNextPage: blocked_isFetchingNextPage,
   } = usePaginatedQuery({
-    url: `/user/blocked?userId=${user?.id}`,
+    url: `/admin/users/${user?.id}/blocked`,
     queryKey: ["blocked", String(user?.id)],
     enabled: !!user?.id,
   });
@@ -155,19 +152,19 @@ const ViewUsers = ({ user }: { user: any }) => {
                           )}
                           <div>
                             <h3>
-                              {_?.follower?.name ?? _?.follower?.username}
+                              {_?.follower?.firstName ?? _?.follower?.username ?? _?.followed?.firstName ?? _?.followed?.username}
                             </h3>
                           </div>
                         </div>
                       </td>
                       <td className={TABLE_STYLE}>
-                        <h3>{_?.follower?.username}</h3>
+                        <h3>{_?.follower?.username ?? _?.followed?.username}</h3>
                       </td>
                       <td className={TABLE_STYLE}>
-                        <h3>{_?.follower?.gender ?? "N/A"}</h3>
+                        <h3>{_?.follower?.gender ?? _?.followed?.gender ?? "N/A"}</h3>
                       </td>
                       <td className={TABLE_STYLE}>
-                        <h3>{_?.followe?.number ?? "N/A"}</h3>
+                        <h3>{_?.follower?.phoneNumber ?? _?.followed?.phoneNumber ?? "N/A"}</h3>
                       </td>
                       <td className={TABLE_STYLE}>
                         <h3>{moment(_?.createdAt).format("MMM DD YYYY")}</h3>

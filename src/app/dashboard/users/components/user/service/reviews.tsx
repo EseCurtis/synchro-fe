@@ -4,7 +4,7 @@ import { usePaginatedQuery } from "@/hooks/api/usePaginatedQuery";
 import { Review } from "@/utils/types";
 import moment from "moment";
 import Image from "next/image";
-import { BiSolidStar, BiStar } from "react-icons/bi";
+import { BiSolidStar } from "react-icons/bi";
 
 const Item = ({ reviewee, rating, createdAt, content }: Review) => {
   return (
@@ -41,7 +41,7 @@ const Item = ({ reviewee, rating, createdAt, content }: Review) => {
 
 const Reviews = ({ data: service }: { data: any }) => {
   const reviewsResponse: any = usePaginatedQuery({
-    url: `review/?type=service&serviceId=${service.id}`,
+    url: `/admin/users/${service.userId}/reviews?type=service&serviceId=${service.id}`,
     queryKey: ["review", "service", String(service.id)],
     enabled: true,
   });

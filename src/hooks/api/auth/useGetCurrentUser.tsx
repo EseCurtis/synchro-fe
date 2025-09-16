@@ -17,7 +17,7 @@ export function useGetUserWithoutContext(
   return useMutation(
     (accessToken: string) =>
       axios
-        .get(`${baseUrl}/user/admin/me`, {
+        .get(`${baseUrl}/admin/users/me`, {
           headers: {
             Authorization: `Bearer ${accessToken}`,
             Accept: "application/json",

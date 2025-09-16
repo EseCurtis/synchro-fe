@@ -1,15 +1,14 @@
-import React, { useEffect } from "react";
-import DefaultTable from "@/app/_components/table/defaultTable";
-import { TABLE_STYLE } from "@/constant";
-import Image from "next/image";
 import DashboardAction from "@/app/_components/dashboard/dashboardAction";
-import WalletStat from "../components/walletStat";
-import { formatNumber } from "@/utils/formatNumber";
-import { useParams } from "next/navigation";
-import moment from "moment";
-import TransactionIcon from "@/app/_components/wallet/TransactionIcon";
-import { usePaginatedQuery } from "@/hooks/api/usePaginatedQuery";
+import DefaultTable from "@/app/_components/table/defaultTable";
 import TablePagination from "@/app/_components/table/tablePagination";
+import TransactionIcon from "@/app/_components/wallet/TransactionIcon";
+import { TABLE_STYLE } from "@/constant";
+import { usePaginatedQuery } from "@/hooks/api/usePaginatedQuery";
+import { formatNumber } from "@/utils/formatNumber";
+import moment from "moment";
+import Image from "next/image";
+import { useParams } from "next/navigation";
+import WalletStat from "../components/walletStat";
 
 const header = ["Transaction ID", "Amount", "Source", "Recipiant", "Date"];
 
@@ -22,7 +21,7 @@ const ViewUsersWallet = () => {
     fetchNextPage,
     isFetchingNextPage,
   }: any = usePaginatedQuery({
-    url: `/wallet/history?userId=${id}`,
+    url: `/admin/users/${id}/wallet/history`,
     queryKey: ["wallet", "user-wallet-history"],
     enabled: true,
   });

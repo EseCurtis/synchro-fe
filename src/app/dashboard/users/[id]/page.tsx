@@ -1,33 +1,32 @@
 "use client";
 
+import { AppToast } from "@/app/_components/AppToast";
+import {
+    deleteIcon,
+    editIcon,
+    noActionIcon,
+} from "@/app/_components/icons/preview/previewActions";
+import { Spinner } from "@/app/_components/spinner/Spinner";
 import TabComponent from "@/app/_components/tab";
 import DashboardLayout from "@/app/layouts/dashboardLayout";
-import React from "react";
-import PersonalDetails from "../views/personalDetails";
+import { useTMutation } from "@/hooks/api/useTMutation";
+import { useTQuery } from "@/hooks/api/useTQuery";
+import { useParams } from "next/navigation";
+import { toast } from "react-toastify";
 import MembersView from "../views/member";
-import ViewUsers from "../views/viewUsers";
+import PersonalDetails from "../views/personalDetails";
 import ViewUsersWallet from "../views/usersWallet";
+import ViewUsers from "../views/viewUsers";
+import ViewUserService from "../views/viewUserService";
 import ViewUserEvent from "../views/viewUsersEvent";
 import ViewUserVenues from "../views/viewUserVenues";
-import ViewUserService from "../views/viewUserService";
-import {
-  deleteIcon,
-  editIcon,
-  noActionIcon,
-} from "@/app/_components/icons/preview/previewActions";
-import { useTQuery } from "@/hooks/api/useTQuery";
-import { useParams, useSearchParams } from "next/navigation";
-import { useTMutation } from "@/hooks/api/useTMutation";
-import { Spinner } from "@/app/_components/spinner/Spinner";
-import { toast } from "react-toastify";
-import { AppToast } from "@/app/_components/AppToast";
 
 const PreviewBox = () => {
   const params = useParams();
   const id = params.id;
 
   const { data: userDetails } = useTQuery({
-    url: `/user/admin/users/${id}`,
+    url: `/admin/users/${id}`,
     queryKey: ["users", String(id)],
   });
 
@@ -66,7 +65,7 @@ const PreviewBox = () => {
   ];
 
   const { mutate, isLoading } = useTMutation({
-    url: `/user/admin/users/suspend`,
+    url: `/admin/users/suspend`,
     method: "post",
     options: {
       onSuccess() {
@@ -76,7 +75,7 @@ const PreviewBox = () => {
   });
 
   const { mutate: unsuspend, isLoading: unsuspending } = useTMutation({
-    url: `/user/admin/users/activate`,
+    url: `/admin/users/unsuspend`,
     method: "post",
     options: {
       onSuccess() {

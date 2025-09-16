@@ -3,7 +3,7 @@ import NoData from "@/app/_components/table/NoData";
 import { useTQuery } from "@/hooks/api/useTQuery";
 import { Booking } from "@/utils/types";
 import moment from "moment";
-import React, { Fragment } from "react";
+import { Fragment } from "react";
 
 const Item = ({ label, value }: { label: any; value: any }) => {
   return (
@@ -18,7 +18,7 @@ const Item = ({ label, value }: { label: any; value: any }) => {
 
 const BookingDetails = ({ venue }: { venue: any }) => {
   const { data: bookingResponse }: any = useTQuery({
-    url: `/booking/by-venue-id/${venue.id}?type=venue`,
+    url: `/admin/users/${venue.userId}/bookings?type=venue&venueId=${venue.id}`,
     queryKey: ["service", "booking-detail", String(venue.id)],
   });
 

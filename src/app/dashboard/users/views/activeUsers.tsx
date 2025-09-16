@@ -169,10 +169,10 @@ const ActiveUsers = () => {
                 <h3>{_.gender ?? "N/A"}</h3>
               </td>
               <td className={style}>
-                <h3>{_.phone ?? "N/A"}</h3>
+                <h3>{_.phoneNumber ?? "N/A"}</h3>
               </td>
               <td className={style}>
-                <h3>{moment(_.last_login).format("MMM ddd YYYY")}</h3>
+                <h3>{_.lastLoginAt ? moment(_.lastLoginAt).format("MMM ddd YYYY") : "N/A"}</h3>
               </td>
               <td className={style}>
                 <Dropdown

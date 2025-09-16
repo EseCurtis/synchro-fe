@@ -1,5 +1,4 @@
 import moment from "moment";
-import React from "react";
 
 const PersonalDetails = ({ user }: { user: any }) => {
   const fullName =
@@ -31,10 +30,10 @@ const PersonalDetails = ({ user }: { user: any }) => {
             <h4 className="text-black">{user?.email}</h4>
             <h4 className="text-black">{user?.gender ?? "N/A"}</h4>
             <h4 className="text-black">
-              {moment(user?.dob).format("MMM DD YYYY")}
+              {user?.dateOfBirth ? moment(user?.dateOfBirth).format("MMM DD YYYY") : "N/A"}
             </h4>
             <h4 className="text-black">
-              {moment(user?.last_login).format("MMM DD YYYY")}
+              {user?.lastLoginAt ? moment(user?.lastLoginAt).format("MMM DD YYYY") : "N/A"}
             </h4>
             <h4 className="text-black">
               {moment(user?.createdAt).format("MMM DD YYYY")}

@@ -4,7 +4,6 @@ import QuestionIcon from "@/app/_components/icons/tickets/question";
 import Input from "@/app/_components/input_fields";
 import { usePaginatedQuery } from "@/hooks/api/usePaginatedQuery";
 import { useTQuery } from "@/hooks/api/useTQuery";
-import moment from "moment";
 import Image from "next/image";
 import { FaArrowRight } from "react-icons/fa";
 
@@ -13,7 +12,7 @@ const Item = ({ data }: { data: any }) => {
   //console.log("Dayta", data);
   
   const { data: userDetails }: { data: any } = useTQuery({
-    url: `/user/admin/users/${data?.userId}`,
+    url: `/admin/users/${data?.userId}`,
     queryKey: ["users", String(data?.userId)],
   });
   
@@ -43,7 +42,7 @@ const Item = ({ data }: { data: any }) => {
 const Tickets = ({ data }: { data: any }) => {
   console.log("fressher",data)
   const response: any = usePaginatedQuery({
-    url: `ticket/all`,
+    url: `/admin/users/${data?.userId}/tickets`,
     queryKey: ["ticket", "all"],
     enabled: true,
   });

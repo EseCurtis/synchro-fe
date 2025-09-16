@@ -1,20 +1,20 @@
-import {
-  PiCalendar,
-  PiCalendarCheckLight,
-  PiMapPin,
-  PiMarkerCircle,
-  PiPerson,
-  PiTicket,
-} from "react-icons/pi";
-import { BiArrowToRight, BiInfoCircle, BiUser } from "react-icons/bi";
-import moment from "moment";
 import { useTQuery } from "@/hooks/api/useTQuery";
+import moment from "moment";
 import Image from "next/image";
+import { BiInfoCircle, BiUser } from "react-icons/bi";
 import { FaArrowRight } from "react-icons/fa";
+import {
+    PiCalendar,
+    PiCalendarCheckLight,
+    PiMapPin,
+    PiMarkerCircle,
+    PiPerson,
+    PiTicket,
+} from "react-icons/pi";
 
 const CollaboratorItem = ({ userId }: { userId: string }) => {
   const { data: userDetails }: { data: any } = useTQuery({
-    url: `/user/admin/users/${userId}`,
+    url: `/admin/users/${userId}`,
     queryKey: ["users", String(userId)],
   });
 

@@ -1,10 +1,9 @@
 import Badge from "@/app/_components/forms/badge";
 import NoData from "@/app/_components/table/NoData";
-import { usePaginatedQuery } from "@/hooks/api/usePaginatedQuery";
 import { useTQuery } from "@/hooks/api/useTQuery";
 import { Booking } from "@/utils/types";
 import moment from "moment";
-import React, { Fragment } from "react";
+import { Fragment } from "react";
 
 const Item = ({ label, value }: { label: any; value: any }) => {
   return (
@@ -19,7 +18,7 @@ const Item = ({ label, value }: { label: any; value: any }) => {
 
 const BookingDetails = ({ data: service }: { data: any }) => {
   const { data: bookingResponse }: any = useTQuery({
-    url: `/booking/by-venue-id/${service.id}?type=service`,
+    url: `/admin/users/${service.userId}/bookings?type=service&serviceId=${service.id}`,
     queryKey: ["service", String(service.id), "booking-details"],
   });
 

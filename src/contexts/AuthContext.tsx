@@ -1,42 +1,65 @@
 // auth context
 "use client";
+import { LoadingScreen } from "@/app/layouts/LoadingScreen";
+import { useGetUserWithoutContext } from "@/hooks/api/auth/useGetCurrentUser";
 import Head from "next/head";
 import { usePathname, useRouter } from "next/navigation";
 import {
-  PropsWithChildren,
-  createContext,
-  useContext,
-  useState,
-  useEffect,
+    PropsWithChildren,
+    createContext,
+    useContext,
+    useEffect,
+    useState,
 } from "react";
 import { useHandleError } from "../hooks/api/useHandleError";
-import { useGetUserWithoutContext } from "@/hooks/api/auth/useGetCurrentUser";
-import { LoadingScreen } from "@/app/layouts/LoadingScreen";
 
 export type User = {
-  address: string;
-  avatar: string;
-  bio: string;
-  country: string;
+  id: string;
   email: string;
-  firstName: string;
-  id: number;
-  lastName: string;
-  phone: string;
-  recieveGeneralEmail: boolean;
-  recieveNewPropertyEmail: boolean;
-  ref: string;
-  referralCode: string;
-  state: string;
-  username: string;
-  zip: string;
-  totalEarning: number;
-  totalWithdrawal: number;
-  city: string;
-  name: string;
-  profileImage: string;
-  userRole: string;
+  phoneNumber?: string;
+  phoneVerified: boolean;
+  authProvider: string;
+  providerId: string;
+  dateOfBirth?: Date;
+  gender?: string;
+  pushToken?: string;
+  ipAddress?: string;
+  timezone?: string;
+  countryCode?: string;
+  defaultCurrency: string;
+  status: string;
+  isSuspended: boolean;
+  suspensionReason?: string;
+  suspensionDuration?: number;
+  suspendedAt?: Date;
+  lastLoginAt?: Date;
+  role: string;
+  isAdmin: boolean;
+  adminPermissions?: string[];
+  metadata?: any;
   createdAt: Date;
+  updatedAt: Date;
+  // Legacy fields for backward compatibility
+  address?: string;
+  avatar?: string;
+  bio?: string;
+  country?: string;
+  firstName?: string;
+  lastName?: string;
+  phone?: string;
+  recieveGeneralEmail?: boolean;
+  recieveNewPropertyEmail?: boolean;
+  ref?: string;
+  referralCode?: string;
+  state?: string;
+  username?: string;
+  zip?: string;
+  totalEarning?: number;
+  totalWithdrawal?: number;
+  city?: string;
+  name?: string;
+  profileImage?: string;
+  userRole?: string;
 };
 
 interface AuthContextType {

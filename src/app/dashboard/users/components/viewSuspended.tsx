@@ -1,18 +1,16 @@
-import { Button } from "@/app/_components/button";
-import React from "react";
-import { SecondaryButton } from "@/app/_components/button/secondaryButton";
-import Link from "next/link";
-import moment from "moment";
-import { useTMutation } from "@/hooks/api/useTMutation";
-import { toast } from "react-toastify";
 import { AppToast } from "@/app/_components/AppToast";
-import { useTQuery } from "@/hooks/api/useTQuery";
+import { Button } from "@/app/_components/button";
+import { SecondaryButton } from "@/app/_components/button/secondaryButton";
+import { useTMutation } from "@/hooks/api/useTMutation";
+import moment from "moment";
+import Link from "next/link";
+import { toast } from "react-toastify";
 
 const ViewSuspended = ({ user, onClose }: { user: any; onClose?: any }) => {
 
 
   const { mutate, isLoading } = useTMutation({
-    url: `/user/admin/users/activate`,
+    url: `/admin/users/unsuspend`,
     method: "post",
     options: {
       onSuccess() {
@@ -55,7 +53,7 @@ const ViewSuspended = ({ user, onClose }: { user: any; onClose?: any }) => {
 
         <div className="flex flex-col gap-5 text-right">
           <h4 className="text-black text-sm font-bold">
-            {user?.phone ?? "N/A"}
+            {user?.phoneNumber ?? "N/A"}
           </h4>
           <h4 className="text-black text-sm font-bold">
             {user?.email ?? "N/A"}
@@ -64,7 +62,7 @@ const ViewSuspended = ({ user, onClose }: { user: any; onClose?: any }) => {
             {user?.followerCount ?? 0} users
           </h4>
           <h4 className="text-black text-sm font-bold">
-            {user?.suspendReason ?? "N/A"}
+            {user?.suspensionReason ?? "N/A"}
           </h4>
           {/* <h4 className="text-black text-sm font-bold">Ese Curtis</h4> */}
           <h4 className="text-black text-sm font-bold">

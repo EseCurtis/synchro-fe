@@ -6,7 +6,7 @@ import { FaArrowRight } from "react-icons/fa";
 
 const Item = ({ userId }: { userId: string }) => {
   const { data: userDetails }: { data: any } = useTQuery({
-    url: `/user/admin/users/${userId}`,
+    url: `/admin/users/${userId}`,
     queryKey: ["users", String(userId)],
   });
 

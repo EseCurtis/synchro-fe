@@ -55,13 +55,13 @@ export const SidebarNavs = [
     img: "/images/icons/sidebar/report.svg",
     active: "/images/icons/sidebar/report_active.svg",
   },
-  // {
-  //   title: "Roles & Permissions",
-  //   path: "/dashboard/roles",
-  //   icon: "",
-  //   img: "/images/icons/sidebar/roles.svg",
-  //   active: "/images/icons/sidebar/roles_active.svg",
-  // },
+  {
+    title: "Admin Management",
+    path: "/dashboard/admin-management",
+    icon: "",
+    img: "/images/icons/sidebar/roles.svg",
+    active: "/images/icons/sidebar/roles_active.svg",
+  },
 
   {
     title: "Audit Trail",

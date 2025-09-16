@@ -1,12 +1,11 @@
-import { Button } from "@/app/_components/button";
-import customStyles from "@/app/_components/customStyles/index.module.css";
-import React, { useState } from "react";
-import Info from "./event/info";
-import Guests from "./event/guests";
-import Tickets from "./event/tickets";
 import ModalTabButton from "@/app/_components/button/modalTabButton";
-import Image from "next/image";
+import customStyles from "@/app/_components/customStyles/index.module.css";
 import { useTQuery } from "@/hooks/api/useTQuery";
+import Image from "next/image";
+import { useState } from "react";
+import Guests from "./event/guests";
+import Info from "./event/info";
+import Tickets from "./event/tickets";
 
 const hugIcon = (
   <svg
@@ -37,7 +36,7 @@ const EventDetails = ({ event }: { event: any }) => {
   const [declineIsOpen, setDeclineIsOpen] = useState(false);
 
   const { data: userDetails }: { data: any } = useTQuery({
-    url: `/user/admin/users/${event?.userId}`,
+    url: `/admin/users/${event?.userId}`,
     queryKey: ["users", String(event?.userId)],
   });
 

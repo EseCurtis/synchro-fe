@@ -1,32 +1,24 @@
 "use client";
 
-import React, { Fragment, useEffect } from "react";
-import UserStat from "../components/userStat";
-import DefaultTable from "@/app/_components/table/defaultTable";
-import { TABLE_STYLE } from "@/constant";
-import { table } from "@/utils/contents/dummy/table";
-import Image from "next/image";
+import ModalTabButton from "@/app/_components/button/modalTabButton";
 import DashboardAction from "@/app/_components/dashboard/dashboardAction";
-import EventStat from "../components/userEventStat";
-import { useState } from "react";
+import {
+    eventTotalTicketIcon,
+    titcketValueIcon,
+} from "@/app/_components/icons/preview/eventsStatIcons";
+import { userFollowersIcon } from "@/app/_components/icons/preview/usersStatIcon";
 import Modal from "@/app/_components/popups/modal";
-import EventDetails from "../components/user/event_details";
+import DefaultTable from "@/app/_components/table/defaultTable";
+import NoData from "@/app/_components/table/NoData";
+import TablePagination from "@/app/_components/table/tablePagination";
 import { usePaginatedQuery } from "@/hooks/api/usePaginatedQuery";
 import { useParams } from "next/navigation";
-import TablePagination from "@/app/_components/table/tablePagination";
-import moment from "moment";
-import EventCategory from "../components/EventCategory";
-import ModalTabButton from "@/app/_components/button/modalTabButton";
-import { TStringIndexObject } from "@/utils/types";
-import NoData from "@/app/_components/table/NoData";
+import { Fragment, useEffect, useState } from "react";
+import EventDetails from "../components/user/event_details";
+import TicketDetails from "../components/user/ticket_details";
+import EventStat from "../components/userEventStat";
 import EventsCreated from "./EventTables/EventsCreated";
 import Tickets from "./EventTables/Tickets";
-import { userFollowersIcon } from "@/app/_components/icons/preview/usersStatIcon";
-import {
-  eventTotalTicketIcon,
-  titcketValueIcon,
-} from "@/app/_components/icons/preview/eventsStatIcons";
-import TicketDetails from "../components/user/ticket_details";
 
 const header = ["Event title", "Category", "Location", "Event Date", ""];
 
@@ -35,19 +27,19 @@ const ViewUserEvent = () => {
   const id = params.id;
 
   const eventsCreated: any = usePaginatedQuery({
-    url: `event/user/${id}`,
-    queryKey: [],
+    url: `/admin/users/${id}/events`,
+    queryKey: ["user-events", String(id)],
     enabled: true,
   });
 
   const otherEvents: any = usePaginatedQuery({
-    url: `event/user/${id}`,
-    queryKey: [],
+    url: `/admin/users/${id}/events`,
+    queryKey: ["user-events-other", String(id)],
     enabled: true,
   });
 
   const tickets: any = usePaginatedQuery({
-    url: `ticket/${id}`,
+    url: `/admin/users/${id}/tickets`,
     queryKey: ["ticket", String(id)],
     enabled: true,
   });
