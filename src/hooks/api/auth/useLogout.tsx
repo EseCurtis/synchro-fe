@@ -1,6 +1,6 @@
 import {
-    UseMutationOptions,
-    UseMutationResult
+  UseMutationOptions,
+  UseMutationResult
 } from "@tanstack/react-query";
 import { useTQuery } from "../useTQuery";
 
@@ -11,6 +11,6 @@ export function useLogout(
     queryKey: ["logout"],
     url: "/admin/auth/logout",
     method: "post",
-    options,
-  });
+    options: options as any,
+  }) as any;
 }

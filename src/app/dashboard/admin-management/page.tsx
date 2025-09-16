@@ -7,9 +7,9 @@ import Modal from "@/app/_components/popups/modal";
 import DefaultTable from "@/app/_components/table/defaultTable";
 import { useAuthContext } from "@/contexts/AuthContext";
 import {
-    useCreateAdminUser, useDeactivateAdminUser,
-    useGetAdminUsers,
-    useGetAvailablePermissions
+  useCreateAdminUser, useDeactivateAdminUser,
+  useGetAdminUsers,
+  useGetAvailablePermissions
 } from "@/hooks/api/auth/useAdminManagement";
 import { useFormik } from "formik";
 import { useState } from "react";
@@ -43,7 +43,7 @@ export default function AdminManagementPage() {
       setShowSuccess(true);
       refetch();
     },
-    onError: (error) => {
+    onError: (error: any) => {
       console.error("Failed to deactivate admin:", error);
     },
   });

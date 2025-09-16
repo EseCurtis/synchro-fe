@@ -1,8 +1,8 @@
 import {
-    UseMutationOptions,
-    UseMutationResult,
-    UseQueryOptions,
-    UseQueryResult,
+  UseMutationOptions,
+  UseMutationResult,
+  UseQueryOptions,
+  UseQueryResult,
 } from "@tanstack/react-query";
 import { usePaginatedQuery } from "../usePaginatedQuery";
 import { useTQuery } from "../useTQuery";
@@ -54,8 +54,8 @@ export function useCreateAdminUser(
     queryKey: ["create-admin-user"],
     url: "/admin/management/admins",
     method: "post",
-    options,
-  });
+    options: options as any,
+  }) as any;
 }
 
 // Update admin role
@@ -66,8 +66,8 @@ export function useUpdateAdminRole(
     queryKey: ["update-admin-role"],
     url: "/admin/management/admins/:adminId/role",
     method: "put",
-    options,
-  });
+    options: options as any,
+  }) as any;
 }
 
 // Update admin permissions
@@ -78,20 +78,20 @@ export function useUpdateAdminPermissions(
     queryKey: ["update-admin-permissions"],
     url: "/admin/management/admins/:adminId/permissions",
     method: "put",
-    options,
-  });
+    options: options as any,
+  }) as any;
 }
 
 // Deactivate admin user
 export function useDeactivateAdminUser(
-  options?: UseMutationOptions<any, unknown, string, unknown>
+  options?:any
 ): UseMutationResult<any, unknown, string, unknown> {
   return useTQuery({
     queryKey: ["deactivate-admin-user"],
     url: "/admin/management/admins/:adminId",
     method: "delete",
     options,
-  });
+  }) as any;
 }
 
 // Get available permissions
