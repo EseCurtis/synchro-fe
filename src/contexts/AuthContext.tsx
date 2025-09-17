@@ -5,11 +5,11 @@ import { useGetUserWithoutContext } from "@/hooks/api/auth/useGetCurrentUser";
 import Head from "next/head";
 import { usePathname, useRouter } from "next/navigation";
 import {
-    PropsWithChildren,
-    createContext,
-    useContext,
-    useEffect,
-    useState,
+  PropsWithChildren,
+  createContext,
+  useContext,
+  useEffect,
+  useState,
 } from "react";
 import { useHandleError } from "../hooks/api/useHandleError";
 

@@ -13,3 +13,8 @@ export const formatNumber = (num: number | string): string => {
   const formatted =(addCurrency ? "$" : "") + numFormat.format(num as number | bigint);
   return String((isNaN(Number(formatted))) ? 0 : formatted);
 };
+
+
+export const cn = (...classNames: string[])=>{
+  return classNames.filter(Boolean).join(" ");
+}

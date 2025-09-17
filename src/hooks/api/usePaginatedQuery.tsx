@@ -1,11 +1,11 @@
+import { useAuthContext } from "@/contexts/AuthContext";
 import {
   useInfiniteQuery,
   UseInfiniteQueryResult,
   UseQueryOptions,
 } from "@tanstack/react-query"; // Fixed import path
-import useHttp, { Method } from "./useHttp";
 import { useHandleError } from "./useHandleError";
-import { useAuthContext } from "@/contexts/AuthContext";
+import useHttp, { Method } from "./useHttp";
 
 export type Args = {
   queryKey: string[];
@@ -50,8 +50,13 @@ export function usePaginatedQuery<T>({
     // @ts-ignore
     {
       enabled,
-      getNextPageParam: (lastPage: any) =>
-        lastPage?.data?.nextPage || undefined, // Simplified getNextPageParam
+      getNextPageParam: (lastPage: any) => {
+        if (lastPage.data.totalPages > lastPage.data.page) {
+          return lastPage.data.page + 1;
+        } else {
+          return undefined;
+        }
+      }, // Simplified getNextPageParam
       onError: (e: any) => {
         console.error(e.response.data); // Use console.error for errors
         handleError(e);

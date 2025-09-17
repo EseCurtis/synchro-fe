@@ -3,8 +3,8 @@
 import ModalTabButton from "@/app/_components/button/modalTabButton";
 import DashboardAction from "@/app/_components/dashboard/dashboardAction";
 import {
-    eventTotalTicketIcon,
-    titcketValueIcon,
+  eventTotalTicketIcon,
+  titcketValueIcon,
 } from "@/app/_components/icons/preview/eventsStatIcons";
 import { userFollowersIcon } from "@/app/_components/icons/preview/usersStatIcon";
 import Modal from "@/app/_components/popups/modal";
@@ -61,7 +61,7 @@ const ViewUserEvent = () => {
   }
 
   const getFlatData = (response: any): any[] =>
-    response?.data?.pages?.map((e: any) => e.data.data).flat() || [];
+    (response?.data?.pages?.map((e: any) => e.data.data).flat() || []).filter(Boolean);
 
   const calculateTotalBought = (tickets: any[]): number =>
     tickets
@@ -106,6 +106,9 @@ const ViewUserEvent = () => {
       },
     },
   };
+
+
+  console.log(tabDatas["Events Created"].data)
 
   const eventViewData = [
     {

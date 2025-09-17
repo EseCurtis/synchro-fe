@@ -7,6 +7,8 @@ import { Spinner } from "@/app/_components/spinner/Spinner";
 import DefaultTable from "@/app/_components/table/defaultTable";
 import TablePagination from "@/app/_components/table/tablePagination";
 import { usePaginatedQuery } from "@/hooks/api/usePaginatedQuery";
+import { UserAvatarV2 } from "@/v2/components/common/avatar.component";
+import { UserData } from "@/v2/types/user.types";
 import moment from "moment";
 import { useRouter } from "next/navigation";
 import { Fragment, useEffect, useState } from "react";
@@ -121,7 +123,10 @@ const ActiveUsers = () => {
   const users = data?.pages?.map((e: any) => e.data.data).flat() as any[];
   useEffect(() => {
     setFilteredUsers(users);
-  }, []);
+  }, [users]);
+
+
+  console.log("KKK=>", data?.pages)
 
   if (isLoading) {
     return <Spinner />;
@@ -136,7 +141,8 @@ const ActiveUsers = () => {
       />
       {/* @ts-ignore */}
       <DefaultTable header={header}>
-        {filteredUsers?.map((_, key: number) => {
+        {filteredUsers?.map((_: UserData, key: number) => {
+          const profile = _.profiles?.[0];
           return (
             <tr key={key} className="text-sm">
               <td
@@ -146,33 +152,30 @@ const ActiveUsers = () => {
                 }}
               >
                 <div className="flex gap-5 items-center">
-                  {_?.profileImage ? (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img
-                      src={_?.profileImage}
-                      className="w-[3em] h-[3em] bg-gray-500 rounded-full object-cover"
-                      alt=""
-                    />
-                  ) : (
-                    <div className="w-[3em] h-[3em] bg-gray-500 rounded-full"></div>
-                  )}
+                  <div className="w-[3em] h-[3em]">
+                    <UserAvatarV2 user={_} />
+                  </div>
                   <div>
-                    <h3>{_?.firstName ?? _?.username}</h3>
-                    <p className="text-second_primary_text">{_.email}</p>
+                    <h3>{profile?.firstName ?? profile?.username}</h3>
+                    <p className="text-second_primary_text">{_?.email}</p>
                   </div>
                 </div>
               </td>
               <td className={style}>
-                <h3>{_.username}</h3>
+                <h3>{profile?.username}</h3>
               </td>
               <td className={style}>
-                <h3>{_.gender ?? "N/A"}</h3>
+                <h3>{_?.gender ?? "N/A"}</h3>
               </td>
               <td className={style}>
-                <h3>{_.phoneNumber ?? "N/A"}</h3>
+                <h3>{_?.phoneNumber ?? "N/A"}</h3>
               </td>
               <td className={style}>
-                <h3>{_.lastLoginAt ? moment(_.lastLoginAt).format("MMM ddd YYYY") : "N/A"}</h3>
+                <h3>
+                  {_?.lastLoginAt
+                    ? moment(_.lastLoginAt).format("MMM ddd YYYY")
+                    : "N/A"}
+                </h3>
               </td>
               <td className={style}>
                 <Dropdown
@@ -202,12 +205,14 @@ const ActiveUsers = () => {
         })}
       </DefaultTable>
 
-      <TablePagination
-        loading={isFetchingNextPage}
-        onFetchMore={() => {
-          fetchNextPage();
-        }}
-      />
+      {hasNextPage && (
+        <TablePagination
+          loading={isFetchingNextPage}
+          onFetchMore={() => {
+            fetchNextPage();
+          }}
+        />
+      )}
 
       <Modal isOpen={isModalOpen} onClose={closeModal}>
         <div>{modalContent}</div>

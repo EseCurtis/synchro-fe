@@ -2,15 +2,17 @@
 
 import { AppToast } from "@/app/_components/AppToast";
 import {
-    deleteIcon,
-    editIcon,
-    noActionIcon,
+  deleteIcon,
+  editIcon,
+  noActionIcon,
 } from "@/app/_components/icons/preview/previewActions";
 import { Spinner } from "@/app/_components/spinner/Spinner";
 import TabComponent from "@/app/_components/tab";
 import DashboardLayout from "@/app/layouts/dashboardLayout";
 import { useTMutation } from "@/hooks/api/useTMutation";
 import { useTQuery } from "@/hooks/api/useTQuery";
+import { UserAvatarV2 } from "@/v2/components/common/avatar.component";
+import { UserData } from "@/v2/types/user.types";
 import { useParams } from "next/navigation";
 import { toast } from "react-toastify";
 import MembersView from "../views/member";
@@ -25,20 +27,21 @@ const PreviewBox = () => {
   const params = useParams();
   const id = params.id;
 
-  const { data: userDetails } = useTQuery({
+  const { data: userDetails, isLoading: userIsLoading } = useTQuery({
     url: `/admin/users/${id}`,
     queryKey: ["users", String(id)],
   });
 
   // @ts-ignore
-  const user = userDetails?.data;
+  const user = userDetails?.data as UserData;
+  const profile = user?.profiles?.[0];
 
   const data = [
     {
       header: "Personal Details",
       component: <PersonalDetails user={user} />,
     },
-    user?.isBusiness && {
+    profile?.businessName && {
       header: "Business Details ",
       component: <MembersView user={user} />,
     },
@@ -48,7 +51,7 @@ const PreviewBox = () => {
     },
     {
       header: "Wallet ",
-      component: <ViewUsersWallet />,
+      component: <ViewUsersWallet user={user} />,
     },
     {
       header: "Events ",
@@ -74,7 +77,7 @@ const PreviewBox = () => {
     },
   });
 
-  const { mutate: unsuspend, isLoading: unsuspending } = useTMutation({
+  const { mutate: unsuspend, isPending: unsuspending } = useTMutation({
     url: `/admin/users/unsuspend`,
     method: "post",
     options: {
@@ -84,37 +87,35 @@ const PreviewBox = () => {
     },
   });
 
+  if (userIsLoading) return null;
+
   return (
     <DashboardLayout title="User details">
       <div className="flex justify-between items-center">
         <div className="my-5 flex gap-5 items-center ">
-          {user?.profileImage ? (
-            <img
-              className="w-[80px] h-[80px] rounded-full object-cover"
-              src={user?.profileImage}
-              alt=""
-            />
-          ) : (
-            <div className="w-[80px] h-[80px] rounded-full bg-gray-500" />
-          )}
+          <div className="w-[80px] h-[80px] flex items-center justify-center">
+            <UserAvatarV2 user={user} />
+          </div>
           <div>
-            <h3>{user?.name ?? user?.username}</h3>
+            <h3>
+              {profile?.firstName || profile?.lastName
+                ? `${profile?.firstName} ${profile?.lastName}`
+                : profile?.username}
+            </h3>
             <span className="text-second_text">{user?.email}</span>
           </div>
         </div>
-
         <div className="flex ">
           <div>{editIcon}</div>
           <button
             onClick={() => {
-              if (user.suspended) {
+              if (!user?.isSuspended) {
                 mutate({
-                  userId: user.id,
+                  userId: user?.id,
                 });
-                
               } else {
                 unsuspend({
-                  userId: user.id,
+                  userId: user?.id,
                 });
               }
             }}
