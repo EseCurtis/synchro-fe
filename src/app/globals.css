@@ -1,1 +1,91 @@
-@tailwind base;@tailwind components;@tailwind utilities;:root{--foreground-rgb: 0, 0, 0;--background-start-rgb: 214, 219, 220;--background-end-rgb: 255, 255, 255;--primary-bg-gradient: linear-gradient(to right, #e73c01, #0512d2)}@media(prefers-color-scheme: dark){:root{--foreground-rgb: 255, 255, 255;--background-start-rgb: 0, 0, 0;--background-end-rgb: 0, 0, 0}}@layer components{.spinner{@apply h-5 w-5 animate-spin}}.customScrollbar::-webkit-scrollbar,body :not(.main-board)::-webkit-scrollbar{width:8px;background-color:#f1f1f1;padding:.5em}.customScrollbar::-webkit-scrollbar-thumb,body :not(.main-board)::-webkit-scrollbar-thumb{background-color:rgba(136,136,136,0.3882352941);border-radius:4px}.customScrollbar::-webkit-scrollbar-thumb:hover,body :not(.main-board)::-webkit-scrollbar-thumb:hover{background-color:rgba(85,85,85,0.5215686275)}
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Outfit Font Face Declarations */
+@font-face {
+  font-family: 'Outfit';
+  src: url('/fonts/outfit-100.woff2') format('woff2');
+  font-weight: 100;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Outfit';
+  src: url('/fonts/outfit-300.woff2') format('woff2');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Outfit';
+  src: url('/fonts/outfit-400.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Outfit';
+  src: url('/fonts/outfit-500.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Outfit';
+  src: url('/fonts/outfit-600.woff2') format('woff2');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Outfit';
+  src: url('/fonts/outfit-700.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 214, 219, 220;
+  --background-end-rgb: 255, 255, 255;
+  --primary-bg-gradient: linear-gradient(to right, #e73c01, #0512d2);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --foreground-rgb: 255, 255, 255;
+    --background-start-rgb: 0, 0, 0;
+    --background-end-rgb: 0, 0, 0;
+  }
+}
+
+@layer components {
+  .spinner {
+    @apply h-5 w-5 animate-spin;
+  }
+}
+
+.customScrollbar::-webkit-scrollbar,
+body :not(.main-board)::-webkit-scrollbar {
+  width: 8px;
+  background-color: #f1f1f1;
+  padding: 0.5em;
+}
+
+.customScrollbar::-webkit-scrollbar-thumb,
+body :not(.main-board)::-webkit-scrollbar-thumb {
+  background-color: rgba(136, 136, 136, 0.3882352941);
+  border-radius: 4px;
+}
+
+.customScrollbar::-webkit-scrollbar-thumb:hover,
+body :not(.main-board)::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(85, 85, 85, 0.5215686275);
+}

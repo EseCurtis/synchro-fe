@@ -1,9 +1,8 @@
 "use client";
 
-import React from "react";
+import { SidebarNavs } from "@/utils/contents/sidebarNavs";
 import Image from "next/image";
 import Link from "next/link";
-import { SidebarNavs } from "@/utils/contents/sidebarNavs";
 import { usePathname } from "next/navigation";
 
 const listStyle = {
@@ -35,14 +34,17 @@ const DashboardBoardSidebar = () => {
 
       <div className="my-[3em] pb-[2em]">
         <ul style={listStyle}>
-          {SidebarNavs.map((_, index) => (
+          {SidebarNavs.map((_, index) => 
+          {
+            const active = pathname.includes(_.path);
+            return (
             <Link href={_.path} key={index}>
               <li
                 className="py-[14px] rounded-md p-4 flex items-center gap-[16px] "
                 style={{
                   color: "#718096",
                   background:
-                    _.path === pathname ? "rgba(233, 160, 132, 0.12)" : "",
+                    active ? "rgba(233, 160, 132, 0.12)" : "",
                 }}
               >
                 <Image
@@ -51,18 +53,18 @@ const DashboardBoardSidebar = () => {
                   height={24}
                   alt="icons"
                   
-                  style={{ display: _.path === pathname ? "unset" : "none" }}
+                  style={{ display: active ? "unset" : "none" }}
                 />
                 <Image
                   src={_.img}
                   width={24}
                   height={24}
                   alt="icons"
-                  style={{ display: _.path === pathname ? "none" : "unset" }}
+                  style={{ display: active ? "none" : "unset" }}
                 />
                 <span
                   className={
-                    _.path === pathname
+                    active
                       ? " text-transparent bg-clip-text bg-gradient-to-r from-blue-900 to-red-600"
                       : ""
                   }
@@ -71,7 +73,8 @@ const DashboardBoardSidebar = () => {
                 </span>
               </li>
             </Link>
-          ))}
+          )
+          })}
         </ul>
       </div>
     </div>

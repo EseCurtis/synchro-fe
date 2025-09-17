@@ -1,18 +1,12 @@
 "use client";
-import "./globals.css";
-import "react-toastify/dist/ReactToastify.min.css";
-import { Poppins } from "next/font/google";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import clsx from "clsx";
-import { Slide, ToastContainer } from "react-toastify";
-import { toastClasses } from "./_components/AppToast";
 import { useState } from "react";
-
-const inter = Poppins({
-  subsets: ["latin"],
-  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
-});
+import { Slide, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.min.css";
+import { toastClasses } from "./_components/AppToast";
+import "./globals.css";
 
 export default function RootLayout({
   children,
@@ -33,7 +27,7 @@ export default function RootLayout({
 
   return (
     <html lang="en">
-      <body className={`${inter.className} font-normal`}>
+      <body className="font-outfit font-normal">
         <ToastContainer
           position={"top-center"}
           autoClose={3000}
