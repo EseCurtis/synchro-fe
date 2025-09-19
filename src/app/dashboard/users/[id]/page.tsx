@@ -2,9 +2,9 @@
 
 import { AppToast } from "@/app/_components/AppToast";
 import {
-  deleteIcon,
-  editIcon,
-  noActionIcon,
+    deleteIcon,
+    editIcon,
+    noActionIcon,
 } from "@/app/_components/icons/preview/previewActions";
 import { Spinner } from "@/app/_components/spinner/Spinner";
 import TabComponent from "@/app/_components/tab";
@@ -41,10 +41,10 @@ const PreviewBox = () => {
       header: "Personal Details",
       component: <PersonalDetails user={user} />,
     },
-    profile?.businessName && {
+    ...(profile?.businessName ? [{
       header: "Business Details ",
       component: <MembersView user={user} />,
-    },
+    }] : []),
     {
       header: "Users",
       component: <ViewUsers user={user} />,

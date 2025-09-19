@@ -1,11 +1,13 @@
 //@ts-nocheck
 "use client";
 import {
-    generateEventsMonthData,
-    generateMonthData,
-    getMonthName,
+  generateEventsMonthData,
+  generateMonthData,
+  getMonthName,
 } from "@/helpers";
 import { useApprovedEvents } from "@/hooks/api/v2/events";
+import { generateYearsOptions } from "@/v2/helpers/common.helpers";
+import { Event } from "@/v2/types/event.types";
 import moment from "moment";
 import { useEffect, useState } from "react";
 import { momentLocalizer } from "react-big-calendar";
@@ -38,21 +40,25 @@ const ApprovedEvents = () => {
 
   const eventsData = data?.data?.data;
 
-  const events = eventsData?.map((event) => ({
+  const events = eventsData?.map((event: Event) => ({
     title: event?.name,
-    start: new Date(event?.startTime),
-    end: new Date(event?.endTime),
+    start: new Date(event?.startDateTime),
+    end: new Date(event?.endDateTime),
     data: event,
   }));
+
+  console.log("TUARY=>>",events);
 
   const generativeFunction = (events, year) => {
     return generateMonthData(year);
     return generateEventsMonthData(events, year);
   };
 
+   //2 year priroor to current yer and 2 years afterwards
+  const yearsOptions = generateYearsOptions(3);
   const [openedDate, setOpenedDate] = useState<boolean | number>(false);
   const [openedDateEvents, setOpenedDateEvents] = useState<any[]>(false);
-  const [year, setYear] = useState<Date>(2023);
+  const [year, setYear] = useState<Date>(yearsOptions[3].value);
   const [month, setMonth] = useState<number>(new Date().getMonth());
   const [yearlyData, setYearlyData] = useState<any[]>(
     generativeFunction(events, year)
@@ -64,15 +70,15 @@ const ApprovedEvents = () => {
 
   const monthSwitch = {
     canPrev: month > 0,
-    canNext: month < yearlyData.length-1,
+    canNext: month < yearlyData.length - 1,
     next: () => monthSwitch.canNext && setMonth(month + 1),
     prev: () => monthSwitch.canPrev && setMonth(month - 1),
   };
 
   const dateOpen = {
     open: (day: number, events: any[]) => {
-      setOpenedDate(day)
-      setOpenedDateEvents(events)
+      setOpenedDate(day);
+      setOpenedDateEvents(events);
     },
     close: () => setOpenedDate(false),
   };
@@ -86,8 +92,10 @@ const ApprovedEvents = () => {
     setMonthlyData(yearlyData[month] || yearlyData[0]);
   }, [yearlyData, month]);
 
+ 
+
   return openedDate ? (
-    <ApprovedEventsByDate events={openedDateEvents} actions={dateOpen}/>
+    <ApprovedEventsByDate events={openedDateEvents} actions={dateOpen} />
   ) : (
     <>
       <div
@@ -117,8 +125,15 @@ const ApprovedEvents = () => {
           </div>
 
           <select name="" id="" onChange={(e) => setYear(e.target.value)}>
-            <option value="2023">2023</option>
-            <option value="2024">2024</option>
+            {yearsOptions.map((yearOpt) => (
+              <option
+                value={yearOpt.value}
+                selected={yearOpt.isCurrent ? true : false}
+                key={yearOpt.value}
+              >
+                {yearOpt.label}
+              </option>
+            ))}
           </select>
         </div>
         <CustomCalendar

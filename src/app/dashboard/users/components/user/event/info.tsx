@@ -1,24 +1,32 @@
 import { useTQuery } from "@/hooks/api/useTQuery";
+import { Creator, Event } from "@/v2/types/event.types";
 import moment from "moment";
 import Image from "next/image";
 import { BiInfoCircle, BiUser } from "react-icons/bi";
 import { FaArrowRight } from "react-icons/fa";
 import {
-    PiCalendar,
-    PiCalendarCheckLight,
-    PiMapPin,
-    PiMarkerCircle,
-    PiPerson,
-    PiTicket,
+  PiCalendar,
+  PiCalendarCheckLight,
+  PiMapPin,
+  PiMarkerCircle,
+  PiPerson,
+  PiTicket,
 } from "react-icons/pi";
 
-const CollaboratorItem = ({ userId }: { userId: string }) => {
+const CollaboratorItem = ({
+  userId,
+  userData,
+}: {
+  userId?: string;
+  userData?: Creator;
+}) => {
   const { data: userDetails }: { data: any } = useTQuery({
     url: `/admin/users/${userId}`,
     queryKey: ["users", String(userId)],
+    enabled: !userData && !!userId,
   });
 
-  const userInfo = userDetails?.data;
+  const userInfo = userData || userDetails?.data;
 
   return (
     userInfo && (
@@ -45,7 +53,7 @@ const CollaboratorItem = ({ userId }: { userId: string }) => {
   );
 };
 
-const Info = ({ data }: { data: any }) => {
+const Info = ({ data }: { data: Event }) => {
   return (
     <div>
       <div className="grid mt-9 gap-4">
@@ -54,15 +62,15 @@ const Info = ({ data }: { data: any }) => {
             <PiCalendar />
           </span>
           <p className="text-sm">
-            {moment(data.startTime).format("h:mm A")} -{" "}
-            {moment(data.endTime).format("h:mm A MMMM YYYY")}
+            {moment(data.startDateTime).format("h:mm A")} -{" "}
+            {moment(data.endDateTime).format("h:mm A MMMM YYYY")}
           </p>
         </div>
         <div className="flex items-center gap-2">
           <span className="bg-gray-100 rounded-full p-2">
             <PiMapPin />
           </span>
-          <p className="text-sm">{data.location}</p>
+          <p className="text-sm">{data.address}</p>
         </div>
         <div className="flex gap-2">
           <span className="bg-gray-100 rounded-full p-2">
@@ -77,7 +85,7 @@ const Info = ({ data }: { data: any }) => {
               </div>
               <span className="flex items-center whitespace-nowrap">
                 {" "}
-                {data.going} going
+                {data.attendeesCount} going
               </span>
             </div>
 
@@ -89,7 +97,7 @@ const Info = ({ data }: { data: any }) => {
               </div>
               <span className="flex items-center whitespace-nowrap">
                 {" "}
-                {data.maybeGoing} maybe
+                {data.maxAttendees} maybe
               </span>
             </div>
 
@@ -101,7 +109,7 @@ const Info = ({ data }: { data: any }) => {
               </div>
               <span className="flex items-center whitespace-nowrap text-[12px]">
                 {" "}
-                {data.notGoing} not going
+                {(data.maxAttendees || 0) - data.attendeesCount} not going
               </span>
             </div>
           </div>
@@ -110,7 +118,11 @@ const Info = ({ data }: { data: any }) => {
           <span className="bg-gray-100 rounded-full p-2">
             <PiTicket />
           </span>
-          <p className="text-sm">Ticket type: Gold $5, Premium $8</p>
+          <p className="text-sm ">
+            Ticket type: <span className="uppercase">{data.ticketType}</span>{" "}
+            {data.ticketType == "paid" &&
+              `, ${data.ticketPrice} ${data.currency}`}
+          </p>
         </div>
       </div>
 
@@ -121,22 +133,25 @@ const Info = ({ data }: { data: any }) => {
         <p>{data.description}</p>
       </div>
 
-      <div className="grid gap-3 mt-6">
+      {/* <div className="grid gap-3 mt-6">
         <h4 className="flex items-center gap-2">Hashtags</h4>
         <div className="flex gap-3">
           <p>#party</p>
           <p>#dance</p>
           <p>#2023</p>
         </div>
-      </div>
+      </div> */}
 
       <div className="grid gap-3 mt-6">
         <h4 className="flex items-center gap-2">
           <BiUser /> Collaborators
         </h4>
         <div className="flex flex-col gap-7 mt-5">
-          {data.likers.map((_: any, index: any) => (
-            <CollaboratorItem key={index} userId={_} />
+          {data?.collaborators?.length === 0 && (
+            <p className="text-sm">No collaborators added.</p>
+          )}
+          {data.collaborators.map((_, index: any) => (
+            <CollaboratorItem key={index} userId={_.id} userData={_} />
           ))}
         </div>
       </div>

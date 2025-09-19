@@ -1,6 +1,6 @@
 import ModalTabButton from "@/app/_components/button/modalTabButton";
 import customStyles from "@/app/_components/customStyles/index.module.css";
-import { useTQuery } from "@/hooks/api/useTQuery";
+import { Event } from "@/v2/types/event.types";
 import Image from "next/image";
 import { useState } from "react";
 import Guests from "./event/guests";
@@ -31,16 +31,12 @@ const buttonStyle = {
   color: "#fff",
 };
 
-const EventDetails = ({ event }: { event: any }) => {
+const EventDetails = ({ event }: { event: Event }) => {
   const [tabContent, setTabContent] = useState<any>(<Info data={event} />);
   const [declineIsOpen, setDeclineIsOpen] = useState(false);
 
-  const { data: userDetails }: { data: any } = useTQuery({
-    url: `/admin/users/${event?.userId}`,
-    queryKey: ["users", String(event?.userId)],
-  });
-
-  const authorInfo = userDetails?.data;
+  
+  const authorInfo = event?.creator;
 
   return (
     <div>
@@ -55,19 +51,21 @@ const EventDetails = ({ event }: { event: any }) => {
             <div className="bg-gray-300 rounded w-[100%] h-[100px] relative">
               <div className="w-full h-full absolute overflow-clip flex items-center justify-center rounded ">
                 <Image
-                  src={event.image}
+                  src={event.banner}
                   alt={event.name}
                   width={400}
                   height={100}
-                  className="bg-[linear-gradient(#00000040,#fff)]"
+                  
+                  className="bg-[linear-gradient(#00000040,#fff)] w-full h-full object-cover"
                 />
               </div>
               <div className="bg-gray-500 rounded-full w-[70px] h-[70px] overflow-clip absolute right-[1em] bottom-[-30%] border-[2px] border-white">
                 <Image
-                  src={authorInfo?.profileImage}
+                  src={authorInfo?.avatar}
                   width={70}
                   height={70}
-                  alt={authorInfo?.name}
+                  className="w-full h-full object-cover"
+                  alt={authorInfo?.username}
                 />
               </div>
               <p className="absolute font-bold left-[0] bottom-[-30px]">
@@ -89,12 +87,12 @@ const EventDetails = ({ event }: { event: any }) => {
                 <p className="flex items-center gap-3">
                   {hugIcon}{" "}
                   <span className="text-sm text-gray-500">
-                    Social gathering
+                    {event.category.name}
                   </span>
                 </p>
                 <p className="flex items-center gap-3">
                   {hugIcon}{" "}
-                  <span className="text-sm text-gray-500">Private event</span>
+                  <span className="text-sm text-gray-500">{event.isPublic ? "Public event": "Private event"}</span>
                 </p>
               </div>
             </div>

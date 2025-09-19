@@ -3,55 +3,73 @@ import GoodIcon from "@/app/_components/icons/tickets/good";
 import QuestionIcon from "@/app/_components/icons/tickets/question";
 import Input from "@/app/_components/input_fields";
 import { usePaginatedQuery } from "@/hooks/api/usePaginatedQuery";
-import { useTQuery } from "@/hooks/api/useTQuery";
+import { Event } from "@/v2/types/event.types";
+import { UserTicket, UserTicketStatus } from "@/v2/types/ticket.types";
 import Image from "next/image";
 import { FaArrowRight } from "react-icons/fa";
 
-const Item = ({ data }: { data: any }) => {
-
+const Item = ({ data }: { data: UserTicket }) => {
   //console.log("Dayta", data);
-  
-  const { data: userDetails }: { data: any } = useTQuery({
-    url: `/admin/users/${data?.userId}`,
-    queryKey: ["users", String(data?.userId)],
-  });
-  
-  const userInfo = userDetails?.data;
-  const hasTicket = data?.eventTicket?.event?.status == "approved";
 
-  return (userInfo ?
+  const userInfo = data.profile;
+  const hasTicket = data.status == UserTicketStatus.ACTIVE;
+  const ticketPrice = data?.ticket?.price || 0;
+  const boughtAtPrice = data?.paidAmount || 0;
+  const quantityBought = ticketPrice
+    ? Math.floor(boughtAtPrice / ticketPrice)
+    : 0;
+
+  return userInfo ? (
     <div className="flex gap-3 w-[100%]">
       <div className="w-[55px] h-[55px] bg-gray-300 rounded-full overflow-clip">
-        <Image src={userInfo?.profileImage} width={55} height={55} alt={userInfo?.firstName} />
+        <Image
+          src={userInfo?.avatar}
+          width={55}
+          height={55}
+          alt={userInfo?.firstName}
+        />
       </div>
       <div className="flex flex-col justify-center">
-        <h4 className="flex items-center gap-1">{userInfo.firstName} {userInfo?.lastName} {hasTicket ? <GoodIcon/> : <QuestionIcon/> }</h4>
-        <p className="text-gray-400 text-[13px]"> {userInfo?.lastName} • {data?.eventTicket?.quantity} Tickets </p>
+        <h4 className="flex items-center gap-1">
+          {userInfo.firstName} {userInfo?.lastName}{" "}
+          {hasTicket ? <GoodIcon /> : <QuestionIcon />}
+        </h4>
+        <p className="text-gray-400 text-[13px]">
+          {" "}
+          {userInfo?.lastName} • {quantityBought} Tickets{" "}
+        </p>
       </div>
       <div className="h-[100%] ml-auto mr-[0] flex items-center">
         <FaArrowRight />
       </div>
     </div>
-    :
+  ) : (
     <div className="border  p-3">
-      <i className="opacity-70 text-sm">User with this ticket has been deleted.</i>
+      <i className="opacity-70 text-sm">
+        User with this ticket has been deleted.
+      </i>
     </div>
   );
 };
 
-const Tickets = ({ data }: { data: any }) => {
-  console.log("fressher",data)
-  const response: any = usePaginatedQuery({
-    url: `/admin/users/${data?.userId}/tickets`,
-    queryKey: ["ticket", "all"],
+const Tickets = ({ data }: { data: Event }) => {
+  const { data: responseData } = usePaginatedQuery({
+    url: `/admin/events/${data?.id}/userTickets`,
+    queryKey: ["ticket", "all_"],
     enabled: true,
   });
 
-  const getFlatData = (response: any): any[] =>
-  response?.data?.pages?.map((e: any) => e.data).flat() || [];
-  const tickets = (getFlatData(response) || data?.guests || [])?.filter((ticket) => {
+  const tickets = (
+    responseData?.pages?.map((e: any) => e.data).flat() ||
+    data?.userTickets ||
+    []
+  )?.filter((ticket) => {
     return ticket.eventId == data.id;
-  });
+  }) as UserTicket[];
+
+
+  console.log("Tickets", responseData);
+
   return (
     <div>
       <h1 className="flex text-left gap-2 mb-3 mt-7">
@@ -77,7 +95,7 @@ const Tickets = ({ data }: { data: any }) => {
           </div>
 
           <div className="grid gap-4 px-3">
-            {tickets.map((_: any, index: any) => (
+            {tickets.map((_, index: any) => (
               <Item key={index} data={_} />
             ))}
 

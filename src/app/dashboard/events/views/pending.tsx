@@ -7,9 +7,11 @@ import { Spinner } from "@/app/_components/spinner/Spinner";
 import DefaultTable from "@/app/_components/table/defaultTable";
 import TablePagination from "@/app/_components/table/tablePagination";
 import { usePendingEvents, useUpdateEventStatus } from "@/hooks/api/v2/events";
+import { EventStatus } from "@/v2/enums/event.enums";
 import moment from "moment";
 import Link from "next/link";
 import { Fragment, useState } from "react";
+import { toast } from "react-toastify";
 import Image from "../../../../../node_modules/next/image";
 import EventDetails from "../../users/components/user/event_details";
 
@@ -28,7 +30,7 @@ const PendingEvents = () => {
 
   const toggleDropdown = (data: any) => {
     setIsDropdownOpen(!isDropdownOpen);
-    setActiveData(data)
+    setActiveData(data);
   };
 
   const openModal = () => {
@@ -107,7 +109,15 @@ const PendingEvents = () => {
                   <div className="flex items-center justify-space-around">
                     <button
                       onClick={() => {
-                        mutate({ eventId: _?.id, status: "approved" });
+                        mutate(
+                          { eventId: _?.id, status: EventStatus.PUBLISHED },
+                          {
+                            onSuccess() {
+                              toast.success("Event approved successfully");
+                              refetch();
+                            },
+                          }
+                        );
                       }}
                     >
                       <Image
@@ -120,7 +130,15 @@ const PendingEvents = () => {
 
                     <button
                       onClick={() => {
-                        mutate({ eventId: _?.id, status: "rejected" });
+                        mutate(
+                          { eventId: _?.id, status: EventStatus.CANCELLED },
+                          {
+                            onSuccess() {
+                              toast.success("Event Rejected successfully");
+                              refetch();
+                            },
+                          }
+                        );
                       }}
                     >
                       <Image

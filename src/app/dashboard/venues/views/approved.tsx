@@ -57,7 +57,7 @@ const ApprovedVenues = () => {
                     <div className="flex gap-2">
                       <div className="flex overflow-hidden w-[3em] h-[3em] bg-gray-500 rounded-lg">
                         <Image
-                          src={JSON.parse(_?.images[0]).url}
+                          src={_?.avatar}
                           className="w-[100%] h-[100%] object-fit"
                           alt=""
                           width={50}

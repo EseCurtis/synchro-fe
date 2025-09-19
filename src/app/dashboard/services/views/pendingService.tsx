@@ -7,6 +7,7 @@ import DefaultTable from "@/app/_components/table/defaultTable";
 import NoData from "@/app/_components/table/NoData";
 import TablePagination from "@/app/_components/table/tablePagination";
 import { usePendingServices, useUpdateServiceStatus } from "@/hooks/api/v2/services";
+import { BusinessProfile } from "@/v2/types/service.types";
 import moment from "moment";
 import { useState } from "react";
 import Image from "../../../../../node_modules/next/image";
@@ -62,14 +63,14 @@ const PendingService = () => {
           <DashboardAction />
           {/* @ts-ignore */}
           <DefaultTable header={header}>
-            {services?.map((_: any, key: number) => {
+            {services?.map((_: BusinessProfile, key: number) => {
               return (
                 <tr key={key}>
                   <td className={style}>
                     <div className="flex gap-2">
                       <div className="flex overflow-hidden w-[3em] h-[3em] bg-gray-500 rounded-lg">
                         <Image
-                          src={JSON.parse(_?.images[0]).url}
+                          src={_?.avatar}
                           className="w-[100%] h-[100%] object-fit"
                           alt=""
                           width={50}
@@ -77,23 +78,23 @@ const PendingService = () => {
                         />
                       </div>
                       <div className="flex flex-col">
-                        <h3 className="text-sm whitespace-nowrap">{_.name}</h3>
+                        <h3 className="text-sm whitespace-nowrap">{_.services?.[0].name}</h3>
                         <u className="text-xs text-gray-400">
-                          @{_.user.username}
+                          @{_?.username}
                         </u>
                       </div>
                     </div>
                   </td>
                   <td className={style}>
-                    <h3 className="text-sm">{_.address}</h3>
+                    <h3 className="text-sm">{_?.location}</h3>
                   </td>
                   <td className={style}>
                     <h3 className="whitespace-nowrap text-sm">
-                      {_?.packages?.length} Packages
+                      {_?.services?.length} Packages
                     </h3>
                   </td>
                   <td className={style}>
-                    <h3 className="text-sm">{_?.totalRatings}</h3>
+                    <h3 className="text-sm">{0.4}</h3>
                   </td>
                   <td className={style}>
                     <h3 className="text-sm whitespace-nowrap">

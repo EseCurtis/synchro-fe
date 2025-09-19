@@ -1,12 +1,13 @@
 "use client";
 import DashboardAction from "@/app/_components/dashboard/dashboardAction";
-import DefaultTable from "@/app/_components/table/defaultTable";
-import React, { Fragment, useEffect, useState } from "react";
 import Modal from "@/app/_components/popups/modal";
-import EventDetails from "../../users/components/user/event_details";
+import DefaultTable from "@/app/_components/table/defaultTable";
 import NoData from "@/app/_components/table/NoData";
-import EventsCreated from "../../users/views/EventTables/EventsCreated";
+import { Event } from "@/v2/types/event.types";
+import { Fragment, useEffect, useState } from "react";
 import { FaChevronLeft } from "react-icons/fa";
+import EventDetails from "../../users/components/user/event_details";
+import EventsCreated from "../../users/views/EventTables/EventsCreated";
 
 const header = [
   "Event Title ",
@@ -16,10 +17,18 @@ const header = [
   "Actions",
 ];
 
-const ApprovedEventsByDate = ({ events, actions }: { events: any, actions: { open: (day: boolean | number, events: any[])=>void, close: ()=>void} }) => {
+const ApprovedEventsByDate = ({
+  events,
+  actions,
+}: {
+  events: any;
+  actions: {
+    open: (day: boolean | number, events: any[]) => void;
+    close: () => void;
+  };
+}) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedEvent, setSelectedEvent] = useState({});
-
+  const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
 
   const openModal = (event: any) => {
     setIsModalOpen(true);
@@ -31,23 +40,23 @@ const ApprovedEventsByDate = ({ events, actions }: { events: any, actions: { ope
   };
 
   useEffect(() => {
-    console.log("rhido!",events);
+    console.log("rhido!", events);
   }, [events]);
 
   return (
     <div>
       {events?.length > 0 ? (
         <>
-        <div className="flex">
-            <span className="flex gap-2 p-2 border text-sm rounded-lg items-center cursor-pointer text-slate-400/80 hover:opacity-70" onClick={actions.close}>
-                <FaChevronLeft/>
-                Go Back
+          <div className="flex">
+            <span
+              className="flex gap-2 p-2 border text-sm rounded-lg items-center cursor-pointer text-slate-400/80 hover:opacity-70"
+              onClick={actions.close}
+            >
+              <FaChevronLeft />
+              Go Back
             </span>
-          </div>
-          {" "}
+          </div>{" "}
           <DashboardAction />
-
-          
           <DefaultTable header={header as []}>
             {events?.map((_: any, key: number) => {
               return (
@@ -63,7 +72,7 @@ const ApprovedEventsByDate = ({ events, actions }: { events: any, actions: { ope
       )}
 
       <Modal isOpen={isModalOpen} onClose={closeModal}>
-        <EventDetails event={selectedEvent} />
+        {selectedEvent && <EventDetails event={selectedEvent} />}
       </Modal>
     </div>
   );

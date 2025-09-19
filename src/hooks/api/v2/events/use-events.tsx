@@ -1,12 +1,15 @@
 import { usePaginatedQuery } from "@/hooks/api/usePaginatedQuery";
 import { useTMutation } from "@/hooks/api/useTMutation";
 import { useTQuery } from "@/hooks/api/useTQuery";
+import { EventStatus } from "@/v2/enums/event.enums";
 import { useQueryClient } from "@tanstack/react-query";
+
+
 
 // Hook for getting pending events
 export function usePendingEvents() {
   return useTQuery({
-    url: "/admin/events/for-admin?status=pending&page=1&limit=10",
+    url: `/admin/events/for-admin?status=${EventStatus.DRAFT}&page=1&limit=10`,
     queryKey: ["events", "pending-events"],
   });
 }
@@ -14,7 +17,7 @@ export function usePendingEvents() {
 // Hook for getting approved events
 export function useApprovedEvents() {
   return useTQuery({
-    url: "/admin/events/for-admin?status=approved&page=1&limit=1000000000",
+    url: `/admin/events/for-admin?status=${EventStatus.PUBLISHED}&page=1&limit=10`,
     queryKey: ["events", "approved-events"],
   });
 }
@@ -22,7 +25,7 @@ export function useApprovedEvents() {
 // Hook for getting declined events with pagination
 export function useDeclinedEvents() {
   return usePaginatedQuery({
-    url: "/admin/events/for-admin?status=rejected",
+    url: `/admin/events/for-admin?status=${EventStatus.CANCELLED}`,
     queryKey: ["events", "rejected-events"],
     enabled: true,
   });

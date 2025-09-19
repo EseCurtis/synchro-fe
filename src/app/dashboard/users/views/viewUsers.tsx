@@ -1,18 +1,18 @@
 import ModalTabButton from "@/app/_components/button/modalTabButton";
-import DashboardAction from "@/app/_components/dashboard/dashboardAction";
 import {
     userBlockedIcon,
     userFollowersIcon,
     userFollowingIcon,
 } from "@/app/_components/icons/preview/usersStatIcon";
+import Input from "@/app/_components/input_fields";
 import DefaultTable from "@/app/_components/table/defaultTable";
 import NoData from "@/app/_components/table/NoData";
 import TablePagination from "@/app/_components/table/tablePagination";
 import { TABLE_STYLE } from "@/constant";
-import { usePaginatedQuery } from "@/hooks/api/usePaginatedQuery";
+import { useSearchQuery } from "@/hooks/api/useSearchQuery";
 import { TStringIndexObject } from "@/utils/types";
 import moment from "moment";
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import UserStat from "../components/userStat";
 
 const header = [
@@ -28,8 +28,9 @@ const ViewUsers = ({ user }: { user: any }) => {
     data: followersResponse,
     fetchNextPage: followers_fetchNextPage,
     isFetchingNextPage: followers_isFetchingNextPage,
-  } = usePaginatedQuery({
-    url: `/admin/users/${user?.id}/followers`,
+    updateSearch: updateFollowersSearch,
+  } = useSearchQuery({
+    baseUrl: `/admin/users/${user?.id}/followers`,
     queryKey: ["follow", String(user?.id)],
     enabled: !!user?.id,
   });
@@ -38,8 +39,9 @@ const ViewUsers = ({ user }: { user: any }) => {
     data: followingResponse,
     fetchNextPage: following_fetchNextPage,
     isFetchingNextPage: following_isFetchingNextPage,
-  } = usePaginatedQuery({
-    url: `/admin/users/${user?.id}/following`,
+    updateSearch: updateFollowingSearch,
+  } = useSearchQuery({
+    baseUrl: `/admin/users/${user?.id}/following`,
     queryKey: ["following", String(user?.id)],
     enabled: !!user?.id,
   });
@@ -48,8 +50,9 @@ const ViewUsers = ({ user }: { user: any }) => {
     data: blockedResponse,
     fetchNextPage: blocked_fetchNextPage,
     isFetchingNextPage: blocked_isFetchingNextPage,
-  } = usePaginatedQuery({
-    url: `/admin/users/${user?.id}/blocked`,
+    updateSearch: updateBlockedSearch,
+  } = useSearchQuery({
+    baseUrl: `/admin/users/${user?.id}/blocked`,
     queryKey: ["blocked", String(user?.id)],
     enabled: !!user?.id,
   });
@@ -80,6 +83,38 @@ const ViewUsers = ({ user }: { user: any }) => {
     followers_fetchNextPage,
     followers_isFetchingNextPage,
   ]);
+
+  // Search state management
+  const [currentTab, setCurrentTab] = useState<string>("followers");
+
+  // Search configuration for different user types - matches actual entity structure
+  const searchConfig = {
+    followers: {
+      searchFields: ['follower.firstName', 'follower.lastName', 'follower.username', 'follower.businessName', 'user.email', 'user.phoneNumber'],
+      updateSearch: updateFollowersSearch
+    },
+    following: {
+      searchFields: ['followed.firstName', 'followed.lastName', 'followed.username', 'followed.businessName', 'user.email', 'user.phoneNumber'],
+      updateSearch: updateFollowingSearch
+    },
+    blocked: {
+      searchFields: ['blocked.firstName', 'blocked.lastName', 'blocked.username', 'blocked.businessName', 'user.email', 'user.phoneNumber'],
+      updateSearch: updateBlockedSearch
+    }
+  };
+
+  // Update current tab when displayed records change
+  useEffect(() => {
+    setCurrentTab(displayedRecords[0]);
+  }, [displayedRecords]);
+
+  // Search function for backend
+  const handleSearch = (searchValue: string) => {
+    const config = searchConfig[currentTab as keyof typeof searchConfig];
+    if (config) {
+      config.updateSearch({ search: searchValue });
+    }
+  };
 
   const userViewData = [
     {
@@ -129,12 +164,29 @@ const ViewUsers = ({ user }: { user: any }) => {
           ))}
         </div>
 
-        {displayedRecords[1]?.length > 0 ? (
+        {userData[currentTab]?.length > 0 ? (
           <>
-            <DashboardAction />
+            <div className="flex gap-3 items-center mb-4">
+              <Input
+                name="search"
+                type="search"
+                placeholder={`Search ${currentTab}...`}
+                onChange={(e) => handleSearch(e.target.value)}
+                style={{
+                  width: "300px",
+                  border: "1px solid #EEE",
+                }}
+              />
+              <button
+                onClick={() => handleSearch('')}
+                className="px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300"
+              >
+                Clear
+              </button>
+            </div>
             {/* @ts-ignore */}
             <DefaultTable header={header}>
-              {(displayedRecords[1] || userData["followers"])?.map(
+              {userData[currentTab]?.map(
                 (_: any, key: number) => {
                   return (
                     <tr key={key}>

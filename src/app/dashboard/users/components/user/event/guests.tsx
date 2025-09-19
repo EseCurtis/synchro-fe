@@ -1,35 +1,46 @@
 import FilterComponent from "@/app/_components/forms/filterComponent";
 import Input from "@/app/_components/input_fields";
 import { useTQuery } from "@/hooks/api/useTQuery";
+import { Creator, Event } from "@/v2/types/event.types";
 import Image from "next/image";
 import { FaArrowRight } from "react-icons/fa";
 
-const Item = ({ userId }: { userId: string }) => {
+const Item = ({ userId, userData }: { userId: string; userData: Creator }) => {
   const { data: userDetails }: { data: any } = useTQuery({
     url: `/admin/users/${userId}`,
     queryKey: ["users", String(userId)],
+    enabled: !userData && !!userId,
   });
 
-  const userInfo = userDetails?.data;
+  const userInfo = userData || userDetails?.data;
 
-  return (userInfo &&
-    <div className="flex gap-3 w-[100%]">
-      <div className="w-[55px] h-[55px] bg-gray-300 rounded-full overflow-clip">
-        <Image src={userInfo?.profileImage} width={55} height={55} alt={userInfo?.firstName} />
+  return (
+    userInfo && (
+      <div className="flex gap-3 w-[100%]">
+        <div className="w-[55px] h-[55px] bg-gray-300 rounded-full overflow-clip">
+          <Image
+            src={userInfo?.avatar}
+            width={55}
+            height={55}
+            alt={userInfo?.firstName}
+          />
+        </div>
+        <div className="flex flex-col justify-center">
+          <h4>
+            {userInfo.firstName} {userInfo?.lastName}
+          </h4>
+          <p className="text-gray-400"> {userInfo?.lastName} </p>
+        </div>
+        <div className="h-[100%] ml-auto mr-[0] flex items-center">
+          <FaArrowRight />
+        </div>
       </div>
-      <div className="flex flex-col justify-center">
-        <h4>{userInfo.firstName} {userInfo?.lastName}</h4>
-        <p className="text-gray-400"> {userInfo?.lastName} </p>
-      </div>
-      <div className="h-[100%] ml-auto mr-[0] flex items-center">
-        <FaArrowRight />
-      </div>
-    </div>
+    )
   );
 };
 
-const Guests = ({ data }: { data: any }) => {
-  const guests = data?.guests || [];
+const Guests = ({ data }: { data: Event }) => {
+  const guests = data?.attendees || [];
   return (
     <div>
       <h1 className="flex text-left gap-2 mb-3 mt-7">
@@ -55,8 +66,8 @@ const Guests = ({ data }: { data: any }) => {
           </div>
 
           <div className="grid gap-4 px-3">
-            {guests.map((_: any, index: any) => (
-              <Item key={index} userId={_} />
+            {guests.map((_, index: any) => (
+              <Item key={index} userId={_.id} userData={_} />
             ))}
 
             <div className="text-center mt-7">
