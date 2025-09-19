@@ -169,7 +169,7 @@ const ActiveUsers = () => {
       </div>
       {/* @ts-ignore */}
       {(users.length > 0 && <></>) || (
-        <DefaultTable header={header}>
+        <DefaultTable header={header as any}>
           {users?.map((_: UserData, key: number) => {
             const profile = _.profiles?.[0];
             return (

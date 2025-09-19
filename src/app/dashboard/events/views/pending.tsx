@@ -151,12 +151,6 @@ const PendingEvents = () => {
                               refetch();
                             },
 
-/*************  ✨ Windsurf Command ⭐  *************/
-/**
- * Called when the mutation to update the event status is settled.
- * Resets the modifyingEventId to null.
- */
-/*******  de6eafee-12d4-46e2-8568-56723b244ed7  *******/
                             onSettled() {
                               setModifyingEventId(null);
                             },
@@ -208,10 +202,11 @@ const PendingEvents = () => {
       )}
 
       <Modal isOpen={isModalOpen} onClose={closeModal}>
-        <EventDetails event={activeData} />
+        <EventDetails event={activeData as any} />
       </Modal>
     </div>
   );
 };
 
 export default PendingEvents;
+
