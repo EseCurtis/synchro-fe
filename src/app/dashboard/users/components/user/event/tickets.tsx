@@ -1,7 +1,8 @@
-import FilterComponent from "@/app/_components/forms/filterComponent";
 import GoodIcon from "@/app/_components/icons/tickets/good";
 import QuestionIcon from "@/app/_components/icons/tickets/question";
 import Input from "@/app/_components/input_fields";
+import { Spinner } from "@/app/_components/spinner/Spinner";
+import TablePagination from "@/app/_components/table/tablePagination";
 import { usePaginatedQuery } from "@/hooks/api/usePaginatedQuery";
 import { Event } from "@/v2/types/event.types";
 import { UserTicket, UserTicketStatus } from "@/v2/types/ticket.types";
@@ -26,6 +27,7 @@ const Item = ({ data }: { data: UserTicket }) => {
           src={userInfo?.avatar}
           width={55}
           height={55}
+          className="w-full h-full object-cover"
           alt={userInfo?.firstName}
         />
       </div>
@@ -53,20 +55,24 @@ const Item = ({ data }: { data: UserTicket }) => {
 };
 
 const Tickets = ({ data }: { data: Event }) => {
-  const { data: responseData } = usePaginatedQuery({
+  const {
+    data: responseData,
+    isLoading,
+    isFetching,
+    isFetchingNextPage,
+    hasNextPage,
+    fetchNextPage,
+  } = usePaginatedQuery({
     url: `/admin/events/${data?.id}/userTickets`,
-    queryKey: ["ticket", "all_"],
+    queryKey: ["events", "tickets", data?.id, "all_"],
     enabled: true,
   });
 
   const tickets = (
-    responseData?.pages?.map((e: any) => e.data).flat() ||
-    data?.userTickets ||
-    []
+    responseData?.pages?.map((e: any) => e.data.data).flat() || []
   )?.filter((ticket) => {
     return ticket.eventId == data.id;
   }) as UserTicket[];
-
 
   console.log("Tickets", responseData);
 
@@ -77,6 +83,7 @@ const Tickets = ({ data }: { data: Event }) => {
         <span className="bg-green-200/50 text-green-400 p-1 py-1 rounded text-sm">
           {tickets.length}
         </span>
+        {isFetching || (isLoading && <Spinner />)}
       </h1>
 
       {tickets.length > 0 ? (
@@ -91,7 +98,6 @@ const Tickets = ({ data }: { data: Event }) => {
                 border: "1px solid #EEE",
               }}
             />
-            <FilterComponent />
           </div>
 
           <div className="grid gap-4 px-3">
@@ -99,11 +105,20 @@ const Tickets = ({ data }: { data: Event }) => {
               <Item key={index} data={_} />
             ))}
 
-            <div className="text-center mt-7">
-              <h3 className="w-[auto] font-bold p-3 px-2 cursor-pointer rounded border border-gray-300">
-                All Caught Up
-              </h3>
-            </div>
+            {hasNextPage ? (
+              <TablePagination
+                loading={isFetchingNextPage}
+                onFetchMore={() => {
+                  fetchNextPage();
+                }}
+              />
+            ) : (
+              <div className="text-center mt-7">
+                <h3 className="w-[auto] font-bold p-3 px-2 cursor-pointer rounded border border-gray-300">
+                  All Caught Up
+                </h3>
+              </div>
+            )}
           </div>
         </>
       ) : (

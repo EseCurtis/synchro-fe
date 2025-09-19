@@ -18,7 +18,14 @@ import EventDetails from "../../users/components/user/event_details";
 const header = ["Business Name ", "User", "Category", "Date", "Actions", ""];
 const style = "px-6 py-4 whitespace-no-wrap border-b border-gray-300";
 const PendingEvents = () => {
-  const { data, refetch } = usePendingEvents();
+  const {
+    data,
+    refetch,
+    hasNextPage,
+    fetchNextPage,
+    isLoading: isLoadingEvents,
+    isFetchingNextPage,
+  }: any = usePendingEvents();
   const { isLoading, mutate } = useUpdateEventStatus();
 
   // @ts-ignore
@@ -27,6 +34,7 @@ const PendingEvents = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [activeData, setActiveData] = useState({});
+  const [modifyingEventId, setModifyingEventId] = useState<number | null>(null);
 
   const toggleDropdown = (data: any) => {
     setIsDropdownOpen(!isDropdownOpen);
@@ -77,6 +85,7 @@ const PendingEvents = () => {
       <DashboardAction />
       {/* @ts-ignore */}
       <DefaultTable header={header}>
+        {isLoadingEvents && <Spinner />}
         {events?.map((_: any, key: number) => {
           return (
             <tr key={key}>
@@ -109,12 +118,16 @@ const PendingEvents = () => {
                   <div className="flex items-center justify-space-around">
                     <button
                       onClick={() => {
+                        setModifyingEventId(_?.id);
                         mutate(
                           { eventId: _?.id, status: EventStatus.PUBLISHED },
                           {
                             onSuccess() {
                               toast.success("Event approved successfully");
                               refetch();
+                            },
+                            onSettled() {
+                              setModifyingEventId(null);
                             },
                           }
                         );
@@ -136,6 +149,16 @@ const PendingEvents = () => {
                             onSuccess() {
                               toast.success("Event Rejected successfully");
                               refetch();
+                            },
+
+/*************  ✨ Windsurf Command ⭐  *************/
+/**
+ * Called when the mutation to update the event status is settled.
+ * Resets the modifyingEventId to null.
+ */
+/*******  de6eafee-12d4-46e2-8568-56723b244ed7  *******/
+                            onSettled() {
+                              setModifyingEventId(null);
                             },
                           }
                         );
@@ -177,7 +200,12 @@ const PendingEvents = () => {
           );
         })}
       </DefaultTable>
-      <TablePagination />
+      {hasNextPage && (
+        <TablePagination
+          onFetchMore={fetchNextPage}
+          loading={isFetchingNextPage}
+        />
+      )}
 
       <Modal isOpen={isModalOpen} onClose={closeModal}>
         <EventDetails event={activeData} />

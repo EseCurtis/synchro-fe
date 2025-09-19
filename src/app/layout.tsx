@@ -1,6 +1,7 @@
 "use client";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import clsx from "clsx";
 import { useState } from "react";
 import { Slide, ToastContainer } from "react-toastify";
@@ -54,6 +55,7 @@ export default function RootLayout({
 
         <QueryClientProvider client={queryClient}>
           <AuthProvider>{children}</AuthProvider>
+          <ReactQueryDevtools />
         </QueryClientProvider>
       </body>
     </html>

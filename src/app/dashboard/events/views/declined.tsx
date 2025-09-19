@@ -30,7 +30,14 @@ const DeclinedEvents = () => {
     setIsModalOpen(false);
   };
 
-  const { data, refetch, hasNextPage, fetchNextPage, isFetchingNextPage } = useDeclinedEvents();
+  const {
+    data,
+    refetch,
+    hasNextPage,
+    fetchNextPage,
+    isLoading: isLoadingEvents,
+    isFetchingNextPage,
+  } = useDeclinedEvents();
   const events = data?.pages?.map((e: any) => e.data.data).flat() as any[];
   const { isLoading, mutate } = useUpdateEventStatus();
 
@@ -39,6 +46,7 @@ const DeclinedEvents = () => {
       <DashboardAction />
       {/* @ts-ignore */}
       <DefaultTable header={header}>
+        {isLoadingEvents && <Spinner />}
         {events?.map((_: any, key: number) => {
           return (
             <tr key={key}>
@@ -92,10 +100,12 @@ const DeclinedEvents = () => {
         })}
       </DefaultTable>
 
-      <TablePagination
-        onFetchMore={fetchNextPage}
-        loading={isFetchingNextPage}
-      />
+      {hasNextPage && (
+        <TablePagination
+          onFetchMore={fetchNextPage}
+          loading={isFetchingNextPage}
+        />
+      )}
 
       <Modal isOpen={isModalOpen} onClose={closeModal}>
         <ViewInformation />

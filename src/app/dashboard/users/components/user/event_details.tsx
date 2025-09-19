@@ -2,7 +2,7 @@ import ModalTabButton from "@/app/_components/button/modalTabButton";
 import customStyles from "@/app/_components/customStyles/index.module.css";
 import { Event } from "@/v2/types/event.types";
 import Image from "next/image";
-import { useState } from "react";
+import { Fragment, useState } from "react";
 import Guests from "./event/guests";
 import Info from "./event/info";
 import Tickets from "./event/tickets";
@@ -32,10 +32,9 @@ const buttonStyle = {
 };
 
 const EventDetails = ({ event }: { event: Event }) => {
-  const [tabContent, setTabContent] = useState<any>(<Info data={event} />);
   const [declineIsOpen, setDeclineIsOpen] = useState(false);
+  const [tab, setTab] = useState(0);
 
-  
   const authorInfo = event?.creator;
 
   return (
@@ -55,7 +54,6 @@ const EventDetails = ({ event }: { event: Event }) => {
                   alt={event.name}
                   width={400}
                   height={100}
-                  
                   className="bg-[linear-gradient(#00000040,#fff)] w-full h-full object-cover"
                 />
               </div>
@@ -77,10 +75,7 @@ const EventDetails = ({ event }: { event: Event }) => {
               <p className="flex items-center gap-3 w-[100%]">
                 {hugIcon}{" "}
                 <span className="text-sm text-gray-500">
-                  Host:{" "}
-                  <u>
-                    @{authorInfo?.username}
-                  </u>
+                  Host: <u>@{authorInfo?.username}</u>
                 </span>
               </p>
               <div className="grid grid-cols-2 gap-3">
@@ -92,7 +87,9 @@ const EventDetails = ({ event }: { event: Event }) => {
                 </p>
                 <p className="flex items-center gap-3">
                   {hugIcon}{" "}
-                  <span className="text-sm text-gray-500">{event.isPublic ? "Public event": "Private event"}</span>
+                  <span className="text-sm text-gray-500">
+                    {event.isPublic ? "Public event" : "Private event"}
+                  </span>
                 </p>
               </div>
             </div>
@@ -116,25 +113,29 @@ const EventDetails = ({ event }: { event: Event }) => {
 
             <div className="grid grid-cols-3 gap-2 w-[90%] h-[3em] m-auto p-3 mt-5">
               <ModalTabButton
-                isActive={tabContent.type === Info}
-                onClick={() => setTabContent(<Info data={event} />)}
+                isActive={tab == 0}
+                onClick={() => setTab(0)}
                 label="Events Info"
               />
 
               <ModalTabButton
-                isActive={tabContent.type === Guests}
-                onClick={() => setTabContent(<Guests data={event} />)}
+                isActive={tab == 1}
+                onClick={() => setTab(1)}
                 label="Guest"
               />
 
               <ModalTabButton
-                isActive={tabContent.type === Tickets}
-                onClick={() => setTabContent(<Tickets data={event} />)}
+                isActive={tab == 2}
+                onClick={() => setTab(2)}
                 label="Tickets"
               />
             </div>
 
-            {tabContent}
+            <Fragment>
+              {tab == 0 && <Info data={event} />}
+              {tab == 1 && <Guests data={event} />}
+              {tab == 2 && <Tickets data={event} />}
+            </Fragment>
           </div>
         </div>
       )}

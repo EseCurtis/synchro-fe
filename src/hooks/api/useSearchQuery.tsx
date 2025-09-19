@@ -57,3 +57,4 @@ export function useSearchQuery<T>({
     clearSearch,
   };
 }
+

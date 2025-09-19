@@ -1,44 +1,34 @@
-//@ts-nocheck
 "use client";
-import {
-  generateEventsMonthData,
-  generateMonthData,
-  getMonthName,
-} from "@/helpers";
-import { useApprovedEvents } from "@/hooks/api/v2/events";
+import { Button } from "@/app/_components/button";
+import Badge from "@/app/_components/forms/badge";
+import { generateMonthData, getMonthName } from "@/helpers";
+import { useApprovedEventsByDate } from "@/hooks/api/v2";
 import { generateYearsOptions } from "@/v2/helpers/common.helpers";
 import { Event } from "@/v2/types/event.types";
-import moment from "moment";
 import { useEffect, useState } from "react";
-import { momentLocalizer } from "react-big-calendar";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import CustomCalendar from "../components/CustomCalendar";
 import ApprovedEventsByDate from "./approvedByDate";
 
-const header = [
-  "Business Name ",
-  "Doc Type",
-  "File Uploaded",
-  "Status",
-  "Date Approved",
-  "",
-];
-
-const localizer = momentLocalizer(moment);
+const generativeFunction = (events: any, year: any) => {
+  return generateMonthData(year);
+};
 
 const ApprovedEvents = () => {
-  const myEventsList = [
-    {
-      title: "Event 1",
-      start: new Date(),
-      end: new Date(),
-    },
-  ];
+  //2 year priroor to current yer and 2 years afterwards
+  const yearsOptions = generateYearsOptions(3);
+  const [openedDate, setOpenedDate] = useState<boolean | number>(false);
+  const [openedDateEvents, setOpenedDateEvents] = useState<any[]>([]);
+  const [year, setYear] = useState<Date>(yearsOptions[3].value as any);
+  const [month, setMonth] = useState<number>(new Date().getMonth());
 
-  const { data } = useApprovedEvents();
+  const { data, isFetching, isLoading, error } = useApprovedEventsByDate({
+    fromDate: new Date(Number(year), month, 1).getTime(),
+    toDate: new Date(Number(year), month + 1, 0).getTime(),
+  });
 
-  const eventsData = data?.data?.data;
+  const eventsData = (data as any)?.data?.data;
 
   const events = eventsData?.map((event: Event) => ({
     title: event?.name,
@@ -47,19 +37,6 @@ const ApprovedEvents = () => {
     data: event,
   }));
 
-  console.log("TUARY=>>",events);
-
-  const generativeFunction = (events, year) => {
-    return generateMonthData(year);
-    return generateEventsMonthData(events, year);
-  };
-
-   //2 year priroor to current yer and 2 years afterwards
-  const yearsOptions = generateYearsOptions(3);
-  const [openedDate, setOpenedDate] = useState<boolean | number>(false);
-  const [openedDateEvents, setOpenedDateEvents] = useState<any[]>(false);
-  const [year, setYear] = useState<Date>(yearsOptions[3].value);
-  const [month, setMonth] = useState<number>(new Date().getMonth());
   const [yearlyData, setYearlyData] = useState<any[]>(
     generativeFunction(events, year)
   );
@@ -84,18 +61,14 @@ const ApprovedEvents = () => {
   };
 
   useEffect(() => {
-    setYearlyData(
-      generativeFunction(events, year) || generativeFunction(events)
-    );
+    setYearlyData(generativeFunction(events, year));
   }, [year]);
   useEffect(() => {
     setMonthlyData(yearlyData[month] || yearlyData[0]);
   }, [yearlyData, month]);
 
- 
-
   return openedDate ? (
-    <ApprovedEventsByDate events={openedDateEvents} actions={dateOpen} />
+    <ApprovedEventsByDate events={openedDateEvents} actions={dateOpen as any} />
   ) : (
     <>
       <div
@@ -120,11 +93,23 @@ const ApprovedEvents = () => {
               />
             </div>
             <h3 className="font-bold">
-              {getMonthName(monthlyData?.month)} {year}
+              {getMonthName(monthlyData?.month as any)} {year as any}
             </h3>
+            {error ? (
+              <div>
+                <Badge status="Inactive" label="Error Loading Events" />{" "}
+                <Button >Retry</Button>
+              </div>
+            ) : (
+              <></>
+            )}
           </div>
 
-          <select name="" id="" onChange={(e) => setYear(e.target.value)}>
+          <select
+            name=""
+            id=""
+            onChange={(e) => setYear(e.target.value as any)}
+          >
             {yearsOptions.map((yearOpt) => (
               <option
                 value={yearOpt.value}
@@ -136,12 +121,17 @@ const ApprovedEvents = () => {
             ))}
           </select>
         </div>
-        <CustomCalendar
-          rangeData={{ month, year }}
-          days={monthlyData?.days}
-          events={events}
-          dateOpenActions={dateOpen}
-        />
+
+        {isFetching || isLoading ? (
+          <div className="grid grid-cols-7 rounded-lg w-full h-[60vh] border-l border-r bg-gray-100 animate-pulse"></div>
+        ) : (
+          <CustomCalendar
+            rangeData={{ month, year } as any}
+            days={monthlyData?.days}
+            events={events}
+            dateOpenActions={dateOpen as any}
+          />
+        )}
       </div>
     </>
   );

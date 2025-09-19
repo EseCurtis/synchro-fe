@@ -84,6 +84,19 @@ export interface Creator {
   user: User;
 }
 
+export interface EventGuest {
+  eventId: string;
+  profileId: string;
+  profile: Creator;
+  status: string;
+  paymentStatus: string;
+  amountPaid?: number;
+  transactionId?: string;
+  registeredAt?: string;
+  checkedInAt?: string;
+  metadata?: any;
+}
+
 export interface Category {
   id: string;
   createdAt: string;

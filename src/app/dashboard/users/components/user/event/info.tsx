@@ -54,6 +54,7 @@ const CollaboratorItem = ({
 };
 
 const Info = ({ data }: { data: Event }) => {
+  data.maxAttendees = data.maxAttendees || 0;
   return (
     <div>
       <div className="grid mt-9 gap-4">
@@ -109,7 +110,7 @@ const Info = ({ data }: { data: Event }) => {
               </div>
               <span className="flex items-center whitespace-nowrap text-[12px]">
                 {" "}
-                {(data.maxAttendees || 0) - data.attendeesCount} not going
+                {Math.abs((data.maxAttendees || 0) - data.attendeesCount)} not going
               </span>
             </div>
           </div>

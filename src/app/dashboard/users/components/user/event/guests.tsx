@@ -1,18 +1,16 @@
-import FilterComponent from "@/app/_components/forms/filterComponent";
 import Input from "@/app/_components/input_fields";
-import { useTQuery } from "@/hooks/api/useTQuery";
-import { Creator, Event } from "@/v2/types/event.types";
+import { Spinner } from "@/app/_components/spinner/Spinner";
+import TablePagination from "@/app/_components/table/tablePagination";
+import { usePaginatedQuery } from "@/hooks/api/usePaginatedQuery";
+import { Creator, Event, EventGuest } from "@/v2/types/event.types";
 import Image from "next/image";
+import { useEffect } from "react";
 import { FaArrowRight } from "react-icons/fa";
 
-const Item = ({ userId, userData }: { userId: string; userData: Creator }) => {
-  const { data: userDetails }: { data: any } = useTQuery({
-    url: `/admin/users/${userId}`,
-    queryKey: ["users", String(userId)],
-    enabled: !userData && !!userId,
-  });
+const Item = ({ userData }: { userData: Creator }) => {
+  const userInfo = userData;
 
-  const userInfo = userData || userDetails?.data;
+  console.log("UserInfo", userInfo);
 
   return (
     userInfo && (
@@ -22,6 +20,7 @@ const Item = ({ userId, userData }: { userId: string; userData: Creator }) => {
             src={userInfo?.avatar}
             width={55}
             height={55}
+            className="w-full h-full object-cover"
             alt={userInfo?.firstName}
           />
         </div>
@@ -40,7 +39,26 @@ const Item = ({ userId, userData }: { userId: string; userData: Creator }) => {
 };
 
 const Guests = ({ data }: { data: Event }) => {
-  const guests = data?.attendees || [];
+  const {
+    data: responseData,
+    hasNextPage,
+    fetchNextPage,
+    isFetching,
+    isLoading,
+    isFetchingNextPage,
+  } = usePaginatedQuery({
+    url: `/admin/events/${data.id}/guests`,
+    queryKey: ["events", "guests", data.id],
+    enabled: true,
+  });
+
+  const guests = (responseData?.pages?.map((e: any) => e.data.data).flat() ||
+    []) as EventGuest[];
+
+  useEffect(() => {
+    console.log("Guests", guests);
+  }, [guests]);
+
   return (
     <div>
       <h1 className="flex text-left gap-2 mb-3 mt-7">
@@ -48,6 +66,7 @@ const Guests = ({ data }: { data: Event }) => {
         <span className="bg-green-200/50 text-green-400 p-1 py-1 rounded text-sm">
           {guests.length}
         </span>
+        {isFetching || (isLoading && <Spinner />)}
       </h1>
 
       {guests.length > 0 ? (
@@ -62,19 +81,27 @@ const Guests = ({ data }: { data: Event }) => {
                 border: "1px solid #EEE",
               }}
             />
-            <FilterComponent />
           </div>
 
           <div className="grid gap-4 px-3">
             {guests.map((_, index: any) => (
-              <Item key={index} userId={_.id} userData={_} />
+              <Item key={index} userData={_.profile} />
             ))}
 
-            <div className="text-center mt-7">
-              <h3 className="w-[auto] font-bold p-3 px-2 cursor-pointer rounded border border-gray-300">
-                All Caught Up
-              </h3>
-            </div>
+            {hasNextPage ? (
+              <TablePagination
+                loading={isFetchingNextPage}
+                onFetchMore={() => {
+                  fetchNextPage();
+                }}
+              />
+            ) : (
+              <div className="text-center mt-7">
+                <h3 className="w-[auto] font-bold p-3 px-2 cursor-pointer rounded border border-gray-300">
+                  All Caught Up
+                </h3>
+              </div>
+            )}
           </div>
         </>
       ) : (

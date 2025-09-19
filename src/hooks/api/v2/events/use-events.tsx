@@ -4,8 +4,6 @@ import { useTQuery } from "@/hooks/api/useTQuery";
 import { EventStatus } from "@/v2/enums/event.enums";
 import { useQueryClient } from "@tanstack/react-query";
 
-
-
 // Hook for getting pending events
 export function usePendingEvents() {
   return useTQuery({
@@ -22,6 +20,19 @@ export function useApprovedEvents() {
   });
 }
 
+export function useApprovedEventsByDate({
+  fromDate,
+  toDate,
+}: {
+  fromDate: number;
+  toDate: number;
+}) {
+  return useTQuery({
+    url: `/admin/events/for-admin-by-date?status=${EventStatus.PUBLISHED}&page=1&limit=20&fromDate=${fromDate}&toDate=${toDate}`,
+    queryKey: ["events", "approved-events", String(fromDate), String(toDate)],
+  });
+}
+
 // Hook for getting declined events with pagination
 export function useDeclinedEvents() {
   return usePaginatedQuery({
@@ -34,7 +45,7 @@ export function useDeclinedEvents() {
 // Hook for updating event status
 export function useUpdateEventStatus() {
   const client = useQueryClient();
-  
+
   return useTMutation({
     url: "/admin/events/update-status",
     method: "put",
