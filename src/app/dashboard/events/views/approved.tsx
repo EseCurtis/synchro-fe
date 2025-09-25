@@ -1,6 +1,7 @@
 "use client";
 import { Button } from "@/app/_components/button";
 import Badge from "@/app/_components/forms/badge";
+import EventsSkeleton from "@/app/_components/skeleton/EventsSkeleton";
 import { generateMonthData, getMonthName } from "@/helpers";
 import { useApprovedEventsByDate } from "@/hooks/api/v2";
 import { generateYearsOptions } from "@/v2/helpers/common.helpers";
@@ -67,6 +68,11 @@ const ApprovedEvents = () => {
     setMonthlyData(yearlyData[month] || yearlyData[0]);
   }, [yearlyData, month]);
 
+  // Show skeleton loader while loading
+  if (isLoading || isFetching) {
+    return <EventsSkeleton showCalendar={true} />;
+  }
+
   return openedDate ? (
     <ApprovedEventsByDate events={openedDateEvents} actions={dateOpen as any} />
   ) : (
@@ -122,16 +128,12 @@ const ApprovedEvents = () => {
           </select>
         </div>
 
-        {isFetching || isLoading ? (
-          <div className="grid grid-cols-7 rounded-lg w-full h-[60vh] border-l border-r bg-gray-100 animate-pulse"></div>
-        ) : (
-          <CustomCalendar
-            rangeData={{ month, year } as any}
-            days={monthlyData?.days}
-            events={events}
-            dateOpenActions={dateOpen as any}
-          />
-        )}
+        <CustomCalendar
+          rangeData={{ month, year } as any}
+          days={monthlyData?.days}
+          events={events}
+          dateOpenActions={dateOpen as any}
+        />
       </div>
     </>
   );

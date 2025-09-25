@@ -1,6 +1,7 @@
 "use client";
 
 import customStyles from "@/app/_components/customStyles/index.module.css";
+import AppSkeleton from "@/app/_components/skeleton/AppSkeleton";
 import { useAuthContext } from "@/contexts/AuthContext";
 import { useRouterO } from "@/v2/hooks/use-router";
 import { FC, ReactNode } from "react";
@@ -19,8 +20,13 @@ const DashboardLayout: FC<IDashboardLayout> = ({
   title,
   quantity,
 }) => {
-  const { user } = useAuthContext();
+  const { user, isLoading } = useAuthContext();
   const { push } = useRouterO();
+
+  // Show app skeleton while loading user data
+  if (isLoading) {
+    return <AppSkeleton contentType="dashboard" />;
+  }
 
   if (typeof window !== "undefined" && !user) {
     push("/");
