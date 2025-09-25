@@ -121,17 +121,17 @@ const ViewUserService = () => {
                       </div>
                     </td>
                     <td className={TABLE_STYLE}>
-                      <h3>{_.location}</h3>
+                      <h3>{_?.location}</h3>
                     </td>
                     <td className={TABLE_STYLE}>
-                      <h3>{_.price || "N/A"}</h3>
+                      <h3>{_?.price || "N/A"}</h3>
                     </td>
                     <td className={TABLE_STYLE}>
                       <h3 className="text-[14px]">
                         <Badge
                           label={_.status}
                           status={
-                            _.status === "approved" ? "Active" : "Inactive"
+                            _?.status === "approved" ? "Active" : "Inactive"
                           }
                         />
                       </h3>

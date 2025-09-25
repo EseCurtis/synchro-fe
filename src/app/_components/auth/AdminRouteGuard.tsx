@@ -1,7 +1,7 @@
 "use client";
 import { LoadingScreen } from "@/app/layouts/LoadingScreen";
 import { useAuthContext } from "@/contexts/AuthContext";
-import { useRouter } from "next/navigation";
+import { useRouterO } from "@/v2/hooks/use-router";
 import { ReactNode, useEffect } from "react";
 
 interface AdminRouteGuardProps {
@@ -16,7 +16,7 @@ export function AdminRouteGuard({
   requiredPermissions = [] 
 }: AdminRouteGuardProps) {
   const { user, loading } = useAuthContext();
-  const router = useRouter();
+  const router = useRouterO();
 
   useEffect(() => {
     if (!loading) {

@@ -65,7 +65,7 @@ const ViewUserEvent = () => {
 
   const calculateTotalBought = (tickets: any[]): number =>
     tickets
-      .map((ticket: any) => parseFloat(ticket?.eventTicket.price) || 0)
+      .map((ticket: any) => parseFloat(ticket?.eventTicket?.price) || 0)
       .reduce(
         (accumulator: number, currentPrice: number) =>
           accumulator + currentPrice,

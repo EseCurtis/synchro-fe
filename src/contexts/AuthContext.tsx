@@ -2,8 +2,9 @@
 "use client";
 import { LoadingScreen } from "@/app/layouts/LoadingScreen";
 import { useGetUserWithoutContext } from "@/hooks/api/auth/useGetCurrentUser";
+import { useRouterO } from "@/v2/hooks/use-router";
 import Head from "next/head";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import {
   PropsWithChildren,
   createContext,
@@ -92,7 +93,7 @@ export function AuthProvider({ children }: PropsWithChildren<{}>) {
   const [loading, setLoading] = useState(true);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  const { push } = useRouter();
+  const { push } = useRouterO();
   const pathname = usePathname();
   const { handleError } = useHandleError();
 

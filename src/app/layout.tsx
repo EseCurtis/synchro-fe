@@ -7,6 +7,7 @@ import { useState } from "react";
 import { Slide, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.min.css";
 import { toastClasses } from "./_components/AppToast";
+import { ProgressProvider } from "./_components/providers/ProgressProvider";
 import "./globals.css";
 
 export default function RootLayout({
@@ -54,7 +55,11 @@ export default function RootLayout({
         />
 
         <QueryClientProvider client={queryClient}>
-          <AuthProvider>{children}</AuthProvider>
+          <AuthProvider>
+            <ProgressProvider>
+              {children}
+            </ProgressProvider>
+          </AuthProvider>
           <ReactQueryDevtools />
         </QueryClientProvider>
       </body>

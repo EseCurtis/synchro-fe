@@ -8,9 +8,9 @@ import DefaultTable from "@/app/_components/table/defaultTable";
 import TablePagination from "@/app/_components/table/tablePagination";
 import { useSearchQuery } from "@/hooks/api/useSearchQuery";
 import { UserAvatarV2 } from "@/v2/components/common/avatar.component";
+import { useRouterO } from "@/v2/hooks/use-router";
 import { UserData } from "@/v2/types/user.types";
 import moment from "moment";
-import { useRouter } from "next/navigation";
 import { Fragment, useState } from "react";
 import SuspendUser from "../components/suspendUser";
 
@@ -52,7 +52,7 @@ const ActiveUsers = () => {
     setIsModalOpen(false);
   };
 
-  const { push } = useRouter();
+  const { push } = useRouterO();
 
   const dropDownData = (user: any) => {
     return [

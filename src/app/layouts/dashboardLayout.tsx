@@ -1,11 +1,11 @@
 "use client";
 
+import customStyles from "@/app/_components/customStyles/index.module.css";
+import { useAuthContext } from "@/contexts/AuthContext";
+import { useRouterO } from "@/v2/hooks/use-router";
 import { FC, ReactNode } from "react";
 import DashboaradHeader from "../_components/dashboard/dashboardHeader";
 import DashboardBoardSidebar from "../_components/dashboard/dashboardSidebar";
-import customStyles from "@/app/_components/customStyles/index.module.css";
-import { useAuthContext } from "@/contexts/AuthContext";
-import { useRouter } from "next/navigation";
 import { LoadingScreen } from "./LoadingScreen";
 
 interface IDashboardLayout {
@@ -20,7 +20,7 @@ const DashboardLayout: FC<IDashboardLayout> = ({
   quantity,
 }) => {
   const { user } = useAuthContext();
-  const { push } = useRouter();
+  const { push } = useRouterO();
 
   if (typeof window !== "undefined" && !user) {
     push("/");
