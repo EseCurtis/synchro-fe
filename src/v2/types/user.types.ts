@@ -30,6 +30,24 @@ export interface UserData {
   wallets: Wallet[];
 }
 
+
+export interface BusinessCategory {
+  id: string;
+  createdAt: string;
+  updatedAt: string;
+  deletedAt: null;
+  name: string;
+  description: string;
+  icon: string;
+  color: string;
+  image: string;
+  isActive: boolean;
+  sortOrder: number;
+  metadata: {
+    tags: string[];
+  };
+}
+
 export interface Profile {
   id: string;
   createdAt: string;
@@ -60,7 +78,7 @@ export interface Profile {
   metadata: any | null;
   businessCategoryId: string | null;
   status: string;
-  businessCategory: string | null;
+  businessCategory: BusinessCategory | null;
 }
 
 export interface Wallet {

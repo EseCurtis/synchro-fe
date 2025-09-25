@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import { FC } from "react";
 
 interface IPropsBadge {
   status: "Active" | "Inactive" | "Disabled" | "Pending" | "approved";
@@ -16,14 +16,14 @@ const Badge: FC<IPropsBadge> = ({ status, label }: IPropsBadge) => {
     badge_status = "rgba(242, 153, 74, 0.12)";
     text_col = "text-pending_text";
   } else {
-    badge_status = "#f1c40f50";
-    text_col = "text-yellow-500";
+    badge_status = "#f1c40f30";
+    text_col = " text-orange-400";
   }
 
   return (
     <div
       className={
-        " w-[fit-content] px-[15px] flex justify-center rounded-xl py-[2px]"
+        " w-[fit-content] px-[15px] flex justify-center rounded-full py-[2px]"
       }
       style={{
         background: badge_status,
