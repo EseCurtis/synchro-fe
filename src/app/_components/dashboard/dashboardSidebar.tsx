@@ -1,10 +1,9 @@
 "use client";
 
-import { useNProgress } from "@/hooks/useNProgress";
 import { SidebarNavs } from "@/utils/contents/sidebarNavs";
 import Image from "next/image";
-import Link from "next/link";
 import { usePathname } from "next/navigation";
+import LinkWithProgress from "../ui/LinkWithProgress";
 
 const listStyle = {
   listStyleType: "none",
@@ -12,7 +11,6 @@ const listStyle = {
 
 const DashboardBoardSidebar = () => {
   const pathname = usePathname();
-  const { startProgress } = useNProgress();
 
   return (
     <div
@@ -41,12 +39,9 @@ const DashboardBoardSidebar = () => {
               ? pathname == _.path
               : pathname.includes(_.path);
             return (
-              <Link
+              <LinkWithProgress
                 href={_.path}
                 key={index}
-                onClick={() => {
-                  startProgress();
-                }}
               >
                 <li
                   className="py-[14px] rounded-md p-4 flex items-center gap-[16px] "
@@ -79,7 +74,7 @@ const DashboardBoardSidebar = () => {
                     {_.title}
                   </span>
                 </li>
-              </Link>
+              </LinkWithProgress>
             );
           })}
         </ul>

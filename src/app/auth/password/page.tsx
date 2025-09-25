@@ -1,7 +1,7 @@
-import AuthLayout from "@/app/layouts/authLayout";
 import { Button } from "@/app/_components/button";
 import Input from "@/app/_components/input_fields";
-import Link from "next/link";
+import AuthLayout from "@/app/layouts/authLayout";
+import LinkWithProgress from "../../_components/ui/LinkWithProgress";
 
 const Forgotten_password = () => {
   return (
@@ -17,9 +17,9 @@ const Forgotten_password = () => {
           name="email"
           required={true}
         />
-        <Link href={"/auth/otp"}>
+        <LinkWithProgress href={"/auth/otp"}>
           <Button type="submit">Send Code</Button>
-        </Link>
+        </LinkWithProgress>
       </form>
     </AuthLayout>
   );

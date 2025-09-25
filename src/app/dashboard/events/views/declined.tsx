@@ -7,8 +7,8 @@ import DefaultTable from "@/app/_components/table/defaultTable";
 import TablePagination from "@/app/_components/table/tablePagination";
 import { useDeclinedEvents, useUpdateEventStatus } from "@/hooks/api/v2/events";
 import moment from "moment";
-import Link from "next/link";
 import { useState } from "react";
+import LinkWithProgress from "../../../_components/ui/LinkWithProgress";
 import ViewInformation from "../components/EventDetails";
 
 const header = ["Business Name ", "User", "Category", "Date", ""];
@@ -64,9 +64,9 @@ const DeclinedEvents = () => {
                 </div>
               </td>
               <td className={style}>
-                <Link href={`/dashboard/users/${_?.user?.id}`}>
+                <LinkWithProgress href={`/dashboard/users/${_?.user?.id}`}>
                   <h3 className="underline">{_?.user?.username}</h3>
-                </Link>
+                </LinkWithProgress>
               </td>
               <td className={style}>
                 <h3>{_?.eventCategory?.name}</h3>

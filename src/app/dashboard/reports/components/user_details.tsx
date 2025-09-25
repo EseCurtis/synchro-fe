@@ -4,8 +4,8 @@ import { Spinner } from "@/app/_components/spinner/Spinner";
 import { useTQuery } from "@/hooks/api/useTQuery";
 import moment from "moment";
 import Image from "next/image";
-import Link from "next/link";
 import { useState } from "react";
+import LinkWithProgress from "../../../_components/ui/LinkWithProgress";
 import SuspendUser from "../../users/components/suspendUser";
 
 const UserDetails = ({ data, onClose }: any) => {
@@ -53,11 +53,11 @@ const UserDetails = ({ data, onClose }: any) => {
               <p className="text-[#777E90] text-[13px]">{user?.username}</p>
             </div>
             {/* Replace the id with the user id from databse here */}
-            <Link href={"/dashboard/users/" + user?.id}>
+            <LinkWithProgress href={"/dashboard/users/" + user?.id}>
               <div className="bg-gray-300 text-[13px] cursor-pointer w-[fit-content] py-[.6em] my-[1em] rounded-full px-5 mx-auto ">
                 View full profile
               </div>
-            </Link>
+            </LinkWithProgress>
           </div>
 
           <table className="border-collapse [&_td]:text-xs [&_td]:text-left  [&_td:second-child]:text-xs ">

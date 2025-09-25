@@ -2,11 +2,11 @@
 import { useAuthContext } from "@/contexts/AuthContext";
 import { useTMutation } from "@/hooks/api/useTMutation";
 import { useFormik } from "formik";
-import Link from "next/link";
 import { useState } from "react";
 import { array, object, string } from "yup";
 import { Button } from "../../_components/button";
 import Input, { Select } from "../../_components/input_fields";
+import LinkWithProgress from "../../_components/ui/LinkWithProgress";
 import AuthLayout from "../../layouts/authLayout";
 
 // Admin roles enum (matching server-side)
@@ -259,9 +259,9 @@ export default function AdminSignupPage() {
         <div className="text-center mt-4 pb-3">
           <p className="text-sm text-gray-600">
             Already have an account?{" "}
-            <Link href="/" className="text-blue-600 hover:underline">
+            <LinkWithProgress href="/" className="text-blue-600 hover:underline">
               Sign in here
-            </Link>
+            </LinkWithProgress>
           </p>
         </div>
       </form>

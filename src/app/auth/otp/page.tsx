@@ -1,13 +1,13 @@
-import AuthLayout from "@/app/layouts/authLayout";
 import { Button } from "@/app/_components/button";
-import Link from "next/link";
+import AuthLayout from "@/app/layouts/authLayout";
+import LinkWithProgress from "../../_components/ui/LinkWithProgress";
 const Otp = () => {
   return (
     <AuthLayout heading="OTP Verification">
       <form action="">
-        <Link href={"/auth/otp/confirm"}>
+        <LinkWithProgress href={"/auth/otp/confirm"}>
           <Button>Confirm Code</Button>
-        </Link>
+        </LinkWithProgress>
       </form>
     </AuthLayout>
   );

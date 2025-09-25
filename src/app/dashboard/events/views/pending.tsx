@@ -9,10 +9,10 @@ import TablePagination from "@/app/_components/table/tablePagination";
 import { usePendingEvents, useUpdateEventStatus } from "@/hooks/api/v2/events";
 import { EventStatus } from "@/v2/enums/event.enums";
 import moment from "moment";
-import Link from "next/link";
 import { Fragment, useState } from "react";
 import { toast } from "react-toastify";
 import Image from "../../../../../node_modules/next/image";
+import LinkWithProgress from "../../../_components/ui/LinkWithProgress";
 import EventDetails from "../../users/components/user/event_details";
 
 const header = ["Business Name ", "User", "Category", "Date", "Actions", ""];
@@ -101,9 +101,9 @@ const PendingEvents = () => {
                 </div>
               </td>
               <td className={style}>
-                <Link href={`/dashboard/users/${_?.user?.id}`}>
+                <LinkWithProgress href={`/dashboard/users/${_?.user?.id}`}>
                   <h3 className="underline">{_?.user?.username}</h3>
-                </Link>
+                </LinkWithProgress>
               </td>
               <td className={style}>
                 <h3>{_?.eventCategory?.name}</h3>

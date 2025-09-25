@@ -1,7 +1,7 @@
 import { Button } from "@/app/_components/button";
 import AuthLayout from "@/app/layouts/authLayout";
 import Image from "next/image";
-import Link from "next/link";
+import LinkWithProgress from "../../../_components/ui/LinkWithProgress";
 
 const Confirm_Otp = () => {
   return (
@@ -22,9 +22,9 @@ const Confirm_Otp = () => {
           </p>
         </center>
 
-        <Link href={"/dashboard"}>
+        <LinkWithProgress href={"/dashboard"}>
           <Button>Confirm</Button>
-        </Link>
+        </LinkWithProgress>
       </form>
     </AuthLayout>
   );
