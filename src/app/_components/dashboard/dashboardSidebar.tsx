@@ -24,7 +24,7 @@ const DashboardBoardSidebar = () => {
         backgroundPosition: "center",
       }}
     >
-      <div>
+      <div className="h-[40px]">
         <Image
           src={"/images/synco_logo.png"}
           width={100}

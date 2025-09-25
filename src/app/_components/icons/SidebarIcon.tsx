@@ -1,8 +1,8 @@
 import React from "react";
-import { SidebarIconMap, SidebarIconType } from "./SidebarIcons";
+import { ExactSidebarIconMap, ExactSidebarIconType } from "./ExactSidebarIcons";
 
 interface SidebarIconProps {
-  type: SidebarIconType;
+  type: ExactSidebarIconType;
   isActive?: boolean;
   size?: number;
   className?: string;
@@ -31,7 +31,7 @@ export const SidebarIcon: React.FC<SidebarIconProps> = ({
   activeColor = "#e73c01", // Primary orange
   inactiveColor = "#718096", // Gray
 }) => {
-  const IconComponent = SidebarIconMap[type];
+  const IconComponent = ExactSidebarIconMap[type];
   
   if (!IconComponent) {
     console.warn(`SidebarIcon: Unknown icon type "${type}"`);

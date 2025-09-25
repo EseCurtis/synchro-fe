@@ -4,32 +4,37 @@ interface IconProps {
   size?: number;
   className?: string;
   color?: string;
+  isActive?: boolean;
 }
 
-// Home Icon
-export const HomeIcon: React.FC<IconProps> = ({ size = 24, className = "", color = "currentColor" }) => (
+// Home Icon - Exact replica from original SVG
+export const HomeIcon: React.FC<IconProps> = ({ size = 24, className = "", color = "#718096", isActive = false }) => (
   <svg
     width={size}
     height={size}
-    viewBox="0 0 24 24"
+    viewBox="0 0 24 25"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
     className={className}
   >
-    <path
-      d="M3 9L12 2L21 9V20C21 20.5304 20.7893 21.0391 20.4142 21.4142C20.0391 21.7893 19.5304 22 19 22H5C4.46957 22 3.96086 21.7893 3.58579 21.4142C3.21071 21.0391 3 20.5304 3 20V9Z"
-      stroke={color}
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-    <path
-      d="M9 22V12H15V22"
-      stroke={color}
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
+    {isActive ? (
+      <>
+        <defs>
+          <radialGradient id="paint0_radial_home" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(3 10.909) rotate(26.7148) scale(23.5572 185.126)">
+            <stop stopColor="#E73C01"/>
+            <stop offset="0.697917" stopColor="#0512D2"/>
+          </radialGradient>
+          <radialGradient id="paint1_radial_home" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(9.25 17.3675) rotate(7.81574) scale(6.48987 17.1109)">
+            <stop stopColor="#E73C01"/>
+            <stop offset="0.697917" stopColor="#0512D2"/>
+          </radialGradient>
+        </defs>
+        <path opacity="0.4" fillRule="evenodd" clipRule="evenodd" d="M19.5128 19.448L20.9679 11.465C21.0979 10.751 20.8309 10.023 20.2709 9.56205L13.5888 4.06901C12.6658 3.31001 11.3348 3.31001 10.4118 4.06901L3.72984 9.56205C3.16884 10.023 2.90182 10.751 3.03282 11.465L4.48789 19.4471C4.70489 20.6351 5.73986 21.4991 6.94786 21.4991H17.0538C18.2608 21.5001 19.2958 20.636 19.5128 19.448Z" fill="url(#paint0_radial_home)"/>
+        <path d="M14 18.25H10C9.586 18.25 9.25 17.914 9.25 17.5C9.25 17.086 9.586 16.75 10 16.75H14C14.414 16.75 14.75 17.086 14.75 17.5C14.75 17.914 14.414 18.25 14 18.25Z" fill="url(#paint1_radial_home)"/>
+      </>
+    ) : (
+      <path d="M20.5878 9.17599L13.9058 3.68295C12.8018 2.77495 11.1967 2.77495 10.0937 3.68295L3.41173 9.17599C2.71173 9.752 2.37778 10.663 2.53978 11.555L3.99474 19.537C4.25574 20.963 5.49677 21.999 6.94677 21.999H17.0517C18.5017 21.999 19.7428 20.963 20.0038 19.537L21.4587 11.5539C21.6217 10.6629 21.2878 9.752 20.5878 9.17599ZM20.4757 11.375L19.0207 19.358C18.8477 20.309 18.0197 21 17.0527 21H6.94774C5.98074 21 5.15273 20.31 4.97973 19.358L3.52477 11.3759C3.42677 10.8399 3.62774 10.293 4.04674 9.94797L10.7287 4.45493C11.0967 4.15193 11.5487 4.00095 11.9997 4.00095C12.4507 4.00095 12.9027 4.15193 13.2707 4.45493L19.9527 9.94797C20.3727 10.294 20.5727 10.841 20.4757 11.375ZM14.4997 17.5C14.4997 17.776 14.2757 18 13.9997 18H9.99975C9.72375 18 9.49975 17.776 9.49975 17.5C9.49975 17.224 9.72375 17 9.99975 17H13.9997C14.2757 17 14.4997 17.224 14.4997 17.5Z" fill={color}/>
+    )}
   </svg>
 );
 

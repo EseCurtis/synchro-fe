@@ -1,9 +1,9 @@
-import { SidebarIconType } from "@/app/_components/icons/SidebarIcons";
+import { ExactSidebarIconType } from "@/app/_components/icons/ExactSidebarIcons";
 
 export interface SidebarNavItem {
   title: string;
   path: string;
-  iconType: SidebarIconType;
+  iconType: ExactSidebarIconType;
   absoluteMatch?: boolean;
 }
 
