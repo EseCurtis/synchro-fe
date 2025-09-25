@@ -1,14 +1,28 @@
+import { generateRandomColor } from "@/v2/helpers/common.helpers";
 import { UserData } from "@/v2/types/user.types";
-
-
 
 export function UserAvatarV2({ user }: { user: UserData }) {
   const profile = user?.profiles?.[0];
+  const color = generateRandomColor([String(user.id)]);
   const randomColor = {
-    bg: "#fac0003b",
-    fg: "#fac000",
+    bg: `${color}3b`,
+    fg: color,
   };
-  const initials = `${profile?.username.slice(0, 1)}`;
+  const seedName =
+    [
+      profile?.username,
+      `${profile?.firstName?.[0]}  ${profile?.lastName?.[0]}`,
+      profile?.firstName,
+      profile?.lastName,
+      user.email,
+    ].find(
+      (item) =>
+        item !== undefined && item.length > 1 && !item.includes("undefined")
+    ) || user.email;
+  const initials = `${seedName.slice(0, 2)}`;
+
+
+ 
 
   return (
     <div className="aspect-square w-full h-full">
@@ -26,7 +40,7 @@ export function UserAvatarV2({ user }: { user: UserData }) {
           }}
           className="w-full h-full flex items-center justify-center rounded-full bg-gray-500"
         >
-          <b>{initials}</b>
+          <b className="uppercase">{initials}</b>
         </div>
       )}
     </div>

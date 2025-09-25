@@ -1,12 +1,12 @@
 import { Button } from "@/app/_components/button";
-import React, { useState } from "react";
 import { SecondaryButton } from "@/app/_components/button/secondaryButton";
-import Link from "next/link";
+import { Spinner } from "@/app/_components/spinner/Spinner";
 import { useTQuery } from "@/hooks/api/useTQuery";
 import moment from "moment";
-import { Spinner } from "@/app/_components/spinner/Spinner";
-import SuspendUser from "../../users/components/suspendUser";
 import Image from "next/image";
+import Link from "next/link";
+import { useState } from "react";
+import SuspendUser from "../../users/components/suspendUser";
 
 const UserDetails = ({ data, onClose }: any) => {
   const [suspendIsOpen, setSuspendIsOpen] = useState<boolean>(false);
