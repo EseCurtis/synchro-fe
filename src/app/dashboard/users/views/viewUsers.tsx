@@ -11,10 +11,11 @@ import NoData from "@/app/_components/table/NoData";
 import TablePagination from "@/app/_components/table/tablePagination";
 import { TABLE_STYLE } from "@/constant";
 import { useSearchQuery } from "@/hooks/api/useSearchQuery";
+import { useTQuery } from "@/hooks/api/useTQuery";
 import { TStringIndexObject } from "@/utils/types";
 import { UserAvatarV2 } from "@/v2/components/common/avatar.component";
 import { useRouterO } from "@/v2/hooks/use-router";
-import { UserData } from "@/v2/types/user.types";
+import { UserData, UserStatsResponse } from "@/v2/types/user.types";
 import moment from "moment";
 import { Fragment, useEffect, useState } from "react";
 import UserStat from "../components/userStat";
@@ -27,8 +28,17 @@ const header = [
   "Last Active",
 ];
 
-const ViewUsers = ({ user }: { user: any }) => {
+const ViewUsers = ({ user }: { user: UserData }) => {
   const { push } = useRouterO();
+
+  const { data: relationshipStatsData, isLoading: statsLoading } = useTQuery<UserStatsResponse>({
+    url: `/admin/users/${user?.id}/relationship-stats`,
+    queryKey: ["user", String(user?.id), "relationship-stats"],
+    enabled: !!user?.id,
+  });
+
+  const relationshipStats = relationshipStatsData!?.data.stats;
+
   const {
     data: followersResponse,
     fetchNextPage: followers_fetchNextPage,
@@ -37,6 +47,7 @@ const ViewUsers = ({ user }: { user: any }) => {
     isLoading: followersLoading,
     isFetching: followersFetching,
     searchParams: { search: followersSearchValue },
+    hasNextPage: followersHasNextPage,
   } = useSearchQuery({
     baseUrl: `/admin/users/${user?.id}/followers`,
     queryKey: ["follow", String(user?.id)],
@@ -51,6 +62,7 @@ const ViewUsers = ({ user }: { user: any }) => {
     isLoading: followingLoading,
     isFetching: followingFetching,
     searchParams: { search: followingSearchValue },
+    hasNextPage: followingHasNextPage,
   } = useSearchQuery({
     baseUrl: `/admin/users/${user?.id}/following`,
     queryKey: ["following", String(user?.id)],
@@ -65,6 +77,7 @@ const ViewUsers = ({ user }: { user: any }) => {
     isLoading: blockedLoading,
     isFetching: blockedFetching,
     searchParams: { search: blockedSearchValue },
+    hasNextPage: blockedHasNextPage,
   } = useSearchQuery({
     baseUrl: `/admin/users/${user?.id}/blocked`,
     queryKey: ["blocked", String(user?.id)],
@@ -168,28 +181,34 @@ const ViewUsers = ({ user }: { user: any }) => {
     {
       title: "Total Followers",
       icon: userFollowersIcon,
-      amount: userMeta.followersCount ?? 0,
+      amount: relationshipStats?.followers ?? 0,
+      searchResult: userMeta.followersCount,
       loading: followersLoading,
       fetching: followersFetching,
       searchValue: followersSearchValue,
+      canNext: followersHasNextPage,
       id: "followers",
     },
     {
       title: "Total Following",
       icon: userFollowingIcon,
-      amount: userMeta?.followingCount ?? 0,
+      amount: relationshipStats?.following ?? 0,
+      searchResult: userMeta.followingCount,
       loading: followingLoading,
       fetching: followingFetching,
       searchValue: followingSearchValue,
+      canNext: followingHasNextPage,
       id: "following",
     },
     {
       title: "Total Blocked",
       icon: userBlockedIcon,
-      amount: userMeta?.blockedCount,
+      amount: relationshipStats?.blocked,
+      searchResult: userMeta.blockedCount,
       loading: blockedLoading,
       fetching: blockedFetching,
       searchValue: blockedSearchValue,
+      canNext: blockedHasNextPage,
       id: "blocked",
     },
   ];
@@ -198,6 +217,7 @@ const ViewUsers = ({ user }: { user: any }) => {
     userViewData.find((item) => item.id == currentTab) || userViewData[0];
   const listLoading = currentTabMeta?.fetching;
   const searchValue = currentTabMeta?.searchValue;
+  const searchResult = currentTabMeta?.searchResult;
 
   return (
     <div>
@@ -208,7 +228,7 @@ const ViewUsers = ({ user }: { user: any }) => {
               icon={_.icon}
               title={_.title}
               amount={_.amount}
-              loading={_.loading}
+              loading={statsLoading}
             />
           </Fragment>
         ))}
@@ -228,32 +248,48 @@ const ViewUsers = ({ user }: { user: any }) => {
                     userData[`${_}Actions`][0],
                     userData[`${_}Actions`][1],
                   ]);
+
+                  // handleSearch("")
                 }}
               />
             </Fragment>
           ))}
         </div>
 
-        <div className="flex gap-3 items-center mb-4">
-          <Input
-            name="search"
-            type="search"
-            placeholder={`Search ${currentTab}...`}
-            onChange={(e) => handleSearch(e.target.value)}
-            value={searchValue}
-            style={{
-              width: "300px",
-              border: "1px solid #EEE",
-            }}
-          />
-          <button
-            onClick={() => handleSearch("")}
-            className="px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300"
-          >
-            Clear
-          </button>
-
-          {listLoading && <Spinner />}
+        <div className="flex gap-3 items-center justify-end mb-4">
+          {
+            <div className="mr-auto flex items-end mt-2">
+              {searchValue ? (
+                listLoading ? (
+                  <div className="flex items-center gap-2">
+                    <Spinner /> <p>Searching...</p>
+                  </div>
+                ) : searchResult ? (
+                  <p>{searchResult} results found</p>
+                ) : (
+                  <p>No Result found</p>
+                )
+              ) : (
+                <p className="text-lg font-bold">
+                  {user?.profiles?.[0]?.firstName}'s {currentTab} list
+                </p>
+              )}
+            </div>
+          }
+          <div className="flex items-center pr-5">
+            <Input
+              name="search"
+              type="search"
+              placeholder={`Search ${currentTab}...`}
+              onChange={(e) => handleSearch(e.target.value)}
+              value={searchValue}
+              style={{
+                width: "300px",
+                border: "1px solid #EEE",
+              }}
+              key={currentTab}
+            />
+          </div>
         </div>
         {userData[currentTab]?.length > 0 ? (
           <>
@@ -315,10 +351,12 @@ const ViewUsers = ({ user }: { user: any }) => {
                 );
               })}
             </DefaultTable>
-            <TablePagination
-              loading={displayedRecordsActions[1]}
-              onFetchMore={displayedRecordsActions[0]}
-            />
+            {currentTabMeta.canNext && (
+              <TablePagination
+                loading={displayedRecordsActions[1] || currentTabMeta.fetching}
+                onFetchMore={displayedRecordsActions[0]}
+              />
+            )}
           </>
         ) : (
           <NoData />

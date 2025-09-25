@@ -40,7 +40,7 @@ export function UserAvatarV2({ user }: { user: UserData }) {
           }}
           className="w-full h-full flex items-center justify-center rounded-full bg-gray-500"
         >
-          <b className="uppercase">{initials}</b>
+          <b className="uppercase font-[900]">{initials}</b>
         </div>
       )}
     </div>

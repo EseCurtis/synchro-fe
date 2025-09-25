@@ -83,3 +83,21 @@ export interface Wallet {
   metadata: any | null;
   subWallets: any[]; // Empty array in the data, so kept flexible
 }
+
+
+export interface UserStatsResponse {
+  data: {
+    userId: string;
+    profileId: string;
+    username: string;
+    stats: {
+      followers: number;
+      following: number;
+      blocked: number;
+      mutualFollows: number;
+      totalConnections: number;
+    };
+    generatedAt: string;
+  };
+}
+
