@@ -140,7 +140,7 @@ const ActiveUsers = () => {
 
   const users = data?.pages?.map((e: any) => e.data.data).flat() as any[];
 
-  console.log("KKK=>", data?.pages);
+  console.log("KKK=>", users);
 
   if (isLoading) {
     return <Spinner />;
@@ -168,12 +168,12 @@ const ActiveUsers = () => {
         {(isRefetching || isFetching) && <Spinner />}
       </div>
       {/* @ts-ignore */}
-      {(users.length > 0 && <></>) || (
+      {(users.length < 0 && <></>) || (
         <DefaultTable header={header as any}>
           {users?.map((_: UserData, key: number) => {
             const profile = _.profiles?.[0];
             return (
-              <tr key={key} className="text-sm">
+              <tr key={key} className="text-sm hover:bg-slate-50">
                 <td
                   className={`${style} cursor-pointer`}
                   onClick={() => {
