@@ -1,10 +1,11 @@
 "use client";
 
 import { AppToast } from "@/app/_components/AppToast";
+import Badge from "@/app/_components/forms/badge";
 import {
-    deleteIcon,
-    editIcon,
-    noActionIcon,
+  deleteIcon,
+  editIcon,
+  noActionIcon,
 } from "@/app/_components/icons/preview/previewActions";
 import { Spinner } from "@/app/_components/spinner/Spinner";
 import TabComponent from "@/app/_components/tab";
@@ -41,10 +42,14 @@ const PreviewBox = () => {
       header: "Personal Details",
       component: <PersonalDetails user={user} />,
     },
-    ...(profile?.businessName ? [{
-      header: "Business Details ",
-      component: <MembersView user={user} />,
-    }] : []),
+    ...(profile?.businessName
+      ? [
+          {
+            header: "Business Details ",
+            component: <MembersView user={user} />,
+          },
+        ]
+      : []),
     {
       header: "Users",
       component: <ViewUsers user={user} />,
@@ -97,11 +102,16 @@ const PreviewBox = () => {
             <UserAvatarV2 user={user} />
           </div>
           <div>
-            <h3>
-              {profile?.firstName || profile?.lastName
-                ? `${profile?.firstName} ${profile?.lastName}`
-                : profile?.username}
-            </h3>
+            <div className="flex items-center gap-2">
+              <h3>
+                {profile?.firstName || profile?.lastName
+                  ? `${profile?.firstName} ${profile?.lastName}`
+                  : profile?.username}
+              </h3>
+              {profile.businessName && (
+                <Badge status="shiny" label="Business" size="small" />
+              )}
+            </div>
             <span className="text-second_text">{user?.email}</span>
           </div>
         </div>

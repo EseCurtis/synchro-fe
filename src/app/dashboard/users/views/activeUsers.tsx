@@ -1,5 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
+import Badge from "@/app/_components/forms/badge";
 import Input from "@/app/_components/input_fields";
 import Dropdown from "@/app/_components/popups/dropDown";
 import Modal from "@/app/_components/popups/modal";
@@ -185,8 +186,15 @@ const ActiveUsers = () => {
                       <UserAvatarV2 user={_} />
                     </div>
                     <div>
-                      <h3>{profile?.firstName ?? profile?.username}</h3>
+                      <h3>
+                        {profile?.firstName
+                          ? `${profile?.firstName} ${profile?.lastName}`
+                          : profile?.username}
+                      </h3>
                       <p className="text-second_primary_text">{_?.email}</p>
+                      {profile.businessName && (
+                        <Badge status="shiny" label="Business" size="small" />
+                      )}
                     </div>
                   </div>
                 </td>
@@ -194,16 +202,16 @@ const ActiveUsers = () => {
                   <h3>{profile?.username}</h3>
                 </td>
                 <td className={style}>
-                  <h3>{_?.gender ?? "N/A"}</h3>
+                  <h3>{_?.gender ?? "not specified"}</h3>
                 </td>
                 <td className={style}>
-                  <h3>{_?.phoneNumber ?? "N/A"}</h3>
+                  <h3>{_?.phoneNumber ?? "---"}</h3>
                 </td>
                 <td className={style}>
                   <h3>
                     {_?.lastLoginAt
                       ? moment(_.lastLoginAt).format("MMM ddd YYYY")
-                      : "N/A"}
+                      : "---"}
                   </h3>
                 </td>
                 <td className={style}>

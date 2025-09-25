@@ -48,7 +48,7 @@ const MembersView = ({ user }: { user: UserData }) => {
                 {business.businessDescription ?? "N/A"}
               </h4>
               <h4 className="text-black">
-                <Badge status={business.status} label={business.status} />
+                <Badge status={business.status as any} label={business.status} />
               </h4>
               {/* 
             <h4 className="text-black">

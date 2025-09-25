@@ -5,6 +5,7 @@ export const SidebarNavs = [
     icon: "",
     img: "/images/icons/sidebar/home.svg",
     active: "/images/icons/sidebar/home_active.svg",
+    absoluteMatch: true
   },
   {
     title: "Users",
