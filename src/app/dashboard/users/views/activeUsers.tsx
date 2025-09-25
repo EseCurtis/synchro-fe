@@ -36,7 +36,7 @@ const ActiveUsers = () => {
     "profiles.firstName",
     "profiles.lastName",
     "profiles.username",
-    "profiles.businessName",
+    "profiles?.businessName",
   ];
 
   const toggleDropdown = () => {
@@ -141,7 +141,7 @@ const ActiveUsers = () => {
 
   const users = data?.pages?.map((e: any) => e.data.data).flat() as any[];
 
-  console.log("KKK=>", users);
+
 
   if (isLoading) {
     return <Spinner />;
@@ -192,7 +192,7 @@ const ActiveUsers = () => {
                           : profile?.username}
                       </h3>
                       <p className="text-second_primary_text">{_?.email}</p>
-                      {profile.businessName && (
+                      {profile?.businessName && (
                         <Badge status="shiny" label="Business" size="small" />
                       )}
                     </div>

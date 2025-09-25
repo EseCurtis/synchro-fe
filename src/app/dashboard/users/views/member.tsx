@@ -38,7 +38,7 @@ const MembersView = ({ user }: { user: UserData }) => {
             </div>
 
             <div className="flex flex-col gap-[3em]">
-              <h4 className="text-black">{business.businessName ?? "N/A"}</h4>
+              <h4 className="text-black">{business?.businessName ?? "N/A"}</h4>
               <h4 className="text-black">{user.phoneNumber ?? "N/A"}</h4>
               <h4 className="text-black">{user.email ?? "N/A"}</h4>
               <h4 className="text-black">

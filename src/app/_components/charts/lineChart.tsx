@@ -1,13 +1,13 @@
 import {
-    CategoryScale,
-    Chart as ChartJS,
-    Filler,
-    Legend,
-    LinearScale,
-    LineElement,
-    PointElement,
-    Title,
-    Tooltip,
+  CategoryScale,
+  Chart as ChartJS,
+  Filler,
+  Legend,
+  LinearScale,
+  LineElement,
+  PointElement,
+  Title,
+  Tooltip,
 } from "chart.js";
 import React from "react";
 import { Line } from "react-chartjs-2";
@@ -85,7 +85,6 @@ const defaultData = {
 const LineChart: React.FC<LineChartProps> = ({
   title = "",
   data = defaultData,
-  height = 400,
   showLegend = true,
   showGrid = true,
 }) => {
@@ -116,13 +115,14 @@ const LineChart: React.FC<LineChartProps> = ({
         text: title,
         font: {
           family: 'Outfit, sans-serif',
-          size: 18,
+          size: 16,
           weight: '600' as const,
         },
         color: '#1A202C',
         padding: {
           bottom: 30,
         },
+        textAlign: "left"
       },
       tooltip: {
         backgroundColor: 'rgba(26, 32, 44, 0.95)',
@@ -209,15 +209,13 @@ const LineChart: React.FC<LineChartProps> = ({
 
   return (
     <div 
-      className="w-full bg-white rounded-lg p-6"
+      className="w-full bg-white rounded-lg p-6 h-[390px]"
       style={{
         border: "1px solid #EDEFF5",
         boxShadow: "0 1px 3px rgba(0, 0, 0, 0.05)",
       }}
     >
-      <div style={{ height: `${height}px` }}>
-        <Line options={options} data={data} />
-      </div>
+          <Line options={options as any} data={data} />
     </div>
   );
 };

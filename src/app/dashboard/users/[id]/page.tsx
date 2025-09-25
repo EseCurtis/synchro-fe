@@ -108,7 +108,7 @@ const PreviewBox = () => {
                   ? `${profile?.firstName} ${profile?.lastName}`
                   : profile?.username}
               </h3>
-              {profile.businessName && (
+              {profile?.businessName && (
                 <Badge status="shiny" label="Business" size="small" />
               )}
             </div>

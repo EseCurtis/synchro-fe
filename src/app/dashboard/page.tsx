@@ -2,12 +2,10 @@
 import { useAuthContext } from "@/contexts/AuthContext";
 import { useTQuery } from "@/hooks/api/useTQuery";
 import { cn, formatNumber } from "@/utils/formatNumber";
-import { ArcElement, Chart as ChartJS, Legend, Tooltip } from "chart.js";
 import Image from "next/image";
-import { Doughnut } from "react-chartjs-2";
 import LineGraph from "../_components/charts/lineChart";
+import PieChart from "../_components/charts/pieChart";
 import DashboardLayout from "../layouts/dashboardLayout";
-ChartJS.register(ArcElement, Tooltip, Legend);
 
 const DashboardIndex = () => {
   const { data, isLoading } = useTQuery({
@@ -43,60 +41,42 @@ const DashboardIndex = () => {
   ];
 
   const genderData = {
-    labels: ["Male", "Female", "Other", "Prefer not to say", "none"],
+    labels: ["Male", "Female", "Other", "Prefer not to say", "None"],
     datasets: [
       {
         data: [
           // @ts-ignore
-          data?.data?.genderMetrics?.males?.toFixed(0) ?? 0,
+          data?.data?.genderMetrics?.males ?? 0,
           // @ts-ignore
-          data?.data?.genderMetrics?.females?.toFixed(0) ?? 0,
+          data?.data?.genderMetrics?.females ?? 0,
           // @ts-ignore
-          data?.data?.genderMetrics?.other?.toFixed(0) ?? 0,
-           // @ts-ignore
-          data?.data?.genderMetrics?.preferNotToSay?.toFixed(0) ?? 0,
-           // @ts-ignore
-          data?.data?.genderMetrics?.none?.toFixed(0) ?? 0,
+          data?.data?.genderMetrics?.other ?? 0,
+          // @ts-ignore
+          data?.data?.genderMetrics?.preferNotToSay ?? 0,
+          // @ts-ignore
+          data?.data?.genderMetrics?.none ?? 0,
         ],
-        backgroundColor: ["#37C89A", "#FFCC00", "#E95E2A"],
+       backgroundColor: [
+        "#e73c0155",
+        "#0512d2", 
+        "#A0AEC0",
+        "#e73c01",
+        "#e73c013A",
+      ],
+        borderColor: [
+          "#ffffff",
+          "#ffffff",
+          "#ffffff", 
+          "#ffffff",
+          "#ffffff"
+        ],
+        borderWidth: 2,
       },
     ],
   };
 
-  //console.log(genderData.datasets);
-
-  const config = {
-    type: "doughnut",
-    data: genderData,
-    options: {
-      responsive: true,
-      plugins: {
-        legend: {
-          position: "top",
-        },
-       
-      },
-    },
-  };
-
-  const lineData = {
-    labels: ["January", "February", "March", "April", "May"],
-    datasets: [
-      {
-        label: "Sample Line Data",
-        data: [10, 20, 15, 25, 30],
-        borderColor: "green",
-        backgroundColor: "rgba(0, 128, 0, 0.2)",
-      },
-    ],
-  };
-  const lineOptions = {
-    scales: {
-      x: {
-        type: "category",
-      },
-    },
-  };
+  // Calculate total users for center text
+  const totalUsers = genderData.datasets[0].data.reduce((a, b) => a + b, 0);
 
   const { user } = useAuthContext();
 
@@ -147,32 +127,24 @@ const DashboardIndex = () => {
       </div>
 
       <div className="flex justify-between gap-[20px]">
-        <div
-          className="w-[50%] rounded-lg p-[16px] "
-          style={{
-            border: "1px solid #EDEFF5",
-          }}
-        >
-          <h3 className="text-[16px] font-bold">Users most active period</h3>
-
-          <center>
-            <LineGraph />
-          </center>
+        <div className="w-[50%] ">
+          <LineGraph 
+            title="Users Most Active Period"
+            height={300}
+          />
         </div>
 
         {/* gender  */}
-        <div
-          className="w-[50%] rounded-lg p-[16px] "
-          style={{
-            border: "1px solid #EDEFF5",
-          }}
-        >
-          <h3 className="text-[16px] font-bold">Gender</h3>
-
-          <div className="w-[400px] mx-auto">
-            {/* @ts-ignore */}
-            <Doughnut title="" data={config.data} options={config.options} />
-          </div>
+        <div className="w-[50%]">
+          <PieChart
+            title="Gender Distribution"
+            data={genderData}
+            height={300}
+            centerText={formatNumber(totalUsers)}
+            centerSubtext="Total Users"
+            showLegend={true}
+            showTooltip={true}
+          />
         </div>
       </div>
 

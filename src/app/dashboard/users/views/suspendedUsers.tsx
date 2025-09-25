@@ -1,10 +1,13 @@
 "use client";
 import DashboardAction from "@/app/_components/dashboard/dashboardAction";
+import Badge from "@/app/_components/forms/badge";
 import Modal from "@/app/_components/popups/modal";
 import { Spinner } from "@/app/_components/spinner/Spinner";
 import DefaultTable from "@/app/_components/table/defaultTable";
 import TablePagination from "@/app/_components/table/tablePagination";
 import { usePaginatedQuery } from "@/hooks/api/usePaginatedQuery";
+import { UserAvatarV2 } from "@/v2/components/common/avatar.component";
+import { UserData } from "@/v2/types/user.types";
 import moment from "moment";
 import { useEffect, useState } from "react";
 import ViewSuspended from "../components/viewSuspended";
@@ -41,7 +44,7 @@ const suspend_Icon = (
 
 const SuspendedUsers = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [activeUser, setActiveUser] = useState({});
+  const [activeUser, setActiveUser] = useState<UserData | null>(null);
   const [filteredUsers, setFilteredUsers] = useState<any[]>([]);
 
   const closeModal = () => {
@@ -77,32 +80,37 @@ const SuspendedUsers = () => {
       />
       {/* @ts-ignore */}
       <DefaultTable header={header}>
-        {filteredUsers?.map((_, key: number) => {
+        {filteredUsers?.map((_: UserData, key: number) => {
+          const profile = _.profiles?.[0];
           return (
             <tr key={key}>
               <td className={style}>
                 <div className="flex gap-5 items-center">
-                  {_?.profileImage ? (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img
-                      src={_?.profileImage}
-                      className="w-[3em] h-[3em] bg-gray-500 rounded-full"
-                      alt=""
-                    />
-                  ) : (
-                    <div className="w-[3em] h-[3em] bg-gray-500 rounded-full"></div>
-                  )}
+                  <div className="w-[3em] h-[3em]">
+                    <UserAvatarV2 user={_} />
+                  </div>
                   <div>
-                    <h3>{_?.firstName ?? _?.username}</h3>
-                    <p className="text-second_primary_text">{_.email}</p>
+                    <h3>
+                      {profile?.firstName
+                        ? `${profile?.firstName} ${profile?.lastName}`
+                        : profile?.username}
+                    </h3>
+                    <p className="text-second_primary_text">{_?.email}</p>
+                    {profile?.businessName && (
+                      <Badge status="shiny" label="Business" size="small" />
+                    )}
                   </div>
                 </div>
               </td>
               <td className={style}>
-                <h3>{_.username}</h3>
+                <h3>{profile.username}</h3>
               </td>
               <td className={style}>
-                <h3>{_.suspendedAt ? moment(_.suspendedAt).format("MMM DD YYYY") : "N/A"}</h3>
+                <h3>
+                  {_.suspendedAt
+                    ? moment(_.suspendedAt).format("MMM DD YYYY")
+                    : "N/A"}
+                </h3>
               </td>
 
               <td className={style}>
@@ -124,7 +132,7 @@ const SuspendedUsers = () => {
       <TablePagination loading={isRefetching} onFetchMore={fetchNextPage} />
 
       <Modal isOpen={isModalOpen} onClose={closeModal}>
-        <ViewSuspended user={activeUser} />
+        <ViewSuspended user={activeUser!} onClose={closeModal} />
       </Modal>
     </div>
   );
