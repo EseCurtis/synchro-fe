@@ -43,7 +43,7 @@ const DashboardIndex = () => {
   ];
 
   const genderData = {
-    labels: ["Male", "Female", "None"],
+    labels: ["Male", "Female", "Other", "Prefer not to say", "none"],
     datasets: [
       {
         data: [
@@ -52,6 +52,10 @@ const DashboardIndex = () => {
           // @ts-ignore
           data?.data?.genderMetrics?.females?.toFixed(0) ?? 0,
           // @ts-ignore
+          data?.data?.genderMetrics?.other?.toFixed(0) ?? 0,
+           // @ts-ignore
+          data?.data?.genderMetrics?.preferNotToSay?.toFixed(0) ?? 0,
+           // @ts-ignore
           data?.data?.genderMetrics?.none?.toFixed(0) ?? 0,
         ],
         backgroundColor: ["#37C89A", "#FFCC00", "#E95E2A"],
@@ -70,10 +74,7 @@ const DashboardIndex = () => {
         legend: {
           position: "top",
         },
-        title: {
-          display: true,
-          text: "Chart.js Doughnut Chart",
-        },
+       
       },
     },
   };
@@ -170,7 +171,7 @@ const DashboardIndex = () => {
 
           <div className="w-[400px] mx-auto">
             {/* @ts-ignore */}
-            <Doughnut data={config.data} options={config.options} />
+            <Doughnut title="" data={config.data} options={config.options} />
           </div>
         </div>
       </div>
