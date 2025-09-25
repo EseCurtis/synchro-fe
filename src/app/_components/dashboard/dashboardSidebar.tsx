@@ -3,6 +3,7 @@
 import { SidebarNavs } from "@/utils/contents/sidebarNavs";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
+import SidebarIcon from "../icons/SidebarIcon";
 import LinkWithProgress from "../ui/LinkWithProgress";
 
 const listStyle = {
@@ -50,19 +51,12 @@ const DashboardBoardSidebar = () => {
                     background: active ? "rgba(233, 160, 132, 0.12)" : "",
                   }}
                 >
-                  <Image
-                    src={_.active}
-                    width={24}
-                    height={24}
-                    alt="icons"
-                    style={{ display: active ? "unset" : "none" }}
-                  />
-                  <Image
-                    src={_.img}
-                    width={24}
-                    height={24}
-                    alt="icons"
-                    style={{ display: active ? "none" : "unset" }}
+                  <SidebarIcon
+                    type={_.iconType}
+                    isActive={active}
+                    size={24}
+                    activeColor="#e73c01"
+                    inactiveColor="#718096"
                   />
                   <span
                     className={
