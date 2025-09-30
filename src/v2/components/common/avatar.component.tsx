@@ -25,10 +25,10 @@ export function UserAvatarV2({ user }: { user: UserData }) {
  
 
   return (
-    <div className="aspect-square w-full h-full">
+    <div className="aspect-square w-full h-full ">
       {profile?.avatar ? (
         <img
-          className="w-full h-full rounded-full object-cover"
+          className="w-full h-full hidden bg-slate-400/20 rounded-full object-cover"
           src={profile?.avatar}
           alt=""
         />

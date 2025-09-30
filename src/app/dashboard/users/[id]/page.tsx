@@ -22,7 +22,6 @@ import ViewUsersWallet from "../views/usersWallet";
 import ViewUsers from "../views/viewUsers";
 import ViewUserService from "../views/viewUserService";
 import ViewUserEvent from "../views/viewUsersEvent";
-import ViewUserVenues from "../views/viewUserVenues";
 
 const PreviewBox = () => {
   const params = useParams();
@@ -62,10 +61,10 @@ const PreviewBox = () => {
       header: "Events ",
       component: <ViewUserEvent />,
     },
-    {
-      header: "Venues ",
-      component: <ViewUserVenues />,
-    },
+    // {
+    //   header: "Venues ",
+    //   component: <ViewUserVenues />,
+    // },
     {
       header: "Services ",
       component: <ViewUserService />,
