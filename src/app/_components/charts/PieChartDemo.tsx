@@ -187,3 +187,4 @@ const PieChartDemo: React.FC = () => {
 };
 
 export default PieChartDemo;
+

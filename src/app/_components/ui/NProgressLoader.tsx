@@ -76,3 +76,4 @@ export function NProgressLoader({ isLoading }: NProgressLoaderProps) {
   return null; // NProgress handles the DOM manipulation
 }
 
+

@@ -1,13 +1,13 @@
 import {
-  CategoryScale,
-  Chart as ChartJS,
-  Filler,
-  Legend,
-  LinearScale,
-  LineElement,
-  PointElement,
-  Title,
-  Tooltip,
+    CategoryScale,
+    Chart as ChartJS,
+    Filler,
+    Legend,
+    LinearScale,
+    LineElement,
+    PointElement,
+    Title,
+    Tooltip,
 } from "chart.js";
 import React from "react";
 import { Line } from "react-chartjs-2";
@@ -38,6 +38,7 @@ interface LineChartProps {
   height?: number;
   showLegend?: boolean;
   showGrid?: boolean;
+  isLoading?: boolean;
 }
 
 const defaultLabels = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul"];
@@ -87,6 +88,7 @@ const LineChart: React.FC<LineChartProps> = ({
   data = defaultData,
   showLegend = true,
   showGrid = true,
+  isLoading = false,
 }) => {
   const options = {
     responsive: true,
@@ -206,6 +208,24 @@ const LineChart: React.FC<LineChartProps> = ({
       },
     },
   };
+
+  // Show loading state
+  if (isLoading) {
+    return (
+      <div 
+        className="w-full bg-white rounded-lg p-6 h-[390px] flex items-center justify-center"
+        style={{
+          border: "1px solid #EDEFF5",
+          boxShadow: "0 1px 3px rgba(0, 0, 0, 0.05)",
+        }}
+      >
+        <div className="flex flex-col items-center gap-4">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#e73c01]"></div>
+          <p className="text-sm text-gray-500">Loading chart data...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div 

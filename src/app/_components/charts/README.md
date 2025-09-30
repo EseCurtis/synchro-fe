@@ -218,3 +218,4 @@ The component automatically applies dashboard styling, but you can override spec
 - React 16.8+
 - Chart.js 4.0+
 - react-chartjs-2 5.0+
+

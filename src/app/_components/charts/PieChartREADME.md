@@ -131,3 +131,4 @@ The component is designed to work seamlessly with:
 - Dashboard data fetching patterns
 - TypeScript projects
 - Tailwind CSS styling
+

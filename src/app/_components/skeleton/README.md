@@ -240,3 +240,4 @@ src/app/_components/skeleton/
 - [ ] Verify responsive behavior
 - [ ] Check accessibility
 - [ ] Optimize performance
+

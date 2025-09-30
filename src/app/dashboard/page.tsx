@@ -1,6 +1,7 @@
 "use client";
 import { useAuthContext } from "@/contexts/AuthContext";
 import { useTQuery } from "@/hooks/api/useTQuery";
+import { useUserActivity } from "@/hooks/api/useUserActivity";
 import { cn, formatNumber } from "@/utils/formatNumber";
 import Image from "next/image";
 import LineGraph from "../_components/charts/lineChart";
@@ -12,6 +13,16 @@ const DashboardIndex = () => {
     url: "/admin/reports/totals",
     queryKey: ["totals"],
   });
+
+  // Fetch user activity data
+  const { 
+    data: userActivityData, 
+    isLoading: isUserActivityLoading,
+    error: userActivityError 
+  } = useUserActivity('month');
+
+  // Extract chart data safely
+  const chartData = (userActivityData as any)?.data?.data || null;
 
   const contentData = [
     {
@@ -131,6 +142,8 @@ const DashboardIndex = () => {
           <LineGraph 
             title="Users Most Active Period"
             height={300}
+            data={chartData}
+            isLoading={isUserActivityLoading}
           />
         </div>
 

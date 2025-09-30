@@ -270,3 +270,4 @@ The icon system integrates seamlessly with:
 - Icons are optimized by default
 - No additional optimization needed
 - Bundle size impact is minimal
+
