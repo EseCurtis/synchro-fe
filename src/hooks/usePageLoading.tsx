@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useCallback, useState } from "react";
 
 export function usePageLoading(initialState = false) {
   const [isLoading, setIsLoading] = useState(initialState);
@@ -13,9 +13,9 @@ export function usePageLoading(initialState = false) {
     setIsLoading(false);
   }, []);
 
-  const withLoading = useCallback(async <T>(
-    asyncFunction: () => Promise<T>
-  ): Promise<T> => {
+  const withLoading = useCallback(async (
+    asyncFunction: () => Promise<any>
+  ): Promise<any>=> {
     try {
       startLoading();
       const result = await asyncFunction();

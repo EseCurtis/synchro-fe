@@ -185,7 +185,7 @@ const PieChart: React.FC<PieChartProps> = ({
         className="relative"
         style={{ height: `${height}px` }}
       >
-        <Doughnut options={options} data={data} />
+        <Doughnut options={options as any} data={data} />
         
         {/* Center text overlay */}
         {(centerText || centerSubtext) && (

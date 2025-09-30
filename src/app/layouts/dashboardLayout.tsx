@@ -20,11 +20,11 @@ const DashboardLayout: FC<IDashboardLayout> = ({
   title,
   quantity,
 }) => {
-  const { user, isLoading } = useAuthContext();
+  const { user, loading } = useAuthContext();
   const { push } = useRouterO();
 
   // Show app skeleton while loading user data
-  if (isLoading) {
+  if (loading) {
     return <AppSkeleton contentType="dashboard" />;
   }
 

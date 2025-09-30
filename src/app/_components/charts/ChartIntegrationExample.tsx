@@ -113,7 +113,7 @@ const ChartIntegrationExample: React.FC = () => {
               borderColor: "#e73c01",
               backgroundColor: "rgba(231, 60, 1, 0.1)",
               fill: true,
-              tension: 0.4,
+             // tension: 0.4,
             }],
           }}
           height={250}
@@ -129,7 +129,7 @@ const ChartIntegrationExample: React.FC = () => {
               borderColor: "#0512d2",
               backgroundColor: "rgba(5, 18, 210, 0.1)",
               fill: true,
-              tension: 0.4,
+              //tension: 0.4,
             }],
           }}
           height={250}
@@ -145,7 +145,7 @@ const ChartIntegrationExample: React.FC = () => {
               borderColor: "#F2994A",
               backgroundColor: "rgba(242, 153, 74, 0.1)",
               fill: true,
-              tension: 0.4,
+              //tension: 0.4,
             }],
           }}
           height={250}

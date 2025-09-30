@@ -79,9 +79,9 @@ export function LinkWithProgress({
 
     // Handle navigation based on replace prop
     if (replace) {
-      router.replace(href, { scroll, shallow });
+      router.replace(href, { scroll,  });
     } else {
-      router.push(href, { scroll, shallow });
+      router.push(href, { scroll,  });
     }
   }, [href, onClick, target, replace, router, scroll, shallow]);
 

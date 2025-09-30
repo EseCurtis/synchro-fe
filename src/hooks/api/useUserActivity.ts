@@ -10,8 +10,8 @@ export const useUserActivity = (timeframe: 'day' | 'week' | 'month' | 'year' = '
   return useTQuery({
     url: `/admin/reports/user-activity?timeframe=${timeframe}`,
     queryKey: ["user-activity", timeframe],
-    staleTime: 5 * 60 * 1000, // 5 minutes
-    refetchOnWindowFocus: false,
+   // staleTime: 5 * 60 * 1000, // 5 minutes
+   // refetchOnWindowFocus: false,
   });
 };
 
