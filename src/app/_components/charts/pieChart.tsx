@@ -78,8 +78,8 @@ const PieChart: React.FC<PieChartProps> = ({
           color: '#A0AEC0',
           generateLabels: function(chart: any) {
             const data = chart.data;
-            if (data.labels.length && data.datasets.length) {
-              return data.labels.map((label: string, i: number) => {
+            if (data?.labels.length && data?.datasets.length) {
+              return (data?.labels || []).map((label: string, i: number) => {
                 const dataset = data.datasets[0];
                 const value = dataset.data[i];
                 const total = dataset.data.reduce((a: number, b: number) => a + b, 0);

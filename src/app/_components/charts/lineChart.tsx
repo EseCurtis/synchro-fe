@@ -1,13 +1,13 @@
 import {
-    CategoryScale,
-    Chart as ChartJS,
-    Filler,
-    Legend,
-    LinearScale,
-    LineElement,
-    PointElement,
-    Title,
-    Tooltip,
+  CategoryScale,
+  Chart as ChartJS,
+  Filler,
+  Legend,
+  LinearScale,
+  LineElement,
+  PointElement,
+  Title,
+  Tooltip,
 } from "chart.js";
 import React from "react";
 import { Line } from "react-chartjs-2";
@@ -43,10 +43,16 @@ interface LineChartProps {
 
 const defaultLabels = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul"];
 
-const generateDummyData = (count: number, baseValue: number = 1000, variance: number = 500) => {
+const generateDummyData = (
+  count: number,
+  baseValue: number = 1000,
+  variance: number = 500
+) => {
   const data = [];
   for (let i = 0; i < count; i++) {
-    data.push(Math.floor(baseValue + (Math.random() * variance * 2 - variance)));
+    data.push(
+      Math.floor(baseValue + (Math.random() * variance * 2 - variance))
+    );
   }
   return data;
 };
@@ -95,7 +101,7 @@ const LineChart: React.FC<LineChartProps> = ({
     maintainAspectRatio: false,
     interaction: {
       intersect: false,
-      mode: 'index' as const,
+      mode: "index" as const,
     },
     plugins: {
       legend: {
@@ -105,53 +111,53 @@ const LineChart: React.FC<LineChartProps> = ({
           usePointStyle: true,
           padding: 20,
           font: {
-            family: 'Outfit, sans-serif',
+            family: "Outfit, sans-serif",
             size: 12,
-            weight: '500' as const,
+            weight: "500" as const,
           },
-          color: '#A0AEC0',
+          color: "#A0AEC0",
         },
       },
       title: {
         display: !!title,
         text: title,
         font: {
-          family: 'Outfit, sans-serif',
+          family: "Outfit, sans-serif",
           size: 16,
-          weight: '600' as const,
+          weight: "600" as const,
         },
-        color: '#1A202C',
+        color: "#1A202C",
         padding: {
           bottom: 30,
         },
-        textAlign: "left"
+        textAlign: "left",
       },
       tooltip: {
-        backgroundColor: 'rgba(26, 32, 44, 0.95)',
-        titleColor: '#ffffff',
-        bodyColor: '#ffffff',
-        borderColor: '#EDEFF5',
+        backgroundColor: "rgba(26, 32, 44, 0.95)",
+        titleColor: "#ffffff",
+        bodyColor: "#ffffff",
+        borderColor: "#EDEFF5",
         borderWidth: 1,
         cornerRadius: 8,
         displayColors: true,
         titleFont: {
-          family: 'Outfit, sans-serif',
+          family: "Outfit, sans-serif",
           size: 12,
-          weight: '600' as const,
+          weight: "600" as const,
         },
         bodyFont: {
-          family: 'Outfit, sans-serif',
+          family: "Outfit, sans-serif",
           size: 11,
-          weight: '400' as const,
+          weight: "400" as const,
         },
         padding: 12,
         callbacks: {
-          label: function(context: any) {
-            const label = context.dataset.label || '';
+          label: function (context: any) {
+            const label = context.dataset.label || "";
             const value = context.parsed.y;
             return `${label}: ${value.toLocaleString()}`;
-          }
-        }
+          },
+        },
       },
     },
     scales: {
@@ -159,15 +165,15 @@ const LineChart: React.FC<LineChartProps> = ({
         display: true,
         grid: {
           display: showGrid,
-          color: 'rgba(237, 239, 245, 0.5)',
+          color: "rgba(237, 239, 245, 0.5)",
           drawBorder: false,
         },
         ticks: {
-          color: '#A0AEC0',
+          color: "#A0AEC0",
           font: {
-            family: 'Outfit, sans-serif',
+            family: "Outfit, sans-serif",
             size: 11,
-            weight: '400' as const,
+            weight: "400" as const,
           },
           padding: 10,
         },
@@ -179,20 +185,20 @@ const LineChart: React.FC<LineChartProps> = ({
         display: true,
         grid: {
           display: showGrid,
-          color: 'rgba(237, 239, 245, 0.5)',
+          color: "rgba(237, 239, 245, 0.5)",
           drawBorder: false,
         },
         ticks: {
-          color: '#A0AEC0',
+          color: "#A0AEC0",
           font: {
-            family: 'Outfit, sans-serif',
+            family: "Outfit, sans-serif",
             size: 11,
-            weight: '400' as const,
+            weight: "400" as const,
           },
           padding: 10,
-          callback: function(value: any) {
+          callback: function (value: any) {
             return value.toLocaleString();
-          }
+          },
         },
         border: {
           display: false,
@@ -212,7 +218,7 @@ const LineChart: React.FC<LineChartProps> = ({
   // Show loading state
   if (isLoading) {
     return (
-      <div 
+      <div
         className="w-full bg-white rounded-lg p-6 h-[390px] flex items-center justify-center"
         style={{
           border: "1px solid #EDEFF5",
@@ -227,15 +233,32 @@ const LineChart: React.FC<LineChartProps> = ({
     );
   }
 
+  if (!data?.labels) {
+    return (
+      <div
+        className="w-full bg-white rounded-lg p-6 h-[390px] flex items-center justify-center"
+        style={{
+          border: "1px solid #EDEFF5",
+          boxShadow: "0 1px 3px rgba(0, 0, 0, 0.05)",
+        }}
+      >
+        <div className="flex flex-col items-center gap-4">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#e73c01]"></div>
+          <p className="text-sm text--500 text-red-500">Error loading chart data...</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <div 
+    <div
       className="w-full bg-white rounded-lg p-6 h-[390px]"
       style={{
         border: "1px solid #EDEFF5",
         boxShadow: "0 1px 3px rgba(0, 0, 0, 0.05)",
       }}
     >
-          <Line options={options as any} data={data} />
+      <Line options={options as any} data={data} />
     </div>
   );
 };

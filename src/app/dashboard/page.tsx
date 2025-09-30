@@ -15,11 +15,11 @@ const DashboardIndex = () => {
   });
 
   // Fetch user activity data
-  const { 
-    data: userActivityData, 
+  const {
+    data: userActivityData,
     isLoading: isUserActivityLoading,
-    error: userActivityError 
-  } = useUserActivity('month');
+    error: userActivityError,
+  } = useUserActivity("month");
 
   // Extract chart data safely
   const chartData = (userActivityData as any)?.data?.data || null;
@@ -67,20 +67,14 @@ const DashboardIndex = () => {
           // @ts-ignore
           data?.data?.genderMetrics?.none ?? 0,
         ],
-       backgroundColor: [
-        "#e73c0155",
-        "#0512d2", 
-        "#A0AEC0",
-        "#e73c01",
-        "#e73c013A",
-      ],
-        borderColor: [
-          "#ffffff",
-          "#ffffff",
-          "#ffffff", 
-          "#ffffff",
-          "#ffffff"
+        backgroundColor: [
+          "#e73c0155",
+          "#0512d2",
+          "#A0AEC0",
+          "#e73c01",
+          "#e73c013A",
         ],
+        borderColor: ["#ffffff", "#ffffff", "#ffffff", "#ffffff", "#ffffff"],
         borderWidth: 2,
       },
     ],
@@ -122,7 +116,12 @@ const DashboardIndex = () => {
                 <div className="my-[1.5em]">
                   <p className="text-text_primary">{items.title}</p>
                   <h3
-                    className={cn("font-bold ", isLoading ? "animate-pulse text-transparent bg-gray-400/20" : "")}
+                    className={cn(
+                      "font-bold ",
+                      isLoading
+                        ? "animate-pulse text-transparent bg-gray-400/20"
+                        : ""
+                    )}
                     style={{
                       fontSize: "24px",
                       // fontWeight: "700",
@@ -139,12 +138,14 @@ const DashboardIndex = () => {
 
       <div className="flex justify-between gap-[20px]">
         <div className="w-[50%] ">
-          <LineGraph 
-            title="Users Most Active Period"
-            height={300}
-            data={chartData}
-            isLoading={isUserActivityLoading}
-          />
+          {
+            <LineGraph
+              title="Users Most Active Period"
+              height={300}
+              data={chartData}
+              isLoading={isUserActivityLoading}
+            />
+          }
         </div>
 
         {/* gender  */}
