@@ -151,7 +151,7 @@ const Info = ({ data }: { data: Event }) => {
           {data?.collaborators?.length === 0 && (
             <p className="text-sm">No collaborators added.</p>
           )}
-          {data.collaborators.map((_, index: any) => (
+          {(data?.collaborators || []).map((_, index: any) => (
             <CollaboratorItem key={index} userId={_.id} userData={_} />
           ))}
         </div>

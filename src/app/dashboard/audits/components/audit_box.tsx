@@ -1,6 +1,7 @@
 "use client";
+import { Audit, AuditGroup } from "@/v2/types/audits.types";
 import moment from "moment";
-import React, { Fragment, useState } from "react";
+import { Fragment, useState } from "react";
 
 const arrow_with_bar = (
   <svg
@@ -75,10 +76,9 @@ const colabsIcon = (
   </svg>
 );
 
-const Audit_Box = ({ item }: { item: any }) => {
+export const Audit_Box = ({ item }: { item: AuditGroup }) => {
   const [open, setOpen] = useState(false);
-
-  const openAccordion = () => (!open ? setOpen(true) : setOpen(!true));
+  const toggleAccordion = () => setOpen((prev) => !prev);
 
   const plusIcon = (
     <div className="cursor-pointer">
@@ -89,13 +89,7 @@ const Audit_Box = ({ item }: { item: any }) => {
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
       >
-        <ellipse
-          cx="11.9998"
-          cy="12.0008"
-          rx="11.0769"
-          ry="11.0769"
-          fill="#EEF1F5"
-        />
+        <ellipse cx="12" cy="12" rx="11.0769" ry="11.0769" fill="#EEF1F5" />
         <path
           d="M16.3074 11.3839H12.6151V7.69156C12.6151 7.52835 12.5503 7.37182 12.4349 7.25641C12.3195 7.14101 12.1629 7.07617 11.9997 7.07617C11.8365 7.07617 11.68 7.14101 11.5646 7.25641C11.4492 7.37182 11.3844 7.52835 11.3844 7.69156V11.3839H7.69204C7.52883 11.3839 7.37231 11.4487 7.2569 11.5641C7.1415 11.6795 7.07666 11.836 7.07666 11.9992C7.07666 12.1625 7.1415 12.319 7.2569 12.4344C7.37231 12.5498 7.52883 12.6146 7.69204 12.6146H11.3844V16.3069C11.3844 16.4702 11.4492 16.6267 11.5646 16.7421C11.68 16.8575 11.8365 16.9223 11.9997 16.9223C12.1629 16.9223 12.3195 16.8575 12.4349 16.7421C12.5503 16.6267 12.6151 16.4702 12.6151 16.3069V12.6146H16.3074C16.4706 12.6146 16.6272 12.5498 16.7426 12.4344C16.858 12.319 16.9228 12.1625 16.9228 11.9992C16.9228 11.836 16.858 11.6795 16.7426 11.5641C16.6272 11.4487 16.4706 11.3839 16.3074 11.3839Z"
           fill="#2E2E2E"
@@ -104,91 +98,49 @@ const Audit_Box = ({ item }: { item: any }) => {
     </div>
   );
 
+  const formatDate = (date: string) =>
+    `${moment(date).format("MMM DD YYYY")} at ${moment(date).format("hh:mm A")}`;
+
+  const renderAuditLine = (audit: Audit) => (
+    <p>
+      <a href={`/dashboard/users/${audit.performedById}`}>
+        {audit.performedByName}
+      </a>
+      &nbsp;
+      <span>{audit.actionDescription}</span>
+      &nbsp;
+      {audit.metadata?.reason && (
+        <>
+          <span className="italic text-gray-600">
+            — {audit.metadata.reason}
+          </span>
+        </>
+      )}
+    </p>
+  );
+
   return (
     <div>
+      {/* Main header */}
       <div className="flex gap-5 my-10 [&_a]:underline">
-        <div onClick={openAccordion}>{!open ? plusIcon : colabsIcon}</div>
+        <div onClick={toggleAccordion}>{!open ? plusIcon : colabsIcon}</div>
         <div className="flex justify-between w-[80%]">
-          <p>
-            <a href={`/dashboard/users/${item?.data?.user.id}`}>
-              {item?.data?.user.username}
-            </a>
-            &nbsp;
-            {item?.data?.action}
-            &nbsp;
-            {(item.data.auditType !== "user" && (
-              <>
-                <a href={`/dashboard/users/${item?.data?.reportable?.userId}`}>
-                  {item?.data?.reportable?.user?.username || "User"}&apos;s
-                </a>
-                &nbsp;
-                <span>{item?.data?.auditType} </span>
-                <span className="font-bold italics">
-                  {item?.data?.reportable.username}
-                </span>
-              </>
-            )) || (
-              <>
-                <span>{item?.data?.auditType}</span>
-                &nbsp;
-                <a href={`/dashboard/users/${item?.data?.reportable?.id}`}>
-                  {item?.data?.reportable.firstName ||
-                    item?.data?.fallbackReportable?.username}
-                </a>
-              </>
-            )}
-          </p>
-          <p className="text-text_primary">
-            {moment(item?.data?.createdAt).format("MMM DD YYYY")} at{" "}
-            {moment(item?.data?.createdAt).format("HH:mm A")}
-          </p>
+          {renderAuditLine(item.data)}
+          <p className="text-text_primary">{formatDate(item.data.createdAt)}</p>
         </div>
       </div>
-      {/* dropdown  */}
+
+      {/* Dropdown section */}
       {open && (
         <div>
-          {/* support items */}
-          {item?.trails?.map((trail: any, key: any) => (
+          {item.trails.map((trail, key) => (
             <Fragment key={key}>
               <div className="flex gap-5 my-5 pl-10 [&_a]:underline">
                 <div>{arrow_with_bar}</div>
-                <div className="flex justify-between  w-[80%]">
-                  <p>
-                    <a href={`/dashboard/users/${trail?.user.id}`}>
-                      {trail?.user.username}
-                    </a>
-                    &nbsp;
-                    {trail?.action}
-                    &nbsp;
-                    {(trail.auditType !== "user" && (
-                      <>
-                        <a
-                          href={`/dashboard/users/${trail?.reportable?.user.id}`}
-                        >
-                          {trail?.reportable?.user?.username || "User"}&apos;s
-                        </a>
-                        &nbsp;
-                        <span>{trail?.auditType} </span>
-                        <span className="font-bold italics">
-                          {trail?.reportable.username}
-                        </span>
-                      </>
-                    )) || (
-                      <>
-                        <span>{trail?.auditType}</span>
-                        &nbsp;
-                        <a href={`/dashboard/users/${trail?.reportable?.id}`}>
-                          {trail?.reportable.firstName ||
-                            trail?.fallbackReportable?.username}
-                        </a>
-                      </>
-                    )}
-                  </p>
+                <div className="flex justify-between w-[80%]">
+                  {renderAuditLine(trail)}
                   <p className="text-text_primary">
-                    <p className="text-text_primary">
-                      {moment(trail?.createdAt).format("MMM DD YYYY")} at{" "}
-                      {moment(trail?.createdAt).format("HH:mm A")}
-                    </p>
+                    {formatDate(trail.createdAt)}
                   </p>
                 </div>
               </div>

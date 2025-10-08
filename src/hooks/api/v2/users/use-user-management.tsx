@@ -11,7 +11,7 @@ export function useSuspendUser() {
     options: {
       onSuccess() {
         client.invalidateQueries(["users"]);
-        window.location.reload();
+        //window.location.reload();
       },
     },
   });

@@ -3,38 +3,33 @@ import { Spinner } from "@/app/_components/spinner/Spinner";
 import TablePagination from "@/app/_components/table/tablePagination";
 import { usePaginatedQuery } from "@/hooks/api/usePaginatedQuery";
 import { Creator, Event, EventGuest } from "@/v2/types/event.types";
-import Image from "next/image";
 import { useEffect } from "react";
 import { FaArrowRight } from "react-icons/fa";
 
 const Item = ({ userData }: { userData: Creator }) => {
   const userInfo = userData;
 
-  console.log("UserInfo", userInfo);
-
   return (
-    userInfo && (
-      <div className="flex gap-3 w-[100%]">
-        <div className="w-[55px] h-[55px] bg-gray-300 rounded-full overflow-clip">
-          <Image
-            src={userInfo?.avatar}
-            width={55}
-            height={55}
-            className="w-full h-full object-cover"
-            alt={userInfo?.firstName}
-          />
-        </div>
-        <div className="flex flex-col justify-center">
-          <h4>
-            {userInfo.firstName} {userInfo?.lastName}
-          </h4>
-          <p className="text-gray-400"> {userInfo?.lastName} </p>
-        </div>
-        <div className="h-[100%] ml-auto mr-[0] flex items-center">
-          <FaArrowRight />
-        </div>
+    <div className="flex gap-3 w-[100%]">
+      <div className="w-[55px] h-[55px] bg-gray-300 rounded-full overflow-clip">
+        <img
+          src={String(userInfo?.avatar)}
+          width={55}
+          height={55}
+          className="w-full h-full object-cover"
+          alt={String(userInfo?.firstName)}
+        />
       </div>
-    )
+      <div className="flex flex-col justify-center">
+        <h4>
+          {userInfo.firstName} {userInfo?.lastName}
+        </h4>
+        <p className="text-gray-400"> {userInfo?.lastName} </p>
+      </div>
+      <div className="h-[100%] ml-auto mr-[0] flex items-center">
+        <FaArrowRight />
+      </div>
+    </div>
   );
 };
 

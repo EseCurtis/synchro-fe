@@ -19,7 +19,7 @@ export function UserAvatarV2({ user }: { user: UserData }) {
       (item) =>
         item !== undefined && item.length > 1 && !item.includes("undefined")
     ) || user.email;
-  const initials = `${seedName.slice(0, 2)}`;
+  const initials = `${(seedName||"").slice(0, 2)}`;
 
 
  

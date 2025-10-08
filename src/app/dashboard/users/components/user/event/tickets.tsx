@@ -6,7 +6,6 @@ import TablePagination from "@/app/_components/table/tablePagination";
 import { usePaginatedQuery } from "@/hooks/api/usePaginatedQuery";
 import { Event } from "@/v2/types/event.types";
 import { UserTicket, UserTicketStatus } from "@/v2/types/ticket.types";
-import Image from "next/image";
 import { FaArrowRight } from "react-icons/fa";
 
 const Item = ({ data }: { data: UserTicket }) => {
@@ -23,12 +22,12 @@ const Item = ({ data }: { data: UserTicket }) => {
   return userInfo ? (
     <div className="flex gap-3 w-[100%]">
       <div className="w-[55px] h-[55px] bg-gray-300 rounded-full overflow-clip">
-        <Image
-          src={userInfo?.avatar}
+        <img
+          src={String(userInfo?.avatar)}
           width={55}
           height={55}
           className="w-full h-full object-cover"
-          alt={userInfo?.firstName}
+          alt={String(userInfo?.firstName)}
         />
       </div>
       <div className="flex flex-col justify-center">

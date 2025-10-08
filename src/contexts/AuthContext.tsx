@@ -3,6 +3,7 @@
 import { LoadingScreen } from "@/app/layouts/LoadingScreen";
 import { useGetUserWithoutContext } from "@/hooks/api/auth/useGetCurrentUser";
 import { useRouterO } from "@/v2/hooks/use-router";
+import { UserData } from "@/v2/types/user.types";
 import Head from "next/head";
 import { usePathname } from "next/navigation";
 import {
@@ -14,54 +15,7 @@ import {
 } from "react";
 import { useHandleError } from "../hooks/api/useHandleError";
 
-export type User = {
-  id: string;
-  email: string;
-  phoneNumber?: string;
-  phoneVerified: boolean;
-  authProvider: string;
-  providerId: string;
-  dateOfBirth?: Date;
-  gender?: string;
-  pushToken?: string;
-  ipAddress?: string;
-  timezone?: string;
-  countryCode?: string;
-  defaultCurrency: string;
-  status: string;
-  isSuspended: boolean;
-  suspensionReason?: string;
-  suspensionDuration?: number;
-  suspendedAt?: Date;
-  lastLoginAt?: Date;
-  role: string;
-  isAdmin: boolean;
-  adminPermissions?: string[];
-  metadata?: any;
-  createdAt: Date;
-  updatedAt: Date;
-  // Legacy fields for backward compatibility
-  address?: string;
-  avatar?: string;
-  bio?: string;
-  country?: string;
-  firstName?: string;
-  lastName?: string;
-  phone?: string;
-  recieveGeneralEmail?: boolean;
-  recieveNewPropertyEmail?: boolean;
-  ref?: string;
-  referralCode?: string;
-  state?: string;
-  username?: string;
-  zip?: string;
-  totalEarning?: number;
-  totalWithdrawal?: number;
-  city?: string;
-  name?: string;
-  profileImage?: string;
-  userRole?: string;
-};
+export type User = UserData;
 
 interface AuthContextType {
   user: User | null;
