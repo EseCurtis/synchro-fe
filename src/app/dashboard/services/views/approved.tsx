@@ -9,20 +9,21 @@ import { usePaginatedQuery } from "@/hooks/api/usePaginatedQuery";
 import { BusinessProfile } from "@/v2/types/service.types";
 import moment from "moment";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import ServiceDetails from "../../users/components/user/service_details";
 
 const header = [
   "Services ",
+  "Bio",
   "Location",
   "Price",
-  "Total Earned",
   "Date Created",
   "Actions",
 ];
 
 const style = "px-6 py-4 whitespace-no-wrap border-b border-gray-300";
 const ApprovedServices = () => {
+  const [search, setSearch] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedService, setSelectedService] =
     useState<BusinessProfile | null>(null);
@@ -36,18 +37,20 @@ const ApprovedServices = () => {
     setIsModalOpen(false);
   };
 
-  const { isLoading, data, hasNextPage, fetchNextPage, isFetchingNextPage } =
-    usePaginatedQuery({
-      url: `/admin/services/for-admin?status=approved`,
-      queryKey: ["services", "approved-services"],
-      enabled: true,
-    });
+  const {
+    isLoading,
+    data,
+    hasNextPage,
+    fetchNextPage,
+    isFetchingNextPage,
+    isFetching,
+  } = usePaginatedQuery({
+    url: `/admin/services/for-admin?status=approved&search=${search}`,
+    queryKey: ["services", "approved-services", search],
+    enabled: true,
+  });
 
   const services = data?.pages?.map((e: any) => e.data.data).flat() as any[];
-
-  useEffect(() => {
-    //console.log(services);
-  }, [services]);
 
   if (isLoading) {
     return <Spinner />;
@@ -57,8 +60,11 @@ const ApprovedServices = () => {
     <div>
       {services?.length > 0 ? (
         <>
-          {" "}
-          <DashboardAction />
+          <DashboardAction
+            isLoading={isFetching}
+            onChangeText={setSearch}
+            textValue={search}
+          />
           {/* @ts-ignore */}
           <DefaultTable header={header}>
             {services?.map((_: BusinessProfile, key: number) => {
@@ -83,19 +89,22 @@ const ApprovedServices = () => {
                       </div>
                     </div>
                   </td>
+
                   <td className={style}>
-                    <h3 className="text-sm">{_.location}</h3>
+                    <h3 className="text-sm">{_.bio}</h3>
+                  </td>
+                  <td className={style}>
+                    <h3 className="text-sm whitespace-nowrap">{_.location}</h3>
                   </td>
                   <td className={style}>
                     <h3 className="whitespace-nowrap text-sm">
-                      {_?.services?.length} Packages
+                      {_.currency}
+                      {_.serviceType == "hourly" ? _.hourlyRate : _.dailyRate}
                     </h3>
                   </td>
+
                   <td className={style}>
-                    <h3 className="text-sm">{0.4}</h3>
-                  </td>
-                  <td className={style}>
-                    <h3 className="text-sm">
+                    <h3 className="text-xs">
                       {moment(_?.createdAt).format("MMM DD YYYY")}
                     </h3>
                   </td>
@@ -115,16 +124,22 @@ const ApprovedServices = () => {
               );
             })}
           </DefaultTable>
-          <TablePagination
-            loading={isFetchingNextPage}
-            onFetchMore={fetchNextPage}
-          />
+          {hasNextPage && (
+            <TablePagination
+              loading={isFetchingNextPage}
+              onFetchMore={fetchNextPage}
+            />
+          )}
         </>
       ) : (
         <NoData />
       )}
 
-      <Modal className="md:min-w-[500px]" isOpen={isModalOpen} onClose={closeModal}>
+      <Modal
+        className="md:min-w-[500px]"
+        isOpen={isModalOpen}
+        onClose={closeModal}
+      >
         <ServiceDetails data={selectedService!} />
       </Modal>
     </div>

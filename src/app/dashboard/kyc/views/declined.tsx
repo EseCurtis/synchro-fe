@@ -5,14 +5,17 @@ import Modal from "@/app/_components/popups/modal";
 import { Spinner } from "@/app/_components/spinner/Spinner";
 import DefaultTable from "@/app/_components/table/defaultTable";
 import TablePagination from "@/app/_components/table/tablePagination";
-import { usePaginatedQuery } from "@/hooks/api/usePaginatedQuery";
-import { useTMutation } from "@/hooks/api/useTMutation";
+import {
+  useDeclinedKycBusiness,
+  useUpdateKycBusinessStatus,
+} from "@/hooks/api/v2";
 import { UserAvatarV2 } from "@/v2/components/common/avatar.component";
 import { BusinessTypeV2 } from "@/v2/types/user.types";
 import { useQueryClient } from "@tanstack/react-query";
 import moment from "moment";
 import Image from "next/image";
 import { Fragment, useState } from "react";
+import { toast } from "react-toastify";
 import LegalDoc from "../components/legal_doc";
 import ViewInformation from "../components/viewInfo";
 
@@ -29,6 +32,7 @@ const DeclinedKyc = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalContent, setModalContent] = useState();
+  const [search, setSearch] = useState("");
   const client = useQueryClient();
 
   const toggleDropdown = () => {
@@ -46,21 +50,16 @@ const DeclinedKyc = () => {
 
   const [updatingUserId, setUpdatingUserId] = useState<any>(null);
 
-  const { data, refetch } = usePaginatedQuery({
-    url: "/admin/users/businesses?status=pending",
-    queryKey: ["businesses", "pending-businesses"],
-  });
+  const {
+    data,
+    refetch,
+    isFetchingNextPage,
+    isFetching,
+    fetchNextPage,
+    hasNextPage,
+  } = useDeclinedKycBusiness({ search });
 
-  const { isLoading, mutate } = useTMutation({
-    url: "/admin/users/businesses/update-status",
-    method: "put",
-    options: {
-      onSuccess() {
-        refetch();
-        client.invalidateQueries(["businesses"]);
-      },
-    },
-  });
+  const { isLoading, mutate } = useUpdateKycBusinessStatus();
 
   // @ts-ignore
   const businesses = data?.pages?.map((e: any) => e.data.data).flat() as any[];
@@ -105,9 +104,12 @@ const DeclinedKyc = () => {
 
   return (
     <div>
-      <DashboardAction />
-      {/* @ts-ignore */}
-      <DefaultTable header={header}>
+      <DashboardAction
+        isLoading={isFetching}
+        onChangeText={setSearch}
+        textValue={search}
+      />
+      <DefaultTable header={header as any}>
         {businesses?.map((_: BusinessTypeV2, key: number) => {
           const userWithProfile = {
             ..._.user,
@@ -166,10 +168,14 @@ const DeclinedKyc = () => {
                           setUpdatingUserId(userWithProfile?.id);
                           mutate(
                             {
-                              userId: userWithProfile?.id,
+                              userId: _?.id,
                               status: "approved",
                             },
                             {
+                              onSuccess(data, variables, context) {
+                                toast.success("Kyc approved successfully");
+                              },
+
                               onSettled() {
                                 setUpdatingUserId(null);
                               },
@@ -216,7 +222,14 @@ const DeclinedKyc = () => {
       </DefaultTable>
 
       {businesses?.length > 0 ? (
-        <TablePagination />
+        <>
+          {hasNextPage && (
+            <TablePagination
+              onFetchMore={fetchNextPage}
+              loading={isFetchingNextPage}
+            />
+          )}
+        </>
       ) : (
         <p className="pt-4 text-center">No data to display</p>
       )}

@@ -15,10 +15,10 @@ import Image from "../../../../../node_modules/next/image";
 import ServiceDetails from "../components/service_details";
 
 const header = [
-  "Services ",
+  "Services",
+  "Bio",
   "Location",
   "Price",
-  "Total Rating",
   "Date Created",
   "Actions",
 ];
@@ -27,6 +27,8 @@ const style = "px-6 py-4 whitespace-no-wrap border-b border-gray-300";
 const DeclineServices = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedService, setSelectedService] = useState<any>({});
+  const [activeItemId, setActiveItemId] = useState<any>(null);
+  const [search, setSearch] = useState<any>("");
 
   const openModal = (service: any) => {
     setIsModalOpen(true);
@@ -44,9 +46,10 @@ const DeclineServices = () => {
     hasNextPage,
     fetchNextPage,
     isFetchingNextPage,
+    isFetching,
   } = usePaginatedQuery({
-    url: "/admin/services/for-admin?status=rejected",
-    queryKey: ["services", "rejected-services"],
+    url: `/admin/services/for-admin?status=rejected&search=${search}`,
+    queryKey: ["services", "rejected-services", search],
     enabled: true,
   });
 
@@ -58,7 +61,7 @@ const DeclineServices = () => {
     options: {
       onSuccess() {
         client.invalidateQueries(["services"]);
-        closeModal()
+        closeModal();
       },
     },
   });
@@ -71,9 +74,13 @@ const DeclineServices = () => {
     <div>
       {services?.length > 0 ? (
         <>
-          <DashboardAction />
           {/* @ts-ignore */}
-          <DefaultTable header={header}>
+          <DashboardAction
+            isLoading={isFetching}
+            onChangeText={setSearch}
+            textValue={search}
+          />
+          <DefaultTable header={header as any}>
             {services?.map((_: BusinessProfile, key: number) => {
               return (
                 <tr key={key}>
@@ -89,36 +96,38 @@ const DeclineServices = () => {
                         />
                       </div>
                       <div className="flex flex-col">
-                        <h3 className="text-sm whitespace-nowrap">{_?.services?.[0].name}</h3>
-                        <u className="text-xs text-gray-400">
-                          @{_?.username}
-                        </u>
+                        <h3 className="text-sm whitespace-nowrap">
+                          {_?.services?.[0].name}
+                        </h3>
+                        <u className="text-xs text-gray-400">@{_?.username}</u>
                       </div>
                     </div>
+                  </td>
+                  <td className={style}>
+                    <h3 className="text-sm">{_?.bio}</h3>
                   </td>
                   <td className={style}>
                     <h3 className="text-sm">{_?.location}</h3>
                   </td>
                   <td className={style}>
                     <h3 className="whitespace-nowrap text-sm">
-                      {_?.services?.length} Packages
+                      {_.currency}
+                      {_.serviceType == "hourly" ? _.hourlyRate : _.dailyRate}
                     </h3>
                   </td>
                   <td className={style}>
-                    <h3 className="text-sm">{0.4}</h3>
-                  </td>
-                  <td className={style}>
-                    <h3 className="text-sm whitespace-nowrap">
+                    <h3 className="text-xs whitespace-nowrap">
                       {moment(_?.createdAt).format("MMM DD YYYY")}
                     </h3>
                   </td>
                   <td className={style}>
-                    {isLoading ? (
+                    {isLoading && activeItemId == _?.id ? (
                       <Spinner />
                     ) : (
                       <div className="flex items-center justify-space-around">
                         <button
                           onClick={() => {
+                            setActiveItemId(_?.id);
                             mutate({ eventId: _?.id, status: "approved" });
                           }}
                         >
@@ -149,10 +158,12 @@ const DeclineServices = () => {
             })}
           </DefaultTable>
 
-          <TablePagination
-            loading={isFetchingNextPage}
-            onFetchMore={fetchNextPage}
-          />
+          {hasNextPage && (
+            <TablePagination
+              loading={isFetchingNextPage}
+              onFetchMore={fetchNextPage}
+            />
+          )}
         </>
       ) : (
         <NoData />
@@ -162,9 +173,10 @@ const DeclineServices = () => {
         <ServiceDetails
           data={selectedService}
           onApprove={() => {
+            setActiveItemId(selectedService?.id);
             mutate({ eventId: selectedService?.id, status: "approved" });
           }}
-
+          isApproving={isLoading && activeItemId === selectedService?.id}
           isDeclined
         />
       </Modal>

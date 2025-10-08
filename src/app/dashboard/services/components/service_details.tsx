@@ -1,9 +1,13 @@
 import { Button } from "@/app/_components/button";
-import customStyles from "@/app/_components/customStyles/index.module.css";
 import ModalTabButton from "@/app/_components/button/modalTabButton";
-import React, { useState } from "react";
+import customStyles from "@/app/_components/customStyles/index.module.css";
+import { Spinner } from "@/app/_components/spinner/Spinner";
+import { useTQuery } from "@/hooks/api/useTQuery";
+import { BusinessProfile } from "@/v2/types/service.types";
+import { ProfileStats } from "@/v2/types/user.types";
 import Image from "next/image";
-import { FaInfo, FaInfoCircle, FaStar, FaUserCheck } from "react-icons/fa";
+import { useState } from "react";
+import { FaInfoCircle, FaStar, FaUserCheck } from "react-icons/fa";
 import Info from "../../users/components/user/service/info";
 import Photos from "../../users/components/user/service/photos";
 
@@ -36,15 +40,24 @@ const ServiceDetails = ({
   onDecline,
   onApprove,
   isDeclined,
+  isApproving,
 }: {
-  data: any;
+  data: BusinessProfile;
   onDecline?: any;
   onApprove: any;
   isDeclined?: any;
+  isApproving?: boolean;
 }) => {
   const [tabContent, setTabContent] = useState<any>(<Info data={data} />);
   const authorInfo = data.user;
-  data.image = JSON.parse(data.images[0]).url;
+
+  const { data: prodileStatData } = useTQuery({
+    queryKey: [],
+    url: `profiles/${data?.id}/stats`,
+    enabled: !!data?.id,
+  });
+
+  const profileStats = (prodileStatData as any)?.data as ProfileStats;
 
   return (
     <div className="h-full flex flex-col">
@@ -55,23 +68,23 @@ const ServiceDetails = ({
         <div className="bg-gray-500 rounded w-[100%] h-[100px] relative">
           <div className="w-full h-full absolute overflow-clip flex items-center justify-center rounded">
             <Image
-              src={data.image}
-              alt={data.name}
+              src={data.avatar}
+              alt={data.username}
               width={400}
               height={100}
-              className="bg-[linear-gradient(#00000040,#fff)]"
+              className="bg-[linear-gradient(#00000040,#fff)] w-full h-full object-cover"
             />
           </div>
           <div className="bg-gray-500 rounded-full w-[70px] h-[70px] overflow-clip absolute right-[1em] bottom-[-30%] border-[2px] border-white">
             <Image
-              src={authorInfo?.profileImage}
+              src={data?.avatar}
               width={70}
               height={70}
-              alt={authorInfo?.name}
+              alt={data.username}
             />
           </div>
           <p className="absolute font-bold left-[0] bottom-[-30px]">
-            {data.name} X
+            {data.username} X
           </p>
         </div>
 
@@ -83,7 +96,7 @@ const ServiceDetails = ({
             <span className="text-sm text-gray-500">
               Host:
               <u>
-                {authorInfo?.firstname} {authorInfo?.lastname}
+                {data?.firstName} {data?.lastName}
               </u>
             </span>
           </p>
@@ -101,7 +114,8 @@ const ServiceDetails = ({
                 <FaStar />
               </div>
               <span className="text-sm text-gray-500">
-                {data.totalRatings}({data.totalReviews} Reviews)
+                {profileStats?.averageRating}({profileStats?.reviewsCount}{" "}
+                Reviews)
               </span>
             </p>
           </div>
@@ -126,19 +140,25 @@ const ServiceDetails = ({
         <div className="mt-5 flex flex-col gap-4 items-center">
           <div className="border border-yellow-400 p-3 rounded-lg bg-yellow-100/40 text-sm w-full">
             <b>Reasons For Rejection:</b>
-            <p>{data?.rejectionReason || "No reason specified"}</p>
+            {/* <p>{data?.rejectionReason || "No reason specified"}</p> */}
+            <p>{"No reason specified"}</p>
           </div>
-          <Button onClick={onApprove}>Approve</Button>
+          <Button onClick={onApprove}>
+            {isApproving ? <Spinner /> : "Approve"}
+          </Button>
         </div>
       ) : (
         <div className="mt-5 flex gap-4 items-center">
-          <Button onClick={onApprove}>Approve</Button>
+          <Button onClick={onApprove}>
+            {" "}
+            {isApproving ? <Spinner /> : "Approve"}
+          </Button>
           <Button
             onClick={onDecline}
             style={{ background: "white", color: "red" }}
             customClassName="text-red-500 border border-2 border-red-500"
           >
-            Decline
+            {isApproving ? <Spinner /> : "Decline"}
           </Button>
         </div>
       )}

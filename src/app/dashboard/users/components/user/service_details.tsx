@@ -1,6 +1,8 @@
 import ModalTabButton from "@/app/_components/button/modalTabButton";
 import customStyles from "@/app/_components/customStyles/index.module.css";
+import { useTQuery } from "@/hooks/api/useTQuery";
 import { BusinessProfile } from "@/v2/types/service.types";
+import { ProfileStats } from "@/v2/types/user.types";
 import Image from "next/image";
 import { Fragment, useState } from "react";
 import { FaInfoCircle, FaStar, FaUserCheck } from "react-icons/fa";
@@ -37,6 +39,15 @@ const ServiceDetails = ({ data }: { data: BusinessProfile }) => {
   const [tabContent, setTabContent] = useState<any>(<Info data={data} />);
   const [tabId, setTabId] = useState(0);
   const authorInfo = data.user;
+
+  const { data:prodileStatData } = useTQuery({
+    queryKey: [],
+    url: `profiles/${data?.id}/stats`,
+    enabled: !!data?.id,
+  });
+
+  const profileStats = (prodileStatData as any)?.data as ProfileStats;
+
 
   return (
     <div className="w-full">
@@ -92,7 +103,7 @@ const ServiceDetails = ({ data }: { data: BusinessProfile }) => {
                 <FaStar />
               </div>
               <span className="text-sm text-gray-500">
-                {data?.totalRatings}({data?.totalReviews} Reviews)
+                {profileStats?.averageRating}({profileStats?.reviewsCount} Reviews)
               </span>
             </p>
           </div>

@@ -5,6 +5,7 @@ import Dropdown from "@/app/_components/popups/dropDown";
 import Modal from "@/app/_components/popups/modal";
 import { Spinner } from "@/app/_components/spinner/Spinner";
 import DefaultTable from "@/app/_components/table/defaultTable";
+import NoData from "@/app/_components/table/NoData";
 import TablePagination from "@/app/_components/table/tablePagination";
 import { usePendingEvents, useUpdateEventStatus } from "@/hooks/api/v2/events";
 import { EventStatus } from "@/v2/enums/event.enums";
@@ -18,6 +19,7 @@ import EventDetails from "../../users/components/user/event_details";
 const header = ["Business Name ", "User", "Category", "Date", "Actions", ""];
 const style = "px-6 py-4 whitespace-no-wrap border-b border-gray-300";
 const PendingEvents = () => {
+  const [search, setSearch] = useState("");
   const {
     data,
     refetch,
@@ -25,11 +27,11 @@ const PendingEvents = () => {
     fetchNextPage,
     isLoading: isLoadingEvents,
     isFetchingNextPage,
-  }: any = usePendingEvents();
+  }: any = usePendingEvents({ search });
   const { isLoading, mutate } = useUpdateEventStatus();
 
   // @ts-ignore
-  const events = data?.data?.data;
+  const events = data?.pages?.map((e: any) => e.data.data).flat() as any[];
 
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -82,7 +84,7 @@ const PendingEvents = () => {
 
   return (
     <div>
-      <DashboardAction />
+      <DashboardAction textValue={search} onChangeText={setSearch} />
       {/* @ts-ignore */}
       <DefaultTable header={header}>
         {isLoadingEvents && <Spinner />}
@@ -201,6 +203,8 @@ const PendingEvents = () => {
         />
       )}
 
+      {events?.length < 1 && !isLoading && <NoData />}
+
       <Modal isOpen={isModalOpen} onClose={closeModal}>
         <EventDetails event={activeData as any} />
       </Modal>
@@ -209,4 +213,3 @@ const PendingEvents = () => {
 };
 
 export default PendingEvents;
-

@@ -15,6 +15,7 @@ import { UserAvatarV2 } from "@/v2/components/common/avatar.component";
 import { BusinessTypeV2 } from "@/v2/types/user.types";
 import moment from "moment";
 import { Fragment, useState } from "react";
+import { toast } from "react-toastify";
 import LegalDoc from "../components/legal_doc";
 import ViewInformation from "../components/viewInfo";
 
@@ -31,6 +32,8 @@ const PendingKyc = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalContent, setModalContent] = useState();
+  const [activeItemId, setActiveItemId] = useState<any>(null);
+  const [search, setSearch] = useState("");
 
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
@@ -91,8 +94,9 @@ const PendingKyc = () => {
     hasNextPage,
     fetchNextPage,
     isFetchingNextPage,
+    isFetching,
     refetch,
-  } = usePendingKycBusinesses();
+  } = usePendingKycBusinesses({ search });
 
   const businesses = data?.pages?.map((e: any) => e.data.data).flat() as any[];
 
@@ -100,11 +104,13 @@ const PendingKyc = () => {
     return <Spinner />;
   }
 
-  console.log("JDHJSHJ", businesses);
-
   return (
     <div>
-      <DashboardAction />
+      <DashboardAction
+        isLoading={isFetching}
+        onChangeText={setSearch}
+        textValue={search}
+      />
       {/* @ts-ignore */}
       <DefaultTable header={header}>
         {businesses?.map((_: BusinessTypeV2, key: number) => {
@@ -157,13 +163,21 @@ const PendingKyc = () => {
               </td>
               <td className={`whitespace-no-wrap border-b border-gray-300`}>
                 <div className="flex items-center justify-space-around">
-                  {isLoading ? (
+                  {isLoading && activeItemId == _?.id ? (
                     <Spinner />
                   ) : (
                     <div className="flex items-center justify-space-around">
                       <button
                         onClick={() => {
-                          mutate({ userId: userWithProfile?.id, status: "approved" });
+                          setActiveItemId(_?.id);
+                          mutate(
+                            { userId: _?.id, status: "approved" },
+                            {
+                              onSuccess(data, variables, context) {
+                                toast.success("Kyc approved successfully");
+                              },
+                            }
+                          );
                         }}
                       >
                         <img
@@ -174,7 +188,15 @@ const PendingKyc = () => {
 
                       <button
                         onClick={() => {
-                          mutate({ userId: userWithProfile?.id, status: "rejected" });
+                          setActiveItemId(_?.id);
+                          mutate(
+                            { userId: _?.id, status: "rejected" },
+                            {
+                              onSuccess(data, variables, context) {
+                                toast.success("Kyc rejected.");
+                              },
+                            }
+                          );
                         }}
                       >
                         <img
@@ -214,10 +236,14 @@ const PendingKyc = () => {
         })}
       </DefaultTable>
       {businesses?.length > 0 ? (
-        <TablePagination
-          loading={isFetchingNextPage}
-          onFetchMore={fetchNextPage}
-        />
+        <>
+          {hasNextPage && (
+            <TablePagination
+              loading={isFetchingNextPage}
+              onFetchMore={fetchNextPage}
+            />
+          )}
+        </>
       ) : (
         <p className="pt-4 text-center">No data to display</p>
       )}

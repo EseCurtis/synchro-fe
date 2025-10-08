@@ -129,7 +129,9 @@ const SuspendedUsers = () => {
         })}
       </DefaultTable>
 
-      <TablePagination loading={isRefetching} onFetchMore={fetchNextPage} />
+      {hasNextPage && (
+        <TablePagination loading={isRefetching} onFetchMore={fetchNextPage} />
+      )}
 
       <Modal isOpen={isModalOpen} onClose={closeModal}>
         <ViewSuspended user={activeUser!} onClose={closeModal} />

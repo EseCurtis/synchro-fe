@@ -5,18 +5,22 @@ import { EventStatus } from "@/v2/enums/event.enums";
 import { useQueryClient } from "@tanstack/react-query";
 
 // Hook for getting pending events
-export function usePendingEvents() {
-  return useTQuery({
-    url: `/admin/events/for-admin?status=${EventStatus.DRAFT}&page=1&limit=10`,
-    queryKey: ["events", "pending-events"],
+export function usePendingEvents(
+  { search }: { search: string } = { search: "" }
+) {
+  return usePaginatedQuery({
+    url: `/admin/events/for-admin?status=${EventStatus.DRAFT}&page=1&limit=10&search=${search}`,
+    queryKey: ["events", "pending-events", search],
   });
 }
 
 // Hook for getting approved events
-export function useApprovedEvents() {
+export function useApprovedEvents(
+  { search }: { search: string } = { search: "" }
+) {
   return useTQuery({
-    url: `/admin/events/for-admin?status=${EventStatus.PUBLISHED}&page=1&limit=10`,
-    queryKey: ["events", "approved-events"],
+    url: `/admin/events/for-admin?status=${EventStatus.PUBLISHED}&page=1&limit=10&search=${search}`,
+    queryKey: ["events", "approved-events", search],
   });
 }
 
@@ -34,10 +38,12 @@ export function useApprovedEventsByDate({
 }
 
 // Hook for getting declined events with pagination
-export function useDeclinedEvents() {
+export function useDeclinedEvents(
+  { search }: { search: string } = { search: "" }
+) {
   return usePaginatedQuery({
-    url: `/admin/events/for-admin?status=${EventStatus.CANCELLED}`,
-    queryKey: ["events", "rejected-events"],
+    url: `/admin/events/for-admin?status=${EventStatus.CANCELLED}&search=${search}`,
+    queryKey: ["events", "rejected-events", search],
     enabled: true,
   });
 }

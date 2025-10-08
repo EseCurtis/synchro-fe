@@ -4,6 +4,7 @@ import DashboardAction from "@/app/_components/dashboard/dashboardAction";
 import Modal from "@/app/_components/popups/modal";
 import { Spinner } from "@/app/_components/spinner/Spinner";
 import DefaultTable from "@/app/_components/table/defaultTable";
+import NoData from "@/app/_components/table/NoData";
 import TablePagination from "@/app/_components/table/tablePagination";
 import { useDeclinedEvents, useUpdateEventStatus } from "@/hooks/api/v2/events";
 import moment from "moment";
@@ -30,6 +31,8 @@ const DeclinedEvents = () => {
     setIsModalOpen(false);
   };
 
+  const [search, setSearch] = useState("");
+
   const {
     data,
     refetch,
@@ -37,13 +40,18 @@ const DeclinedEvents = () => {
     fetchNextPage,
     isLoading: isLoadingEvents,
     isFetchingNextPage,
-  } = useDeclinedEvents();
+  } = useDeclinedEvents({ search });
   const events = data?.pages?.map((e: any) => e.data.data).flat() as any[];
   const { isLoading, mutate } = useUpdateEventStatus();
 
   return (
     <div>
-      <DashboardAction />
+      <DashboardAction
+        textValue={search}
+        onChangeText={(text) => {
+          setSearch(text);
+        }}
+      />
       {/* @ts-ignore */}
       <DefaultTable header={header}>
         {isLoadingEvents && <Spinner />}
@@ -106,6 +114,8 @@ const DeclinedEvents = () => {
           loading={isFetchingNextPage}
         />
       )}
+
+      {events?.length < 1 && !isLoading && <NoData />}
 
       <Modal isOpen={isModalOpen} onClose={closeModal}>
         <ViewInformation />

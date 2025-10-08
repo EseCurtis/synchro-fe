@@ -35,7 +35,7 @@ const Badge: FC<IPropsBadge> = ({ status, label, size }: IPropsBadge) => {
         background: badge_status,
       }}
     >
-      <p className={`font-600  ${text_col}`}>{label || status}</p>
+      <p className={`font-600 whitespace-nowrap  ${text_col}`}>{label || status}</p>
     </div>
   );
 };

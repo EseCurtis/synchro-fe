@@ -7,15 +7,15 @@ import DeclineServices from "./views/delinedServices";
 import PendingService from "./views/pendingService";
 const data = [
   {
-    header: "Approved services",
-    component: <ApprovedServices />,
-  },
-  {
     header: "Pending Services",
     component: <PendingService />,
   },
   {
-    header: "Decline service",
+    header: "Approved services",
+    component: <ApprovedServices />,
+  },
+  {
+    header: "Declined services",
     component: <DeclineServices />,
   },
 ];

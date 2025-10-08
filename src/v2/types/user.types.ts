@@ -79,6 +79,7 @@ export interface Profile {
   businessCategoryId: string | null;
   status: string;
   businessCategory: BusinessCategory | null;
+  kycDocument?: string;
 }
 
 export interface Wallet {
@@ -139,4 +140,22 @@ export interface UserEventStatsResponse {
 
 export type BusinessTypeV2 = Profile & {
   user: UserData
+}
+
+
+export type ProfileStats = {
+  followersCount: number;
+  followingCount: number;
+  feedsCount: number;
+  eventsCount: number;
+  bookingsCount: number;
+  reviewsCount: number;
+  averageRating: number;
+  ratingDistribution: {
+    fiveStar: number;
+    fourStar: number;
+    threeStar: number;
+    twoStar: number;
+    oneStar: number;
+  };
 }

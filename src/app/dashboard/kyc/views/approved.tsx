@@ -4,10 +4,7 @@ import Dropdown from "@/app/_components/popups/dropDown";
 import Modal from "@/app/_components/popups/modal";
 import DefaultTable from "@/app/_components/table/defaultTable";
 import TablePagination from "@/app/_components/table/tablePagination";
-import {
-  useApprovedKycBusinesses,
-  useUpdateKycBusinessStatus,
-} from "@/hooks/api/v2/kyc";
+import { useApprovedKycBusinesses } from "@/hooks/api/v2/kyc";
 import { UserAvatarV2 } from "@/v2/components/common/avatar.component";
 import { BusinessTypeV2 } from "@/v2/types/user.types";
 import moment from "moment";
@@ -30,6 +27,7 @@ const ApprovedKyc = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalContent, setModalContent] = useState();
+  const [search, setSearch] = useState("");
 
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
@@ -44,13 +42,17 @@ const ApprovedKyc = () => {
     setIsModalOpen(false);
   };
 
-  const { data, refetch } = useApprovedKycBusinesses();
-  const { isLoading, mutate } = useUpdateKycBusinessStatus();
-
-  
+  const {
+    data,
+    refetch,
+    hasNextPage,
+    fetchNextPage,
+    isFetchingNextPage,
+    isFetching,
+  } = useApprovedKycBusinesses({ search });
 
   // @ts-ignore
-  const businesses =  data?.pages?.map((e: any) => e.data.data).flat() as any[];
+  const businesses = data?.pages?.map((e: any) => e.data.data).flat() as any[];
 
   const dropDownData = (business: any) => [
     {
@@ -92,7 +94,11 @@ const ApprovedKyc = () => {
 
   return (
     <div>
-      <DashboardAction />
+      <DashboardAction
+        isLoading={isFetching}
+        onChangeText={setSearch}
+        textValue={search}
+      />
       {/* @ts-ignore */}
       <DefaultTable header={header}>
         {businesses?.map((_: BusinessTypeV2, key: number) => {
@@ -169,7 +175,14 @@ const ApprovedKyc = () => {
         })}
       </DefaultTable>
       {businesses?.length > 0 ? (
-        <TablePagination />
+        <>
+          {hasNextPage && (
+            <TablePagination
+              onFetchMore={fetchNextPage}
+              loading={isFetchingNextPage}
+            />
+          )}
+        </>
       ) : (
         <p className="pt-4 text-center">No data to display</p>
       )}
