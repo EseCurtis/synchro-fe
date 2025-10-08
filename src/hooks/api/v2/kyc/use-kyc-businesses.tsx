@@ -1,13 +1,13 @@
 import { usePaginatedQuery } from "@/hooks/api/usePaginatedQuery";
 import { useTMutation } from "@/hooks/api/useTMutation";
-import { useTQuery } from "@/hooks/api/useTQuery";
 import { useQueryClient } from "@tanstack/react-query";
 
 // Hook for getting approved KYC businesses
 export function useApprovedKycBusinesses() {
-  return useTQuery({
-    url: "/admin/users/businesses?status=approved&page=1&limit=10",
+  return usePaginatedQuery({
+    url: "/admin/users/businesses?status=approved",
     queryKey: ["businesses", "approved-businesses"],
+    enabled: true,
   });
 }
 

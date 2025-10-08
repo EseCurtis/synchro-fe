@@ -2,6 +2,7 @@ import Badge from "@/app/_components/forms/badge";
 import NoData from "@/app/_components/table/NoData";
 import { useTQuery } from "@/hooks/api/useTQuery";
 import { Booking } from "@/utils/types";
+import { BusinessProfile } from "@/v2/types/service.types";
 import moment from "moment";
 import { Fragment } from "react";
 
@@ -16,7 +17,7 @@ const Item = ({ label, value }: { label: any; value: any }) => {
   );
 };
 
-const BookingDetails = ({ data: service }: { data: any }) => {
+const BookingDetails = ({ data: service }: { data: BusinessProfile }) => {
   const { data: bookingResponse }: any = useTQuery({
     url: `/admin/users/${service.userId}/bookings?type=service&serviceId=${service.id}`,
     queryKey: ["service", String(service.id), "booking-details"],
@@ -36,7 +37,7 @@ const BookingDetails = ({ data: service }: { data: any }) => {
       label: "End date & time",
       value: moment(booking?.toDate).format("h:mma, MMM Do, YYYY"),
     },
-    { label: "Event title", value: service.name },
+    { label: "Event title", value: booking?.description },
     { label: "No attendees", value: `${booking?.attendees} Guests` },
     { label: "Chosen package", value: booking?.package?.name || "N/A" },
     // { label: "Subtotal", value: `$${booking.userPaid || "00"}` },

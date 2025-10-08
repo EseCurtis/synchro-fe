@@ -205,3 +205,5 @@ export const EventsSkeleton: React.FC<EventsSkeletonProps> = ({
 
 export default EventsSkeleton;
 
+
+

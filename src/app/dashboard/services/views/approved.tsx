@@ -24,7 +24,8 @@ const header = [
 const style = "px-6 py-4 whitespace-no-wrap border-b border-gray-300";
 const ApprovedServices = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedService, setSelectedService] = useState({});
+  const [selectedService, setSelectedService] =
+    useState<BusinessProfile | null>(null);
 
   const openModal = (service: any) => {
     setIsModalOpen(true);
@@ -75,10 +76,10 @@ const ApprovedServices = () => {
                         />
                       </div>
                       <div className="flex flex-col">
-                        <h3 className="text-sm whitespace-nowrap">{_.services?.[0]?.name}</h3>
-                        <u className="text-xs text-gray-400">
-                          @{_.username}
-                        </u>
+                        <h3 className="text-sm whitespace-nowrap">
+                          {_.services?.[0]?.name}
+                        </h3>
+                        <u className="text-xs text-gray-400">@{_.username}</u>
                       </div>
                     </div>
                   </td>
@@ -123,8 +124,8 @@ const ApprovedServices = () => {
         <NoData />
       )}
 
-      <Modal isOpen={isModalOpen} onClose={closeModal}>
-        <ServiceDetails data={selectedService} />
+      <Modal className="md:min-w-[500px]" isOpen={isModalOpen} onClose={closeModal}>
+        <ServiceDetails data={selectedService!} />
       </Modal>
     </div>
   );

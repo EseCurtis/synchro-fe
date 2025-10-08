@@ -1,5 +1,8 @@
+import NoData from "@/app/_components/table/NoData";
+import { generateImagePairs } from "@/v2/helpers/common.helpers";
+import { BusinessProfile } from "@/v2/types/service.types";
 import Image from "next/image";
-import { useState, ReactNode, useEffect } from "react";
+import { ReactNode, useMemo } from "react";
 
 const generateImageArray = () => {
   const imageArray = [];
@@ -17,7 +20,6 @@ const generateImageArray = () => {
 
   return imageArray;
 };
-
 
 const Block = ({
   w = 100,
@@ -42,73 +44,42 @@ const Block = ({
   );
 };
 
-const Photos = ({ data: service }: { data: any }) => {
-  const [images, setImages] = useState<any>([]);
+const Photos = ({ data: service }: { data: BusinessProfile }) => {
+  const images = useMemo(() => {
+    const dummyImages = Array.from({ length: 0 }, () => service.avatar);
+    const mainImages = service?.businessImages || [];
 
-  useEffect(() => {
-    const serviceImages = (service.images).map((image: any) => {
-      return JSON.parse(image);
-    });
-    setImages(serviceImages);
+    const returnImages = dummyImages.concat(mainImages);
+    const imagesWithDimensions = generateImagePairs(returnImages);
+    return imagesWithDimensions;
   }, [service]);
 
-
-  return (
-    images.length > 0 && (
-      <div className="mt-2 w-[100%] grid gap-2">
-        <div className="flex items-center gap-2 justify-between w-[100%] h-[100px]">
-          <Block w={60} condition={Boolean(images[0])}>
-            <Image
-              className="w-full h-full"
-              alt={"lol"}
-              src={images[0]?.url}
-              width={200}
-              height={100}
-            />
-          </Block>
-          <Block w={40} condition={Boolean(images[1])}>
-            <Image
-              className="w-full h-full"
-              alt={"lol"}
-              src={images[1]?.url}
-              width={200}
-              height={100}
-            />
-          </Block>
+  return images.length > 0 ? (
+    <div className="mt-2 w-[100%] grid gap-2">
+      {images.map((imageSet, index) => (
+        <div
+          key={index}
+          className="flex items-center gap-2 justify-between w-[100%] h-[100px]"
+        >
+          {imageSet.map((image, index) => (
+            <Block key={index} w={image.percentage} condition={!!image.url}>
+              <Image
+                className="w-full h-full object-cover"
+                alt={"lol"}
+                src={image.url}
+                width={200}
+                height={100}
+              />
+            </Block>
+          ))}
         </div>
-        <div className="flex items-center gap-2 justify-between w-[100%] h-[100px]">
-          <Block w={40} condition={Boolean(images[2])}>
-            <Image
-              className="w-full h-full"
-              alt={"lol"}
-              src={images[2]?.url}
-              width={200}
-              height={100}
-            />
-          </Block>
-          <Block w={60} condition={Boolean(images[3])}>
-            <Image
-              className="w-full h-full"
-              alt={"lol"}
-              src={images[3]?.url}
-              width={200}
-              height={100}
-            />
-          </Block>
-        </div>
-        <div className="flex items-center gap-2 justify-between w-[100%] h-[100px]">
-          <Block w={100} condition={Boolean(images[4])}>
-            <Image
-              className="w-full h-full"
-              alt={"lol"}
-              src={images[4]?.url}
-              width={200}
-              height={100}
-            />
-          </Block>
-        </div>
-      </div>
-    )
+      ))}
+    </div>
+  ) : (
+    <NoData
+      title="No Photos Yet."
+      description="All Photos get listed here."
+    />
   );
 };
 

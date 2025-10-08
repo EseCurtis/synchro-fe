@@ -7,7 +7,12 @@ import Modal from "@/app/_components/popups/modal";
 import { Spinner } from "@/app/_components/spinner/Spinner";
 import DefaultTable from "@/app/_components/table/defaultTable";
 import TablePagination from "@/app/_components/table/tablePagination";
-import { usePendingKycBusinesses, useUpdateKycBusinessStatus } from "@/hooks/api/v2/kyc";
+import {
+  usePendingKycBusinesses,
+  useUpdateKycBusinessStatus,
+} from "@/hooks/api/v2/kyc";
+import { UserAvatarV2 } from "@/v2/components/common/avatar.component";
+import { BusinessTypeV2 } from "@/v2/types/user.types";
 import moment from "moment";
 import { Fragment, useState } from "react";
 import LegalDoc from "../components/legal_doc";
@@ -47,7 +52,11 @@ const PendingKyc = () => {
       title: (
         <p
           className="text-[#041549]"
-          onClick={() => openModal(<ViewInformation business={business} onClose={closeModal} />)}
+          onClick={() =>
+            openModal(
+              <ViewInformation business={business} onClose={closeModal} />
+            )
+          }
         >
           View business user
         </p>
@@ -91,22 +100,33 @@ const PendingKyc = () => {
     return <Spinner />;
   }
 
+  console.log("JDHJSHJ", businesses);
+
   return (
     <div>
       <DashboardAction />
       {/* @ts-ignore */}
       <DefaultTable header={header}>
-        {businesses?.map((_: any, key: number) => {
+        {businesses?.map((_: BusinessTypeV2, key: number) => {
+          const userWithProfile = {
+            ..._.user,
+            profiles: [
+              {
+                ..._,
+                user: undefined,
+              },
+            ],
+          };
+
           return (
             <tr key={key} className="text-sm">
-              <td className={style} >
+              <td className={style}>
                 <div className="flex gap-5 items-center">
-                  <img
-                    src={_?.user?.profileImage}
-                    className="w-[3em] h-[3em] bg-gray-500 rounded-full"
-                  ></img>
+                  <div className="w-[3em] h-[3em] bg-gray-500 rounded-full">
+                    <UserAvatarV2 user={userWithProfile} />
+                  </div>
                   <div>
-                    <h3 className="whitespace-nowrap">{_.name}</h3>
+                    <h3 className="whitespace-nowrap">{_.businessName}</h3>
                   </div>
                 </div>
               </td>
@@ -114,10 +134,13 @@ const PendingKyc = () => {
                 <h3>{_?.businessCategory?.name}</h3>
               </td>
               <td className={style}>
-              {!(_?.kycDocument) ? (
+                {!_?.kycDocument ? (
                   <div>
-                    <span className="bg-yellow-400/20 whitespace-nowrap text-yellow-600 p-2 rounded-lg text-xs cursor-pointer" onClick={() => openModal(<LegalDoc business={_} />)}>
-                    No Legal Document
+                    <span
+                      className="bg-yellow-400/20 whitespace-nowrap text-yellow-600 p-2 rounded-lg text-xs cursor-pointer"
+                      onClick={() => openModal(<LegalDoc business={_} />)}
+                    >
+                      No Legal Document
                     </span>
                   </div>
                 ) : (
@@ -140,7 +163,7 @@ const PendingKyc = () => {
                     <div className="flex items-center justify-space-around">
                       <button
                         onClick={() => {
-                          mutate({ userId: _?.id, status: "approved" });
+                          mutate({ userId: userWithProfile?.id, status: "approved" });
                         }}
                       >
                         <img
@@ -151,7 +174,7 @@ const PendingKyc = () => {
 
                       <button
                         onClick={() => {
-                          mutate({ userId: _?.id, status: "rejected" });
+                          mutate({ userId: userWithProfile?.id, status: "rejected" });
                         }}
                       >
                         <img

@@ -119,3 +119,24 @@ export interface UserStatsResponse {
   };
 }
 
+export interface UserEventStatsResponse {
+  data: {
+    userId: string;
+    profileId: string;
+    username: string;
+    stats: {
+      invitedEvents: number,
+      eventsAttended: number,
+      ticketsBought: number,
+      totalTicketValue: number,
+    };
+    generatedAt: string;
+  };
+}
+
+
+
+
+export type BusinessTypeV2 = Profile & {
+  user: UserData
+}

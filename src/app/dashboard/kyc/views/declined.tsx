@@ -5,8 +5,10 @@ import Modal from "@/app/_components/popups/modal";
 import { Spinner } from "@/app/_components/spinner/Spinner";
 import DefaultTable from "@/app/_components/table/defaultTable";
 import TablePagination from "@/app/_components/table/tablePagination";
+import { usePaginatedQuery } from "@/hooks/api/usePaginatedQuery";
 import { useTMutation } from "@/hooks/api/useTMutation";
-import { useTQuery } from "@/hooks/api/useTQuery";
+import { UserAvatarV2 } from "@/v2/components/common/avatar.component";
+import { BusinessTypeV2 } from "@/v2/types/user.types";
 import { useQueryClient } from "@tanstack/react-query";
 import moment from "moment";
 import Image from "next/image";
@@ -42,8 +44,10 @@ const DeclinedKyc = () => {
     setIsModalOpen(false);
   };
 
-  const { data, refetch } = useTQuery({
-    url: "/admin/users/businesses?status=pending&page=1&limit=10",
+  const [updatingUserId, setUpdatingUserId] = useState<any>(null);
+
+  const { data, refetch } = usePaginatedQuery({
+    url: "/admin/users/businesses?status=pending",
     queryKey: ["businesses", "pending-businesses"],
   });
 
@@ -59,7 +63,7 @@ const DeclinedKyc = () => {
   });
 
   // @ts-ignore
-  const businesses = data?.data?.data;
+  const businesses = data?.pages?.map((e: any) => e.data.data).flat() as any[];
 
   const dropDownData = (business: any) => [
     {
@@ -104,17 +108,25 @@ const DeclinedKyc = () => {
       <DashboardAction />
       {/* @ts-ignore */}
       <DefaultTable header={header}>
-        {businesses?.map((_: any, key: number) => {
+        {businesses?.map((_: BusinessTypeV2, key: number) => {
+          const userWithProfile = {
+            ..._.user,
+            profiles: [
+              {
+                ..._,
+                user: undefined,
+              },
+            ],
+          };
           return (
             <tr key={key} className="text-sm">
               <td className={style}>
                 <div className="flex gap-5 items-center">
-                  <img
-                    src={_?.user?.profileImage}
-                    className="w-[3em] h-[3em] bg-gray-500 rounded-full"
-                  ></img>
+                  <div className="w-[3em] h-[3em] bg-gray-500 rounded-full">
+                    <UserAvatarV2 user={userWithProfile} />
+                  </div>
                   <div>
-                    <h3>{_.name}</h3>
+                    <h3>{_.businessName}</h3>
                   </div>
                 </div>
               </td>
@@ -145,13 +157,24 @@ const DeclinedKyc = () => {
               </td>
               <td className={`whitespace-no-wrap border-b border-gray-300`}>
                 <div className="flex items-center justify-space-around">
-                  {isLoading ? (
+                  {isLoading && updatingUserId == userWithProfile?.id ? (
                     <Spinner />
                   ) : (
-                    <div className="flex items-center justify-space-around">
+                    <div className="flex items-center  justify-space-around">
                       <button
                         onClick={() => {
-                          mutate({ userId: _?.id, status: "approved" });
+                          setUpdatingUserId(userWithProfile?.id);
+                          mutate(
+                            {
+                              userId: userWithProfile?.id,
+                              status: "approved",
+                            },
+                            {
+                              onSettled() {
+                                setUpdatingUserId(null);
+                              },
+                            }
+                          );
                         }}
                       >
                         <Image

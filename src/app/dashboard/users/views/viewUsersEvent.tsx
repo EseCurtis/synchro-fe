@@ -12,6 +12,8 @@ import DefaultTable from "@/app/_components/table/defaultTable";
 import NoData from "@/app/_components/table/NoData";
 import TablePagination from "@/app/_components/table/tablePagination";
 import { usePaginatedQuery } from "@/hooks/api/usePaginatedQuery";
+import { useTQuery } from "@/hooks/api/useTQuery";
+import { UserEventStatsResponse } from "@/v2/types/user.types";
 import { useParams } from "next/navigation";
 import { Fragment, useEffect, useState } from "react";
 import EventDetails from "../components/user/event_details";
@@ -25,6 +27,13 @@ const header = ["Event title", "Category", "Location", "Event Date", ""];
 const ViewUserEvent = () => {
   const params = useParams();
   const id = params.id;
+
+  const { data: eventStatsData, isLoading: statsLoading } =
+    useTQuery<UserEventStatsResponse>({
+      url: `/admin/users/${id}/event-stats`,
+      queryKey: ["user", String(id), "events-stats"],
+      enabled: !!id,
+    });
 
   const eventsCreated: any = usePaginatedQuery({
     url: `/admin/users/${id}/events`,
@@ -61,7 +70,9 @@ const ViewUserEvent = () => {
   }
 
   const getFlatData = (response: any): any[] =>
-    (response?.data?.pages?.map((e: any) => e.data.data).flat() || []).filter(Boolean);
+    (response?.data?.pages?.map((e: any) => e.data.data).flat() || []).filter(
+      Boolean
+    );
 
   const calculateTotalBought = (tickets: any[]): number =>
     tickets
@@ -107,29 +118,28 @@ const ViewUserEvent = () => {
     },
   };
 
-
-  console.log(tabDatas["Events Created"].data)
+  const mainStats = eventStatsData?.data?.stats;
 
   const eventViewData = [
     {
       title: "Invited Events",
       icon: userFollowersIcon,
-      amount: tabDatas["Events Created"].data.length,
+      amount: mainStats?.invitedEvents || 0,
     },
     {
       title: "Events Attended",
       icon: userFollowersIcon,
-      amount: 0,
+      amount: mainStats?.eventsAttended || 0,
     },
     {
       title: "Tickets Bought",
       icon: eventTotalTicketIcon,
-      amount: tabDatas["Tickets"].data.length,
+      amount: mainStats?.ticketsBought || 0,
     },
     {
       title: "Total Tickets Values",
       icon: titcketValueIcon,
-      amount: `$${tabDatas["Tickets"].totalBought}`,
+      amount: String(mainStats?.totalTicketValue),
     },
   ];
 

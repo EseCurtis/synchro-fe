@@ -1,13 +1,13 @@
-import { Button } from "@/app/_components/button";
-import customStyles from "@/app/_components/customStyles/index.module.css";
 import ModalTabButton from "@/app/_components/button/modalTabButton";
-import Reviews from "./service/reviews";
-import BookingDetails from "./service/bookingDetails";
-import Photos from "./service/photos";
-import Info from "./service/info";
-import React, { useState } from "react";
+import customStyles from "@/app/_components/customStyles/index.module.css";
+import { BusinessProfile } from "@/v2/types/service.types";
 import Image from "next/image";
-import { FaInfo, FaInfoCircle, FaStar, FaUserCheck } from "react-icons/fa";
+import { Fragment, useState } from "react";
+import { FaInfoCircle, FaStar, FaUserCheck } from "react-icons/fa";
+import BookingDetails from "./service/bookingDetails";
+import Info from "./service/info";
+import Photos from "./service/photos";
+import Reviews from "./service/reviews";
 
 const hugIcon = (
   <svg
@@ -33,13 +33,13 @@ const buttonStyle = {
   color: "#fff",
 };
 
-const ServiceDetails = ({ data }: { data: any }) => {
-  const [tabContent, setTabContent] = useState<any>(<Info data={data}/>);
+const ServiceDetails = ({ data }: { data: BusinessProfile }) => {
+  const [tabContent, setTabContent] = useState<any>(<Info data={data} />);
+  const [tabId, setTabId] = useState(0);
   const authorInfo = data.user;
-  data.image = JSON.parse(data.images[0]).url;
 
   return (
-    <div>
+    <div className="w-full">
       <div className="font-bold text-center">Services details</div>
       <div
         className={`mt-5 p-5 overflow-y-scroll max-h-[70vh] ${customStyles.customScrollbar}`}
@@ -47,8 +47,8 @@ const ServiceDetails = ({ data }: { data: any }) => {
         <div className="bg-gray-300 rounded w-[100%] h-[100px] relative">
           <div className="w-full h-full absolute overflow-clip flex items-center justify-center rounded ">
             <Image
-              src={data.image}
-              alt={data.name}
+              src={data.bannerUrl || data.avatar}
+              alt={data.businessName}
               width={400}
               height={100}
               className="bg-[linear-gradient(#00000040,#fff)]"
@@ -56,14 +56,15 @@ const ServiceDetails = ({ data }: { data: any }) => {
           </div>
           <div className="bg-gray-500 rounded-full w-[70px] h-[70px] overflow-clip absolute right-[1em] bottom-[-30%] border-[2px] border-white">
             <Image
-              src={authorInfo?.profileImage}
+              src={data?.avatar}
               width={70}
               height={70}
-              alt={authorInfo?.name}
+              alt={authorInfo?.email}
+              className="w-full h-full object-cover"
             />
           </div>
           <p className="absolute font-bold left-[0] bottom-[-30px]">
-            {data.name}
+            {data?.businessName}
           </p>
         </div>
 
@@ -74,9 +75,7 @@ const ServiceDetails = ({ data }: { data: any }) => {
             </div>
             <span className="text-sm text-gray-500">
               Host:
-              <u>
-                @{authorInfo?.username} {authorInfo?.lastname}
-              </u>
+              <u>@{data?.username}</u>
             </span>
           </p>
           <div className="grid grid-cols-2 gap-3">
@@ -85,7 +84,7 @@ const ServiceDetails = ({ data }: { data: any }) => {
                 <FaInfoCircle />
               </div>
               <span className="text-sm text-gray-500">
-                {data?.businessCategory.name}
+                {data?.businessCategory?.name}
               </span>
             </p>
             <p className="flex items-center gap-3">
@@ -93,36 +92,43 @@ const ServiceDetails = ({ data }: { data: any }) => {
                 <FaStar />
               </div>
               <span className="text-sm text-gray-500">
-                {data.totalRatings}({data.totalReviews} Reviews)
+                {data?.totalRatings}({data?.totalReviews} Reviews)
               </span>
             </p>
           </div>
         </div>
 
-        <div className="grid grid-cols-3 gap-2 w-[100%] m-auto my-7">
-          <ModalTabButton
-            isActive={tabContent.type === Info}
-            onClick={() => setTabContent(<Info data={data} />)}
-            label="Service Info"
-          />
-          <ModalTabButton
-            isActive={tabContent.type === Photos}
-            onClick={() => setTabContent(<Photos data={data} />)}
-            label="Photos"
-          />
-          <ModalTabButton
-            isActive={tabContent.type === BookingDetails}
-            onClick={() => setTabContent(<BookingDetails data={data} />)}
-            label="Bookings"
-          />
-          <ModalTabButton
-            isActive={tabContent.type === Reviews}
-            onClick={() => setTabContent(<Reviews data={data}/>)}
-            label="Reviews"
-          />
-        </div>
+        {
+          <div className="grid grid-cols-4 gap-2 w-[100%] m-auto my-7">
+            <ModalTabButton
+              isActive={tabId == 0}
+              onClick={() => setTabId(0)}
+              label="Service Info"
+            />
+            <ModalTabButton
+              isActive={tabId == 1}
+              onClick={() => setTabId(1)}
+              label="Photos"
+            />
+            <ModalTabButton
+              isActive={tabId == 2}
+              onClick={() => setTabId(2)}
+              label="Bookings"
+            />
+            <ModalTabButton
+              isActive={tabId == 3}
+              onClick={() => setTabId(3)}
+              label="Reviews"
+            />
+          </div>
+        }
 
-        {tabContent}
+        <Fragment>
+          {tabId === 0 && <Info data={data} />}
+          {tabId === 1 && <Photos data={data} />}
+          {tabId === 2 && <BookingDetails data={data} />}
+          {tabId === 3 && <Reviews data={data} />}
+        </Fragment>
       </div>
     </div>
   );

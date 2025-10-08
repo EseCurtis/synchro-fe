@@ -132,3 +132,5 @@ The component is designed to work seamlessly with:
 - TypeScript projects
 - Tailwind CSS styling
 
+
+
