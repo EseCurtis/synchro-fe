@@ -42,7 +42,7 @@ export function AdminRouteGuard({
       if (requiredPermissions.length > 0) {
         const userPermissions = user.adminPermissions || [];
         const hasRequiredPermissions = requiredPermissions.every(permission =>
-          userPermissions.includes(permission)
+          (userPermissions as any).includes(permission)
         );
 
         if (!hasRequiredPermissions) {
@@ -81,8 +81,8 @@ export function AdminRouteGuard({
 
   if (requiredPermissions.length > 0) {
     const userPermissions = user.adminPermissions || [];
-    const hasRequiredPermissions = requiredPermissions.every(permission =>
-      userPermissions.includes(permission)
+    const hasRequiredPermissions = requiredPermissions.every((permission: any) =>
+      (userPermissions as any).includes(permission as any)
     );
 
     if (!hasRequiredPermissions) {
