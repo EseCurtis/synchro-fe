@@ -14,7 +14,6 @@ import moment from "moment";
 import Image from "next/image";
 import { useParams } from "next/navigation";
 import { Fragment, useEffect, useState } from "react";
-import ServiceDetails from "../components/user/service_details";
 import EventStat from "../components/userEventStat";
 import { serviceViewData } from "../contents";
 
@@ -163,7 +162,8 @@ const ViewUserService = () => {
         )}
 
         <Modal isOpen={isModalOpen} onClose={closeModal}>
-          <ServiceDetails data={{}} />
+          {/* <ServiceDetails data={{}} /> */}
+          <></>
         </Modal>
       </div>
     </div>

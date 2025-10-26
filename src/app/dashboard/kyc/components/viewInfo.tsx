@@ -76,7 +76,7 @@ const ViewInformation = ({
 
       <div className="flex flex-col mt-5 gap-3">
         <h4 className="font-bold">Business Legal Document</h4>
-        <LegalDocItem doc={business?.kycDocument} />
+        {business?.kycDocument && <LegalDocItem doc={business?.kycDocument} />}
       </div>
 
       <div className=" mt-5 flex gap-4 items-center">

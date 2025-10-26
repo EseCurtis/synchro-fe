@@ -3,6 +3,7 @@ import { useAuthContext } from "@/contexts/AuthContext";
 import { useTQuery } from "@/hooks/api/useTQuery";
 import { useUserActivity } from "@/hooks/api/useUserActivity";
 import { cn, formatNumber } from "@/utils/formatNumber";
+import { userFullName } from "@/v2/helpers/common.helpers";
 import Image from "next/image";
 import LineGraph from "../_components/charts/lineChart";
 import PieChart from "../_components/charts/pieChart";
@@ -95,7 +96,7 @@ const DashboardIndex = () => {
               fontWeight: "bold",
             }}
           >
-            {user?.firstName} {user?.lastName}
+            {userFullName(user)}
           </span>{" "}
           👋
         </h1>

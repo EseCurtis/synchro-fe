@@ -117,7 +117,7 @@ const FeedsReport = () => {
       />
 
       <Modal isOpen={isModalOpen} onClose={closeModal}>
-        <UserDetails data={selected} onClose={closeModal} />
+        <UserDetails data={selected as any} onClose={closeModal} />
       </Modal>
     </div>
   );

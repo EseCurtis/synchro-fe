@@ -1,3 +1,5 @@
+import { UserData } from "../types/user.types";
+
 export function generateYearsOptions(overlapCount: number = 2) {
   const currentYear = new Date().getFullYear();
   const yearsOptions = [];
@@ -77,4 +79,14 @@ export function generateImagePairs(returnImages: string[]) {
     pairs.push(pair);
   }
   return pairs;
+}
+
+
+export const userFullName = (user: UserData | null) => {
+  if (!user) return 'Synchro User';
+  const profile = user.profiles[0];
+  const userFullNameValue = profile.firstName ? `${profile.firstName} ${profile.lastName}` : profile.username;
+
+
+  return userFullNameValue;
 }
