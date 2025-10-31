@@ -40,6 +40,11 @@ export const SidebarNavs: SidebarNavItem[] = [
     iconType: "services",
   },
   {
+    title: "Ad Requests",
+    path: "/dashboard/ads/review",
+    iconType: "services",
+  },
+  {
     title: "Support",
     path: "/dashboard/support",
     iconType: "support",

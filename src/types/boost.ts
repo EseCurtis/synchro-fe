@@ -16,6 +16,10 @@ export type Boost = {
   ownerId: string;
   resourceType: "event" | "business";
   resourceId: string;
+  resource?: {
+    type: "event" | "business";
+    data: any;
+  };
   objective: "impressions" | "clicks";
   placement: string[];
   budget?: number;
