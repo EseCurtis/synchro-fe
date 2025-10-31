@@ -1,5 +1,5 @@
 import useHttp from "@/hooks/api/useHttp";
-import { Boost, BoostReviewRejectPayload } from "@/types/boost";
+import { Boost, BoostReviewRejectPayload } from "@/v2/types/boost.types";
 import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 export enum BoostStatus {
@@ -63,7 +63,9 @@ export function useApproveBoost() {
   return useMutation({
     mutationKey: ["admin", "boosts", "approve"],
     mutationFn: async (boostId: string): Promise<{ success: boolean; data: Boost }> => {
-      const res = await api.post(`boosts/${boostId}/approve`);
+      const res = await api.patch(`admin/boosts/${boostId}`, {
+        status: BoostStatus.ACTIVE
+      });
       return res.data;
     },
     onSuccess: () => {
@@ -84,7 +86,7 @@ export function useRejectBoost() {
       boostId: string;
       payload: BoostReviewRejectPayload;
     }): Promise<{ success: boolean; data: Boost }> => {
-      const res = await api.post(`boosts/${boostId}/reject`, payload);
+      const res = await api.patch(`boosts/${boostId}`, payload);
       return res.data;
     },
     onSuccess: () => {

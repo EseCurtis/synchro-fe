@@ -1,8 +1,7 @@
 "use client";
 
-import React, { FC, ReactNode, useState } from "react";
+import { FC, ReactNode, useState } from "react";
 import styles from "./index.module.css";
-import { useAuthContext } from "@/contexts/AuthContext";
 
 interface ITabData {
   header: string;

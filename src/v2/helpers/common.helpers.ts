@@ -90,3 +90,15 @@ export const userFullName = (user: UserData | null) => {
 
   return userFullNameValue;
 }
+
+
+export const profileToUser = (profile: UserData["profiles"][0]) => {
+  return {
+    profiles: [profile]
+  } as UserData
+}
+
+
+export const userToProfile = (user: UserData) => {
+  return user.profiles[0] as UserData['profiles'][0]
+}

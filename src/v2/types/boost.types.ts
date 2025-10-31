@@ -1,3 +1,5 @@
+import { UserData } from "@/v2/types/user.types";
+
 export type BoostStatus =
   | "draft"
   | "pending_review"
@@ -35,6 +37,8 @@ export type Boost = {
   reviewedAt?: string;
   rejectionReason?: string;
   createdAt?: string;
+
+  owner?: UserData["profiles"][0]
 };
 
 export type BoostReviewRejectPayload = {
