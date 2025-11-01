@@ -16,6 +16,7 @@ export type Args = {
   requestBody?: any;
   keepPreviousData?: boolean;
   useSecondTotal?: boolean;
+  usePaginationObject?: boolean;
 };
 
 export function usePaginatedQuery<T>({
@@ -27,6 +28,8 @@ export function usePaginatedQuery<T>({
   requestBody,
   keepPreviousData = true,
   useSecondTotal = false,
+
+  usePaginationObject = false,
 }: Args): UseInfiniteQueryResult<T, unknown> {
   const { token, signout } = useAuthContext();
   const api = useHttp({
@@ -53,6 +56,16 @@ export function usePaginatedQuery<T>({
     {
       enabled,
       getNextPageParam: (lastPage: any) => {
+        if (usePaginationObject) {
+          const total = lastPage?.data?.pagination.totalPages;
+
+          if (total > lastPage.data?.pagination.page) {
+            return lastPage.data?.pagination.page + 1;
+          } else {
+            return undefined;
+          }
+        }
+
         const total =
           lastPage?.data?.totalPages ||
           (useSecondTotal && lastPage?.data?.total);

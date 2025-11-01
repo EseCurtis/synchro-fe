@@ -1,11 +1,16 @@
 "use client";
 
-import React, { InputHTMLAttributes, SelectHTMLAttributes, useState } from "react";
+import React, {
+  InputHTMLAttributes,
+  SelectHTMLAttributes,
+  useMemo,
+  useState,
+} from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import CurrencyConverter from "../forms/currencyConverter";
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
-  name: string;
+  name?: string;
   label?: string;
   error?: any;
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
@@ -17,6 +22,7 @@ export const CurrencyInput: React.FC<InputProps> = ({
   onChange,
   ...rest
 }) => {
+  name = name || useMemo(() => String(new Date().getTime()), []);
   return (
     <div className="my-[15px]">
       <div>
