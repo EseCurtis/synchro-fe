@@ -1,0 +1,80 @@
+"use client";
+
+import { SidebarNavs } from "@/utils/contents/sidebarNavs";
+import Image from "next/image";
+import { usePathname } from "next/navigation";
+import SidebarIcon from "../icons/SidebarIcon";
+import LinkWithProgress from "../ui/LinkWithProgress";
+
+const listStyle = {
+  listStyleType: "none",
+};
+
+const DashboardBoardSidebar = () => {
+  const pathname = usePathname();
+
+  return (
+    <div
+      className="w-full py-5 px-5  h-[100vh] "
+      style={{
+        borderRight: "1px solid #CED3E4",
+        backgroundImage: "url(/images/background/sidebar.png)",
+        backgroundSize: "cover",
+        backgroundRepeat: "no-repeat",
+        backgroundPosition: "center",
+      }}
+    >
+      <div className="h-[40px]">
+        <Image
+          src={"/images/synco_logo.png"}
+          width={100}
+          height={20}
+          alt="Logo"
+        />
+      </div>
+
+      <div className="my-[3em] pb-[2em]">
+        <ul style={listStyle}>
+          {SidebarNavs.map((_, index) => {
+            const active = _.absoluteMatch
+              ? pathname == _.path
+              : pathname.includes(_.path);
+            return (
+              <LinkWithProgress
+                href={_.path}
+                key={index}
+              >
+                <li
+                  className="py-[14px] rounded-md p-4 flex items-center gap-[16px] "
+                  style={{
+                    color: "#718096",
+                    background: active ? "rgba(233, 160, 132, 0.12)" : "",
+                  }}
+                >
+                  <SidebarIcon
+                    type={_.iconType}
+                    isActive={active}
+                    size={24}
+                    activeColor="#e73c01"
+                    inactiveColor="#718096"
+                  />
+                  <span
+                    className={
+                      active
+                        ? " text-transparent bg-clip-text bg-gradient-to-r from-blue-900 to-red-600"
+                        : ""
+                    }
+                  >
+                    {_.title}
+                  </span>
+                </li>
+              </LinkWithProgress>
+            );
+          })}
+        </ul>
+      </div>
+    </div>
+  );
+};
+
+export default DashboardBoardSidebar;

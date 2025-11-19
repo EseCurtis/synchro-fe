@@ -1,0 +1,16 @@
+<svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="home-dash">
+<path id="Vector" opacity="0.4" fill-rule="evenodd" clip-rule="evenodd" d="M19.5128 19.448L20.9679 11.465C21.0979 10.751 20.8309 10.023 20.2709 9.56205L13.5888 4.06901C12.6658 3.31001 11.3348 3.31001 10.4118 4.06901L3.72984 9.56205C3.16884 10.023 2.90182 10.751 3.03282 11.465L4.48789 19.4471C4.70489 20.6351 5.73986 21.4991 6.94786 21.4991H17.0538C18.2608 21.5001 19.2958 20.636 19.5128 19.448Z" fill="url(#paint0_radial_3472_14530)"/>
+<path id="Vector_2" d="M14 18.25H10C9.586 18.25 9.25 17.914 9.25 17.5C9.25 17.086 9.586 16.75 10 16.75H14C14.414 16.75 14.75 17.086 14.75 17.5C14.75 17.914 14.414 18.25 14 18.25Z" fill="url(#paint1_radial_3472_14530)"/>
+</g>
+<defs>
+<radialGradient id="paint0_radial_3472_14530" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(3 10.909) rotate(26.7148) scale(23.5572 185.126)">
+<stop stop-color="#E73C01"/>
+<stop offset="0.697917" stop-color="#0512D2"/>
+</radialGradient>
+<radialGradient id="paint1_radial_3472_14530" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(9.25 17.3675) rotate(7.81574) scale(6.48987 17.1109)">
+<stop stop-color="#E73C01"/>
+<stop offset="0.697917" stop-color="#0512D2"/>
+</radialGradient>
+</defs>
+</svg>

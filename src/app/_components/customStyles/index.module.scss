@@ -1,0 +1,18 @@
+.customScrollbar {
+    &::-webkit-scrollbar {
+        width: 8px;
+        background-color: #f1f1f1;
+        padding: 0.5em;
+    }
+
+    /* Color of the scrollbar thumb */
+    &::-webkit-scrollbar-thumb {
+        background-color: #88888863;
+        border-radius: 4px;
+    }
+
+    /* On hover, color of the scrollbar thumb */
+    &::-webkit-scrollbar-thumb:hover {
+        background-color: #55555585;
+    }
+}

@@ -1,0 +1,14 @@
+{
+  "extends": ["next/core-web-vitals", "next"],
+  "rules": {
+    "@next/next/no-img-element": "off",
+    "react-hooks/exhaustive-deps": "off",
+    "import/no-anonymous-default-export": "off",
+    "jsx-a11y/alt-text": "off",
+    "react/no-unescaped-entities": "off",
+    "react-hooks/rules-of-hooks": "off",
+    "react/display-name": "off",
+   "no-unused-vars": "off", // Disables the 'no-unused-vars' rule
+        "@typescript-eslint/no-explicit-any": "off" // Disables a specific TypeScript ESLint rule
+  }
+}

@@ -1,0 +1,97 @@
+import { AppToast } from "@/app/_components/AppToast";
+import { Button } from "@/app/_components/button";
+import { SecondaryButton } from "@/app/_components/button/secondaryButton";
+import { useTMutation } from "@/hooks/api/useTMutation";
+import { UserAvatarV2 } from "@/v2/components/common/avatar.component";
+import { UserData } from "@/v2/types/user.types";
+import moment from "moment";
+import { toast } from "react-toastify";
+import LinkWithProgress from "../../../_components/ui/LinkWithProgress";
+
+const ViewSuspended = ({
+  user,
+  onClose,
+}: {
+  user: UserData;
+  onClose?: any;
+}) => {
+  const profile = user?.profiles?.[0];
+
+  const { mutate, isLoading } = useTMutation({
+    url: `/admin/users/unsuspend`,
+    method: "post",
+    options: {
+      onSuccess() {
+        toast(<AppToast>User account activated successfully</AppToast>);
+      },
+    },
+  });
+
+  return (
+    <div>
+      <div className="flex justify-center">
+        <h3 className="font-bold">User Details</h3>
+      </div>
+      <div className="text-center my-5">
+        <div className="  my-3 mx-auto bg-slate-500 w-[84px] h-[84px] rounded-full">
+          <UserAvatarV2 user={user} />
+        </div>
+
+        <div>
+          <h3>
+            {profile?.firstName} {profile?.lastName}
+          </h3>
+          <p className="text-[#777E90] text-[13px]">@{profile?.username}</p>
+        </div>
+        {/* Replace the id with the user id from databse here */}
+        <LinkWithProgress href={`/dashboard/users/${user?.id}`}>
+          <div className="bg-gray-300 text-[13px] cursor-pointer w-[fit-content] py-[.6em] my-[1em] rounded-full px-5 mx-auto ">
+            View full profile
+          </div>
+        </LinkWithProgress>
+      </div>
+
+      <div className="flex justify-between">
+        <div className="flex flex-col gap-5">
+          <h4 className="text-[#5D6D73] text-sm">Phone number</h4>
+          <h4 className="text-[#5D6D73] text-sm">Email Address</h4>
+          <h4 className="text-[#5D6D73] text-sm">Total wallets</h4>
+          <h4 className="text-[#5D6D73] text-sm">Reasons for suspension</h4>
+          {/* <h4 className="text-[#5D6D73] text-sm">Suspended by</h4> */}
+          <h4 className="text-[#5D6D73] text-sm">Date Suspended</h4>
+        </div>
+
+        <div className="flex flex-col gap-5 text-right">
+          <h4 className="text-black text-sm font-bold">
+            {user?.phoneNumber ?? "N/A"}
+          </h4>
+          <h4 className="text-black text-sm font-bold">
+            {user?.email ?? "N/A"}
+          </h4>
+          <h4 className="text-black text-sm font-bold">
+            {user?.wallets?.length ?? 0} wallets
+          </h4>
+          <h4 className="text-black text-sm font-bold">
+            {user?.suspensionReason ?? "N/A"}
+          </h4>
+          {/* <h4 className="text-black text-sm font-bold">Ese Curtis</h4> */}
+          <h4 className="text-black text-sm font-bold">
+            {moment(user?.updatedAt).format("MMM DD YYYY")}
+          </h4>
+        </div>
+      </div>
+
+      <div className="mt-7 flex gap-4 items-center">
+        <Button
+          isLoading={isLoading}
+          onClick={() => mutate({ userId: user.id })}
+        >
+          Reactivate User
+        </Button>
+        <SecondaryButton onClick={onClose}>Cancel</SecondaryButton>
+      </div>
+    </div>
+  );
+};
+
+export default ViewSuspended;
