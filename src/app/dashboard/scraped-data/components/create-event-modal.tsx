@@ -29,13 +29,13 @@ const CreateEventModal: FC<CreateEventModalProps> = ({
   const [selectedCategoryId, setSelectedCategoryId] = useState<string>("");
 
   // Fetch event categories
-  const { data: categoriesData, isLoading: categoriesLoading } = useTQuery({
+  const { data: categoriesData, isLoading: categoriesLoading } = useTQuery<any>({
     queryKey: ["event-categories"],
     url: "/events/categories",
     enabled: isOpen,
   });
 
-  const categories = categoriesData?.data || [];
+  const categories = (categoriesData as any)?.data || [];
 
   // Create event mutation
   const { mutate, isLoading } = useTMutation({

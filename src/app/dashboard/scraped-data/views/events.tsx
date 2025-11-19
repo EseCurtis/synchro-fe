@@ -52,10 +52,11 @@ const EventsView = () => {
 
   const events = data?.pages?.map((e: any) => e.data.data).flat() as Event[];
 
-  // Update event mutation
-  const { mutate: updateEvent, isLoading: isUpdating } = useTMutation({
+  // Update event mutation - uses pathParams for dynamic eventId
+  const { mutate: updateEventMutation, isLoading: isUpdating } = useTMutation({
     url: "/admin/events",
     method: "put",
+    pathParams: ["eventId"],
     options: {
       onSuccess: () => {
         toast(<AppToast>Event updated successfully!</AppToast>, {
@@ -75,11 +76,12 @@ const EventsView = () => {
     },
   });
 
-  // Delete single event mutation
-  const { mutate: deleteSingleEvent, isLoading: isDeletingSingle } =
+  // Delete single event mutation - uses pathParams for dynamic eventId
+  const { mutate: deleteEventMutation, isLoading: isDeletingSingle } =
     useTMutation({
       url: "/admin/events",
       method: "delete",
+      pathParams: ["eventId"],
       options: {
         onSuccess: () => {
           toast(<AppToast>Event deleted successfully!</AppToast>, {
@@ -162,7 +164,8 @@ const EventsView = () => {
   };
 
   const handleEditEvent = (eventId: string, updates: any) => {
-    updateEvent({ ...updates }, { dynamicUrl: `${eventId}/update` });
+    // Include eventId in the request body for pathParams to extract
+    updateEventMutation({ ...updates, eventId: `${eventId}/update` });
   };
 
   const handleDeleteSingle = (eventId: string) => {
@@ -176,7 +179,8 @@ const EventsView = () => {
 
   const confirmDelete = () => {
     if (deleteTarget?.type === "single" && deleteTarget.eventId) {
-      deleteSingleEvent({}, { dynamicUrl: deleteTarget.eventId });
+      // Include eventId in the request body for pathParams to extract
+      deleteEventMutation({ eventId: deleteTarget.eventId });
     } else if (deleteTarget?.type === "bulk" && deleteTarget.eventIds) {
       bulkDeleteEvents({ eventIds: deleteTarget.eventIds });
     }
