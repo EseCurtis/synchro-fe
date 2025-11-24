@@ -21,6 +21,7 @@ import {
 import { UserAvatarV2 } from "@/v2/components/common/avatar.component";
 import { profileToUser } from "@/v2/helpers/common.helpers";
 import { Boost } from "@/v2/types/boost.types";
+import { useQueryClient } from "@tanstack/react-query";
 import { useEffect, useMemo, useState } from "react";
 import { BiCheckDouble, BiX } from "react-icons/bi";
 import { toast as $toast } from "react-toastify";
@@ -53,6 +54,8 @@ export default function PendingBoostsView({
     reason?: string;
     amount?: number;
   }>({});
+
+  const queryClient = useQueryClient();
   const [resourceModalOpen, setResourceModalOpen] = useState(false);
   const [activeBoost, setActiveBoost] = useState<Boost | null>(null);
 
@@ -98,6 +101,7 @@ export default function PendingBoostsView({
       onSuccess: () => {
         setToast({ type: "success", message: "Ad approved" });
         setInstaDelete((prev: any) => [...prev, boost.id]);
+        queryClient.invalidateQueries({ queryKey: ["admins", "boostsc", "pending", "infinite"]})
       },
       onError: (e: any) =>
         setToast({ type: "error", message: e?.message ?? "Failed to approve" }),

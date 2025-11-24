@@ -11,7 +11,6 @@ import { BusinessProfile } from "@/v2/types/service.types";
 import { useQueryClient } from "@tanstack/react-query";
 import moment from "moment";
 import { useState } from "react";
-import Image from "../../../../../node_modules/next/image";
 import ServiceDetails from "../components/service_details";
 
 const header = [
@@ -87,7 +86,7 @@ const DeclineServices = () => {
                   <td className={style}>
                     <div className="flex gap-2">
                       <div className="flex overflow-hidden w-[3em] h-[3em] bg-gray-500 rounded-lg">
-                        <Image
+                        <img
                           src={_?.avatar}
                           className="w-[100%] h-[100%] object-fit"
                           alt=""
