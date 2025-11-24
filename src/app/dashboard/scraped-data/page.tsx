@@ -3,7 +3,7 @@ import TabComponent from "@/app/_components/tab";
 import DashboardLayout from "@/app/layouts/dashboardLayout";
 import React from "react";
 import EventsView from "./views/events";
-import ComingSoon from "./views/coming-soon";
+import VenuesView from "./views/venues";
 
 const data = [
   {
@@ -11,8 +11,8 @@ const data = [
     component: <EventsView />,
   },
   {
-    header: "Venues (Coming Soon)",
-    component: <ComingSoon type="Venues" />,
+    header: "Venues",
+    component: <VenuesView />,
   },
 ];
 
