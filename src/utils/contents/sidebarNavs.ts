@@ -29,11 +29,11 @@ export const SidebarNavs: SidebarNavItem[] = [
     path: "/dashboard/venues",
     iconType: "venues",
   },
-  {
-    title: "KYC",
-    path: "/dashboard/kyc",
-    iconType: "kyc",
-  },
+  // {
+  //   title: "KYC",
+  //   path: "/dashboard/kyc",
+  //   iconType: "kyc",
+  // },
   {
     title: "Services",
     path: "/dashboard/services",
