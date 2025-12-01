@@ -1,34 +1,38 @@
 import customStyles from "@/app/_components/customStyles/index.module.css";
-import { useUserNotifications } from "@/hooks/api/v2/notifications";
+import { usePaginatedQuery } from "@/hooks/api/usePaginatedQuery";
+import { useRouterO } from "@/v2/hooks/use-router";
 import { useParams } from "next/navigation";
 import { Fragment, useEffect, useRef, useState } from "react";
 import { BiBell } from "react-icons/bi";
+import { Spinner } from "../../spinner/Spinner";
 import NoNotifications from "./no_notifications";
 import NotificationItem from "./notification_item";
 
 const NotificationModal = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [view, setView] = useState(true);
-  const modalRef = useRef(null);
+  const modalRef = useRef<HTMLDivElement | null>(null);
+  const { push } = useRouterO();
 
   const params = useParams();
   const id = params.id;
 
-  const {
-    data: notificationResponse,
-    fetchNextPage,
-    isFetchingNextPage,
-  }: any = useUserNotifications();
+  const SYSTEM_NOTIFICATION_TYPE = "system_announcement";
 
-  const notificationHistory = notificationResponse?.pages
-    ?.map((e: any) => e.data.data)
-    .flat() as any[];
+  const { data, isLoading } = usePaginatedQuery({
+    url: `/admin/notifications/for-admin?type=${SYSTEM_NOTIFICATION_TYPE}`,
+    queryKey: ["notifications", SYSTEM_NOTIFICATION_TYPE, "header"],
+    enabled: true,
+  });
+
+  const notificationHistory =
+    (data?.pages?.map((page: any) => page.data.data).flat() as any[]) ?? [];
+
+  const latestNotifications = notificationHistory.slice(0, 4);
 
   const openModal = () => {
     setIsModalOpen(true);
-    const timeoutId = setTimeout(() => {
-      setView(false);
-    }, 1000);
+   setView(false);
   };
 
   const closeModal = () => {
@@ -37,8 +41,11 @@ const NotificationModal = () => {
 
   useEffect(() => {
     const closeModal_Effect = (event: any) => {
-      //@ts-ignore
-      if (modalRef.current && !modalRef.current!.contains(event.target)) {
+      if (
+        modalRef.current &&
+        event.target instanceof Node &&
+        !modalRef.current.contains(event.target)
+      ) {
         closeModal();
         setView(true);
       }
@@ -62,24 +69,45 @@ const NotificationModal = () => {
 
         {isModalOpen && (
           <div
-            className={`z-50 absolute bg-white w-[400px] h-[300px] top-[100%] right-[-20px] rounded-[15px] drop-shadow-lg border`}
+            className={`z-50 absolute bg-white w-[400px] h-[300px] overflow-y-scroll top-[100%] right-[-20px] rounded-[15px] drop-shadow-lg border`}
           >
-            <div className="w-[100%] h-[100%] p-[15px] relative">
+            <div className="w-[100%] h-[100%] p-[15px] relative flex flex-col">
               <span className="absolute bg-white rounded rotate-45 w-5 h-5 top-[-10px] right-[35px] border-t border-l"></span>
 
-              <div className="flex items-center justify-center h-[100%] ">
-                {(!view && notificationHistory.length > 0) ? (
-                  <div className={`${customStyles.customScrollbar} flex flex-col overflow-y-auto gap-4 w-[100%] h-[100%] custom-scroll`}>
-                    {notificationHistory?.map((data, j) => (
-                      <Fragment key={j}>
-                        <NotificationItem {...data} />
-                      </Fragment>
-                    ))}
-                  </div>
-                ) : (
-                  <NoNotifications />
-                )}
-              </div>
+              {isLoading ? (
+                <Spinner />
+              ) : (
+                <div className="flex-1 flex items-center justify-center">
+                  {!view && latestNotifications.length > 0 ? (
+                    <div
+                      className={`${customStyles.customScrollbar} flex flex-col overflow-y-auto gap-4 w-[100%] h-[100%] custom-scroll`}
+                    >
+                      {latestNotifications.map((data, index) => (
+                        <Fragment key={index}>
+                          <NotificationItem {...data} />
+                        </Fragment>
+                      ))}
+                    </div>
+                  ) : (
+                    <NoNotifications />
+                  )}
+                </div>
+              )}
+              {!view && notificationHistory.length > 4 && (
+                <div className="pt-3  mt-3 flex justify-end">
+                  <button
+                    type="button"
+                    className="text-xs font-semibold w-full bg-gray-400/10 p-3 text-primary-600 hover:underline"
+                    onClick={(event) => {
+                      event.stopPropagation();
+                      setIsModalOpen(false);
+                      push("/dashboard/faq_and_notifications");
+                    }}
+                  >
+                    See more
+                  </button>
+                </div>
+              )}
             </div>
           </div>
         )}
