@@ -8,6 +8,8 @@ import { Fragment, useState } from "react";
 import NewNotification from "../components/new_notification";
 import NotificationBox from "../components/notificationBox";
 
+const SYSTEM_NOTIFICATION_TYPE = "system_announcement";
+
 const Notifications = () => {
   const [view, setView] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -28,14 +30,16 @@ const Notifications = () => {
     fetchNextPage,
     isFetchingNextPage,
   } = usePaginatedQuery({
-    url: "/admin/notifications/for-admin",
-    queryKey: ["notifications"],
+    url: `/admin/notifications/for-admin?type=${SYSTEM_NOTIFICATION_TYPE}`,
+    queryKey: ["notifications", SYSTEM_NOTIFICATION_TYPE],
     enabled: true,
   });
 
-  const notifications = data?.pages
+  const notifications = (data?.pages
     ?.map((e: any) => e.data.data)
-    .flat() as any[];
+    .flat() as any[])?.filter(
+    (notification) => notification?.type === SYSTEM_NOTIFICATION_TYPE
+  );
 
   return (
     <div>
@@ -62,10 +66,10 @@ const Notifications = () => {
               </Fragment>
             ))}
 
-            <TablePagination
+          {hasNextPage &&  <TablePagination
               loading={isFetchingNextPage}
               onFetchMore={fetchNextPage}
-            />
+            />}
           </div>
         </div>
       )}

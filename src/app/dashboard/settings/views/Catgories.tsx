@@ -32,7 +32,7 @@ const Categories = () => {
   });
 
   // @ts-ignore
-  const event_categories = event_categoriesData?.data?.data;
+  const event_categories = event_categoriesData?.data;
 
   const { data: business_categoriesData } = useTQuery({
     url: "/admin/categories/business_categories",
@@ -123,7 +123,7 @@ const Categories = () => {
       </div>
 
       <Modal isOpen={isModalOpen} onClose={closeModal}>
-        <NewCategory isEvent={showingCate === 0} />
+        <NewCategory isEvent={showingCate === 0} onClose={closeModal} />
       </Modal>
     </>
   );

@@ -44,20 +44,20 @@ function VenueHero({
           </div>
         )}
       </div>
-      <div>
+    <div>
         <h2 className="text-xl font-semibold">{venue.title}</h2>
         <p className="text-sm text-gray-500">
           Hosted by @{ownerUsername ?? "synchro-assistant"}
-        </p>
-      </div>
+              </p>
+            </div>
       <div className="flex items-center gap-2 text-sm text-gray-600">
         <BiMapPin />
         <span>
           {venue.address}, {venue.city}, {venue.country}
-        </span>
-      </div>
+                  </span>
+              </div>
       <p className="text-sm text-gray-700">{venue.description}</p>
-    </div>
+            </div>
   );
 }
 
@@ -80,7 +80,7 @@ function VenueMeta({
         <MetaItem label="Status" value={venue.status} />
         <MetaItem label="Categories" value={venue.suitableEventCategories?.join(", ")} />
         <MetaItem label="Rules" value={venue.venueRules?.join(", ") || "N/A"} />
-      </div>
+              </div>
       {owner && (
         <div className="mt-6 flex items-center gap-3 rounded-lg border border-gray-100 p-3">
           <UserAvatarV2 user={owner} size={32} />
@@ -91,8 +91,8 @@ function VenueMeta({
                 : owner.username}
             </p>
             <p className="text-xs text-gray-500">@{owner.username}</p>
-          </div>
-        </div>
+              </div>
+            </div>
       )}
     </section>
   );
@@ -117,11 +117,11 @@ function VenuePricing({ venue }: { venue: AdminVenue }) {
               <p className="text-xs text-gray-500">Hourly</p>
               <p>{formatter.format(Number(venue.hourlyRate))}/hr</p>
             </div>
-          </div>
+            </div>
         )}
         {venue.dailyRate && (
           <div className="flex items-center gap-2">
-            <BiCalendar />
+                  <BiCalendar />
             <div>
               <p className="text-xs text-gray-500">Daily</p>
               <p>{formatter.format(Number(venue.dailyRate))}/day</p>
@@ -133,7 +133,7 @@ function VenuePricing({ venue }: { venue: AdminVenue }) {
             label="Cleaning Fee"
             value={formatter.format(Number(venue.cleaningFee))}
           />
-        )}
+      )}
         {venue.minimumHours && (
           <MetaItem label="Minimum Hours" value={`${venue.minimumHours} hrs`} />
         )}

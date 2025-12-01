@@ -33,21 +33,30 @@ const DeleteCategory = ({
   categoryType = "event-category",
   onClose,
 }: any) => {
-  const routePoint = categoryType.replace("-category", "_categories");
+  const routePoint =
+    categoryType === "event-category" ? "event_categories" : "business_categories";
 
   const client = useQueryClient();
   const { isLoading, mutate } = useTMutation({
-    url: `/category/${routePoint}/delete/${category.id}`,
-    method: "post",
+    url: `/admin/categories/${routePoint}/${category.id}`,
+    method: "delete",
     options: {
       onSuccess() {
         client.invalidateQueries(["category", categoryType]);
-        onClose();
-        toast(<AppToast>Category Deleted</AppToast>, {
+        toast(<AppToast>Category deleted</AppToast>, {
           type: "success",
-          autoClose: 1000,
+          autoClose: 1200,
         });
-      }
+        onClose();
+      },
+      onError(error: any) {
+        const message =
+          error?.response?.data?.message ||
+          "Unable to delete category. Please try again.";
+        toast(<AppToast>{message}</AppToast>, {
+          type: "error",
+        });
+      },
     },
   });
 
@@ -63,7 +72,9 @@ const DeleteCategory = ({
       </div>
 
       <div className=" mt-5 flex gap-4 items-center">
-        <Button onClick={() => mutate({})}>Delete {isLoading && <Spinner/> }</Button>
+        <Button onClick={() => mutate(undefined)} disabled={isLoading}>
+          {isLoading ? <Spinner /> : "Delete"}
+        </Button>
         <Button
           onClick={onClose}
           style={{ background: "white", color: "red" }}
