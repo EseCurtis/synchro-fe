@@ -1,19 +1,16 @@
 "use client";
 
 import DashboardAction from "@/app/_components/dashboard/dashboardAction";
+import Badge from "@/app/_components/forms/badge";
+import Modal from "@/app/_components/popups/modal";
+import { Spinner } from "@/app/_components/spinner/Spinner";
 import DefaultTable from "@/app/_components/table/defaultTable";
 import TablePagination from "@/app/_components/table/tablePagination";
-import { table } from "@/utils/contents/dummy/table";
-import React, { useState, Fragment } from "react";
-import Image from "../../../../../node_modules/next/image";
-import Dropdown from "@/app/_components/popups/dropDown";
-import Modal from "@/app/_components/popups/modal";
-import UserDetails from "../components/user_details";
-import { useTQuery } from "@/hooks/api/useTQuery";
-import moment from "moment";
 import { usePaginatedQuery } from "@/hooks/api/usePaginatedQuery";
-import { Spinner } from "@/app/_components/spinner/Spinner";
+import moment from "moment";
+import { useState } from "react";
 import { FaExternalLinkAlt } from "react-icons/fa";
+import UserDetails from "../components/user_details";
 
 const header = [
   // "Fullname Name ",
@@ -39,7 +36,7 @@ const FeedsReport = () => {
 
   const { isLoading, data, hasNextPage, fetchNextPage, isFetchingNextPage } =
     usePaginatedQuery({
-      url: "/report/for-admin?type=feed",
+      url: "/admin/reports/for-admin?type=feed",
       queryKey: ["reports", "feed-report"],
       enabled: true,
     });
@@ -68,20 +65,32 @@ const FeedsReport = () => {
                 </div>
               </td> */}
               <td className={style}>
-                <h3>{_.title}</h3>
+                <h3>{_.reason}</h3>
               </td>
               <td className={style}>
-                <h3>{_.description}</h3>
+                <h3>{_.description || "not specified"}</h3>
               </td>
               <td className={style}>
                 <h3 className="">
-                  {_?.imageUrl ? (
-                    <a href={_?.imageUrl}  target="_blank" className="hover:underline text-blue-500 cursor-pointer flex gap-2 items-center">Open Image <FaExternalLinkAlt/></a>
+                  {_?.evidence ? (
+                    <a
+                      href={_?.evidence?.[0]}
+                      target="_blank"
+                      className="hover:underline text-blue-500 cursor-pointer flex gap-2 items-center"
+                    >
+                      Open Evidence <FaExternalLinkAlt />
+                    </a>
                   ) : (
                     <div className="bg-orange-300/20 border border-orange-400 text-orange-500 p-2 rounded-lg text-sm">
                       No Image Submitted
                     </div>
                   )}
+                </h3>
+              </td>
+
+              <td className={style}>
+                <h3>
+                  <Badge status={_.status} label={_.status} />
                 </h3>
               </td>
               <td className={style}>
@@ -108,7 +117,7 @@ const FeedsReport = () => {
       />
 
       <Modal isOpen={isModalOpen} onClose={closeModal}>
-        <UserDetails  data={selected} onClose={closeModal} />
+        <UserDetails data={selected as any} onClose={closeModal} />
       </Modal>
     </div>
   );

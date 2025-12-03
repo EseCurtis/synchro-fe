@@ -1,5 +1,12 @@
 import Modal from "@/app/_components/popups/modal";
-import { FC, ReactNode, useState, Fragment } from "react";
+import {
+  FC,
+  ReactNode,
+  useState,
+  Fragment,
+  isValidElement,
+  cloneElement,
+} from "react";
 import { MdMoreHoriz } from "react-icons/md";
 import Dropdown from "@/app/_components/popups/dropDown";
 import Image from "next/image";
@@ -178,7 +185,9 @@ const AddNewRoleComponent: FC<IRoleProps> = ({ title, modalProps }) => {
       </div>
 
       <Modal isOpen={isModalOpen} onClose={closeModal}>
-        {modalProps}
+        {isValidElement(modalProps)
+          ? cloneElement(modalProps, { onClose: closeModal })
+          : modalProps}
       </Modal>
     </div>
   );

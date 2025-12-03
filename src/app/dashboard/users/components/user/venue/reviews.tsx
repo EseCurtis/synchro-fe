@@ -2,7 +2,7 @@ import FilterComponent from "@/app/_components/forms/filterComponent";
 import Input from "@/app/_components/input_fields";
 import { usePaginatedQuery } from "@/hooks/api/usePaginatedQuery";
 import { Review } from "@/utils/types";
-import { BiSolidStar, BiStar } from "react-icons/bi";
+import { BiSolidStar } from "react-icons/bi";
 
 const Item = ({}: Review) => {
   return (
@@ -39,7 +39,7 @@ const Item = ({}: Review) => {
 
 const Reviews = ({ venue }: { venue: any }) => {
   const reviewsResponse: any = usePaginatedQuery({
-    url: `review/?type=venue&venueId=${venue.id}`,
+    url: `/admin/users/${venue.userId}/reviews?type=venue&venueId=${venue.id}`,
     queryKey: ["review", "venue", String(venue.id)],
     enabled: true,
   });

@@ -4,11 +4,12 @@ import DashboardAction from "@/app/_components/dashboard/dashboardAction";
 import Modal from "@/app/_components/popups/modal";
 import { Spinner } from "@/app/_components/spinner/Spinner";
 import DefaultTable from "@/app/_components/table/defaultTable";
+import NoData from "@/app/_components/table/NoData";
 import TablePagination from "@/app/_components/table/tablePagination";
 import { useDeclinedEvents, useUpdateEventStatus } from "@/hooks/api/v2/events";
 import moment from "moment";
-import Link from "next/link";
 import { useState } from "react";
+import LinkWithProgress from "../../../_components/ui/LinkWithProgress";
 import ViewInformation from "../components/EventDetails";
 
 const header = ["Business Name ", "User", "Category", "Date", ""];
@@ -30,15 +31,30 @@ const DeclinedEvents = () => {
     setIsModalOpen(false);
   };
 
-  const { data, refetch, hasNextPage, fetchNextPage, isFetchingNextPage } = useDeclinedEvents();
+  const [search, setSearch] = useState("");
+
+  const {
+    data,
+    refetch,
+    hasNextPage,
+    fetchNextPage,
+    isLoading: isLoadingEvents,
+    isFetchingNextPage,
+  } = useDeclinedEvents({ search });
   const events = data?.pages?.map((e: any) => e.data.data).flat() as any[];
   const { isLoading, mutate } = useUpdateEventStatus();
 
   return (
     <div>
-      <DashboardAction />
+      <DashboardAction
+        textValue={search}
+        onChangeText={(text) => {
+          setSearch(text);
+        }}
+      />
       {/* @ts-ignore */}
       <DefaultTable header={header}>
+        {isLoadingEvents && <Spinner />}
         {events?.map((_: any, key: number) => {
           return (
             <tr key={key}>
@@ -56,9 +72,9 @@ const DeclinedEvents = () => {
                 </div>
               </td>
               <td className={style}>
-                <Link href={`/dashboard/users/${_?.user?.id}`}>
+                <LinkWithProgress href={`/dashboard/users/${_?.user?.id}`}>
                   <h3 className="underline">{_?.user?.username}</h3>
-                </Link>
+                </LinkWithProgress>
               </td>
               <td className={style}>
                 <h3>{_?.eventCategory?.name}</h3>
@@ -92,10 +108,14 @@ const DeclinedEvents = () => {
         })}
       </DefaultTable>
 
-      <TablePagination
-        onFetchMore={fetchNextPage}
-        loading={isFetchingNextPage}
-      />
+      {hasNextPage && (
+        <TablePagination
+          onFetchMore={fetchNextPage}
+          loading={isFetchingNextPage}
+        />
+      )}
+
+      {events?.length < 1 && !isLoading && <NoData />}
 
       <Modal isOpen={isModalOpen} onClose={closeModal}>
         <ViewInformation />

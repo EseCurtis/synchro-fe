@@ -1,34 +1,31 @@
 "use client";
 
 import DashboardAction from "@/app/_components/dashboard/dashboardAction";
+import Badge from "@/app/_components/forms/badge";
+import Modal from "@/app/_components/popups/modal";
+import { Spinner } from "@/app/_components/spinner/Spinner";
 import DefaultTable from "@/app/_components/table/defaultTable";
 import TablePagination from "@/app/_components/table/tablePagination";
-import { table } from "@/utils/contents/dummy/table";
-import React, { useState, Fragment } from "react";
-import Image from "../../../../../node_modules/next/image";
-import Dropdown from "@/app/_components/popups/dropDown";
-import Modal from "@/app/_components/popups/modal";
-import UserDetails from "../components/user_details";
-import { useTQuery } from "@/hooks/api/useTQuery";
-import moment from "moment";
 import { usePaginatedQuery } from "@/hooks/api/usePaginatedQuery";
-import { Spinner } from "@/app/_components/spinner/Spinner";
-import SuspendUser from "../../users/components/suspendUser";
-import ViewSuspended from "../../users/components/viewSuspended";
+import { ReportV2 } from "@/v2/types/reports.type";
+import moment from "moment";
+import { useState } from "react";
 import { FaExternalLinkAlt } from "react-icons/fa";
+import UserDetails from "../components/user_details";
 
 const header = [
   // "Fullname Name ",
   "Title",
   "Reasons",
-  "Image",
+  "Evidence",
+  "Status",
   "Date Reported",
   "Actions",
 ];
 const style = "px-6 py-4 whitespace-no-wrap border-b border-gray-300";
 const UsersReport = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedData, setSelectedData] = useState();
+  const [selectedData, setSelectedData] = useState<null | ReportV2>(null);
 
   const openModal = (data: any) => {
     setSelectedData(data);
@@ -41,7 +38,7 @@ const UsersReport = () => {
 
   const { isLoading, data, hasNextPage, fetchNextPage, isFetchingNextPage } =
     usePaginatedQuery({
-      url: "/report/for-admin?type=user",
+      url: "/admin/reports/for-admin?type=user",
       queryKey: ["reports", "user-report"],
       enabled: true,
     });
@@ -57,7 +54,7 @@ const UsersReport = () => {
       <DashboardAction />
       {/* @ts-ignore */}
       <DefaultTable header={header}>
-        {reports?.map((_: any, key: number) => {
+        {reports?.map((_: ReportV2, key: number) => {
           return (
             <tr key={key} className="text-sm">
               {/* <td className={style}>
@@ -70,20 +67,32 @@ const UsersReport = () => {
                 </div>
               </td> */}
               <td className={style}>
-                <h3>{_.title}</h3>
+                <h3>{_.reason}</h3>
               </td>
               <td className={style}>
-                <h3>{_.description}</h3>
+                <h3>{_.description || "not specified"}</h3>
               </td>
               <td className={style}>
                 <h3 className="">
-                  {_?.imageUrl ? (
-                    <a href={_?.imageUrl}  target="_blank" className="hover:underline text-blue-500 cursor-pointer flex gap-2 items-center">Open Image <FaExternalLinkAlt/></a>
+                  {_?.evidence ? (
+                    <a
+                      href={_?.evidence?.[0]}
+                      target="_blank"
+                      className="hover:underline text-blue-500 cursor-pointer flex gap-2 items-center"
+                    >
+                      Open Evidence <FaExternalLinkAlt />
+                    </a>
                   ) : (
                     <div className="bg-orange-300/20 border border-orange-400 text-orange-500 p-2 rounded-lg text-sm">
                       No Image Submitted
                     </div>
                   )}
+                </h3>
+              </td>
+
+              <td className={style}>
+                <h3>
+                  <Badge status={_.status} label={_.status} />
                 </h3>
               </td>
               <td className={style}>
@@ -104,13 +113,15 @@ const UsersReport = () => {
         })}
       </DefaultTable>
 
-      <TablePagination
-        loading={isFetchingNextPage}
-        onFetchMore={fetchNextPage}
-      />
+      {hasNextPage && (
+        <TablePagination
+          loading={isFetchingNextPage}
+          onFetchMore={fetchNextPage}
+        />
+      )}
 
       <Modal isOpen={isModalOpen} onClose={closeModal}>
-        <UserDetails data={selectedData} onClose={closeModal} />
+        <UserDetails data={selectedData!} onClose={closeModal} />
       </Modal>
     </div>
   );

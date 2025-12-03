@@ -1,6 +1,4 @@
-import React, { Fragment } from "react";
-import { BiFilterAlt } from "react-icons/bi";
-import ExportButton from "./exportButton";
+import { Fragment } from "react";
 const FilterComponent = ({
   options,
   setOptions,
@@ -9,7 +7,8 @@ const FilterComponent = ({
   setOptions?: (options: any[]) => void;
 }) => {
   return (
-    <div>
+    //hidden for now -- TODO
+    <div className="hidden">
       <select
         className="w-[180px] py-[.6em] px-8 bg-none rounded-md text-primary_text text-sm"
         placeholder="Filter"

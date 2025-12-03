@@ -1,24 +1,23 @@
 "use client";
 import DashboardAction from "@/app/_components/dashboard/dashboardAction";
-import DefaultTable from "@/app/_components/table/defaultTable";
-import TablePagination from "@/app/_components/table/tablePagination";
-import React, { useState } from "react";
-import Image from "../../../../../node_modules/next/image";
 import Modal from "@/app/_components/popups/modal";
-import ServiceDetails from "../components/service_details";
-import { useTQuery } from "@/hooks/api/useTQuery";
-import moment from "moment";
-import { usePaginatedQuery } from "@/hooks/api/usePaginatedQuery";
 import { Spinner } from "@/app/_components/spinner/Spinner";
-import { useTMutation } from "@/hooks/api/useTMutation";
-import { useQueryClient } from "@tanstack/react-query";
+import DefaultTable from "@/app/_components/table/defaultTable";
 import NoData from "@/app/_components/table/NoData";
+import TablePagination from "@/app/_components/table/tablePagination";
+import { usePaginatedQuery } from "@/hooks/api/usePaginatedQuery";
+import { useTMutation } from "@/hooks/api/useTMutation";
+import { BusinessProfile } from "@/v2/types/service.types";
+import { useQueryClient } from "@tanstack/react-query";
+import moment from "moment";
+import { useState } from "react";
+import ServiceDetails from "../components/service_details";
 
 const header = [
-  "Services ",
+  "Services",
+  "Bio",
   "Location",
   "Price",
-  "Total Rating",
   "Date Created",
   "Actions",
 ];
@@ -27,6 +26,8 @@ const style = "px-6 py-4 whitespace-no-wrap border-b border-gray-300";
 const DeclineServices = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedService, setSelectedService] = useState<any>({});
+  const [activeItemId, setActiveItemId] = useState<any>(null);
+  const [search, setSearch] = useState<any>("");
 
   const openModal = (service: any) => {
     setIsModalOpen(true);
@@ -44,21 +45,22 @@ const DeclineServices = () => {
     hasNextPage,
     fetchNextPage,
     isFetchingNextPage,
+    isFetching,
   } = usePaginatedQuery({
-    url: "/service/for-admin?status=rejected",
-    queryKey: ["services", "rejected-services"],
+    url: `/admin/services/for-admin?status=rejected&search=${search}`,
+    queryKey: ["services", "rejected-services", search],
     enabled: true,
   });
 
   const services = data?.pages?.map((e: any) => e.data.data).flat() as any[];
 
   const { isLoading, mutate } = useTMutation({
-    url: "/service/admin/update-status",
+    url: "/admin/services/update-status",
     method: "put",
     options: {
       onSuccess() {
         client.invalidateQueries(["services"]);
-        closeModal()
+        closeModal();
       },
     },
   });
@@ -71,17 +73,21 @@ const DeclineServices = () => {
     <div>
       {services?.length > 0 ? (
         <>
-          <DashboardAction />
           {/* @ts-ignore */}
-          <DefaultTable header={header}>
-            {services?.map((_: any, key: number) => {
+          <DashboardAction
+            isLoading={isFetching}
+            onChangeText={setSearch}
+            textValue={search}
+          />
+          <DefaultTable header={header as any}>
+            {services?.map((_: BusinessProfile, key: number) => {
               return (
                 <tr key={key}>
                   <td className={style}>
                     <div className="flex gap-2">
                       <div className="flex overflow-hidden w-[3em] h-[3em] bg-gray-500 rounded-lg">
-                        <Image
-                          src={JSON.parse(_?.images[0]).url}
+                        <img
+                          src={_?.avatar}
                           className="w-[100%] h-[100%] object-fit"
                           alt=""
                           width={50}
@@ -89,36 +95,38 @@ const DeclineServices = () => {
                         />
                       </div>
                       <div className="flex flex-col">
-                        <h3 className="text-sm whitespace-nowrap">{_.name}</h3>
-                        <u className="text-xs text-gray-400">
-                          @{_.user.username}
-                        </u>
+                        <h3 className="text-sm whitespace-nowrap">
+                          {_?.services?.[0].name}
+                        </h3>
+                        <u className="text-xs text-gray-400">@{_?.username}</u>
                       </div>
                     </div>
                   </td>
                   <td className={style}>
-                    <h3 className="text-sm">{_.address}</h3>
+                    <h3 className="text-sm">{_?.bio}</h3>
+                  </td>
+                  <td className={style}>
+                    <h3 className="text-sm">{_?.location}</h3>
                   </td>
                   <td className={style}>
                     <h3 className="whitespace-nowrap text-sm">
-                      {_?.packages?.length} Packages
+                      {_.currency}
+                      {_.serviceType == "hourly" ? _.hourlyRate : _.dailyRate}
                     </h3>
                   </td>
                   <td className={style}>
-                    <h3 className="text-sm">{_?.totalRatings}</h3>
-                  </td>
-                  <td className={style}>
-                    <h3 className="text-sm whitespace-nowrap">
+                    <h3 className="text-xs whitespace-nowrap">
                       {moment(_?.createdAt).format("MMM DD YYYY")}
                     </h3>
                   </td>
                   <td className={style}>
-                    {isLoading ? (
+                    {isLoading && activeItemId == _?.id ? (
                       <Spinner />
                     ) : (
                       <div className="flex items-center justify-space-around">
                         <button
                           onClick={() => {
+                            setActiveItemId(_?.id);
                             mutate({ eventId: _?.id, status: "approved" });
                           }}
                         >
@@ -149,10 +157,12 @@ const DeclineServices = () => {
             })}
           </DefaultTable>
 
-          <TablePagination
-            loading={isFetchingNextPage}
-            onFetchMore={fetchNextPage}
-          />
+          {hasNextPage && (
+            <TablePagination
+              loading={isFetchingNextPage}
+              onFetchMore={fetchNextPage}
+            />
+          )}
         </>
       ) : (
         <NoData />
@@ -162,9 +172,10 @@ const DeclineServices = () => {
         <ServiceDetails
           data={selectedService}
           onApprove={() => {
+            setActiveItemId(selectedService?.id);
             mutate({ eventId: selectedService?.id, status: "approved" });
           }}
-
+          isApproving={isLoading && activeItemId === selectedService?.id}
           isDeclined
         />
       </Modal>

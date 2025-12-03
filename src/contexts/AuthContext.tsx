@@ -1,43 +1,21 @@
 // auth context
 "use client";
+import { LoadingScreen } from "@/app/layouts/LoadingScreen";
+import { useGetUserWithoutContext } from "@/hooks/api/auth/useGetCurrentUser";
+import { useRouterO } from "@/v2/hooks/use-router";
+import { UserData } from "@/v2/types/user.types";
 import Head from "next/head";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import {
   PropsWithChildren,
   createContext,
   useContext,
-  useState,
   useEffect,
+  useState,
 } from "react";
 import { useHandleError } from "../hooks/api/useHandleError";
-import { useGetUserWithoutContext } from "@/hooks/api/auth/useGetCurrentUser";
-import { LoadingScreen } from "@/app/layouts/LoadingScreen";
 
-export type User = {
-  address: string;
-  avatar: string;
-  bio: string;
-  country: string;
-  email: string;
-  firstName: string;
-  id: number;
-  lastName: string;
-  phone: string;
-  recieveGeneralEmail: boolean;
-  recieveNewPropertyEmail: boolean;
-  ref: string;
-  referralCode: string;
-  state: string;
-  username: string;
-  zip: string;
-  totalEarning: number;
-  totalWithdrawal: number;
-  city: string;
-  name: string;
-  profileImage: string;
-  userRole: string;
-  createdAt: Date;
-};
+export type User = UserData;
 
 interface AuthContextType {
   user: User | null;
@@ -69,7 +47,7 @@ export function AuthProvider({ children }: PropsWithChildren<{}>) {
   const [loading, setLoading] = useState(true);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  const { push } = useRouter();
+  const { push } = useRouterO();
   const pathname = usePathname();
   const { handleError } = useHandleError();
 

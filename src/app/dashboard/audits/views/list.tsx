@@ -1,26 +1,24 @@
 import DashboardAction from "@/app/_components/dashboard/dashboardAction";
-import React, { Fragment } from "react";
-import Audit_Box from "../components/audit_box";
-import { usePaginatedQuery } from "@/hooks/api/usePaginatedQuery";
-import moment from "moment";
+import { Spinner } from "@/app/_components/spinner/Spinner";
 import TablePagination from "@/app/_components/table/tablePagination";
 import groupByDate from "@/helpers/groupByDate";
-import { Spinner } from "@/app/_components/spinner/Spinner";
+import { usePaginatedQuery } from "@/hooks/api/usePaginatedQuery";
+import { Audit } from "@/v2/types/audits.types";
+import { Fragment } from "react";
+import Audit_Box from "../components/audit_box";
 
 const AuditList = () => {
   const { data, isLoading, hasNextPage, fetchNextPage, isFetchingNextPage } =
     usePaginatedQuery({
-      url: "/report/audit-trails",
+      url: "/admin/reports/audit-trails",
       queryKey: ["audits"],
       enabled: true,
     });
 
-  const audits = data?.pages?.map((e: any) => e.data.data).flat() as any[];
+  const audits = data?.pages?.map((e: any) => e.data.data).flat() as Audit[];
 
   // group by 5 mins
   const grouped = groupByDate(audits)
-
-  //console.log(grouped)
 
   if (isLoading) {
     return <Spinner />;
@@ -29,7 +27,7 @@ const AuditList = () => {
   return (
     <div>
       <DashboardAction />
-      {grouped?.map((_: any, key: number) => (
+      {grouped?.map((_, key: number) => (
         <Fragment key={key}>
           <Audit_Box item={_} />
         </Fragment>

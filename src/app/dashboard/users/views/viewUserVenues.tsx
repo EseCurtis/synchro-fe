@@ -1,31 +1,23 @@
 "use client";
 
-import React, { Fragment, useEffect } from "react";
-import UserStat from "../components/userStat";
-import DefaultTable from "@/app/_components/table/defaultTable";
-import { TABLE_STYLE } from "@/constant";
-import { table } from "@/utils/contents/dummy/table";
-import Image from "next/image";
-import DashboardAction from "@/app/_components/dashboard/dashboardAction";
-import EventStat from "../components/userEventStat";
-import { venueViewData } from "../contents";
-import { useState } from "react";
-import Modal from "@/app/_components/popups/modal";
-import VenueDetails from "../components/user/venue_details";
-import { usePaginatedQuery } from "@/hooks/api/usePaginatedQuery";
-import { useParams } from "next/navigation";
-import Badge from "@/app/_components/forms/badge";
-import moment from "moment";
-import TablePagination from "@/app/_components/table/tablePagination";
 import ModalTabButton from "@/app/_components/button/modalTabButton";
-import { TStringIndexObject } from "@/utils/types";
-import NoData from "@/app/_components/table/NoData";
+import DashboardAction from "@/app/_components/dashboard/dashboardAction";
 import {
-  bookedValueIcon,
-  bookedVenueIcon,
-  totalVenueIcon,
-  venueCreatedIcon,
+    bookedValueIcon,
+    bookedVenueIcon,
+    totalVenueIcon,
+    venueCreatedIcon,
 } from "@/app/_components/icons/preview/venuesStatIcon";
+import Modal from "@/app/_components/popups/modal";
+import DefaultTable from "@/app/_components/table/defaultTable";
+import NoData from "@/app/_components/table/NoData";
+import TablePagination from "@/app/_components/table/tablePagination";
+import { usePaginatedQuery } from "@/hooks/api/usePaginatedQuery";
+import { TStringIndexObject } from "@/utils/types";
+import { useParams } from "next/navigation";
+import { Fragment, useEffect, useState } from "react";
+import VenueDetails from "../components/user/venue_details";
+import EventStat from "../components/userEventStat";
 import BookedVenues from "./VenueTables/BookedVenues";
 import CreatedVenues from "./VenueTables/CreatedVenues";
 
@@ -36,13 +28,13 @@ const ViewUserVenues = () => {
   const id = params.id;
 
   const bookedVenues: any = usePaginatedQuery({
-    url: `booking/accepted/${id}?type=venue`,
+    url: `/admin/users/${id}/bookings?type=venue`,
     queryKey: ["booked-venues", String(id)],
     enabled: true,
   });
 
   const createdVenues: any = usePaginatedQuery({
-    url: `venue/user?userId=${id}`,
+    url: `/admin/users/${id}/venues`,
     queryKey: ["venues", String(id)],
     enabled: true,
   });

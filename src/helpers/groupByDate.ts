@@ -1,78 +1,33 @@
-interface DataItem {
-    id: string;
-    createdAt: string;
-    updatedAt: string;
-    title: string;
-    reportableId: string;
-    user: User;
-    reportable: Reportable;
-    action: string,
-    auditType: string,
-    fallbackReportable: User
-}
+import { Audit, AuditGroup } from "@/v2/types/audits.types";
 
-interface User {
-    id: string;
-    firstName: string;
-    lastName: string;
-    username: string;
-    profileImage: string;
-    coverImage: string | null;
-    bio: string | null;
-    location: string | null;
-    website: string | null;
-    private: boolean;
-    isBusiness: boolean;
-    showActivity: boolean;
-    showLocation: boolean;
-    followingCount: number;
-    followerCount: number;
-    appType: string;
-    userState: string;
-    postCount: number;
-    lastSeen: string | null;
-}
+export const groupByDate = (data: Audit[]): AuditGroup[] => {
+    if (!data || data.length < 1) return [];
 
-interface Reportable extends User{}
+    // 5-minute interval in milliseconds
+    const interval = 5 * 60 * 1000;
 
-interface Group {
-    title: string;
-    data: DataItem;
-    trails: DataItem[];
-    createdAt: number;
-}
+    // Sort by createdAt (oldest to newest)
+    data.sort(
+        (a, b) =>
+            new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+    );
 
-const groupByDate = (data: any): Group[] => {
-    if(data?.length < 1 || !data) return [];
-    // Convert 5 minutes to milliseconds
-    const interval: number = 5 * 60 * 1000;
+    const groups: AuditGroup[] = [];
+    let currentGroup: AuditGroup | null = null;
 
-    // Sort the data by createdAt
-    data?.sort((a: any, b: any) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime());
+    for (const item of data) {
+        const createdAt = new Date(item.createdAt).getTime();
 
-    // Group the data
-    let groups: Group[] = [];
-    let currentGroup: Group | null = null;
-    for (let item of data) {
-        let createdAt: number = new Date(item.createdAt).getTime();
-        item.action = item.action || item.title.split(" ").slice(1, -1).join(" ");
-        item.reportable.username = item.title.split(" ").reverse()[0];
+        // Use meaningful values for title/grouping
+        const title = `${item.performedByName} - ${item.actionDescription}`;
 
-        if(item.auditType !== "user") {
-            item.reportable.username = (item.reportable as any).name;
-        }
-
-        item.fallbackReportable = {
-            username: item.title.split(" ").reverse()[0],
-        } as User;
-        //item.reportable = {} as User;
-
+        // Start a new group if none exists or if the interval has passed
         if (!currentGroup || createdAt - currentGroup.createdAt > interval) {
             currentGroup = {
-                title: item.title,
+                title,
                 data: item,
                 trails: [item],
-                createdAt
+                createdAt,
             };
             groups.push(currentGroup);
         } else {
@@ -81,6 +36,7 @@ const groupByDate = (data: any): Group[] => {
     }
 
     return groups;
-}
+};
+
 
 export default groupByDate;

@@ -1,14 +1,18 @@
 import TabComponent from "@/app/_components/tab";
 import DashboardLayout from "@/app/layouts/dashboardLayout";
-import React from "react";
-import ProfileInfo from "./views/profile_info";
-import FeesConfigurations from "./views/fees_configuration";
+import ChangePasswordPage from "./change-password/page";
 import Categories from "./views/Catgories";
+import FeesConfigurations from "./views/fees_configuration";
+import ProfileInfo from "./views/profile_info";
 
 const data = [
   {
     header: "Profile Information",
     component: <ProfileInfo />,
+  },
+  {
+    header: "Change Password",
+    component: <ChangePasswordPage />,
   },
   {
     header: "Fee Configuration ",

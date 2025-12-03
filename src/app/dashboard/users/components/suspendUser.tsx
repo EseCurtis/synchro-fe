@@ -1,7 +1,9 @@
 import { Button } from "@/app/_components/button";
 import Input from "@/app/_components/input_fields";
 import { useSuspendUser } from "@/hooks/api/v2/users";
+import { BusinessProfile } from "@/v2/types/service.types";
 import { useState } from "react";
+import { toast } from "react-toastify";
 
 const suspendIcon = (
   <svg
@@ -25,7 +27,7 @@ const suspendIcon = (
   </svg>
 );
 
-const SuspendUser = ({ user, onClose = () => {} }: { user: any, onClose?: any }) => {
+const SuspendUser = ({ user, onClose = () => {} }: { user: BusinessProfile, onClose?: any }) => {
   const { mutate, isLoading } = useSuspendUser();
 
   const [reason, setReason] = useState("");
@@ -68,8 +70,13 @@ const SuspendUser = ({ user, onClose = () => {} }: { user: any, onClose?: any })
           isLoading={isLoading}
           onClick={() => {
             mutate({
-              userId: user?.id,
+              userId: user?.user?.id,
               reason: reason,
+            }, {
+              onSuccess(){
+                toast.success("User suspended")
+                onClose()
+              }
             });
           }}
         >

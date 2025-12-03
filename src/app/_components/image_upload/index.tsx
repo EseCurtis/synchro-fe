@@ -53,7 +53,7 @@ function ImageUpload({
   };
 
   const { mutate, isLoading } = useTMutation({
-    url: "/upload/image-signature",
+    url: "/upload/single",
     method: "get",
   });
 

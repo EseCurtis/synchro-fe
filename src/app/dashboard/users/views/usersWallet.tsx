@@ -1,28 +1,41 @@
-import React, { useEffect } from "react";
-import DefaultTable from "@/app/_components/table/defaultTable";
-import { TABLE_STYLE } from "@/constant";
-import Image from "next/image";
 import DashboardAction from "@/app/_components/dashboard/dashboardAction";
-import WalletStat from "../components/walletStat";
-import { formatNumber } from "@/utils/formatNumber";
-import { useParams } from "next/navigation";
-import moment from "moment";
-import TransactionIcon from "@/app/_components/wallet/TransactionIcon";
-import { usePaginatedQuery } from "@/hooks/api/usePaginatedQuery";
+import DefaultTable from "@/app/_components/table/defaultTable";
 import TablePagination from "@/app/_components/table/tablePagination";
+import TransactionIcon from "@/app/_components/wallet/TransactionIcon";
+import { TABLE_STYLE } from "@/constant";
+import { usePaginatedQuery } from "@/hooks/api/usePaginatedQuery";
+import { formatNumber } from "@/utils/formatNumber";
+import { UserData } from "@/v2/types/user.types";
+import moment from "moment";
+import Image from "next/image";
+import { useParams } from "next/navigation";
+import WalletStat from "../components/walletStat";
 
 const header = ["Transaction ID", "Amount", "Source", "Recipiant", "Date"];
 
-const ViewUsersWallet = () => {
+const ViewUsersWallet = ({ user }: { user: UserData }) => {
   const params = useParams();
   const id = params.id;
+
+  const cumulativeWalletBalance =
+    user?.wallets?.length > 0 &&
+    parseFloat(
+      String(
+        user.wallets.reduce((acc, wallet) => {
+          return {
+            ...wallet,
+            balance: acc + wallet?.balance,
+          };
+        })?.balance || 0
+      ) 
+    )|| 0;
 
   const {
     data: walletResponse,
     fetchNextPage,
     isFetchingNextPage,
   }: any = usePaginatedQuery({
-    url: `/wallet/history?userId=${id}`,
+    url: `/admin/users/${id}/wallet/history`,
     queryKey: ["wallet", "user-wallet-history"],
     enabled: true,
   });
@@ -31,11 +44,10 @@ const ViewUsersWallet = () => {
     ?.map((e: any) => e.data.data)
     .flat() as any[];
 
-
   return (
     <div>
       <div className="flex gap-5 my-[4em]">
-        <WalletStat walletHistory={walletHistory} />
+        <WalletStat walletBalance={cumulativeWalletBalance} />
       </div>
 
       <div className="my-[3em]">

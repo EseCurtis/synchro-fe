@@ -1,11 +1,12 @@
 "use client";
 
-import React, { useRef, useState, useEffect } from "react";
-import { SlCalender } from "react-icons/sl";
-import { BiBell } from "react-icons/bi";
-import moment from "moment";
-import NotificationModal from "./components/notification_modal";
 import { useAuthContext } from "@/contexts/AuthContext";
+import { UserAvatarV2 } from "@/v2/components/common/avatar.component";
+import { UserData } from "@/v2/types/user.types";
+import moment from "moment";
+import React from "react";
+import { SlCalender } from "react-icons/sl";
+import NotificationModal from "./components/notification_modal";
 
 interface DashboaradHeaderProps {
   title: string;
@@ -38,16 +39,9 @@ const DashboaradHeader: React.FC<DashboaradHeaderProps> = ({
         <NotificationModal />
 
         <div className="flex gap-2 items-center">
-          <img
-            src={user?.profileImage}
-            className="w-[32px] h-[32px] rounded-full bg-gray-500 object-cover"
-            alt="profile image"
-          ></img>
-          <h3>
-            {user?.firstName
-              ? `${user?.firstName} ${user?.lastName}`
-              : user?.username}
-          </h3>
+          <div className="h-[32px] w-[32px] flex items-center justify-center">
+            <UserAvatarV2 user={user as any as UserData} />
+          </div>
         </div>
       </div>
     </div>

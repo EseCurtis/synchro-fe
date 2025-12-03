@@ -1,20 +1,29 @@
 "use client";
-import React from "react";
-import DashboardLayout from "../layouts/dashboardLayout";
-import Image from "next/image";
-import { formatNumber } from "@/utils/formatNumber";
-import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
-import { Doughnut, Line } from "react-chartjs-2";
-import LineGraph from "../_components/charts/lineChart";
-import { useTQuery } from "@/hooks/api/useTQuery";
 import { useAuthContext } from "@/contexts/AuthContext";
-ChartJS.register(ArcElement, Tooltip, Legend);
+import { useTQuery } from "@/hooks/api/useTQuery";
+import { useUserActivity } from "@/hooks/api/useUserActivity";
+import { cn, formatNumber } from "@/utils/formatNumber";
+import { userFullName } from "@/v2/helpers/common.helpers";
+import Image from "next/image";
+import LineGraph from "../_components/charts/lineChart";
+import PieChart from "../_components/charts/pieChart";
+import DashboardLayout from "../layouts/dashboardLayout";
 
 const DashboardIndex = () => {
-  const { data } = useTQuery({
-    url: "/report/totals",
+  const { data, isLoading } = useTQuery({
+    url: "/admin/reports/totals",
     queryKey: ["totals"],
   });
+
+  // Fetch user activity data
+  const {
+    data: userActivityData,
+    isLoading: isUserActivityLoading,
+    error: userActivityError,
+  } = useUserActivity("month");
+
+  // Extract chart data safely
+  const chartData = (userActivityData as any)?.data?.data || null;
 
   const contentData = [
     {
@@ -44,59 +53,36 @@ const DashboardIndex = () => {
   ];
 
   const genderData = {
-    labels: ["Male", "Female", "None"],
+    labels: ["Male", "Female", "Other", "Prefer not to say", "None"],
     datasets: [
       {
         data: [
           // @ts-ignore
-          data?.data?.genderMetrics?.males?.toFixed(0) ?? 0,
+          data?.data?.genderMetrics?.males ?? 0,
           // @ts-ignore
-          data?.data?.genderMetrics?.females?.toFixed(0) ?? 0,
+          data?.data?.genderMetrics?.females ?? 0,
           // @ts-ignore
-          data?.data?.genderMetrics?.none?.toFixed(0) ?? 0,
+          data?.data?.genderMetrics?.other ?? 0,
+          // @ts-ignore
+          data?.data?.genderMetrics?.preferNotToSay ?? 0,
+          // @ts-ignore
+          data?.data?.genderMetrics?.none ?? 0,
         ],
-        backgroundColor: ["#37C89A", "#FFCC00", "#E95E2A"],
+        backgroundColor: [
+          "#e73c0155",
+          "#0512d2",
+          "#A0AEC0",
+          "#e73c01",
+          "#e73c013A",
+        ],
+        borderColor: ["#ffffff", "#ffffff", "#ffffff", "#ffffff", "#ffffff"],
+        borderWidth: 2,
       },
     ],
   };
 
-  //console.log(genderData.datasets);
-
-  const config = {
-    type: "doughnut",
-    data: genderData,
-    options: {
-      responsive: true,
-      plugins: {
-        legend: {
-          position: "top",
-        },
-        title: {
-          display: true,
-          text: "Chart.js Doughnut Chart",
-        },
-      },
-    },
-  };
-
-  const lineData = {
-    labels: ["January", "February", "March", "April", "May"],
-    datasets: [
-      {
-        label: "Sample Line Data",
-        data: [10, 20, 15, 25, 30],
-        borderColor: "green",
-        backgroundColor: "rgba(0, 128, 0, 0.2)",
-      },
-    ],
-  };
-  const lineOptions = {
-    scales: {
-      x: {
-        type: "category",
-      },
-    },
-  };
+  // Calculate total users for center text
+  const totalUsers = genderData.datasets[0].data.reduce((a, b) => a + b, 0);
 
   const { user } = useAuthContext();
 
@@ -110,7 +96,7 @@ const DashboardIndex = () => {
               fontWeight: "bold",
             }}
           >
-            {user?.firstName} {user?.lastName}
+            {userFullName(user)}
           </span>{" "}
           👋
         </h1>
@@ -131,7 +117,12 @@ const DashboardIndex = () => {
                 <div className="my-[1.5em]">
                   <p className="text-text_primary">{items.title}</p>
                   <h3
-                    className="font-bold "
+                    className={cn(
+                      "font-bold ",
+                      isLoading
+                        ? "animate-pulse text-transparent bg-gray-400/20"
+                        : ""
+                    )}
                     style={{
                       fontSize: "24px",
                       // fontWeight: "700",
@@ -147,32 +138,28 @@ const DashboardIndex = () => {
       </div>
 
       <div className="flex justify-between gap-[20px]">
-        <div
-          className="w-[50%] rounded-lg p-[16px] "
-          style={{
-            border: "1px solid #EDEFF5",
-          }}
-        >
-          <h3 className="text-[16px] font-bold">Users most active period</h3>
-
-          <center>
-            <LineGraph />
-          </center>
+        <div className="w-[50%] ">
+          {
+            <LineGraph
+              title="Users Most Active Period"
+              height={300}
+              data={chartData}
+              isLoading={isUserActivityLoading}
+            />
+          }
         </div>
 
         {/* gender  */}
-        <div
-          className="w-[50%] rounded-lg p-[16px] "
-          style={{
-            border: "1px solid #EDEFF5",
-          }}
-        >
-          <h3 className="text-[16px] font-bold">Gender</h3>
-
-          <div className="w-[400px] mx-auto">
-            {/* @ts-ignore */}
-            <Doughnut data={config.data} options={config.options} />
-          </div>
+        <div className="w-[50%]">
+          <PieChart
+            title="Gender Distribution"
+            data={genderData}
+            height={300}
+            centerText={formatNumber(totalUsers)}
+            centerSubtext="Total Users"
+            showLegend={true}
+            showTooltip={true}
+          />
         </div>
       </div>
 

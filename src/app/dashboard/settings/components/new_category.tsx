@@ -1,9 +1,17 @@
+import { AppToast } from "@/app/_components/AppToast";
 import { Button } from "@/app/_components/button";
 import ImageUpload from "@/app/_components/image_upload";
 import { useTMutation } from "@/hooks/api/useTMutation";
-import React, { useState } from "react";
+import { useQueryClient } from "@tanstack/react-query";
+import { useMemo, useState } from "react";
+import { toast } from "react-toastify";
 
-const NewCategory = ({ isEvent }: { isEvent: boolean }) => {
+type NewCategoryProps = {
+  isEvent: boolean;
+  onClose?: () => void;
+};
+
+const NewCategory = ({ isEvent, onClose }: NewCategoryProps) => {
   const [data, setData] = useState({
     name: "",
     description: "",
@@ -12,25 +20,75 @@ const NewCategory = ({ isEvent }: { isEvent: boolean }) => {
     black_icon: "Nill",
   });
 
+  const client = useQueryClient();
+  const resetForm = () =>
+    setData({
+      name: "",
+      description: "",
+      image: "",
+      white_icon: "",
+      black_icon: "Nill",
+    });
+
   const { mutate, isLoading } = useTMutation({
-    url: "/category/create/event_category",
+    url: "/admin/categories/create/event_category",
     method: "post",
     options: {
       onSuccess: () => {
-        window.location.reload();
+        client.invalidateQueries(["category", "event-category"]);
+        toast(<AppToast>Event category created</AppToast>, { type: "success" });
+        resetForm();
+        onClose?.();
+      },
+      onError: (error: any) => {
+        const message =
+          error?.response?.data?.message ||
+          "Unable to create event category. Please try again.";
+        toast(<AppToast>{message}</AppToast>, { type: "error" });
       },
     },
   });
 
   const { mutate: mutateBusiness, isLoading: isLoadingEvent } = useTMutation({
-    url: "/category/create/business_category",
+    url: "/admin/categories/create/business_category",
     method: "post",
     options: {
       onSuccess: () => {
-        window.location.reload();
+        client.invalidateQueries(["category", "business-category"]);
+        toast(<AppToast>Business category created</AppToast>, {
+          type: "success",
+        });
+        resetForm();
+        onClose?.();
+      },
+      onError: (error: any) => {
+        const message =
+          error?.response?.data?.message ||
+          "Unable to create business category. Please try again.";
+        toast(<AppToast>{message}</AppToast>, { type: "error" });
       },
     },
   });
+
+  const isSubmitting = isEvent ? isLoading : isLoadingEvent;
+  const canSubmit = useMemo(() => data.name.trim().length > 0, [data.name]);
+
+  const handleSubmit = () => {
+    if (!canSubmit) {
+      toast(<AppToast>Category name is required</AppToast>, { type: "error" });
+      return;
+    }
+    const payload = {
+      ...data,
+      name: data.name.trim(),
+      description: data.description.trim() || data.name.trim(),
+    };
+    if (isEvent) {
+      mutate(payload);
+    } else {
+      mutateBusiness(payload);
+    }
+  };
 
   return (
     <div>
@@ -90,15 +148,17 @@ const NewCategory = ({ isEvent }: { isEvent: boolean }) => {
         <Button
           isLoading={isLoading || isLoadingEvent}
           onClick={() => {
-            isEvent ? mutate(data) : mutateBusiness(data);
+            handleSubmit();
           }}
+          disabled={!canSubmit || isSubmitting}
         >
-          Add Category
+          {isSubmitting ? "Saving..." : "Add Category"}
         </Button>
 
         <Button
           style={{ background: "white", color: "red" }}
           customClassName="text-red-500 border border-2 border-red-500"
+          onClick={onClose}
         >
           Cancel
         </Button>

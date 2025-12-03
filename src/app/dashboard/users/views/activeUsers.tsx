@@ -1,20 +1,19 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
-import DashboardAction from "@/app/_components/dashboard/dashboardAction";
+import Badge from "@/app/_components/forms/badge";
+import Input from "@/app/_components/input_fields";
+import Dropdown from "@/app/_components/popups/dropDown";
+import Modal from "@/app/_components/popups/modal";
+import { Spinner } from "@/app/_components/spinner/Spinner";
 import DefaultTable from "@/app/_components/table/defaultTable";
 import TablePagination from "@/app/_components/table/tablePagination";
-import React, { Fragment, useEffect } from "react";
-import Image from "../../../../../node_modules/next/image";
-import Link from "next/link";
-import Dropdown from "@/app/_components/popups/dropDown";
-import { useState } from "react";
-import Modal from "@/app/_components/popups/modal";
-import SuspendUser from "../components/suspendUser";
-import { useTQuery } from "@/hooks/api/useTQuery";
+import { useSearchQuery } from "@/hooks/api/useSearchQuery";
+import { UserAvatarV2 } from "@/v2/components/common/avatar.component";
+import { useRouterO } from "@/v2/hooks/use-router";
+import { UserData } from "@/v2/types/user.types";
 import moment from "moment";
-import { Spinner } from "@/app/_components/spinner/Spinner";
-import { useRouter } from "next/navigation";
-import { usePaginatedQuery } from "@/hooks/api/usePaginatedQuery";
+import { Fragment, useState } from "react";
+import SuspendUser from "../components/suspendUser";
 
 const header = [
   "Fullname ",
@@ -30,7 +29,15 @@ const ActiveUsers = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalContent, setModalContent] = useState<any>();
-  const [filteredUsers, setFilteredUsers] = useState<any[]>([]);
+  // Backend search configuration - matches actual entity structure
+  const searchFields = [
+    "email",
+    "phoneNumber",
+    "profiles.firstName",
+    "profiles.lastName",
+    "profiles.username",
+    "profiles?.businessName",
+  ];
 
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
@@ -46,7 +53,7 @@ const ActiveUsers = () => {
     setIsModalOpen(false);
   };
 
-  const { push } = useRouter();
+  const { push } = useRouterO();
 
   const dropDownData = (user: any) => {
     return [
@@ -115,17 +122,26 @@ const ActiveUsers = () => {
     ];
   };
 
-  const { isLoading, data, hasNextPage, fetchNextPage, isFetchingNextPage } =
-    usePaginatedQuery({
-      url: "/user/admin/users?suspended=false",
-      queryKey: ["users", "active-users"],
-      enabled: true,
-    });
+  const {
+    isLoading,
+    data,
+    hasNextPage,
+    fetchNextPage,
+    isFetchingNextPage,
+    updateSearch,
+    searchParams,
+    isRefetching,
+    isFetching,
+  } = useSearchQuery({
+    baseUrl: "/admin/users",
+    queryKey: ["users", "active-users"],
+    enabled: true,
+    initialSearchParams: { suspended: false },
+  });
 
   const users = data?.pages?.map((e: any) => e.data.data).flat() as any[];
-  useEffect(() => {
-    setFilteredUsers(users);
-  }, []);
+
+
 
   if (isLoading) {
     return <Spinner />;
@@ -133,85 +149,108 @@ const ActiveUsers = () => {
 
   return (
     <div>
-      <DashboardAction
-        pool={users}
-        setMatch={setFilteredUsers}
-        matchQuery={["firstName", "username"]}
-      />
+      <div className="flex gap-3 items-center mb-4">
+        <Input
+          name="search"
+          type="search"
+          placeholder="Search users..."
+          onChange={(e) => updateSearch({ search: e.target.value })}
+          style={{
+            width: "300px",
+            border: "1px solid #EEE",
+          }}
+        />
+        <button
+          onClick={() => updateSearch({ search: "" })}
+          className="px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300"
+        >
+          Clear
+        </button>
+        {(isRefetching || isFetching) && <Spinner />}
+      </div>
       {/* @ts-ignore */}
-      <DefaultTable header={header}>
-        {filteredUsers?.map((_, key: number) => {
-          return (
-            <tr key={key} className="text-sm">
-              <td
-                className={`${style} cursor-pointer`}
-                onClick={() => {
-                  push(`/dashboard/users/${_?.id}`);
-                }}
-              >
-                <div className="flex gap-5 items-center">
-                  {_?.profileImage ? (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img
-                      src={_?.profileImage}
-                      className="w-[3em] h-[3em] bg-gray-500 rounded-full object-cover"
-                      alt=""
-                    />
-                  ) : (
-                    <div className="w-[3em] h-[3em] bg-gray-500 rounded-full"></div>
-                  )}
-                  <div>
-                    <h3>{_?.firstName ?? _?.username}</h3>
-                    <p className="text-second_primary_text">{_.email}</p>
-                  </div>
-                </div>
-              </td>
-              <td className={style}>
-                <h3>{_.username}</h3>
-              </td>
-              <td className={style}>
-                <h3>{_.gender ?? "N/A"}</h3>
-              </td>
-              <td className={style}>
-                <h3>{_.phone ?? "N/A"}</h3>
-              </td>
-              <td className={style}>
-                <h3>{moment(_.last_login).format("MMM ddd YYYY")}</h3>
-              </td>
-              <td className={style}>
-                <Dropdown
-                  view={
-                    <div className="w-10 h-10">
-                      <img
-                        src="/images/icons/dashboard/table/more.svg"
-                        alt=""
-                        onClick={toggleDropdown}
-                        className="w-8 h-8"
-                      />
-                    </div>
-                  }
+      {(users.length < 0 && <></>) || (
+        <DefaultTable header={header as any}>
+          {users?.map((_: UserData, key: number) => {
+            const profile = _.profiles?.[0];
+            return (
+              <tr key={key} className="text-sm hover:bg-slate-50">
+                <td
+                  className={`${style} cursor-pointer`}
+                  onClick={() => {
+                    push(`/dashboard/users/${_?.id}`);
+                  }}
                 >
-                  {dropDownData(_).map(({ title, icon }, index) => (
-                    <Fragment key={index}>
-                      <div className="flex gap-3 py-[.5em]">
-                        {icon}
-                        {title}
+                  <div className="flex gap-5 items-center">
+                    <div className="w-[3em] h-[3em]">
+                      <UserAvatarV2 user={_} />
+                    </div>
+                    <div>
+                      <h3>
+                        {profile?.firstName
+                          ? `${profile?.firstName} ${profile?.lastName}`
+                          : profile?.username}
+                      </h3>
+                      <p className="text-second_primary_text">{_?.email}</p>
+                      {profile?.businessName && (
+                        <Badge status="shiny" label="Business" size="small" />
+                      )}
+                    </div>
+                  </div>
+                </td>
+                <td className={style}>
+                  <h3>{profile?.username}</h3>
+                </td>
+                <td className={style}>
+                  <h3>{_?.gender ?? "not specified"}</h3>
+                </td>
+                <td className={style}>
+                  <h3>{_?.phoneNumber ?? "---"}</h3>
+                </td>
+                <td className={style}>
+                  <h3>
+                    {_?.lastLoginAt
+                      ? moment(_.lastLoginAt).format("MMM ddd YYYY")
+                      : "---"}
+                  </h3>
+                </td>
+                <td className={style}>
+                  <Dropdown
+                    view={
+                      <div className="w-10 h-10">
+                        <img
+                          src="/images/icons/dashboard/table/more.svg"
+                          alt=""
+                          onClick={toggleDropdown}
+                          className="w-8 h-8"
+                        />
                       </div>
-                    </Fragment>
-                  ))}
-                </Dropdown>
-              </td>
-            </tr>
-          );
-        })}
-      </DefaultTable>
+                    }
+                  >
+                    {dropDownData(_).map(({ title, icon }, index) => (
+                      <Fragment key={index}>
+                        <div className="flex gap-3 py-[.5em]">
+                          {icon}
+                          {title}
+                        </div>
+                      </Fragment>
+                    ))}
+                  </Dropdown>
+                </td>
+              </tr>
+            );
+          })}
+        </DefaultTable>
+      )}
 
-      <TablePagination
-        loading={isFetchingNextPage}
-        onFetchMore={() => {
-          fetchNextPage();
-        }}
-      />
+      {hasNextPage && (
+        <TablePagination
+          loading={isFetchingNextPage}
+          onFetchMore={() => {
+            fetchNextPage();
+          }}
+        />
+      )}
 
       <Modal isOpen={isModalOpen} onClose={closeModal}>
         <div>{modalContent}</div>

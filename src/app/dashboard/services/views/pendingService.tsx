@@ -6,7 +6,11 @@ import { Spinner } from "@/app/_components/spinner/Spinner";
 import DefaultTable from "@/app/_components/table/defaultTable";
 import NoData from "@/app/_components/table/NoData";
 import TablePagination from "@/app/_components/table/tablePagination";
-import { usePendingServices, useUpdateServiceStatus } from "@/hooks/api/v2/services";
+import {
+  usePendingServices,
+  useUpdateServiceStatus,
+} from "@/hooks/api/v2/services";
+import { BusinessProfile } from "@/v2/types/service.types";
 import moment from "moment";
 import { useState } from "react";
 import Image from "../../../../../node_modules/next/image";
@@ -15,17 +19,19 @@ import ServiceDetails from "../components/service_details";
 
 const header = [
   "Services ",
+  "Bio",
   "Location",
-  "Packages",
-  "Total Earned",
+  "Price",
   "Date Created",
   "Actions",
+  "",
 ];
 
 const style = "px-6 py-4 whitespace-no-wrap border-b border-gray-300";
 const PendingService = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedService, setSelectedService] = useState<any>({});
+  const [search, setSearch] = useState("");
 
   const openModal = (service: any) => {
     setIsModalOpen(true);
@@ -46,7 +52,8 @@ const PendingService = () => {
     hasNextPage,
     fetchNextPage,
     isFetchingNextPage,
-  } = usePendingServices();
+    isFetching,
+  } = usePendingServices({ search });
 
   const services = data?.pages?.map((e: any) => e.data.data).flat() as any[];
   const { isLoading, mutate } = useUpdateServiceStatus();
@@ -59,17 +66,25 @@ const PendingService = () => {
     <div>
       {services?.length > 0 ? (
         <>
-          <DashboardAction />
           {/* @ts-ignore */}
-          <DefaultTable header={header}>
-            {services?.map((_: any, key: number) => {
+          <DashboardAction
+            isLoading={isFetching}
+            onChangeText={setSearch}
+            textValue={search}
+          />
+          <DefaultTable header={header as any}>
+            {services?.map((_: BusinessProfile, key: number) => {
+
+              console.log("sdhjdfshjdsf", _)
+              //return null;
+
               return (
                 <tr key={key}>
                   <td className={style}>
                     <div className="flex gap-2">
                       <div className="flex overflow-hidden w-[3em] h-[3em] bg-gray-500 rounded-lg">
-                        <Image
-                          src={JSON.parse(_?.images[0]).url}
+                        <img
+                          src={_?.avatar}
                           className="w-[100%] h-[100%] object-fit"
                           alt=""
                           width={50}
@@ -77,23 +92,25 @@ const PendingService = () => {
                         />
                       </div>
                       <div className="flex flex-col">
-                        <h3 className="text-sm whitespace-nowrap">{_.name}</h3>
-                        <u className="text-xs text-gray-400">
-                          @{_.user.username}
-                        </u>
+                        <h3 className="text-sm whitespace-nowrap">
+                          {_.services?.[0].name}
+                        </h3>
+                        <u className="text-xs text-gray-400">@{_?.username}</u>
                       </div>
                     </div>
                   </td>
+
                   <td className={style}>
-                    <h3 className="text-sm">{_.address}</h3>
+                    <h3 className="text-sm">{_.bio}</h3>
+                  </td>
+                  <td className={style}>
+                    <h3 className="text-sm">{_?.location}</h3>
                   </td>
                   <td className={style}>
                     <h3 className="whitespace-nowrap text-sm">
-                      {_?.packages?.length} Packages
+                      {_.currency}
+                      {_.serviceType == "hourly" ? _.hourlyRate : _.dailyRate}
                     </h3>
-                  </td>
-                  <td className={style}>
-                    <h3 className="text-sm">{_?.totalRatings}</h3>
                   </td>
                   <td className={style}>
                     <h3 className="text-sm whitespace-nowrap">
@@ -104,7 +121,7 @@ const PendingService = () => {
                     {isLoading ? (
                       <Spinner />
                     ) : (
-                      <div className="flex items-center justify-space-around">
+                      <div className="flex items-center ">
                         <div className="flex gap-0  w-[200px]">
                           <Image
                             src="/images/icons/dashboard/table/tick.svg"
@@ -144,10 +161,12 @@ const PendingService = () => {
               );
             })}
           </DefaultTable>
-          <TablePagination
-            loading={isFetchingNextPage}
-            onFetchMore={fetchNextPage}
-          />
+          {hasNextPage && (
+            <TablePagination
+              loading={isFetchingNextPage}
+              onFetchMore={fetchNextPage}
+            />
+          )}
         </>
       ) : (
         <NoData />

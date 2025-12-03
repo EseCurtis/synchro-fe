@@ -1,11 +1,11 @@
+import { useAuthContext } from "@/contexts/AuthContext";
 import {
   useInfiniteQuery,
   UseInfiniteQueryResult,
   UseQueryOptions,
 } from "@tanstack/react-query"; // Fixed import path
-import useHttp, { Method } from "./useHttp";
 import { useHandleError } from "./useHandleError";
-import { useAuthContext } from "@/contexts/AuthContext";
+import useHttp, { Method } from "./useHttp";
 
 export type Args = {
   queryKey: string[];
@@ -15,6 +15,8 @@ export type Args = {
   method?: Method;
   requestBody?: any;
   keepPreviousData?: boolean;
+  useSecondTotal?: boolean;
+  usePaginationObject?: boolean;
 };
 
 export function usePaginatedQuery<T>({
@@ -25,6 +27,9 @@ export function usePaginatedQuery<T>({
   method = "get",
   requestBody,
   keepPreviousData = true,
+  useSecondTotal = false,
+
+  usePaginationObject = false,
 }: Args): UseInfiniteQueryResult<T, unknown> {
   const { token, signout } = useAuthContext();
   const api = useHttp({
@@ -50,8 +55,26 @@ export function usePaginatedQuery<T>({
     // @ts-ignore
     {
       enabled,
-      getNextPageParam: (lastPage: any) =>
-        lastPage?.data?.nextPage || undefined, // Simplified getNextPageParam
+      getNextPageParam: (lastPage: any) => {
+        if (usePaginationObject) {
+          const total = lastPage?.data?.pagination.totalPages;
+
+          if (total > lastPage.data?.pagination.page) {
+            return lastPage.data?.pagination.page + 1;
+          } else {
+            return undefined;
+          }
+        }
+
+        const total =
+          lastPage?.data?.totalPages ||
+          (useSecondTotal && lastPage?.data?.total);
+        if (total > lastPage.data.page) {
+          return lastPage.data.page + 1;
+        } else {
+          return undefined;
+        }
+      }, // Simplified getNextPageParam
       onError: (e: any) => {
         console.error(e.response.data); // Use console.error for errors
         handleError(e);

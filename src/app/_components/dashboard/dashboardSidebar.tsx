@@ -1,10 +1,10 @@
 "use client";
 
-import React from "react";
-import Image from "next/image";
-import Link from "next/link";
 import { SidebarNavs } from "@/utils/contents/sidebarNavs";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
+import SidebarIcon from "../icons/SidebarIcon";
+import LinkWithProgress from "../ui/LinkWithProgress";
 
 const listStyle = {
   listStyleType: "none",
@@ -24,7 +24,7 @@ const DashboardBoardSidebar = () => {
         backgroundPosition: "center",
       }}
     >
-      <div>
+      <div className="h-[40px]">
         <Image
           src={"/images/synco_logo.png"}
           width={100}
@@ -35,43 +35,42 @@ const DashboardBoardSidebar = () => {
 
       <div className="my-[3em] pb-[2em]">
         <ul style={listStyle}>
-          {SidebarNavs.map((_, index) => (
-            <Link href={_.path} key={index}>
-              <li
-                className="py-[14px] rounded-md p-4 flex items-center gap-[16px] "
-                style={{
-                  color: "#718096",
-                  background:
-                    _.path === pathname ? "rgba(233, 160, 132, 0.12)" : "",
-                }}
+          {SidebarNavs.map((_, index) => {
+            const active = _.absoluteMatch
+              ? pathname == _.path
+              : pathname.includes(_.path);
+            return (
+              <LinkWithProgress
+                href={_.path}
+                key={index}
               >
-                <Image
-                  src={_.active}
-                  width={24}
-                  height={24}
-                  alt="icons"
-                  
-                  style={{ display: _.path === pathname ? "unset" : "none" }}
-                />
-                <Image
-                  src={_.img}
-                  width={24}
-                  height={24}
-                  alt="icons"
-                  style={{ display: _.path === pathname ? "none" : "unset" }}
-                />
-                <span
-                  className={
-                    _.path === pathname
-                      ? " text-transparent bg-clip-text bg-gradient-to-r from-blue-900 to-red-600"
-                      : ""
-                  }
+                <li
+                  className="py-[14px] rounded-md p-4 flex items-center gap-[16px] "
+                  style={{
+                    color: "#718096",
+                    background: active ? "rgba(233, 160, 132, 0.12)" : "",
+                  }}
                 >
-                  {_.title}
-                </span>
-              </li>
-            </Link>
-          ))}
+                  <SidebarIcon
+                    type={_.iconType}
+                    isActive={active}
+                    size={24}
+                    activeColor="#e73c01"
+                    inactiveColor="#718096"
+                  />
+                  <span
+                    className={
+                      active
+                        ? " text-transparent bg-clip-text bg-gradient-to-r from-blue-900 to-red-600"
+                        : ""
+                    }
+                  >
+                    {_.title}
+                  </span>
+                </li>
+              </LinkWithProgress>
+            );
+          })}
         </ul>
       </div>
     </div>

@@ -7,9 +7,15 @@ import Modal from "@/app/_components/popups/modal";
 import { Spinner } from "@/app/_components/spinner/Spinner";
 import DefaultTable from "@/app/_components/table/defaultTable";
 import TablePagination from "@/app/_components/table/tablePagination";
-import { usePendingKycBusinesses, useUpdateKycBusinessStatus } from "@/hooks/api/v2/kyc";
+import {
+  usePendingKycBusinesses,
+  useUpdateKycBusinessStatus,
+} from "@/hooks/api/v2/kyc";
+import { UserAvatarV2 } from "@/v2/components/common/avatar.component";
+import { BusinessTypeV2 } from "@/v2/types/user.types";
 import moment from "moment";
 import { Fragment, useState } from "react";
+import { toast } from "react-toastify";
 import LegalDoc from "../components/legal_doc";
 import ViewInformation from "../components/viewInfo";
 
@@ -26,6 +32,8 @@ const PendingKyc = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalContent, setModalContent] = useState();
+  const [activeItemId, setActiveItemId] = useState<any>(null);
+  const [search, setSearch] = useState("");
 
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
@@ -47,7 +55,11 @@ const PendingKyc = () => {
       title: (
         <p
           className="text-[#041549]"
-          onClick={() => openModal(<ViewInformation business={business} onClose={closeModal} />)}
+          onClick={() =>
+            openModal(
+              <ViewInformation business={business} onClose={closeModal} />
+            )
+          }
         >
           View business user
         </p>
@@ -82,8 +94,9 @@ const PendingKyc = () => {
     hasNextPage,
     fetchNextPage,
     isFetchingNextPage,
+    isFetching,
     refetch,
-  } = usePendingKycBusinesses();
+  } = usePendingKycBusinesses({ search });
 
   const businesses = data?.pages?.map((e: any) => e.data.data).flat() as any[];
 
@@ -93,20 +106,33 @@ const PendingKyc = () => {
 
   return (
     <div>
-      <DashboardAction />
+      <DashboardAction
+        isLoading={isFetching}
+        onChangeText={setSearch}
+        textValue={search}
+      />
       {/* @ts-ignore */}
       <DefaultTable header={header}>
-        {businesses?.map((_: any, key: number) => {
+        {businesses?.map((_: BusinessTypeV2, key: number) => {
+          const userWithProfile = {
+            ..._.user,
+            profiles: [
+              {
+                ..._,
+                user: undefined,
+              },
+            ],
+          };
+
           return (
             <tr key={key} className="text-sm">
-              <td className={style} >
+              <td className={style}>
                 <div className="flex gap-5 items-center">
-                  <img
-                    src={_?.user?.profileImage}
-                    className="w-[3em] h-[3em] bg-gray-500 rounded-full"
-                  ></img>
+                  <div className="w-[3em] h-[3em] bg-gray-500 rounded-full">
+                    <UserAvatarV2 user={userWithProfile} />
+                  </div>
                   <div>
-                    <h3 className="whitespace-nowrap">{_.name}</h3>
+                    <h3 className="whitespace-nowrap">{_.businessName}</h3>
                   </div>
                 </div>
               </td>
@@ -114,10 +140,13 @@ const PendingKyc = () => {
                 <h3>{_?.businessCategory?.name}</h3>
               </td>
               <td className={style}>
-              {!(_?.kycDocument) ? (
+                {!_?.kycDocument ? (
                   <div>
-                    <span className="bg-yellow-400/20 whitespace-nowrap text-yellow-600 p-2 rounded-lg text-xs cursor-pointer" onClick={() => openModal(<LegalDoc business={_} />)}>
-                    No Legal Document
+                    <span
+                      className="bg-yellow-400/20 whitespace-nowrap text-yellow-600 p-2 rounded-lg text-xs cursor-pointer"
+                      onClick={() => openModal(<LegalDoc business={_} />)}
+                    >
+                      No Legal Document
                     </span>
                   </div>
                 ) : (
@@ -134,13 +163,21 @@ const PendingKyc = () => {
               </td>
               <td className={`whitespace-no-wrap border-b border-gray-300`}>
                 <div className="flex items-center justify-space-around">
-                  {isLoading ? (
+                  {isLoading && activeItemId == _?.id ? (
                     <Spinner />
                   ) : (
                     <div className="flex items-center justify-space-around">
                       <button
                         onClick={() => {
-                          mutate({ userId: _?.id, status: "approved" });
+                          setActiveItemId(_?.id);
+                          mutate(
+                            { userId: _?.id, status: "approved" },
+                            {
+                              onSuccess(data, variables, context) {
+                                toast.success("Kyc approved successfully");
+                              },
+                            }
+                          );
                         }}
                       >
                         <img
@@ -151,7 +188,15 @@ const PendingKyc = () => {
 
                       <button
                         onClick={() => {
-                          mutate({ userId: _?.id, status: "rejected" });
+                          setActiveItemId(_?.id);
+                          mutate(
+                            { userId: _?.id, status: "rejected" },
+                            {
+                              onSuccess(data, variables, context) {
+                                toast.success("Kyc rejected.");
+                              },
+                            }
+                          );
                         }}
                       >
                         <img
@@ -191,10 +236,14 @@ const PendingKyc = () => {
         })}
       </DefaultTable>
       {businesses?.length > 0 ? (
-        <TablePagination
-          loading={isFetchingNextPage}
-          onFetchMore={fetchNextPage}
-        />
+        <>
+          {hasNextPage && (
+            <TablePagination
+              loading={isFetchingNextPage}
+              onFetchMore={fetchNextPage}
+            />
+          )}
+        </>
       ) : (
         <p className="pt-4 text-center">No data to display</p>
       )}

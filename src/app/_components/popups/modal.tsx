@@ -1,9 +1,11 @@
-import React, { ReactNode, FC } from "react";
+import { cn } from "@/utils/formatNumber";
+import { FC } from "react";
 
 interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
   children: any;
+  className?: string
 }
 
 const style = {
@@ -12,7 +14,7 @@ const style = {
   marginTop: 0,
 };
 
-const Modal: FC<ModalProps> = ({ isOpen, onClose, children }) => {
+const Modal: FC<ModalProps> = ({ isOpen, onClose, children, className }) => {
   return isOpen ? (
     <div
       style={style}
@@ -23,7 +25,7 @@ const Modal: FC<ModalProps> = ({ isOpen, onClose, children }) => {
         onClick={onClose}
       ></div>
 
-      <div className="relative bg-white p-5 rounded-lg z-50 max-h-full overflow-y-auto h-auto flex customScrollbar">
+      <div className={cn(className, "relative bg-white p-5 rounded-lg z-50 max-h-full overflow-y-auto h-auto flex customScrollbar")}>
         <div
           onClick={onClose}
           className="px-4 absolute my-2 cursor-pointer text-right top-0 right-2 text-gray-500 hover:text-gray-700"

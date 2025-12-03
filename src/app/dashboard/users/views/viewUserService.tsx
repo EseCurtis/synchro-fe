@@ -1,24 +1,21 @@
 "use client";
 
-import React, { Fragment, useEffect } from "react";
-import DefaultTable from "@/app/_components/table/defaultTable";
-import { TABLE_STYLE } from "@/constant";
-import { table } from "@/utils/contents/dummy/table";
-import Image from "next/image";
+import ModalTabButton from "@/app/_components/button/modalTabButton";
 import DashboardAction from "@/app/_components/dashboard/dashboardAction";
+import Badge from "@/app/_components/forms/badge";
+import Modal from "@/app/_components/popups/modal";
+import DefaultTable from "@/app/_components/table/defaultTable";
+import NoData from "@/app/_components/table/NoData";
+import TablePagination from "@/app/_components/table/tablePagination";
+import { TABLE_STYLE } from "@/constant";
+import { usePaginatedQuery } from "@/hooks/api/usePaginatedQuery";
+import { TStringIndexObject } from "@/utils/types";
+import moment from "moment";
+import Image from "next/image";
+import { useParams } from "next/navigation";
+import { Fragment, useEffect, useState } from "react";
 import EventStat from "../components/userEventStat";
 import { serviceViewData } from "../contents";
-import { useState } from "react";
-import Modal from "@/app/_components/popups/modal";
-import ServiceDetails from "../components/user/service_details";
-import { useParams } from "next/navigation";
-import { usePaginatedQuery } from "@/hooks/api/usePaginatedQuery";
-import TablePagination from "@/app/_components/table/tablePagination";
-import moment from "moment";
-import Badge from "@/app/_components/forms/badge";
-import { TStringIndexObject } from "@/utils/types";
-import ModalTabButton from "@/app/_components/button/modalTabButton";
-import NoData from "@/app/_components/table/NoData";
 
 const header = ["Service", "Location", "Price", "Status", "Date"];
 
@@ -27,12 +24,12 @@ const ViewUserService = () => {
   const id = params.id;
 
   const bookedServices: any = usePaginatedQuery({
-    url: `booking/accepted/${id}?type=service`,
+    url: `/admin/users/${id}/bookings?type=service`,
     queryKey: ["services-wait-x", String(id)],
     enabled: true,
   });
   const createdServices: any = usePaginatedQuery({
-    url: `service/user/all/${id}`,
+    url: `/admin/users/${id}/services`,
     queryKey: ["user-services-x", String(id)],
     enabled: true,
   });
@@ -123,17 +120,17 @@ const ViewUserService = () => {
                       </div>
                     </td>
                     <td className={TABLE_STYLE}>
-                      <h3>{_.location}</h3>
+                      <h3>{_?.location}</h3>
                     </td>
                     <td className={TABLE_STYLE}>
-                      <h3>{_.price || "N/A"}</h3>
+                      <h3>{_?.price || "N/A"}</h3>
                     </td>
                     <td className={TABLE_STYLE}>
                       <h3 className="text-[14px]">
                         <Badge
                           label={_.status}
                           status={
-                            _.status === "approved" ? "Active" : "Inactive"
+                            _?.status === "approved" ? "Active" : "Inactive"
                           }
                         />
                       </h3>
@@ -165,7 +162,8 @@ const ViewUserService = () => {
         )}
 
         <Modal isOpen={isModalOpen} onClose={closeModal}>
-          <ServiceDetails data={{}} />
+          {/* <ServiceDetails data={{}} /> */}
+          <></>
         </Modal>
       </div>
     </div>

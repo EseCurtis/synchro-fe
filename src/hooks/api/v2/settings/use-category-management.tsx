@@ -6,7 +6,7 @@ export function useUpdateEventCategory() {
   const client = useQueryClient();
   
   return useTMutation({
-    url: `/category/event_categories/update`,
+    url: `/admin/categories/event_categories/update`,
     method: "post",
     options: {
       onSuccess: () => {
@@ -21,7 +21,7 @@ export function useUpdateBusinessCategory() {
   const client = useQueryClient();
   
   return useTMutation({
-    url: `/category/business_categories/update`,
+    url: `/admin/categories/business_categories/update`,
     method: "post",
     options: {
       onSuccess: () => {
@@ -30,3 +30,4 @@ export function useUpdateBusinessCategory() {
     },
   });
 }
+

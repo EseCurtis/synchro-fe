@@ -1,36 +1,65 @@
 import { Button } from "@/app/_components/button";
-import React, { useState } from "react";
 import { SecondaryButton } from "@/app/_components/button/secondaryButton";
-import Link from "next/link";
-import { useTQuery } from "@/hooks/api/useTQuery";
-import moment from "moment";
+import Badge from "@/app/_components/forms/badge";
 import { Spinner } from "@/app/_components/spinner/Spinner";
+import { useTQuery } from "@/hooks/api/useTQuery";
+import { UserAvatarV2 } from "@/v2/components/common/avatar.component";
+import { useResolveReport } from "@/v2/hooks/api/use-report";
+import { ReportV2 } from "@/v2/types/reports.type";
+import { BusinessProfile } from "@/v2/types/service.types";
+import { ProfileStats, UserData } from "@/v2/types/user.types";
+import moment from "moment";
+import { useState } from "react";
+import LinkWithProgress from "../../../_components/ui/LinkWithProgress";
 import SuspendUser from "../../users/components/suspendUser";
-import Image from "next/image";
 
-const UserDetails = ({ data, onClose }: any) => {
+const UserDetails = ({
+  data,
+  onClose,
+}: {
+  data: ReportV2;
+  onClose: () => void;
+}) => {
   const [suspendIsOpen, setSuspendIsOpen] = useState<boolean>(false);
-  const { data: userDetails, isLoading } = useTQuery({
-    url: `/user/admin/users/${data.userId}`,
-    queryKey: ["users", String(data.userId)],
+  const user = data?.reportedEntity as UserData;
+  const reporter = data?.reporter;
+  const userProfile = user?.profiles?.[0];
+  const reporterProfile = reporter?.profiles?.[0];
+
+  const { data: prodileStatData } = useTQuery({
+    queryKey: [],
+    url: `profiles/${userProfile?.id}/stats`,
+    enabled: !!userProfile?.id,
   });
 
-  const { data: reporterDetails, isLoading: reporterIsLoading }: any =
-    useTQuery({
-      url: `/user/admin/users/${data.reportableId}`,
-      queryKey: ["users", String(data.reportableId)],
-    });
+  const { mutate, isPending } = useResolveReport(data?.id);
 
-  // @ts-ignore
-  const user = userDetails?.data;
-  const reporter = reporterDetails?.data;
+  const profileStats = (prodileStatData as any)?.data as ProfileStats;
+  const isResolved = data.status == "resolved";
 
   return (
     <>
       {suspendIsOpen ? (
-        <SuspendUser user={user} onClose={() => setSuspendIsOpen(false)} />
-      ) : isLoading && reporterIsLoading ? (
-        <Spinner />
+        <SuspendUser
+          user={{
+            ...user?.profiles?.[0],
+            user: {
+              ...user,
+              profiles: [],
+            },
+          } as any as BusinessProfile}
+          onClose={() => {
+            setSuspendIsOpen(false);
+            mutate(
+              {},
+              {
+                onSuccess() {
+                  onClose();
+                },
+              }
+            );
+          }}
+        />
       ) : (
         <div>
           <div className="flex justify-center">
@@ -38,36 +67,33 @@ const UserDetails = ({ data, onClose }: any) => {
           </div>
           <div className="text-center my-5">
             <div className="overflow-clip  my-3 mx-auto bg-slate-500 w-[84px] h-[84px] rounded-full">
-              <Image
-                src={user?.profileImage}
-                width={100}
-                height={100}
-                alt={user?.firstName}
-              />
+              <UserAvatarV2 user={user} />
             </div>
 
             <div>
               <h3>
-                {user?.firstName} {user?.lastName}
+                {userProfile?.firstName} {userProfile?.lastName}
               </h3>
-              <p className="text-[#777E90] text-[13px]">{user?.username}</p>
+              <p className="text-[#777E90] text-[13px]">
+                {userProfile?.username}
+              </p>
             </div>
             {/* Replace the id with the user id from databse here */}
-            <Link href={"/dashboard/users/" + user?.id}>
+            <LinkWithProgress href={"/dashboard/users/" + user?.id}>
               <div className="bg-gray-300 text-[13px] cursor-pointer w-[fit-content] py-[.6em] my-[1em] rounded-full px-5 mx-auto ">
                 View full profile
               </div>
-            </Link>
+            </LinkWithProgress>
           </div>
 
-          <table className="border-collapse [&_td]:text-xs [&_td]:text-left  [&_td:second-child]:text-xs ">
+          <table className="border-collapse [&_td]:text-xs [&_td]:text-left w-full mx-auto  [&_td:second-child]:text-xs ">
             <tbody>
               <tr>
                 <td className="px-4 py-2 !whitespace-nowrap flex font-bold">
                   Phone number
                 </td>
                 <td className="px-4 py-2 !text-right">
-                  {user?.phone ?? "N/A"}
+                  {user?.phoneNumber ?? "N/A"}
                 </td>
               </tr>
               <tr>
@@ -83,7 +109,7 @@ const UserDetails = ({ data, onClose }: any) => {
                   Total followers
                 </td>
                 <td className="px-4 py-2 !text-right">
-                  {user?.followerCount ?? "0"} users
+                  {profileStats?.followersCount ?? "0"} users
                 </td>
               </tr>
               <tr>
@@ -99,7 +125,7 @@ const UserDetails = ({ data, onClose }: any) => {
                   Reported by
                 </td>
                 <td className="px-4 py-2 !text-right">
-                  {reporter?.firstname ?? "Anonymous User"}
+                  {reporterProfile?.firstName ?? "Anonymous User"}
                 </td>
               </tr>
               <tr>
@@ -110,13 +136,38 @@ const UserDetails = ({ data, onClose }: any) => {
                   {moment(data?.createdAt).format("h:mma, MMMM Do, YYYY")}
                 </td>
               </tr>
+              <tr>
+                <td className="px-4 py-2 !whitespace-nowrap flex font-bold">
+                  Status
+                </td>
+                <td className="px-4 py-2 !text-right">
+                  <div className="flex justify-end">
+                    <Badge status={data.status} label={data.status} />
+                  </div>
+                </td>
+              </tr>
             </tbody>
           </table>
 
-          <div className="mt-7 flex gap-4 items-center">
-            <Button onClick={() => setSuspendIsOpen(true)}>Suspend</Button>
-            <SecondaryButton onClick={onClose}>Resolve</SecondaryButton>
-          </div>
+          {!isResolved && (
+            <div className="mt-7 flex gap-4 items-center">
+              <Button onClick={() => setSuspendIsOpen(true)}>Suspend</Button>
+              <SecondaryButton
+                onClick={() => {
+                  mutate(
+                    {},
+                    {
+                      onSuccess() {
+                        onClose();
+                      },
+                    }
+                  );
+                }}
+              >
+                {isPending ? <Spinner /> : "Resolve"}
+              </SecondaryButton>
+            </div>
+          )}
         </div>
       )}
     </>

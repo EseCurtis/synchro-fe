@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import { FC } from "react";
 import { Spinner } from "../spinner/Spinner";
 
 interface IProps {
@@ -19,7 +19,7 @@ const TablePagination: FC<IProps> = ({
       <div className="flex items-center justify-center mt-10">
         <button
           onClick={onFetchMore}
-          className="text-sm px-4 py-2 bg-neutral-200 rounded-full flex items-center gap-2"
+          className="text-sm px-4 py-2 bg-slate-100 rounded-full flex items-center gap-2"
         >
           {loading && <Spinner />} Load More
         </button>

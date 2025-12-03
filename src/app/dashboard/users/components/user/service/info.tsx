@@ -1,35 +1,25 @@
-import moment from "moment";
+import { BusinessProfile } from "@/v2/types/service.types";
 import Image from "next/image";
-import { Fragment, ReactNode, useEffect, useState } from "react";
-import {
-  BiArrowToBottom,
-  BiBook,
-  BiCalendar,
-  BiInfoCircle,
-  BiMapPin,
-  BiTime,
-} from "react-icons/bi";
-import {
-  FaDollarSign,
-} from "react-icons/fa";
+import { useState } from "react";
+import { BiInfoCircle, BiMapPin } from "react-icons/bi";
+import { FaDollarSign } from "react-icons/fa";
 
-
-const Info = ({ data }: any) => {
+const Info = ({ data }: { data: BusinessProfile }) => {
   const [showMore, setShowMore] = useState(false);
   return (
-    <div>
+    <div >
       <div className="grid gap-3 mt-6">
         <h4 className="flex items-center gap-2">
           <BiInfoCircle /> About
         </h4>
-        <p>{data?.description}</p>
+        <p>{data?.businessDescription}</p>
       </div>
 
       <div className="grid gap-3 mt-6">
         <h4 className="flex items-center gap-2">
           <BiMapPin /> Location
         </h4>
-        <p>{data?.address}</p>
+        <p>{data?.location}</p>
         <div className="flex h-[auto] w-[100%] rounded-lg bg-gray-300">
           <Image
             className="w-[300%] h-[100%]"
@@ -49,8 +39,8 @@ const Info = ({ data }: any) => {
         <div className="grid gap-3 mt-6">
           <h4 className="flex items-center gap-2">Pricing Packages</h4>
           <div className="grid grid-cols-2 mt-3">
-            {data.packages.map((item: any, key: any) => {
-              item = JSON.parse(item);
+            {(data.services || []).map((item, key: number) => {
+             
 
               return (
                 <div className="col-span-1" key={key}>
@@ -61,7 +51,7 @@ const Info = ({ data }: any) => {
                       </div>
                       <div className="flex flex-col">
                         <p>{item.name}</p>
-                        <b>${item.amount}</b>
+                        <b>${item.price}</b>
                       </div>
                     </div>
                     <div className="flex pr-3">
@@ -74,10 +64,10 @@ const Info = ({ data }: any) => {
           </div>
         </div>
 
-        <div className="grid gap-3 mt-6 pb-6">
+        {/* <div className="grid gap-3 mt-6 pb-6">
           <h4 className="flex items-center gap-2">Benefits</h4>
           <div className="flex gap-2 mt-3">
-            {data.benefits.map((item: any, key: any) => {
+            {(data. || []).map((item: any, key: any) => {
               return (
                 <div className="col-span-1" key={key}>
                   <span className="bg-gray-200 px-3 py-1 rounded-full">
@@ -87,7 +77,7 @@ const Info = ({ data }: any) => {
               );
             })}
           </div>
-        </div>
+        </div> */}
       </div>
 
       <div className="text-center mt-7 flex items-center justify-center">

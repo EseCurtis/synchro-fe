@@ -1,36 +1,36 @@
-import React, { useEffect, useState } from "react";
-import FilterComponent from "../forms/filterComponent";
+import { useEffect, useState } from "react";
 import Input from "../input_fields";
-import ExportButton from "../forms/exportButton";
+import { Spinner } from "../spinner/Spinner";
 
 const DashboardAction = ({
   pool,
   setMatch,
   matchQuery,
+  isLoading,
+  textValue,
+  onChangeText,
 }: {
   pool?: any[];
   setMatch?: (matches: any[]) => void;
   matchQuery?: string[];
+  isLoading?: boolean;
+  textValue?: string;
+  onChangeText?: (value: string) => void;
 }) => {
   const [options, setOptions] = useState<any[]>(matchQuery as any[]);
 
   const searchAction = (searchValue: string) => {
+    onChangeText?.(searchValue);
     if (setMatch && pool && matchQuery) {
       if (searchValue.length < 1) return setMatch(pool);
       setMatch(
-        pool?.filter(
-          (item) =>
-            {
-              const matches = options.filter(
-                (queryItem) =>
-                  item[queryItem]
-                    ?.toLowerCase()
-                    .includes(searchValue.toLowerCase())
-              )
+        pool?.filter((item) => {
+          const matches = options.filter((queryItem) =>
+            item[queryItem]?.toLowerCase().includes(searchValue.toLowerCase())
+          );
 
-              return Boolean(matches.length > 0);
-            }
-        ) as any[]
+          return Boolean(matches.length > 0);
+        }) as any[]
       );
     }
   };
@@ -50,9 +50,14 @@ const DashboardAction = ({
           width: "300px",
           border: "1px solid #EEE",
         }}
+        value={textValue || ""}
       />
-      <FilterComponent options={matchQuery} setOptions={setOptions} />
-      <ExportButton />
+
+      {isLoading && <Spinner />}
+      {/* <>
+        <FilterComponent options={matchQuery} setOptions={setOptions} />
+        <ExportButton />
+      </> */}
     </div>
   );
 };

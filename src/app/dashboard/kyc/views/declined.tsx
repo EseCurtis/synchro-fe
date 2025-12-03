@@ -1,22 +1,23 @@
 "use client";
 import DashboardAction from "@/app/_components/dashboard/dashboardAction";
+import Dropdown from "@/app/_components/popups/dropDown";
+import Modal from "@/app/_components/popups/modal";
+import { Spinner } from "@/app/_components/spinner/Spinner";
 import DefaultTable from "@/app/_components/table/defaultTable";
 import TablePagination from "@/app/_components/table/tablePagination";
-import { table } from "@/utils/contents/dummy/table";
-import React from "react";
-import Image from "next/image";
-import Modal from "@/app/_components/popups/modal";
-import ViewInformation from "../components/viewInfo";
-import { useState, Fragment } from "react";
-import Dropdown from "@/app/_components/popups/dropDown";
-import DeclineKYC from "../components/decline_kyc";
-import Toast from "../components/toast";
-import { useTQuery } from "@/hooks/api/useTQuery";
-import { useTMutation } from "@/hooks/api/useTMutation";
+import {
+  useDeclinedKycBusiness,
+  useUpdateKycBusinessStatus,
+} from "@/hooks/api/v2";
+import { UserAvatarV2 } from "@/v2/components/common/avatar.component";
+import { BusinessTypeV2 } from "@/v2/types/user.types";
 import { useQueryClient } from "@tanstack/react-query";
 import moment from "moment";
-import { Spinner } from "@/app/_components/spinner/Spinner";
+import Image from "next/image";
+import { Fragment, useState } from "react";
+import { toast } from "react-toastify";
 import LegalDoc from "../components/legal_doc";
+import ViewInformation from "../components/viewInfo";
 
 const header = [
   "Business Name ",
@@ -31,6 +32,7 @@ const DeclinedKyc = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalContent, setModalContent] = useState();
+  const [search, setSearch] = useState("");
   const client = useQueryClient();
 
   const toggleDropdown = () => {
@@ -46,24 +48,21 @@ const DeclinedKyc = () => {
     setIsModalOpen(false);
   };
 
-  const { data, refetch } = useTQuery({
-    url: "/user/admin/businesses?status=pending&page=1&limit=10",
-    queryKey: ["businesses", "pending-businesses"],
-  });
+  const [updatingUserId, setUpdatingUserId] = useState<any>(null);
 
-  const { isLoading, mutate } = useTMutation({
-    url: "/user/admin/businesses/update-status",
-    method: "put",
-    options: {
-      onSuccess() {
-        refetch();
-        client.invalidateQueries(["businesses"]);
-      },
-    },
-  });
+  const {
+    data,
+    refetch,
+    isFetchingNextPage,
+    isFetching,
+    fetchNextPage,
+    hasNextPage,
+  } = useDeclinedKycBusiness({ search });
+
+  const { isLoading, mutate } = useUpdateKycBusinessStatus();
 
   // @ts-ignore
-  const businesses = data?.data?.data;
+  const businesses = data?.pages?.map((e: any) => e.data.data).flat() as any[];
 
   const dropDownData = (business: any) => [
     {
@@ -105,20 +104,31 @@ const DeclinedKyc = () => {
 
   return (
     <div>
-      <DashboardAction />
-      {/* @ts-ignore */}
-      <DefaultTable header={header}>
-        {businesses?.map((_: any, key: number) => {
+      <DashboardAction
+        isLoading={isFetching}
+        onChangeText={setSearch}
+        textValue={search}
+      />
+      <DefaultTable header={header as any}>
+        {businesses?.map((_: BusinessTypeV2, key: number) => {
+          const userWithProfile = {
+            ..._.user,
+            profiles: [
+              {
+                ..._,
+                user: undefined,
+              },
+            ],
+          };
           return (
             <tr key={key} className="text-sm">
               <td className={style}>
                 <div className="flex gap-5 items-center">
-                  <img
-                    src={_?.user?.profileImage}
-                    className="w-[3em] h-[3em] bg-gray-500 rounded-full"
-                  ></img>
+                  <div className="w-[3em] h-[3em] bg-gray-500 rounded-full">
+                    <UserAvatarV2 user={userWithProfile} />
+                  </div>
                   <div>
-                    <h3>{_.name}</h3>
+                    <h3>{_.businessName}</h3>
                   </div>
                 </div>
               </td>
@@ -149,13 +159,28 @@ const DeclinedKyc = () => {
               </td>
               <td className={`whitespace-no-wrap border-b border-gray-300`}>
                 <div className="flex items-center justify-space-around">
-                  {isLoading ? (
+                  {isLoading && updatingUserId == userWithProfile?.id ? (
                     <Spinner />
                   ) : (
-                    <div className="flex items-center justify-space-around">
+                    <div className="flex items-center  justify-space-around">
                       <button
                         onClick={() => {
-                          mutate({ userId: _?.id, status: "approved" });
+                          setUpdatingUserId(userWithProfile?.id);
+                          mutate(
+                            {
+                              userId: _?.id,
+                              status: "approved",
+                            },
+                            {
+                              onSuccess(data, variables, context) {
+                                toast.success("Kyc approved successfully");
+                              },
+
+                              onSettled() {
+                                setUpdatingUserId(null);
+                              },
+                            }
+                          );
                         }}
                       >
                         <Image
@@ -197,7 +222,14 @@ const DeclinedKyc = () => {
       </DefaultTable>
 
       {businesses?.length > 0 ? (
-        <TablePagination />
+        <>
+          {hasNextPage && (
+            <TablePagination
+              onFetchMore={fetchNextPage}
+              loading={isFetchingNextPage}
+            />
+          )}
+        </>
       ) : (
         <p className="pt-4 text-center">No data to display</p>
       )}

@@ -5,30 +5,42 @@ import Dropdown from "@/app/_components/popups/dropDown";
 import Modal from "@/app/_components/popups/modal";
 import { Spinner } from "@/app/_components/spinner/Spinner";
 import DefaultTable from "@/app/_components/table/defaultTable";
+import NoData from "@/app/_components/table/NoData";
 import TablePagination from "@/app/_components/table/tablePagination";
 import { usePendingEvents, useUpdateEventStatus } from "@/hooks/api/v2/events";
+import { EventStatus } from "@/v2/enums/event.enums";
 import moment from "moment";
-import Link from "next/link";
 import { Fragment, useState } from "react";
+import { toast } from "react-toastify";
 import Image from "../../../../../node_modules/next/image";
+import LinkWithProgress from "../../../_components/ui/LinkWithProgress";
 import EventDetails from "../../users/components/user/event_details";
 
 const header = ["Business Name ", "User", "Category", "Date", "Actions", ""];
 const style = "px-6 py-4 whitespace-no-wrap border-b border-gray-300";
 const PendingEvents = () => {
-  const { data, refetch } = usePendingEvents();
+  const [search, setSearch] = useState("");
+  const {
+    data,
+    refetch,
+    hasNextPage,
+    fetchNextPage,
+    isLoading: isLoadingEvents,
+    isFetchingNextPage,
+  }: any = usePendingEvents({ search });
   const { isLoading, mutate } = useUpdateEventStatus();
 
   // @ts-ignore
-  const events = data?.data?.data;
+  const events = data?.pages?.map((e: any) => e.data.data).flat() as any[];
 
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [activeData, setActiveData] = useState({});
+  const [modifyingEventId, setModifyingEventId] = useState<number | null>(null);
 
   const toggleDropdown = (data: any) => {
     setIsDropdownOpen(!isDropdownOpen);
-    setActiveData(data)
+    setActiveData(data);
   };
 
   const openModal = () => {
@@ -72,9 +84,10 @@ const PendingEvents = () => {
 
   return (
     <div>
-      <DashboardAction />
+      <DashboardAction textValue={search} onChangeText={setSearch} />
       {/* @ts-ignore */}
       <DefaultTable header={header}>
+        {isLoadingEvents && <Spinner />}
         {events?.map((_: any, key: number) => {
           return (
             <tr key={key}>
@@ -90,9 +103,9 @@ const PendingEvents = () => {
                 </div>
               </td>
               <td className={style}>
-                <Link href={`/dashboard/users/${_?.user?.id}`}>
+                <LinkWithProgress href={`/dashboard/users/${_?.user?.id}`}>
                   <h3 className="underline">{_?.user?.username}</h3>
-                </Link>
+                </LinkWithProgress>
               </td>
               <td className={style}>
                 <h3>{_?.eventCategory?.name}</h3>
@@ -107,7 +120,19 @@ const PendingEvents = () => {
                   <div className="flex items-center justify-space-around">
                     <button
                       onClick={() => {
-                        mutate({ eventId: _?.id, status: "approved" });
+                        setModifyingEventId(_?.id);
+                        mutate(
+                          { eventId: _?.id, status: EventStatus.PUBLISHED },
+                          {
+                            onSuccess() {
+                              toast.success("Event approved successfully");
+                              refetch();
+                            },
+                            onSettled() {
+                              setModifyingEventId(null);
+                            },
+                          }
+                        );
                       }}
                     >
                       <Image
@@ -120,7 +145,19 @@ const PendingEvents = () => {
 
                     <button
                       onClick={() => {
-                        mutate({ eventId: _?.id, status: "rejected" });
+                        mutate(
+                          { eventId: _?.id, status: EventStatus.CANCELLED },
+                          {
+                            onSuccess() {
+                              toast.success("Event Rejected successfully");
+                              refetch();
+                            },
+
+                            onSettled() {
+                              setModifyingEventId(null);
+                            },
+                          }
+                        );
                       }}
                     >
                       <Image
@@ -159,10 +196,17 @@ const PendingEvents = () => {
           );
         })}
       </DefaultTable>
-      <TablePagination />
+      {hasNextPage && (
+        <TablePagination
+          onFetchMore={fetchNextPage}
+          loading={isFetchingNextPage}
+        />
+      )}
+
+      {events?.length < 1 && !isLoading && <NoData />}
 
       <Modal isOpen={isModalOpen} onClose={closeModal}>
-        <EventDetails event={activeData} />
+        <EventDetails event={activeData as any} />
       </Modal>
     </div>
   );

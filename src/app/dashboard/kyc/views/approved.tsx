@@ -4,7 +4,9 @@ import Dropdown from "@/app/_components/popups/dropDown";
 import Modal from "@/app/_components/popups/modal";
 import DefaultTable from "@/app/_components/table/defaultTable";
 import TablePagination from "@/app/_components/table/tablePagination";
-import { useApprovedKycBusinesses, useUpdateKycBusinessStatus } from "@/hooks/api/v2/kyc";
+import { useApprovedKycBusinesses } from "@/hooks/api/v2/kyc";
+import { UserAvatarV2 } from "@/v2/components/common/avatar.component";
+import { BusinessTypeV2 } from "@/v2/types/user.types";
 import moment from "moment";
 import Image from "next/image";
 import { Fragment, useState } from "react";
@@ -18,11 +20,14 @@ const header = [
   "Date Submitted",
   "Actions",
 ];
+
 const style = "px-6 py-4 whitespace-no-wrap border-b border-gray-300";
+
 const ApprovedKyc = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalContent, setModalContent] = useState();
+  const [search, setSearch] = useState("");
 
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
@@ -37,18 +42,28 @@ const ApprovedKyc = () => {
     setIsModalOpen(false);
   };
 
-  const { data, refetch } = useApprovedKycBusinesses();
-  const { isLoading, mutate } = useUpdateKycBusinessStatus();
+  const {
+    data,
+    refetch,
+    hasNextPage,
+    fetchNextPage,
+    isFetchingNextPage,
+    isFetching,
+  } = useApprovedKycBusinesses({ search });
 
   // @ts-ignore
-  const businesses = data?.data?.data;
+  const businesses = data?.pages?.map((e: any) => e.data.data).flat() as any[];
 
   const dropDownData = (business: any) => [
     {
       title: (
         <p
           className="text-[#041549]"
-          onClick={() => openModal(<ViewInformation business={business}  onClose={closeModal} />)}
+          onClick={() =>
+            openModal(
+              <ViewInformation business={business} onClose={closeModal} />
+            )
+          }
         >
           View business user
         </p>
@@ -79,20 +94,32 @@ const ApprovedKyc = () => {
 
   return (
     <div>
-      <DashboardAction />
+      <DashboardAction
+        isLoading={isFetching}
+        onChangeText={setSearch}
+        textValue={search}
+      />
       {/* @ts-ignore */}
       <DefaultTable header={header}>
-        {businesses?.map((_: any, key: number) => {
+        {businesses?.map((_: BusinessTypeV2, key: number) => {
+          const userWithProfile = {
+            ..._.user,
+            profiles: [
+              {
+                ..._,
+                user: undefined,
+              },
+            ],
+          };
           return (
             <tr key={key}>
-              <td className={style} >
+              <td className={style}>
                 <div className="flex gap-5 items-center">
-                  <img
-                    src={_?.user?.profileImage}
-                    className="w-[3em] h-[3em] bg-gray-500 rounded-full"
-                  ></img>
+                  <div className="w-[3em] h-[3em] bg-gray-500 rounded-full">
+                    <UserAvatarV2 user={userWithProfile} />
+                  </div>
                   <div>
-                    <h3>{_.name}</h3>
+                    <h3>{_.businessName}</h3>
                   </div>
                 </div>
               </td>
@@ -100,10 +127,13 @@ const ApprovedKyc = () => {
                 <h3>{_?.businessCategory?.name}</h3>
               </td>
               <td className={style}>
-              {!(_?.kycDocument) ? (
+                {!_?.kycDocument ? (
                   <div>
-                    <span className="bg-yellow-400/20 whitespace-nowrap text-yellow-600 p-2 rounded-lg text-xs cursor-pointer" onClick={() => openModal(<LegalDoc business={_} />)}>
-                    No Legal Document
+                    <span
+                      className="bg-yellow-400/20 whitespace-nowrap text-yellow-600 p-2 rounded-lg text-xs cursor-pointer"
+                      onClick={() => openModal(<LegalDoc business={_} />)}
+                    >
+                      No Legal Document
                     </span>
                   </div>
                 ) : (
@@ -145,7 +175,14 @@ const ApprovedKyc = () => {
         })}
       </DefaultTable>
       {businesses?.length > 0 ? (
-        <TablePagination />
+        <>
+          {hasNextPage && (
+            <TablePagination
+              onFetchMore={fetchNextPage}
+              loading={isFetchingNextPage}
+            />
+          )}
+        </>
       ) : (
         <p className="pt-4 text-center">No data to display</p>
       )}

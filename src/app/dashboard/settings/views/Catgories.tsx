@@ -1,12 +1,9 @@
 "use client";
 import Modal from "@/app/_components/popups/modal";
-import { Button } from "@/app/_components/button";
-import React, { Fragment } from "react";
-import CategoriesBox from "../components/categoryBox";
-import { categoryDetails } from "../content";
-import { useState } from "react";
-import NewCategory from "../components/new_category";
 import { useTQuery } from "@/hooks/api/useTQuery";
+import { Fragment, useState } from "react";
+import CategoriesBox from "../components/categoryBox";
+import NewCategory from "../components/new_category";
 
 const activeStyles = {
   background: "var(--primary-bg-gradient)",
@@ -30,15 +27,15 @@ const Categories = () => {
   };
 
   const { data: event_categoriesData } = useTQuery({
-    url: "/category/event_categories",
+    url: "/admin/categories/event_categories",
     queryKey: ["category", "event-category"],
   });
 
   // @ts-ignore
-  const event_categories = event_categoriesData?.data?.data;
+  const event_categories = event_categoriesData?.data;
 
   const { data: business_categoriesData } = useTQuery({
-    url: "/category/business_categories",
+    url: "/admin/categories/business_categories",
     queryKey: ["category", "business-category"],
   });
 
@@ -126,7 +123,7 @@ const Categories = () => {
       </div>
 
       <Modal isOpen={isModalOpen} onClose={closeModal}>
-        <NewCategory isEvent={showingCate === 0} />
+        <NewCategory isEvent={showingCate === 0} onClose={closeModal} />
       </Modal>
     </>
   );

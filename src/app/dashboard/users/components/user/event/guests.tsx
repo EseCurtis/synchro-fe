@@ -1,24 +1,29 @@
-import FilterComponent from "@/app/_components/forms/filterComponent";
 import Input from "@/app/_components/input_fields";
-import { useTQuery } from "@/hooks/api/useTQuery";
-import Image from "next/image";
+import { Spinner } from "@/app/_components/spinner/Spinner";
+import TablePagination from "@/app/_components/table/tablePagination";
+import { usePaginatedQuery } from "@/hooks/api/usePaginatedQuery";
+import { Creator, Event, EventGuest } from "@/v2/types/event.types";
+import { useEffect } from "react";
 import { FaArrowRight } from "react-icons/fa";
 
-const Item = ({ userId }: { userId: string }) => {
-  const { data: userDetails }: { data: any } = useTQuery({
-    url: `/user/admin/users/${userId}`,
-    queryKey: ["users", String(userId)],
-  });
+const Item = ({ userData }: { userData: Creator }) => {
+  const userInfo = userData;
 
-  const userInfo = userDetails?.data;
-
-  return (userInfo &&
+  return (
     <div className="flex gap-3 w-[100%]">
       <div className="w-[55px] h-[55px] bg-gray-300 rounded-full overflow-clip">
-        <Image src={userInfo?.profileImage} width={55} height={55} alt={userInfo?.firstName} />
+        <img
+          src={String(userInfo?.avatar)}
+          width={55}
+          height={55}
+          className="w-full h-full object-cover"
+          alt={String(userInfo?.firstName)}
+        />
       </div>
       <div className="flex flex-col justify-center">
-        <h4>{userInfo.firstName} {userInfo?.lastName}</h4>
+        <h4>
+          {userInfo.firstName} {userInfo?.lastName}
+        </h4>
         <p className="text-gray-400"> {userInfo?.lastName} </p>
       </div>
       <div className="h-[100%] ml-auto mr-[0] flex items-center">
@@ -28,8 +33,27 @@ const Item = ({ userId }: { userId: string }) => {
   );
 };
 
-const Guests = ({ data }: { data: any }) => {
-  const guests = data?.guests || [];
+const Guests = ({ data }: { data: Event }) => {
+  const {
+    data: responseData,
+    hasNextPage,
+    fetchNextPage,
+    isFetching,
+    isLoading,
+    isFetchingNextPage,
+  } = usePaginatedQuery({
+    url: `/admin/events/${data.id}/guests`,
+    queryKey: ["events", "guests", data.id],
+    enabled: true,
+  });
+
+  const guests = (responseData?.pages?.map((e: any) => e.data.data).flat() ||
+    []) as EventGuest[];
+
+  useEffect(() => {
+    console.log("Guests", guests);
+  }, [guests]);
+
   return (
     <div>
       <h1 className="flex text-left gap-2 mb-3 mt-7">
@@ -37,6 +61,7 @@ const Guests = ({ data }: { data: any }) => {
         <span className="bg-green-200/50 text-green-400 p-1 py-1 rounded text-sm">
           {guests.length}
         </span>
+        {isFetching || (isLoading && <Spinner />)}
       </h1>
 
       {guests.length > 0 ? (
@@ -51,19 +76,27 @@ const Guests = ({ data }: { data: any }) => {
                 border: "1px solid #EEE",
               }}
             />
-            <FilterComponent />
           </div>
 
           <div className="grid gap-4 px-3">
-            {guests.map((_: any, index: any) => (
-              <Item key={index} userId={_} />
+            {guests.map((_, index: any) => (
+              <Item key={index} userData={_.profile} />
             ))}
 
-            <div className="text-center mt-7">
-              <h3 className="w-[auto] font-bold p-3 px-2 cursor-pointer rounded border border-gray-300">
-                All Caught Up
-              </h3>
-            </div>
+            {hasNextPage ? (
+              <TablePagination
+                loading={isFetchingNextPage}
+                onFetchMore={() => {
+                  fetchNextPage();
+                }}
+              />
+            ) : (
+              <div className="text-center mt-7">
+                <h3 className="w-[auto] font-bold p-3 px-2 cursor-pointer rounded border border-gray-300">
+                  All Caught Up
+                </h3>
+              </div>
+            )}
           </div>
         </>
       ) : (

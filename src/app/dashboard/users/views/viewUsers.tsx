@@ -1,22 +1,24 @@
-import React, { Fragment, useEffect, useState } from "react";
-import UserStat from "../components/userStat";
-import DefaultTable from "@/app/_components/table/defaultTable";
-import { TABLE_STYLE } from "@/constant";
-import { table } from "@/utils/contents/dummy/table";
-import Image from "next/image";
-import DashboardAction from "@/app/_components/dashboard/dashboardAction";
+import ModalTabButton from "@/app/_components/button/modalTabButton";
 import {
   userBlockedIcon,
   userFollowersIcon,
   userFollowingIcon,
 } from "@/app/_components/icons/preview/usersStatIcon";
-import { useTQuery } from "@/hooks/api/useTQuery";
-import moment from "moment";
-import ModalTabButton from "@/app/_components/button/modalTabButton";
-import TablePagination from "@/app/_components/table/tablePagination";
-import { usePaginatedQuery } from "@/hooks/api/usePaginatedQuery";
+import Input from "@/app/_components/input_fields";
+import { Spinner } from "@/app/_components/spinner/Spinner";
+import DefaultTable from "@/app/_components/table/defaultTable";
 import NoData from "@/app/_components/table/NoData";
+import TablePagination from "@/app/_components/table/tablePagination";
+import { TABLE_STYLE } from "@/constant";
+import { useSearchQuery } from "@/hooks/api/useSearchQuery";
+import { useTQuery } from "@/hooks/api/useTQuery";
 import { TStringIndexObject } from "@/utils/types";
+import { UserAvatarV2 } from "@/v2/components/common/avatar.component";
+import { useRouterO } from "@/v2/hooks/use-router";
+import { UserData, UserStatsResponse } from "@/v2/types/user.types";
+import moment from "moment";
+import { Fragment, useEffect, useState } from "react";
+import UserStat from "../components/userStat";
 
 const header = [
   "Full Name",
@@ -26,13 +28,28 @@ const header = [
   "Last Active",
 ];
 
-const ViewUsers = ({ user }: { user: any }) => {
+const ViewUsers = ({ user }: { user: UserData }) => {
+  const { push } = useRouterO();
+
+  const { data: relationshipStatsData, isLoading: statsLoading } = useTQuery<UserStatsResponse>({
+    url: `/admin/users/${user?.id}/relationship-stats`,
+    queryKey: ["user", String(user?.id), "relationship-stats"],
+    enabled: !!user?.id,
+  });
+
+  const relationshipStats = relationshipStatsData!?.data.stats;
+
   const {
     data: followersResponse,
     fetchNextPage: followers_fetchNextPage,
     isFetchingNextPage: followers_isFetchingNextPage,
-  } = usePaginatedQuery({
-    url: `/follow/followers?userId=${user?.id}`,
+    updateSearch: updateFollowersSearch,
+    isLoading: followersLoading,
+    isFetching: followersFetching,
+    searchParams: { search: followersSearchValue },
+    hasNextPage: followersHasNextPage,
+  } = useSearchQuery({
+    baseUrl: `/admin/users/${user?.id}/followers`,
     queryKey: ["follow", String(user?.id)],
     enabled: !!user?.id,
   });
@@ -41,8 +58,13 @@ const ViewUsers = ({ user }: { user: any }) => {
     data: followingResponse,
     fetchNextPage: following_fetchNextPage,
     isFetchingNextPage: following_isFetchingNextPage,
-  } = usePaginatedQuery({
-    url: `/follow/followings?userId=${user?.id}`,
+    updateSearch: updateFollowingSearch,
+    isLoading: followingLoading,
+    isFetching: followingFetching,
+    searchParams: { search: followingSearchValue },
+    hasNextPage: followingHasNextPage,
+  } = useSearchQuery({
+    baseUrl: `/admin/users/${user?.id}/following`,
     queryKey: ["following", String(user?.id)],
     enabled: !!user?.id,
   });
@@ -51,17 +73,35 @@ const ViewUsers = ({ user }: { user: any }) => {
     data: blockedResponse,
     fetchNextPage: blocked_fetchNextPage,
     isFetchingNextPage: blocked_isFetchingNextPage,
-  } = usePaginatedQuery({
-    url: `/user/blocked?userId=${user?.id}`,
+    updateSearch: updateBlockedSearch,
+    isLoading: blockedLoading,
+    isFetching: blockedFetching,
+    searchParams: { search: blockedSearchValue },
+    hasNextPage: blockedHasNextPage,
+  } = useSearchQuery({
+    baseUrl: `/admin/users/${user?.id}/blocked`,
     queryKey: ["blocked", String(user?.id)],
     enabled: !!user?.id,
   });
+
+  const userMeta = {
+    followersCount: Number(
+      (followersResponse as any)?.pages?.[0]?.data?.total || 0
+    ),
+    followingCount: Number(
+      (followingResponse as any)?.pages?.[0]?.data?.total || 0
+    ),
+    blockedCount: Number(
+      (blockedResponse as any)?.pages?.[0]?.data?.total || 0
+    ),
+  };
 
   const userData: TStringIndexObject = {
     // @ts-ignore
     followers: followersResponse?.pages
       ?.map((e: any) => e.data.data)
       .flat() as any[],
+
     followersActions: [followers_fetchNextPage, followers_isFetchingNextPage],
     // @ts-ignore
     following: followingResponse?.pages
@@ -84,30 +124,112 @@ const ViewUsers = ({ user }: { user: any }) => {
     followers_isFetchingNextPage,
   ]);
 
+  // Search state management
+  const [currentTab, setCurrentTab] = useState<string>("followers");
+
+  // Search configuration for different user types - matches actual entity structure
+  const searchConfig = {
+    followers: {
+      searchFields: [
+        "follower.firstName",
+        "follower.lastName",
+        "follower.username",
+        "follower?.businessName",
+        "user.email",
+        "user.phoneNumber",
+      ],
+      updateSearch: updateFollowersSearch,
+    },
+    following: {
+      searchFields: [
+        "followed.firstName",
+        "followed.lastName",
+        "followed.username",
+        "followed?.businessName",
+        "user.email",
+        "user.phoneNumber",
+      ],
+      updateSearch: updateFollowingSearch,
+    },
+    blocked: {
+      searchFields: [
+        "blocked.firstName",
+        "blocked.lastName",
+        "blocked.username",
+        "blocked?.businessName",
+        "user.email",
+        "user.phoneNumber",
+      ],
+      updateSearch: updateBlockedSearch,
+    },
+  };
+
+  // Update current tab when displayed records change
+  useEffect(() => {
+    setCurrentTab(displayedRecords[0]);
+  }, [displayedRecords]);
+
+  // Search function for backend
+  const handleSearch = (searchValue: string) => {
+    const config = searchConfig[currentTab as keyof typeof searchConfig];
+    if (config) {
+      config.updateSearch({ search: searchValue });
+    }
+  };
+
   const userViewData = [
     {
       title: "Total Followers",
       icon: userFollowersIcon,
-      amount: user?.followerCount ?? 0,
+      amount: relationshipStats?.followers ?? 0,
+      searchResult: userMeta.followersCount,
+      loading: followersLoading,
+      fetching: followersFetching,
+      searchValue: followersSearchValue,
+      canNext: followersHasNextPage,
+      id: "followers",
     },
     {
       title: "Total Following",
       icon: userFollowingIcon,
-      amount: user?.followingCount ?? 0,
+      amount: relationshipStats?.following ?? 0,
+      searchResult: userMeta.followingCount,
+      loading: followingLoading,
+      fetching: followingFetching,
+      searchValue: followingSearchValue,
+      canNext: followingHasNextPage,
+      id: "following",
     },
     {
       title: "Total Blocked",
       icon: userBlockedIcon,
-      amount: user?.blockedUsers?.length,
+      amount: relationshipStats?.blocked,
+      searchResult: userMeta.blockedCount,
+      loading: blockedLoading,
+      fetching: blockedFetching,
+      searchValue: blockedSearchValue,
+      canNext: blockedHasNextPage,
+      id: "blocked",
     },
   ];
+
+  const currentTabMeta =
+    userViewData.find((item) => item.id == currentTab) || userViewData[0];
+  const listLoading = currentTabMeta?.fetching;
+  const searchValue = currentTabMeta?.searchValue;
+  const searchResult = currentTabMeta?.searchResult;
 
   return (
     <div>
       <div className="flex gap-5 my-[4em]">
         {userViewData.map((_, index) => (
           <Fragment key={index}>
-            <UserStat icon={_.icon} title={_.title} amount={_.amount} />
+            <UserStat
+              icon={_.icon}
+              title={_.title}
+              amount={_.amount}
+              loading={statsLoading}
+            />
           </Fragment>
         ))}
       </div>
@@ -126,61 +248,115 @@ const ViewUsers = ({ user }: { user: any }) => {
                     userData[`${_}Actions`][0],
                     userData[`${_}Actions`][1],
                   ]);
+
+                  // handleSearch("")
                 }}
               />
             </Fragment>
           ))}
         </div>
 
-        {displayedRecords[1]?.length > 0 ? (
+        <div className="flex gap-3 items-center justify-end mb-4">
+          {
+            <div className="mr-auto flex items-end mt-2">
+              {searchValue ? (
+                listLoading ? (
+                  <div className="flex items-center gap-2">
+                    <Spinner /> <p>Searching...</p>
+                  </div>
+                ) : searchResult ? (
+                  <p>{searchResult} results found</p>
+                ) : (
+                  <p>No Result found</p>
+                )
+              ) : (
+                <p className="text-lg font-bold">
+                  {user?.profiles?.[0]?.firstName}'s {currentTab} list
+                </p>
+              )}
+            </div>
+          }
+          <div className="flex items-center pr-5">
+            <Input
+              name="search"
+              type="search"
+              placeholder={`Search ${currentTab}...`}
+              onChange={(e) => handleSearch(e.target.value)}
+              value={searchValue}
+              style={{
+                width: "300px",
+                border: "1px solid #EEE",
+              }}
+              key={currentTab}
+            />
+          </div>
+        </div>
+        {userData[currentTab]?.length > 0 ? (
           <>
-            <DashboardAction />
             {/* @ts-ignore */}
             <DefaultTable header={header}>
-              {(displayedRecords[1] || userData["followers"])?.map(
-                (_: any, key: number) => {
-                  return (
-                    <tr key={key}>
-                      <td className={TABLE_STYLE}>
-                        <div className="flex gap-5 items-center">
-                          {_?.profileImage ? (
-                            // eslint-disable-next-line @next/next/no-img-element
-                            <img
-                              src={_?.profileImage}
-                              className="w-[3em] h-[3em] bg-gray-500 rounded-full"
-                              alt=""
-                            />
-                          ) : (
-                            <div className="w-[3em] h-[3em] bg-gray-500 rounded-full"></div>
-                          )}
-                          <div>
-                            <h3>
-                              {_?.follower?.name ?? _?.follower?.username}
-                            </h3>
-                          </div>
+              {userData[currentTab]?.map((_: any, key: number) => {
+                const entity = _.follower || _.followed || _.blocked;
+                const user = {
+                  ...entity.user,
+                  profiles: [
+                    {
+                      ...entity,
+                      user: undefined,
+                    },
+                  ],
+                } as UserData;
+
+                const profile = user?.profiles?.[0];
+
+                return (
+                  <tr
+                    key={key}
+                    onClick={() => {
+                      push(`/dashboard/users/${user?.id}`);
+                    }}
+                    className="hover:bg-slate-50 cursor-pointer"
+                  >
+                    <td className={TABLE_STYLE}>
+                      <div className="flex gap-5 items-center">
+                        <div className="w-[3em] h-[3em] flex items-center justify-center">
+                          <UserAvatarV2 user={user} />
                         </div>
-                      </td>
-                      <td className={TABLE_STYLE}>
-                        <h3>{_?.follower?.username}</h3>
-                      </td>
-                      <td className={TABLE_STYLE}>
-                        <h3>{_?.follower?.gender ?? "N/A"}</h3>
-                      </td>
-                      <td className={TABLE_STYLE}>
-                        <h3>{_?.followe?.number ?? "N/A"}</h3>
-                      </td>
-                      <td className={TABLE_STYLE}>
-                        <h3>{moment(_?.createdAt).format("MMM DD YYYY")}</h3>
-                      </td>
-                    </tr>
-                  );
-                }
-              )}
+                        <div>
+                          <h3>
+                            {profile?.firstName || profile?.lastName
+                              ? `${profile?.firstName} ${profile?.lastName}`
+                              : profile?.username}
+                          </h3>
+                        </div>
+                      </div>
+                    </td>
+                    <td className={TABLE_STYLE}>
+                      <h3 className="text-sm hover:underline text-slate-500 cursor-pointer">
+                        @{profile.username}
+                      </h3>
+                    </td>
+                    <td className={TABLE_STYLE}>
+                      <h3>{user?.gender ?? "not specified"}</h3>
+                    </td>
+                    <td className={TABLE_STYLE}>
+                      <h3 className="text-sm">{user.phoneNumber ?? "---"}</h3>
+                    </td>
+                    <td className={TABLE_STYLE}>
+                      <h3 className="text-sm">
+                        {moment(user.updatedAt).format("MMM DD YYYY")}
+                      </h3>
+                    </td>
+                  </tr>
+                );
+              })}
             </DefaultTable>
-            <TablePagination
-              loading={displayedRecordsActions[1]}
-              onFetchMore={displayedRecordsActions[0]}
-            />
+            {currentTabMeta.canNext && (
+              <TablePagination
+                loading={displayedRecordsActions[1] || currentTabMeta.fetching}
+                onFetchMore={displayedRecordsActions[0]}
+              />
+            )}
           </>
         ) : (
           <NoData />

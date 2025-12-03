@@ -1,4 +1,5 @@
 import { filterEventsByDate, getDayName } from "@/helpers";
+import { Event } from "@/v2/types/event.types";
 import Image from "next/image";
 import { Fragment } from "react";
 
@@ -6,18 +7,24 @@ interface ICustomCalendar {
   days: number[];
   events: [];
   rangeData: { month: number; year: number };
-  dateOpenActions: { open: (day: boolean | number, events: any[])=>void, close: ()=>void}
+  dateOpenActions: {
+    open: (day: boolean | number, events: any[]) => void;
+    close: () => void;
+  };
 }
 interface ICalendarUnitItem {
   unitValue: string | number;
   events: any[];
-  actions: { open: (day: boolean | number, events: any[])=>void, close: ()=>void};
+  actions: {
+    open: (day: boolean | number, events: any[]) => void;
+    close: () => void;
+  };
 }
 
 const CalendarUnitItem: React.FC<ICalendarUnitItem> = ({
   unitValue,
   events,
-  actions
+  actions,
 }) => {
   const matchedEvents = events || [];
   const slicedEvents = matchedEvents.slice(0, 5);
@@ -25,24 +32,34 @@ const CalendarUnitItem: React.FC<ICalendarUnitItem> = ({
     <div className="col-span-1 h-[120px] border border-[#EDEFF5]">
       <div className="flex w-full h-full items-center gap-3 flex-col p-3">
         <span className="text-xs">{unitValue}</span>
-        <div className="flex justify-center items-center mt-4 cursor-pointer" onClick={()=> actions.open(unitValue as number, matchedEvents)}>
-          {slicedEvents?.map(({ data, title }, key) => (
-            <Fragment key={key}>
-              <div className="w-5 h-7 scale-110">
-                <div
-                  className={`w-7 h-7 bg-gray-400 rounded-full border border-white overflow-clip`}
-                >
-                  <Image
-                    src={data.image}
-                    width={28}
-                    height={28}
-                    alt={title}
-                    priority
-                  />
+        <div
+          className="flex justify-center items-center mt-4 cursor-pointer"
+          onClick={() => actions.open(unitValue as number, matchedEvents)}
+        >
+          {slicedEvents?.map(
+            ({ data, title }: { data: Event; title: string }, key) => (
+              <Fragment key={key}>
+                <div className="w-5 h-7 scale-110 relative group">
+                  <div className="absolute top-0 -translate-y-[100%] -translate-x-[50%] left-1/2 bg-white shadow-lg rounded-sm p-3 group-hover:block hidden">
+                    <p className="text-black text-xs whitespace-nowrap">{title}</p>
+                  </div>
+
+                  <div
+                    className={`w-7 h-7 bg-gray-400 rounded-full border border-white overflow-clip`}
+                  >
+                    <Image
+                      src={data.banner || "/assets/images/event.png"}
+                      className="w-full h-full object-cover"
+                      width={28}
+                      height={28}
+                      alt={title}
+                      priority
+                    />
+                  </div>
                 </div>
-              </div>
-            </Fragment>
-          ))}
+              </Fragment>
+            )
+          )}
         </div>
         {matchedEvents.length > slicedEvents.length && (
           <p className="text-xs">
