@@ -12,7 +12,7 @@ export const SidebarNavs: SidebarNavItem[] = [
     title: "Dashboard",
     path: "/dashboard",
     iconType: "home",
-    absoluteMatch: true
+    absoluteMatch: true,
   },
   {
     title: "Users",
@@ -29,11 +29,11 @@ export const SidebarNavs: SidebarNavItem[] = [
     path: "/dashboard/venues",
     iconType: "venues",
   },
-  {
-    title: "KYC",
-    path: "/dashboard/kyc",
-    iconType: "kyc",
-  },
+  // {
+  //   title: "KYC",
+  //   path: "/dashboard/kyc",
+  //   iconType: "kyc",
+  // },
   {
     title: "Services",
     path: "/dashboard/services",

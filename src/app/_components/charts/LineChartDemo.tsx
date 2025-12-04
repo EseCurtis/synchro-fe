@@ -70,7 +70,16 @@ const LineChartDemo: React.FC = () => {
 
   // Example 3: User engagement data
   const engagementData = {
-    labels: ["Week 1", "Week 2", "Week 3", "Week 4", "Week 5", "Week 6", "Week 7", "Week 8"],
+    labels: [
+      "Week 1",
+      "Week 2",
+      "Week 3",
+      "Week 4",
+      "Week 5",
+      "Week 6",
+      "Week 7",
+      "Week 8",
+    ],
     datasets: [
       {
         label: "Active Users",
@@ -104,15 +113,20 @@ const LineChartDemo: React.FC = () => {
   return (
     <div className="space-y-8 p-6">
       <div>
-        <h2 className="text-2xl font-bold text-primary mb-4">Line Chart Examples</h2>
+        <h2 className="text-2xl font-bold text-primary mb-4">
+          Line Chart Examples
+        </h2>
         <p className="text-text_primary mb-6">
-          Various examples of the improved line chart component matching the dashboard UI design.
+          Various examples of the improved line chart component matching the
+          dashboard UI design.
         </p>
       </div>
 
       {/* Example 1: Basic Chart */}
       <div>
-        <h3 className="text-lg font-semibold text-primary mb-4">Basic Sales Chart</h3>
+        <h3 className="text-lg font-semibold text-primary mb-4">
+          Basic Sales Chart
+        </h3>
         <LineChart
           title="Monthly Sales Performance"
           data={basicData}
@@ -122,7 +136,9 @@ const LineChartDemo: React.FC = () => {
 
       {/* Example 2: Multi-dataset Chart */}
       <div>
-        <h3 className="text-lg font-semibold text-primary mb-4">Financial Overview</h3>
+        <h3 className="text-lg font-semibold text-primary mb-4">
+          Financial Overview
+        </h3>
         <LineChart
           title="Quarterly Financial Performance"
           data={multiData}
@@ -132,7 +148,9 @@ const LineChartDemo: React.FC = () => {
 
       {/* Example 3: User Engagement */}
       <div>
-        <h3 className="text-lg font-semibold text-primary mb-4">User Engagement Metrics</h3>
+        <h3 className="text-lg font-semibold text-primary mb-4">
+          User Engagement Metrics
+        </h3>
         <LineChart
           title="Weekly User Growth"
           data={engagementData}
@@ -142,7 +160,9 @@ const LineChartDemo: React.FC = () => {
 
       {/* Example 4: Minimal Chart */}
       <div>
-        <h3 className="text-lg font-semibold text-primary mb-4">Minimal Design</h3>
+        <h3 className="text-lg font-semibold text-primary mb-4">
+          Minimal Design
+        </h3>
         <LineChart
           title=""
           data={basicData}
@@ -154,23 +174,27 @@ const LineChartDemo: React.FC = () => {
 
       {/* Usage Examples */}
       <div className="bg-lighten p-6 rounded-lg">
-        <h3 className="text-lg font-semibold text-primary mb-4">Usage Examples</h3>
+        <h3 className="text-lg font-semibold text-primary mb-4">
+          Usage Examples
+        </h3>
         <div className="space-y-4 text-sm text-other_text">
           <div>
             <h4 className="font-medium text-primary mb-2">Basic Usage:</h4>
             <pre className="bg-white p-3 rounded border text-xs overflow-x-auto">
-{`<LineChart
+              {`<LineChart
   title="Monthly Sales"
   data={salesData}
   height={400}
 />`}
             </pre>
           </div>
-          
+
           <div>
-            <h4 className="font-medium text-primary mb-2">Custom Configuration:</h4>
+            <h4 className="font-medium text-primary mb-2">
+              Custom Configuration:
+            </h4>
             <pre className="bg-white p-3 rounded border text-xs overflow-x-auto">
-{`<LineChart
+              {`<LineChart
   title="User Analytics"
   data={userData}
   height={350}
@@ -183,7 +207,7 @@ const LineChartDemo: React.FC = () => {
           <div>
             <h4 className="font-medium text-primary mb-2">Minimal Design:</h4>
             <pre className="bg-white p-3 rounded border text-xs overflow-x-auto">
-{`<LineChart
+              {`<LineChart
   title=""
   data={data}
   height={300}
@@ -199,9 +223,3 @@ const LineChartDemo: React.FC = () => {
 };
 
 export default LineChartDemo;
-
-
-
-
-
-

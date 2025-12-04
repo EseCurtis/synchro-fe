@@ -19,11 +19,9 @@ export const Button: FC<IButtonProps> = ({
 }) => {
   return (
     <button
-      {...rest}
-      className={`w-[100%] gap-2 text-white flex items-center justify-center rounded-full py-4 ${customClassName} ${
-        rest.className
-      } ${rest.disabled ? "opacity-50 cursor-not-allowed" : ""}`}
+      className={`w-[100%] gap-2 text-white flex items-center justify-center rounded-full py-4 my-4 ${customClassName}`}
       style={styles}
+      {...rest}
     >
       {isLoading ? (
         <>

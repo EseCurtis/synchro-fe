@@ -107,46 +107,52 @@ const ChartIntegrationExample: React.FC = () => {
           title="Followers"
           data={{
             labels: ["Jan", "Feb", "Mar", "Apr"],
-            datasets: [{
-              label: "Followers",
-              data: [120, 135, 118, 142],
-              borderColor: "#e73c01",
-              backgroundColor: "rgba(231, 60, 1, 0.1)",
-              fill: true,
-             // tension: 0.4,
-            }],
+            datasets: [
+              {
+                label: "Followers",
+                data: [120, 135, 118, 142],
+                borderColor: "#e73c01",
+                backgroundColor: "rgba(231, 60, 1, 0.1)",
+                fill: true,
+                // tension: 0.4,
+              },
+            ],
           }}
           height={250}
         />
-        
+
         <LineChart
           title="Following"
           data={{
             labels: ["Jan", "Feb", "Mar", "Apr"],
-            datasets: [{
-              label: "Following",
-              data: [80, 95, 88, 102],
-              borderColor: "#0512d2",
-              backgroundColor: "rgba(5, 18, 210, 0.1)",
-              fill: true,
-              //tension: 0.4,
-            }],
+            datasets: [
+              {
+                label: "Following",
+                data: [80, 95, 88, 102],
+                borderColor: "#0512d2",
+                backgroundColor: "rgba(5, 18, 210, 0.1)",
+                fill: true,
+                //tension: 0.4,
+              },
+            ],
           }}
           height={250}
         />
-        
+
         <LineChart
           title="Blocked Users"
           data={{
             labels: ["Jan", "Feb", "Mar", "Apr"],
-            datasets: [{
-              label: "Blocked",
-              data: [5, 3, 7, 4],
-              borderColor: "#F2994A",
-              backgroundColor: "rgba(242, 153, 74, 0.1)",
-              fill: true,
-              //tension: 0.4,
-            }],
+            datasets: [
+              {
+                label: "Blocked",
+                data: [5, 3, 7, 4],
+                borderColor: "#F2994A",
+                backgroundColor: "rgba(242, 153, 74, 0.1)",
+                fill: true,
+                //tension: 0.4,
+              },
+            ],
           }}
           height={250}
         />
@@ -156,9 +162,3 @@ const ChartIntegrationExample: React.FC = () => {
 };
 
 export default ChartIntegrationExample;
-
-
-
-
-
-

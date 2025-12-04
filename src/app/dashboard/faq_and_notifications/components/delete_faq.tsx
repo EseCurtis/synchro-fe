@@ -1,5 +1,9 @@
+import { AppToast } from "@/app/_components/AppToast";
 import { Button } from "@/app/_components/button";
-import React from "react";
+import { Spinner } from "@/app/_components/spinner/Spinner";
+import { useDeleteFaq } from "@/hooks/api/faqs/use-admin-faqs";
+import { Faq } from "@/v2/types/faq.types";
+import { toast } from "react-toastify";
 
 const deleteIcon = (
   <svg
@@ -23,23 +27,54 @@ const deleteIcon = (
   </svg>
 );
 
-const DeleteFaq = () => {
+type Props = {
+  faq: Faq;
+  onClose?: () => void;
+};
+
+export default function DeleteFaq({ faq, onClose }: Props) {
+  const { mutate, isLoading } = useDeleteFaq();
+
+  const handleDelete = () => {
+    mutate(faq.id, {
+      onSuccess: () => {
+        toast(<AppToast>FAQ deleted</AppToast>, { type: "success" });
+        onClose?.();
+      },
+      onError: (error: any) => {
+        const message =
+          error?.response?.data?.message ||
+          "Unable to delete FAQ. Please try again.";
+        toast(<AppToast>{message}</AppToast>, { type: "error" });
+      },
+    });
+  };
+
   return (
     <div>
-      <h3 className="font-bold flex gap-2">{deleteIcon} Delete FAQ</h3>
+      <h3 className="font-bold flex gap-2 items-center">
+        {deleteIcon} Delete FAQ
+      </h3>
 
       <div className="form items-left mt-4">
-        <p>Are you sure you want to delete “<b>Use the mobile USB pixel...</b>” from the FAQ section?</p>
+        <p>
+          Are you sure you want to delete “<b>{faq.question}</b>” from the FAQ
+          section?
+        </p>
       </div>
 
-      <div className=" mt-5 flex gap-4 items-center">
-        <Button>Delete</Button>
-        <Button style={{ background: "white", color: "red" }} customClassName="text-red-500 border border-2 border-red-500">
+      <div className="mt-5 flex gap-4 items-center">
+        <Button onClick={handleDelete} disabled={isLoading}>
+          {isLoading ? <Spinner /> : "Delete"}
+        </Button>
+        <Button
+          style={{ background: "white", color: "red" }}
+          customClassName="text-red-500 border border-2 border-red-500"
+          onClick={onClose}
+        >
           Cancel
         </Button>
       </div>
     </div>
   );
-};
-
-export default DeleteFaq;
+}

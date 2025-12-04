@@ -65,25 +65,26 @@ import LinkWithProgress from "@/app/_components/ui/LinkWithProgress";
 
 ## Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `href` | `string` | - | **Required.** The destination URL |
-| `children` | `ReactNode` | - | **Required.** Link content |
-| `className` | `string` | - | CSS classes to apply |
-| `replace` | `boolean` | `false` | Replace current history entry |
-| `scroll` | `boolean` | `true` | Scroll to top after navigation |
-| `shallow` | `boolean` | `false` | Shallow routing |
-| `prefetch` | `boolean` | - | Prefetch the page |
-| `target` | `string` | - | Link target (e.g., "_blank") |
-| `rel` | `string` | - | Link relationship |
-| `onClick` | `function` | - | Click handler |
-| `...otherProps` | `any` | - | Additional props passed through |
+| Prop            | Type        | Default | Description                       |
+| --------------- | ----------- | ------- | --------------------------------- |
+| `href`          | `string`    | -       | **Required.** The destination URL |
+| `children`      | `ReactNode` | -       | **Required.** Link content        |
+| `className`     | `string`    | -       | CSS classes to apply              |
+| `replace`       | `boolean`   | `false` | Replace current history entry     |
+| `scroll`        | `boolean`   | `true`  | Scroll to top after navigation    |
+| `shallow`       | `boolean`   | `false` | Shallow routing                   |
+| `prefetch`      | `boolean`   | -       | Prefetch the page                 |
+| `target`        | `string`    | -       | Link target (e.g., "\_blank")     |
+| `rel`           | `string`    | -       | Link relationship                 |
+| `onClick`       | `function`  | -       | Click handler                     |
+| `...otherProps` | `any`       | -       | Additional props passed through   |
 
 ## Automatic Behavior
 
 ### Progress Bar Triggers
 
 The progress bar automatically starts when:
+
 - ✅ Internal navigation (same domain)
 - ✅ Programmatic navigation via router.push/replace
 - ✅ User clicks on the link
@@ -91,6 +92,7 @@ The progress bar automatically starts when:
 ### Progress Bar Skips
 
 The progress bar is automatically skipped for:
+
 - ❌ External links (`http://`, `https://`)
 - ❌ Email links (`mailto:`)
 - ❌ Phone links (`tel:`)
@@ -102,6 +104,7 @@ The progress bar is automatically skipped for:
 ### Progress Completion
 
 The progress bar automatically completes when:
+
 - ✅ New page loads (handled by `ProgressProvider`)
 - ✅ Navigation finishes
 - ✅ Route change occurs
@@ -111,26 +114,25 @@ The progress bar automatically completes when:
 ### From Next.js Link
 
 **Before:**
+
 ```tsx
 import Link from "next/link";
 
-<Link href="/dashboard">
-  Dashboard
-</Link>
+<Link href="/dashboard">Dashboard</Link>;
 ```
 
 **After:**
+
 ```tsx
 import LinkWithProgress from "@/app/_components/ui/LinkWithProgress";
 
-<LinkWithProgress href="/dashboard">
-  Dashboard
-</LinkWithProgress>
+<LinkWithProgress href="/dashboard">Dashboard</LinkWithProgress>;
 ```
 
 ### From Manual NProgress
 
 **Before:**
+
 ```tsx
 import Link from "next/link";
 import { useNProgress } from "@/hooks/useNProgress";
@@ -139,16 +141,15 @@ const { startProgress } = useNProgress();
 
 <Link href="/dashboard" onClick={startProgress}>
   Dashboard
-</Link>
+</Link>;
 ```
 
 **After:**
+
 ```tsx
 import LinkWithProgress from "@/app/_components/ui/LinkWithProgress";
 
-<LinkWithProgress href="/dashboard">
-  Dashboard
-</LinkWithProgress>
+<LinkWithProgress href="/dashboard">Dashboard</LinkWithProgress>;
 ```
 
 ## Examples
@@ -172,9 +173,7 @@ const NavigationMenu = () => (
 const UserCard = ({ user }) => (
   <div className="user-card">
     <h3>{user.name}</h3>
-    <LinkWithProgress href={`/users/${user.id}`}>
-      View Profile
-    </LinkWithProgress>
+    <LinkWithProgress href={`/users/${user.id}`}>View Profile</LinkWithProgress>
   </div>
 );
 ```
@@ -203,6 +202,7 @@ The component works with the existing `ProgressProvider` that automatically comp
 ### NProgress Configuration
 
 Uses the existing NProgress configuration from `useNProgress` hook:
+
 - Custom styling with gradient colors
 - No spinner (disabled)
 - Smooth animations
@@ -211,6 +211,7 @@ Uses the existing NProgress configuration from `useNProgress` hook:
 ### TypeScript
 
 Fully typed with comprehensive interfaces:
+
 ```typescript
 interface LinkWithProgressProps {
   href: string;
@@ -271,9 +272,3 @@ node src/scripts/migrate-links.js
 ```
 
 This will analyze your codebase and provide migration suggestions for any remaining Next.js Link components.
-
-
-
-
-
-

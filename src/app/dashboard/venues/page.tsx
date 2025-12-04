@@ -1,30 +1,43 @@
+import { AdminRouteGuard } from "@/app/_components/auth/AdminRouteGuard";
 import TabComponent from "@/app/_components/tab";
 import DashboardLayout from "@/app/layouts/dashboardLayout";
-import React from "react";
-import ApprovedVenues from "./views/approved";
-import PendingVenues from "./views/pending";
-import DeclinedVenues from "./views/declined";
+import { VenueStatusView } from "./views/venue-status-view";
 
-const data = [
+const tabs = [
   {
-    header: "Approved venues",
-    component: <ApprovedVenues />,
+    header: "All venues",
+    component: <VenueStatusView title="All Venues" />,
   },
   {
-    header: "Pending venues",
-    component: <PendingVenues />,
+    header: "Pending",
+    component: <VenueStatusView status="draft" title="Pending Venues" />,
   },
   {
-    header: "Declined venues",
-    component: <DeclinedVenues />,
+    header: "Active",
+    component: <VenueStatusView status="active" title="Active Venues" />,
+  },
+  {
+    header: "Inactive",
+    component: <VenueStatusView status="inactive" title="Inactive Venues" />,
+  },
+  {
+    header: "Synchro AI",
+    component: (
+      <VenueStatusView
+        title="Synchro AI Venues"
+        variant="synchro"
+        status="active"
+      />
+    ),
   },
 ];
-const Kyc = () => {
-  return (
-    <DashboardLayout title="Venues" quantity="123K">
-      <TabComponent data={data} />
-    </DashboardLayout>
-  );
-};
 
-export default Kyc;
+export default function VenuesPage() {
+  return (
+    <AdminRouteGuard requiredRole="admin">
+      <DashboardLayout title="Venues">
+        <TabComponent data={tabs as any} />
+      </DashboardLayout>
+    </AdminRouteGuard>
+  );
+}

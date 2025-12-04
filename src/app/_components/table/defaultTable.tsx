@@ -1,7 +1,7 @@
 import React, { FC, ReactNode } from "react";
 
 interface IProps {
-  header: (string | ReactNode)[];
+  header: [];
   children: ReactNode;
 }
 const DefaultTable: FC<IProps> = ({ header, children }: IProps) => {

@@ -74,12 +74,15 @@ const PendingService = () => {
           />
           <DefaultTable header={header as any}>
             {services?.map((_: BusinessProfile, key: number) => {
+              console.log("sdhjdfshjdsf", _);
+              //return null;
+
               return (
                 <tr key={key}>
                   <td className={style}>
                     <div className="flex gap-2">
                       <div className="flex overflow-hidden w-[3em] h-[3em] bg-gray-500 rounded-lg">
-                        <Image
+                        <img
                           src={_?.avatar}
                           className="w-[100%] h-[100%] object-fit"
                           alt=""

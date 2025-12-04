@@ -13,6 +13,7 @@ This module provides various skeleton loaders for different parts of the applica
 Full application skeleton with sidebar, header, and content areas.
 
 **Features:**
+
 - Sidebar skeleton with navigation items
 - Header skeleton with user info and actions
 - Multiple content types (dashboard, table, calendar, form, generic)
@@ -20,6 +21,7 @@ Full application skeleton with sidebar, header, and content areas.
 - Smooth shimmer animations
 
 **Usage:**
+
 ```tsx
 import { AppSkeleton } from '@/app/_components/skeleton';
 
@@ -30,7 +32,7 @@ import { AppSkeleton } from '@/app/_components/skeleton';
 <AppSkeleton contentType="dashboard" />
 
 // Custom configuration
-<AppSkeleton 
+<AppSkeleton
   showSidebar={true}
   showHeader={true}
   showContent={true}
@@ -39,6 +41,7 @@ import { AppSkeleton } from '@/app/_components/skeleton';
 ```
 
 **Props:**
+
 - `showSidebar?: boolean` - Show/hide sidebar skeleton (default: true)
 - `showHeader?: boolean` - Show/hide header skeleton (default: true)
 - `showContent?: boolean` - Show/hide content skeleton (default: true)
@@ -49,6 +52,7 @@ import { AppSkeleton } from '@/app/_components/skeleton';
 Specialized skeleton for events/calendar pages.
 
 **Features:**
+
 - Calendar grid skeleton with proper spacing
 - Month navigation skeleton
 - Event cards skeleton with realistic proportions
@@ -56,6 +60,7 @@ Specialized skeleton for events/calendar pages.
 - Responsive design matching the actual layout
 
 **Usage:**
+
 ```tsx
 import { EventsSkeleton } from '@/app/_components/skeleton';
 
@@ -70,6 +75,7 @@ import { EventsSkeleton } from '@/app/_components/skeleton';
 ```
 
 **Props:**
+
 - `showCalendar?: boolean` - Show calendar skeleton (default: true)
 - `showEventList?: boolean` - Show event list skeleton (default: false)
 
@@ -78,6 +84,7 @@ import { EventsSkeleton } from '@/app/_components/skeleton';
 Generic table skeleton loader for data tables.
 
 **Features:**
+
 - Realistic table structure with headers and rows
 - Configurable number of rows and columns
 - Action buttons skeleton
@@ -85,6 +92,7 @@ Generic table skeleton loader for data tables.
 - Responsive design
 
 **Usage:**
+
 ```tsx
 import { TableSkeleton } from '@/app/_components/skeleton';
 
@@ -92,7 +100,7 @@ import { TableSkeleton } from '@/app/_components/skeleton';
 <TableSkeleton />
 
 // Custom configuration
-<TableSkeleton 
+<TableSkeleton
   rows={10}
   columns={5}
   showHeader={true}
@@ -102,6 +110,7 @@ import { TableSkeleton } from '@/app/_components/skeleton';
 ```
 
 **Props:**
+
 - `rows?: number` - Number of table rows (default: 8)
 - `columns?: number` - Number of table columns (default: 5)
 - `showHeader?: boolean` - Show table header (default: true)
@@ -184,6 +193,7 @@ All skeleton loaders use a consistent shimmer animation:
 ```
 
 The skeleton boxes use a gradient background that creates the shimmer effect:
+
 - Base color: `#f0f0f0`
 - Shimmer color: `#e0e0e0`
 - Animation duration: `1.5s`
@@ -240,9 +250,3 @@ src/app/_components/skeleton/
 - [ ] Verify responsive behavior
 - [ ] Check accessibility
 - [ ] Optimize performance
-
-
-
-
-
-

@@ -8,7 +8,6 @@ import TablePagination from "@/app/_components/table/tablePagination";
 import { usePaginatedQuery } from "@/hooks/api/usePaginatedQuery";
 import { BusinessProfile } from "@/v2/types/service.types";
 import moment from "moment";
-import Image from "next/image";
 import { useState } from "react";
 import ServiceDetails from "../../users/components/user/service_details";
 
@@ -73,7 +72,7 @@ const ApprovedServices = () => {
                   <td className={style}>
                     <div className="flex gap-2">
                       <div className="flex overflow-hidden w-[3em] h-[3em] bg-gray-500 rounded-lg">
-                        <Image
+                        <img
                           src={_?.avatar}
                           className="w-[100%] h-[100%] object-fit"
                           alt=""

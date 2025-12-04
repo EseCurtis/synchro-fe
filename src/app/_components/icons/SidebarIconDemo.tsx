@@ -7,7 +7,7 @@ const SidebarIconDemo: React.FC = () => {
 
   const iconTypes: SidebarIconType[] = [
     "home",
-    "user", 
+    "user",
     "events",
     "venues",
     "kyc",
@@ -16,7 +16,7 @@ const SidebarIconDemo: React.FC = () => {
     "report",
     "audit",
     "faq",
-    "settings"
+    "settings",
   ];
 
   return (
@@ -25,7 +25,7 @@ const SidebarIconDemo: React.FC = () => {
         <h1 className="text-3xl font-bold text-gray-900 mb-8">
           Sidebar Icon System Demo
         </h1>
-        
+
         {/* Interactive Demo */}
         <div className="bg-white rounded-lg p-6 mb-8 border border-gray-200">
           <h2 className="text-xl font-semibold text-gray-900 mb-4">
@@ -36,7 +36,9 @@ const SidebarIconDemo: React.FC = () => {
               <div
                 key={type}
                 className="flex flex-col items-center p-4 rounded-lg border border-gray-200 hover:border-gray-300 cursor-pointer transition-colors"
-                onClick={() => setActiveIcon(activeIcon === type ? "home" : type)}
+                onClick={() =>
+                  setActiveIcon(activeIcon === type ? "home" : type)
+                }
               >
                 <SidebarIcon
                   type={type}
@@ -62,11 +64,7 @@ const SidebarIconDemo: React.FC = () => {
           <div className="flex items-center gap-8">
             {[16, 20, 24, 32, 40, 48].map((size) => (
               <div key={size} className="flex flex-col items-center">
-                <SidebarIcon
-                  type="home"
-                  isActive={true}
-                  size={size}
-                />
+                <SidebarIcon type="home" isActive={true} size={size} />
                 <span className="text-xs text-gray-500 mt-2">{size}px</span>
               </div>
             ))}
@@ -81,7 +79,9 @@ const SidebarIconDemo: React.FC = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {/* Default Colors */}
             <div className="flex flex-col items-center p-4 border border-gray-200 rounded-lg">
-              <h3 className="text-sm font-medium text-gray-700 mb-3">Default Colors</h3>
+              <h3 className="text-sm font-medium text-gray-700 mb-3">
+                Default Colors
+              </h3>
               <div className="flex gap-4">
                 <SidebarIcon type="home" isActive={false} size={32} />
                 <SidebarIcon type="home" isActive={true} size={32} />
@@ -91,7 +91,9 @@ const SidebarIconDemo: React.FC = () => {
 
             {/* Custom Colors */}
             <div className="flex flex-col items-center p-4 border border-gray-200 rounded-lg">
-              <h3 className="text-sm font-medium text-gray-700 mb-3">Custom Colors</h3>
+              <h3 className="text-sm font-medium text-gray-700 mb-3">
+                Custom Colors
+              </h3>
               <div className="flex gap-4">
                 <SidebarIcon
                   type="user"
@@ -113,7 +115,9 @@ const SidebarIconDemo: React.FC = () => {
 
             {/* Blue Theme */}
             <div className="flex flex-col items-center p-4 border border-gray-200 rounded-lg">
-              <h3 className="text-sm font-medium text-gray-700 mb-3">Blue Theme</h3>
+              <h3 className="text-sm font-medium text-gray-700 mb-3">
+                Blue Theme
+              </h3>
               <div className="flex gap-4">
                 <SidebarIcon
                   type="events"
@@ -142,7 +146,10 @@ const SidebarIconDemo: React.FC = () => {
           </h2>
           <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6">
             {iconTypes.map((type) => (
-              <div key={type} className="flex flex-col items-center p-4 border border-gray-200 rounded-lg">
+              <div
+                key={type}
+                className="flex flex-col items-center p-4 border border-gray-200 rounded-lg"
+              >
                 <div className="flex gap-2 mb-2">
                   <SidebarIcon type={type} isActive={false} size={24} />
                   <SidebarIcon type={type} isActive={true} size={24} />
@@ -162,7 +169,9 @@ const SidebarIconDemo: React.FC = () => {
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="p-4 bg-red-50 border border-red-200 rounded-lg">
-              <h3 className="text-lg font-medium text-red-800 mb-2">Before (Images)</h3>
+              <h3 className="text-lg font-medium text-red-800 mb-2">
+                Before (Images)
+              </h3>
               <ul className="text-sm text-red-700 space-y-1">
                 <li>• 24+ HTTP requests for icons</li>
                 <li>• Loading delays and layout shifts</li>
@@ -172,7 +181,9 @@ const SidebarIconDemo: React.FC = () => {
               </ul>
             </div>
             <div className="p-4 bg-green-50 border border-green-200 rounded-lg">
-              <h3 className="text-lg font-medium text-green-800 mb-2">After (Components)</h3>
+              <h3 className="text-lg font-medium text-green-800 mb-2">
+                After (Components)
+              </h3>
               <ul className="text-sm text-green-700 space-y-1">
                 <li>• 0 HTTP requests (inline SVG)</li>
                 <li>• Instant rendering, no layout shifts</li>
@@ -189,9 +200,3 @@ const SidebarIconDemo: React.FC = () => {
 };
 
 export default SidebarIconDemo;
-
-
-
-
-
-

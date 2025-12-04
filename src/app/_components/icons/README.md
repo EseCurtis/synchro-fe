@@ -5,6 +5,7 @@ A modern, optimized icon system for the dashboard sidebar using TSX components i
 ## Overview
 
 This icon system replaces image-based icons with optimized SVG components, providing:
+
 - **Faster Loading**: No network requests for icons
 - **Better Performance**: Inline SVG rendering
 - **Scalability**: Vector graphics that scale perfectly
@@ -27,10 +28,11 @@ import SidebarIcon from "@/app/_components/icons/SidebarIcon";
   size={24}
   activeColor="#e73c01"
   inactiveColor="#718096"
-/>
+/>;
 ```
 
 **Props:**
+
 - `type`: Icon type (validated with TypeScript)
 - `isActive`: Whether the icon is in active state
 - `size`: Icon size in pixels (default: 24)
@@ -52,19 +54,19 @@ import { HomeIcon, UserIcon, EventsIcon } from "@/app/_components/icons/SidebarI
 
 ## Available Icons
 
-| Icon Type | Component | Description |
-|-----------|-----------|-------------|
-| `home` | `HomeIcon` | Dashboard/Home |
-| `user` | `UserIcon` | Users/Profile |
-| `events` | `EventsIcon` | Events/Calendar |
-| `venues` | `VenuesIcon` | Venues/Buildings |
-| `kyc` | `KycIcon` | KYC/Verification |
-| `services` | `ServicesIcon` | Services/Money |
-| `support` | `SupportIcon` | Support/Help |
-| `report` | `ReportIcon` | Reports/Documents |
-| `audit` | `AuditIcon` | Audit/History |
-| `faq` | `FaqIcon` | FAQ/Questions |
-| `settings` | `SettingsIcon` | Settings/Gear |
+| Icon Type  | Component      | Description       |
+| ---------- | -------------- | ----------------- |
+| `home`     | `HomeIcon`     | Dashboard/Home    |
+| `user`     | `UserIcon`     | Users/Profile     |
+| `events`   | `EventsIcon`   | Events/Calendar   |
+| `venues`   | `VenuesIcon`   | Venues/Buildings  |
+| `kyc`      | `KycIcon`      | KYC/Verification  |
+| `services` | `ServicesIcon` | Services/Money    |
+| `support`  | `SupportIcon`  | Support/Help      |
+| `report`   | `ReportIcon`   | Reports/Documents |
+| `audit`    | `AuditIcon`    | Audit/History     |
+| `faq`      | `FaqIcon`      | FAQ/Questions     |
+| `settings` | `SettingsIcon` | Settings/Gear     |
 
 ## Usage Examples
 
@@ -106,11 +108,7 @@ import { HomeIcon, UserIcon, EventsIcon } from "@/app/_components/icons/SidebarI
 ```tsx
 const NavigationItem = ({ item, isActive }) => (
   <div className="nav-item">
-    <SidebarIcon
-      type={item.iconType}
-      isActive={isActive}
-      size={24}
-    />
+    <SidebarIcon type={item.iconType} isActive={isActive} size={24} />
     <span>{item.title}</span>
   </div>
 );
@@ -142,28 +140,28 @@ const NavigationItem = ({ item, isActive }) => (
 
 ```tsx
 // New approach with components
-<SidebarIcon
-  type="home"
-  isActive={isActive}
-  size={24}
-/>
+<SidebarIcon type="home" isActive={isActive} size={24} />
 ```
 
 ## Performance Benefits
 
 ### Loading Performance
+
 - **Before**: 24+ HTTP requests for icon images
 - **After**: 0 HTTP requests (inline SVG)
 
 ### Bundle Size
+
 - **Before**: Multiple image files in public folder
 - **After**: Optimized SVG code in bundle
 
 ### Rendering Performance
+
 - **Before**: Image loading delays and layout shifts
 - **After**: Instant rendering with no layout shifts
 
 ### Memory Usage
+
 - **Before**: Image caching and memory overhead
 - **After**: Minimal memory footprint
 
@@ -174,7 +172,11 @@ const NavigationItem = ({ item, isActive }) => (
 1. Add the icon component to `SidebarIcons.tsx`:
 
 ```tsx
-export const NewIcon: React.FC<IconProps> = ({ size = 24, className = "", color = "currentColor" }) => (
+export const NewIcon: React.FC<IconProps> = ({
+  size = 24,
+  className = "",
+  color = "currentColor",
+}) => (
   <svg
     width={size}
     height={size}
@@ -249,6 +251,7 @@ interface SidebarIconProps {
 ## Integration
 
 The icon system integrates seamlessly with:
+
 - **Sidebar Navigation**: Automatic active/inactive states
 - **Dashboard Layout**: Consistent styling and behavior
 - **Theme System**: Respects color schemes and themes
@@ -257,22 +260,19 @@ The icon system integrates seamlessly with:
 ## Troubleshooting
 
 ### Icon Not Showing
+
 - Check that the icon type is valid
 - Verify the component is imported correctly
 - Ensure TypeScript types are properly configured
 
 ### Styling Issues
+
 - Check color values are valid hex codes
 - Verify className is applied correctly
 - Ensure no conflicting CSS rules
 
 ### Performance Issues
+
 - Icons are optimized by default
 - No additional optimization needed
 - Bundle size impact is minimal
-
-
-
-
-
-

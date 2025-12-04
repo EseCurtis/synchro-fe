@@ -1,8 +1,4 @@
-import {
-  ArcElement, Chart as ChartJS,
-  Legend,
-  Tooltip
-} from "chart.js";
+import { ArcElement, Chart as ChartJS, Legend, Tooltip } from "chart.js";
 import React from "react";
 import { Doughnut } from "react-chartjs-2";
 
@@ -33,18 +29,12 @@ const defaultData = {
       data: [45, 35, 10, 5, 5],
       backgroundColor: [
         "#e73c0155",
-        "#0512d2", 
+        "#0512d2",
         "#e73c01",
         "#e73c013A",
-        "#A0AEC0"
+        "#A0AEC0",
       ],
-      borderColor: [
-        "#ffffff",
-        "#ffffff",
-        "#ffffff", 
-        "#ffffff",
-        "#ffffff"
-      ],
+      borderColor: ["#ffffff", "#ffffff", "#ffffff", "#ffffff", "#ffffff"],
       borderWidth: 2,
     },
   ],
@@ -62,7 +52,7 @@ const PieChart: React.FC<PieChartProps> = ({
   const options = {
     responsive: true,
     maintainAspectRatio: false,
-    cutout: centerText || centerSubtext ? '60%' : '50%',
+    cutout: centerText || centerSubtext ? "60%" : "50%",
     plugins: {
       legend: {
         display: showLegend,
@@ -71,33 +61,37 @@ const PieChart: React.FC<PieChartProps> = ({
           usePointStyle: true,
           padding: 15,
           font: {
-            family: 'Outfit, sans-serif',
+            family: "Outfit, sans-serif",
             size: 11,
-            weight: '500' as const,
+            weight: "500" as const,
           },
-          color: '#A0AEC0',
-          generateLabels: function(chart: any) {
+          color: "#A0AEC0",
+          generateLabels: function (chart: any) {
             const data = chart.data;
             if (data?.labels.length && data?.datasets.length) {
               return (data?.labels || []).map((label: string, i: number) => {
                 const dataset = data.datasets[0];
                 const value = dataset.data[i];
-                const total = dataset.data.reduce((a: number, b: number) => a + b, 0);
-                const percentage = total > 0 ? ((value / total) * 100).toFixed(1) : '0';
-                
+                const total = dataset.data.reduce(
+                  (a: number, b: number) => a + b,
+                  0
+                );
+                const percentage =
+                  total > 0 ? ((value / total) * 100).toFixed(1) : "0";
+
                 return {
                   text: `${label}: ${value} (${percentage}%)`,
                   fillStyle: dataset.backgroundColor[i],
                   strokeStyle: dataset.borderColor[i],
                   lineWidth: dataset.borderWidth,
-                  pointStyle: 'circle',
+                  pointStyle: "circle",
                   hidden: false,
-                  index: i
+                  index: i,
                 };
               });
             }
             return [];
-          }
+          },
         },
       },
       // title: {
@@ -115,46 +109,50 @@ const PieChart: React.FC<PieChartProps> = ({
       // },
       tooltip: {
         enabled: showTooltip,
-        backgroundColor: 'rgba(26, 32, 44, 0.95)',
-        titleColor: '#ffffff',
-        bodyColor: '#ffffff',
-        borderColor: '#EDEFF5',
+        backgroundColor: "rgba(26, 32, 44, 0.95)",
+        titleColor: "#ffffff",
+        bodyColor: "#ffffff",
+        borderColor: "#EDEFF5",
         borderWidth: 1,
         cornerRadius: 8,
         displayColors: true,
         titleFont: {
-          family: 'Outfit, sans-serif',
+          family: "Outfit, sans-serif",
           size: 12,
-          weight: '600' as const,
+          weight: "600" as const,
         },
         bodyFont: {
-          family: 'Outfit, sans-serif',
+          family: "Outfit, sans-serif",
           size: 11,
-          weight: '400' as const,
+          weight: "400" as const,
         },
         padding: 12,
         callbacks: {
-          label: function(context: any) {
-            const label = context.label || '';
+          label: function (context: any) {
+            const label = context.label || "";
             const value = context.parsed;
-            const total = context.dataset.data.reduce((a: number, b: number) => a + b, 0);
-            const percentage = total > 0 ? ((value / total) * 100).toFixed(1) : '0';
+            const total = context.dataset.data.reduce(
+              (a: number, b: number) => a + b,
+              0
+            );
+            const percentage =
+              total > 0 ? ((value / total) * 100).toFixed(1) : "0";
             return `${label}: ${value} (${percentage}%)`;
-          }
-        }
+          },
+        },
       },
     },
     elements: {
       arc: {
         borderWidth: 2,
-        borderColor: '#ffffff',
+        borderColor: "#ffffff",
       },
     },
     animation: {
       animateRotate: true,
       animateScale: true,
       duration: 1000,
-      easing: 'easeOutQuart' as const,
+      easing: "easeOutQuart" as const,
     },
     hover: {
       animationDuration: 300,
@@ -162,10 +160,11 @@ const PieChart: React.FC<PieChartProps> = ({
   };
 
   // Calculate total for center text
-  const total = data.datasets[0]?.data.reduce((a: number, b: number) => a + b, 0) || 0;
+  const total =
+    data.datasets[0]?.data.reduce((a: number, b: number) => a + b, 0) || 0;
 
   return (
-    <div 
+    <div
       className="w-full bg-white rounded-lg p-6"
       style={{
         border: "1px solid #EDEFF5",
@@ -173,50 +172,47 @@ const PieChart: React.FC<PieChartProps> = ({
       }}
     >
       {title && (
-        <h3 
+        <h3
           className="text-[16px] text-center font-bold mb-4"
-          style={{ color: '#1A202C' }}
+          style={{ color: "#1A202C" }}
         >
           {title}
         </h3>
       )}
-      
-      <div 
-        className="relative"
-        style={{ height: `${height}px` }}
-      >
+
+      <div className="relative" style={{ height: `${height}px` }}>
         <Doughnut options={options as any} data={data} />
-        
+
         {/* Center text overlay */}
         {(centerText || centerSubtext) && (
-          <div 
+          <div
             className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none"
-            style={{ 
-              top: '40%', 
-              left: '50%', 
-              transform: 'translate(-50%, -50%)',
-              textAlign: 'center'
+            style={{
+              top: "40%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+              textAlign: "center",
             }}
           >
             {centerText && (
-              <div 
+              <div
                 className="font-bold"
-                style={{ 
-                  fontSize: '24px',
-                  color: '#1A202C',
-                  fontFamily: 'Outfit, sans-serif'
+                style={{
+                  fontSize: "24px",
+                  color: "#1A202C",
+                  fontFamily: "Outfit, sans-serif",
                 }}
               >
                 {centerText}
               </div>
             )}
             {centerSubtext && (
-              <div 
+              <div
                 className="text-sm"
-                style={{ 
-                  color: '#A0AEC0',
-                  fontFamily: 'Outfit, sans-serif',
-                  marginTop: '4px'
+                style={{
+                  color: "#A0AEC0",
+                  fontFamily: "Outfit, sans-serif",
+                  marginTop: "4px",
                 }}
               >
                 {centerSubtext}
@@ -230,9 +226,3 @@ const PieChart: React.FC<PieChartProps> = ({
 };
 
 export default PieChart;
-
-
-
-
-
-
