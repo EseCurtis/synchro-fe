@@ -44,7 +44,8 @@ const VenuesView = () => {
     initialSearchParams: {},
   });
 
-  const venues = data?.pages?.map((page: any) => page.data.data).flat() as Venue[] || [];
+  const venues =
+    (data?.pages?.map((page: any) => page.data.data).flat() as Venue[]) || [];
 
   // Update venue mutation
   const { mutate: updateVenue, isLoading: isUpdating } = useTMutation({
@@ -95,44 +96,41 @@ const VenuesView = () => {
     });
 
   // Bulk delete mutation
-  const { mutate: bulkDeleteVenues, isLoading: isDeletingBulk } = useTMutation(
-    {
-      url: "/admin/venues/bulk-delete",
-      method: "post",
-      options: {
-        onSuccess: (response: any) => {
-          const deleted = response.data?.deleted || response.deleted || 0;
-          const failed = response.data?.failed || response.failed || 0;
+  const { mutate: bulkDeleteVenues, isLoading: isDeletingBulk } = useTMutation({
+    url: "/admin/venues/bulk-delete",
+    method: "post",
+    options: {
+      onSuccess: (response: any) => {
+        const deleted = response.data?.deleted || response.deleted || 0;
+        const failed = response.data?.failed || response.failed || 0;
 
-          if (failed > 0) {
-            toast(
-              <AppToast>
-                Deleted {deleted} venue(s). {failed} failed.
-              </AppToast>,
-              { type: "warning" }
-            );
-          } else {
-            toast(
-              <AppToast>Successfully deleted {deleted} venue(s)!</AppToast>,
-              { type: "success" }
-            );
-          }
-
-          queryClient.invalidateQueries(["synchro-ai-venues"]);
-          setDeleteTarget(null);
-          setSelectedVenues([]);
-        },
-        onError: (error: any) => {
+        if (failed > 0) {
           toast(
             <AppToast>
-              {error?.response?.data?.message || "Failed to delete venues"}
+              Deleted {deleted} venue(s). {failed} failed.
             </AppToast>,
-            { type: "error" }
+            { type: "warning" }
           );
-        },
+        } else {
+          toast(<AppToast>Successfully deleted {deleted} venue(s)!</AppToast>, {
+            type: "success",
+          });
+        }
+
+        queryClient.invalidateQueries(["synchro-ai-venues"]);
+        setDeleteTarget(null);
+        setSelectedVenues([]);
       },
-    }
-  );
+      onError: (error: any) => {
+        toast(
+          <AppToast>
+            {error?.response?.data?.message || "Failed to delete venues"}
+          </AppToast>,
+          { type: "error" }
+        );
+      },
+    },
+  });
 
   const handleJsonUpload = (venues: ScrapedVenue[]) => {
     setScrapedVenues(venues);
@@ -150,10 +148,7 @@ const VenuesView = () => {
   };
 
   const handleEditVenue = (venueId: string, updates: any) => {
-    updateVenue(
-      { ...updates },
-      { dynamicUrl: `${venueId}/update` } as any
-    );
+    updateVenue({ ...updates }, { dynamicUrl: `${venueId}/update` } as any);
   };
 
   const handleDeleteSingle = (venueId: string) => {
@@ -201,7 +196,9 @@ const VenuesView = () => {
     };
     const badge = statusMap[status] || statusMap.active;
     return (
-      <span className={`px-3 py-1 rounded-full text-xs font-medium ${badge.color}`}>
+      <span
+        className={`px-3 py-1 rounded-full text-xs font-medium ${badge.color}`}
+      >
         {badge.text}
       </span>
     );
@@ -256,6 +253,7 @@ const VenuesView = () => {
       ) : (
         <>
           <DefaultTable
+            // @ts-ignore
             header={[
               <input
                 type="checkbox"
@@ -327,9 +325,7 @@ const VenuesView = () => {
                   <td className={style}>
                     <div className="flex items-center gap-1">
                       <span className="text-yellow-500">★</span>
-                      <span>
-                        {venue.averageRating?.toFixed(1) || "N/A"}
-                      </span>
+                      <span>{venue.averageRating?.toFixed(1) || "N/A"}</span>
                       <span className="text-gray-400 text-xs">
                         ({venue.reviewsCount || 0})
                       </span>
@@ -426,4 +422,3 @@ const VenuesView = () => {
 };
 
 export default VenuesView;
-

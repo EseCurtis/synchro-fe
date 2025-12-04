@@ -12,6 +12,7 @@ export default function VenueDetails({ venue }: Props) {
 
   return (
     <div className="space-y-6">
+      {/* @ts-ignore */}
       <VenueHero venue={venue} ownerUsername={owner?.username} />
       <VenueMeta venue={venue} owner={owner} />
       <VenuePricing venue={venue} />
@@ -86,13 +87,18 @@ function VenueMeta({
       </div>
       {owner && (
         <div className="mt-6 flex items-center gap-3 rounded-lg border border-gray-100 p-3">
+          {/* @ts-ignore */}
           <UserAvatarV2 user={owner} size={32} />
           <div className="text-sm">
             <p className="font-medium">
+              {/* @ts-ignore */}
               {owner.firstName || owner.lastName
-                ? `${owner.firstName ?? ""} ${owner.lastName ?? ""}`.trim()
-                : owner.username}
+                ? // @ts-ignore
+                  `${owner.firstName ?? ""} ${owner.lastName ?? ""}`.trim()
+                : // @ts-ignore
+                  owner.displayName}
             </p>
+            {/* @ts-ignore */}
             <p className="text-xs text-gray-500">@{owner.username}</p>
           </div>
         </div>

@@ -4,13 +4,11 @@ import { AppToast } from "@/app/_components/AppToast";
 import Input, { Select } from "@/app/_components/input_fields";
 import { Button } from "@/app/_components/button";
 import { FeeConfiguration } from "@/v2/types/fee.types";
-import {
-  useCreateFeeConfiguration,
-  useEditFeeConfiguration,
-} from "@/hooks/api/v2/settings/use-admin-settings";
+
 import { Spinner } from "@/app/_components/spinner/Spinner";
 import { useMemo, useState } from "react";
 import { toast } from "react-toastify";
+import { useTMutation } from "@/hooks/api/useTMutation";
 
 type FeeFormProps = {
   fee?: FeeConfiguration | null;
@@ -42,8 +40,14 @@ export default function FeeForm({ fee, onClose }: FeeFormProps) {
     description: fee?.description ?? "",
   });
 
-  const { mutate: createFee, isLoading: creating } = useCreateFeeConfiguration();
-  const { mutate: updateFee, isLoading: updating } = useEditFeeConfiguration();
+  const { mutate: createFee, isLoading: creating } = useTMutation({
+    url: `/admin/settings/fees`,
+    method: "post",
+  });
+  const { mutate: updateFee, isLoading: updating } = useTMutation({
+    url: `/admin/settings/fees/${fee?.id}`,
+    method: "put",
+  });
 
   const isEditing = Boolean(fee);
   const isSubmitting = creating || updating;
@@ -70,7 +74,9 @@ export default function FeeForm({ fee, onClose }: FeeFormProps) {
 
   const handleSubmit = () => {
     if (!canSubmit) {
-      toast(<AppToast>Fill in all required fields</AppToast>, { type: "error" });
+      toast(<AppToast>Fill in all required fields</AppToast>, {
+        type: "error",
+      });
       return;
     }
 
@@ -79,10 +85,8 @@ export default function FeeForm({ fee, onClose }: FeeFormProps) {
       code: form.code.trim(),
       scope: form.scope.trim() || "global",
       chargeType: form.chargeType as FeeConfiguration["chargeType"],
-      percentage:
-        form.percentage === "" ? undefined : Number(form.percentage),
-      flatAmount:
-        form.flatAmount === "" ? undefined : Number(form.flatAmount),
+      percentage: form.percentage === "" ? undefined : Number(form.percentage),
+      flatAmount: form.flatAmount === "" ? undefined : Number(form.flatAmount),
       currency: form.currency.trim() || "USD",
       isActive: form.isActive,
       description: form.description.trim() || undefined,
@@ -191,7 +195,7 @@ export default function FeeForm({ fee, onClose }: FeeFormProps) {
         </>
       )}
 
-  <Input
+      <Input
         label="Description"
         placeholder="Optional helper text"
         value={form.description}
@@ -226,4 +230,3 @@ export default function FeeForm({ fee, onClose }: FeeFormProps) {
     </div>
   );
 }
-

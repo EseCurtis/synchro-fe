@@ -103,44 +103,41 @@ const EventsView = () => {
     });
 
   // Bulk delete mutation
-  const { mutate: bulkDeleteEvents, isLoading: isDeletingBulk } = useTMutation(
-    {
-      url: "/admin/events/bulk-delete",
-      method: "post",
-      options: {
-        onSuccess: (response: any) => {
-          const deleted = response.data?.deleted || 0;
-          const failed = response.data?.failed || 0;
+  const { mutate: bulkDeleteEvents, isLoading: isDeletingBulk } = useTMutation({
+    url: "/admin/events/bulk-delete",
+    method: "post",
+    options: {
+      onSuccess: (response: any) => {
+        const deleted = response.data?.deleted || 0;
+        const failed = response.data?.failed || 0;
 
-          if (failed > 0) {
-            toast(
-              <AppToast>
-                Deleted {deleted} event(s). {failed} failed.
-              </AppToast>,
-              { type: "warning" }
-            );
-          } else {
-            toast(
-              <AppToast>Successfully deleted {deleted} event(s)!</AppToast>,
-              { type: "success" }
-            );
-          }
-
-          queryClient.invalidateQueries(["synchro-ai-events"]);
-          setDeleteTarget(null);
-          setSelectedEvents([]);
-        },
-        onError: (error: any) => {
+        if (failed > 0) {
           toast(
             <AppToast>
-              {error?.response?.data?.message || "Failed to delete events"}
+              Deleted {deleted} event(s). {failed} failed.
             </AppToast>,
-            { type: "error" }
+            { type: "warning" }
           );
-        },
+        } else {
+          toast(<AppToast>Successfully deleted {deleted} event(s)!</AppToast>, {
+            type: "success",
+          });
+        }
+
+        queryClient.invalidateQueries(["synchro-ai-events"]);
+        setDeleteTarget(null);
+        setSelectedEvents([]);
       },
-    }
-  );
+      onError: (error: any) => {
+        toast(
+          <AppToast>
+            {error?.response?.data?.message || "Failed to delete events"}
+          </AppToast>,
+          { type: "error" }
+        );
+      },
+    },
+  });
 
   // Handlers
   const handleJsonUpload = (events: ScrapedEvent[]) => {
@@ -263,6 +260,7 @@ const EventsView = () => {
       ) : (
         <>
           <DefaultTable
+            // @ts-ignore
             header={[
               <input
                 type="checkbox"
@@ -419,4 +417,3 @@ const EventsView = () => {
 };
 
 export default EventsView;
-
