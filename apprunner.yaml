@@ -1,0 +1,18 @@
+version: 1.0
+runtime: nodejs22
+build:
+  commands:
+    pre-build:
+      - npm install -g pnpm@latest
+    build:
+      - pnpm install --frozen-lockfile
+      - pnpm run build
+run:
+  command: pnpm start
+  network:
+    port: 3000
+    env: PORT
+  env:
+    - name: NODE_ENV
+      value: "production"
+
