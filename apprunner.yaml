@@ -3,12 +3,15 @@ runtime: nodejs22
 build:
   commands:
     pre-build:
-      - npm install -g pnpm@latest
+      - corepack enable
+      - corepack prepare pnpm@9.15.3 --activate
     build:
+      - corepack enable
+      - corepack prepare pnpm@9.15.3 --activate
       - pnpm install --frozen-lockfile
       - pnpm run build
 run:
-  command: pnpm start
+  command: sh -c "corepack enable && corepack prepare pnpm@9.15.3 --activate && pnpm start"
   network:
     port: 3000
     env: PORT
