@@ -11,7 +11,7 @@ build:
       - pnpm install --frozen-lockfile
       - pnpm run build
 run:
-  command: sh -c "corepack enable && corepack prepare pnpm@9.15.3 --activate && pnpm start"
+  command: npx next start
   network:
     port: 3000
     env: PORT
