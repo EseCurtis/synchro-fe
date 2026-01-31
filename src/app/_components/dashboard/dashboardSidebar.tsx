@@ -1,7 +1,6 @@
 "use client";
 
 import { SidebarNavs } from "@/utils/contents/sidebarNavs";
-import Image from "next/image";
 import { usePathname } from "next/navigation";
 import SidebarIcon from "../icons/SidebarIcon";
 import LinkWithProgress from "../ui/LinkWithProgress";
@@ -25,7 +24,7 @@ const DashboardBoardSidebar = () => {
       }}
     >
       <div className="h-[40px]">
-        <Image
+        <img
           src={"/images/synco_logo.png"}
           width={100}
           height={20}

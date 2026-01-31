@@ -1,7 +1,6 @@
 import ModalTabButton from "@/app/_components/button/modalTabButton";
 import customStyles from "@/app/_components/customStyles/index.module.css";
 import { Event } from "@/v2/types/event.types";
-import Image from "next/image";
 import { Fragment, useState } from "react";
 import Guests from "./event/guests";
 import Info from "./event/info";
@@ -49,8 +48,8 @@ const EventDetails = ({ event }: { event: Event }) => {
           >
             <div className="bg-gray-300 rounded w-[100%] h-[100px] relative">
               <div className="w-full h-full absolute overflow-clip flex items-center justify-center rounded ">
-                <Image
-                  src={event.banner}
+                <img
+                  src={event.banner || ""}
                   alt={event.name}
                   width={400}
                   height={100}
@@ -58,8 +57,8 @@ const EventDetails = ({ event }: { event: Event }) => {
                 />
               </div>
               <div className="bg-gray-500 rounded-full w-[70px] h-[70px] overflow-clip absolute right-[1em] bottom-[-30%] border-[2px] border-white">
-                <Image
-                  src={authorInfo?.avatar}
+                <img
+                  src={authorInfo?.avatar || ""}
                   width={70}
                   height={70}
                   className="w-full h-full object-cover"

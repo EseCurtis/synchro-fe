@@ -1,13 +1,11 @@
 "use client";
 
 import DashboardAction from "@/app/_components/dashboard/dashboardAction";
+import Modal from "@/app/_components/popups/modal";
 import DefaultTable from "@/app/_components/table/defaultTable";
 import TablePagination from "@/app/_components/table/tablePagination";
 import { table } from "@/utils/contents/dummy/table";
-import React, { useState, Fragment } from "react";
-import Image from "../../../../../node_modules/next/image";
-import Dropdown from "@/app/_components/popups/dropDown";
-import Modal from "@/app/_components/popups/modal";
+import { useState } from "react";
 import UserDetails from "../components/service_details";
 
 const header = [
@@ -59,7 +57,7 @@ const ServicesReports = () => {
                 <h3>{_.date}</h3>
               </td>
               <td className={style}>
-                <Image
+                <img
                   src="/images/icons/dashboard/table/more.svg"
                   width={31}
                   height={11}

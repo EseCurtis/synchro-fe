@@ -7,6 +7,7 @@ import DefaultTable from "@/app/_components/table/defaultTable";
 import NoData from "@/app/_components/table/NoData";
 import TablePagination from "@/app/_components/table/tablePagination";
 import { useDeclinedEvents, useUpdateEventStatus } from "@/hooks/api/v2/events";
+import { Event } from "@/v2/types/event.types";
 import moment from "moment";
 import { useState } from "react";
 import LinkWithProgress from "../../../_components/ui/LinkWithProgress";
@@ -55,14 +56,14 @@ const DeclinedEvents = () => {
       {/* @ts-ignore */}
       <DefaultTable header={header}>
         {isLoadingEvents && <Spinner />}
-        {events?.map((_: any, key: number) => {
+        {events?.map((_: Event, key: number) => {
           return (
             <tr key={key}>
               <td className={style}>
                 <div className="flex gap-5 items-center">
                   <div className="w-[3em] h-[3em]">
                     <img
-                      src={_?.image}
+                      src={_?.banner}
                       className="w-[3em] h-[3em] relative bg-gray-500 rounded-full object-cover"
                     ></img>
                   </div>
@@ -77,7 +78,7 @@ const DeclinedEvents = () => {
                 </LinkWithProgress>
               </td>
               <td className={style}>
-                <h3>{_?.eventCategory?.name}</h3>
+                <h3>{_?.category.name}</h3>
               </td>
               <td className={style}>
                 <h3>{moment(_?.startTime).format("MMM DD YYYY")}</h3>

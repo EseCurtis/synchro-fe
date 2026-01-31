@@ -1,6 +1,5 @@
 import { Button } from "@/app/_components/button";
 import AuthLayout from "@/app/layouts/authLayout";
-import Image from "next/image";
 import LinkWithProgress from "../../../_components/ui/LinkWithProgress";
 
 const Confirm_Otp = () => {
@@ -8,7 +7,7 @@ const Confirm_Otp = () => {
     <AuthLayout heading="">
       <form action="">
         <center>
-          <Image
+          <img
             src={"/images/mail.svg"}
             width={155}
             height={65}

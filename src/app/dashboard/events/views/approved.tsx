@@ -1,141 +1,215 @@
 "use client";
-import { Button } from "@/app/_components/button";
-import Badge from "@/app/_components/forms/badge";
-import EventsSkeleton from "@/app/_components/skeleton/EventsSkeleton";
-import { generateMonthData, getMonthName } from "@/helpers";
-import { useApprovedEventsByDate } from "@/hooks/api/v2";
-import { generateYearsOptions } from "@/v2/helpers/common.helpers";
+
+import DashboardAction from "@/app/_components/dashboard/dashboardAction";
+import Dropdown from "@/app/_components/popups/dropDown";
+import Modal from "@/app/_components/popups/modal";
+import { Spinner } from "@/app/_components/spinner/Spinner";
+import DefaultTable from "@/app/_components/table/defaultTable";
+import NoData from "@/app/_components/table/NoData";
+import TablePagination from "@/app/_components/table/tablePagination";
+import { useApprovedEvents, useUpdateEventStatus } from "@/hooks/api/v2/events";
+import { EventStatus } from "@/v2/enums/event.enums";
 import { Event } from "@/v2/types/event.types";
-import { useEffect, useState } from "react";
-import "react-big-calendar/lib/css/react-big-calendar.css";
-import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
-import CustomCalendar from "../components/CustomCalendar";
-import ApprovedEventsByDate from "./approvedByDate";
+import moment from "moment";
+import { Fragment, useState } from "react";
+import { toast } from "react-toastify";
+import LinkWithProgress from "../../../_components/ui/LinkWithProgress";
+import EventDetails from "../../users/components/user/event_details";
 
-const generativeFunction = (events: any, year: any) => {
-  return generateMonthData(year);
-};
-
+const header = ["Business Name ", "User", "Category", "Date", "Actions", ""];
+const style = "px-6 py-4 whitespace-no-wrap border-b border-gray-300";
 const ApprovedEvents = () => {
-  //2 year priroor to current yer and 2 years afterwards
-  const yearsOptions = generateYearsOptions(3);
-  const [openedDate, setOpenedDate] = useState<boolean | number>(false);
-  const [openedDateEvents, setOpenedDateEvents] = useState<any[]>([]);
-  const [year, setYear] = useState<Date>(yearsOptions[3].value as any);
-  const [month, setMonth] = useState<number>(new Date().getMonth());
+  const [search, setSearch] = useState("");
+  const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
+  const {
+    data,
+    refetch,
+    hasNextPage,
+    fetchNextPage,
+    isLoading: isLoadingEvents,
+    isFetchingNextPage,
+  }: any = useApprovedEvents({ search });
+  const { isLoading, mutate } = useUpdateEventStatus();
 
-  const { data, isFetching, isLoading, error } = useApprovedEventsByDate({
-    fromDate: new Date(Number(year), month, 1).getTime(),
-    toDate: new Date(Number(year), month + 1, 0).getTime(),
-  });
+  // @ts-ignore
+  const events = data?.pages?.map((e: any) => e?.data?.data).flat() as any[];
 
-  const eventsData = (data as any)?.data?.data;
 
-  const events = eventsData?.map((event: Event) => ({
-    title: event?.name,
-    start: new Date(event?.startDateTime),
-    end: new Date(event?.endDateTime),
-    data: event,
-  }));
 
-  const [yearlyData, setYearlyData] = useState<any[]>(
-    generativeFunction(events, year)
-  );
-  const [monthlyData, setMonthlyData] = useState<{
-    month: string;
-    days: number[];
-  }>(yearlyData[month]);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [activeData, setActiveData] = useState({});
+  const [modifyingEventId, setModifyingEventId] = useState<number | null>(null);
 
-  const monthSwitch = {
-    canPrev: month > 0,
-    canNext: month < yearlyData.length - 1,
-    next: () => monthSwitch.canNext && setMonth(month + 1),
-    prev: () => monthSwitch.canPrev && setMonth(month - 1),
+  const toggleSelect = (id: string) => {
+    const newSelected = new Set(selectedIds);
+    if (newSelected.has(id)) {
+      newSelected.delete(id);
+    } else {
+      newSelected.add(id);
+    }
+    setSelectedIds(newSelected);
   };
 
-  const dateOpen = {
-    open: (day: number, events: any[]) => {
-      setOpenedDate(day);
-      setOpenedDateEvents(events);
+  const toggleSelectAll = () => {
+    if (selectedIds.size === events.length) {
+      setSelectedIds(new Set());
+    } else {
+      setSelectedIds(new Set(events.map((e: any) => e.id)));
+    }
+  };
+
+
+  const toggleDropdown = (data: any) => {
+    setIsDropdownOpen(!isDropdownOpen);
+    setActiveData(data);
+  };
+
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const dropDownData = [
+    {
+      title: (
+        <p className="text-[#041549]" onClick={openModal}>
+          View Event
+        </p>
+      ),
+      icon: (
+        <svg
+          width="16"
+          height="16"
+          viewBox="0 0 16 16"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            opacity="0.4"
+            fillRule="evenodd"
+            clip-rule="evenodd"
+            d="M11.8246 4.03054C12.9628 4.90909 13.9319 6.1962 14.6278 7.8059C14.6798 7.92808 14.6798 8.07095 14.6278 8.18731C13.2359 11.4067 10.7579 13.3332 8.00016 13.3332H7.99366C5.24244 13.3332 2.76439 11.4067 1.37252 8.18731C1.32049 8.07095 1.32049 7.92808 1.37252 7.8059C2.76439 4.58586 5.24244 2.6665 7.99366 2.6665H8.00016C9.37902 2.6665 10.6863 3.14489 11.8246 4.03054ZM5.39854 7.99984C5.39854 9.42206 6.56276 10.5792 8.00016 10.5792C9.43106 10.5792 10.5953 9.42206 10.5953 7.99984C10.5953 6.57115 9.43106 5.41398 8.00016 5.41398C6.56276 5.41398 5.39854 6.57115 5.39854 7.99984Z"
+            fill="#200E32"
+          />
+          <path
+            d="M9.62102 7.998C9.62102 8.88365 8.89256 9.6077 8.0015 9.6077C7.10394 9.6077 6.37549 8.88365 6.37549 7.998C6.37549 7.8881 6.3885 7.78531 6.40801 7.68188H6.44053C7.16248 7.68188 7.74785 7.11299 7.77386 6.40123C7.84541 6.38895 7.92346 6.38184 8.0015 6.38184C8.89256 6.38184 9.62102 7.10588 9.62102 7.998Z"
+            fill="#200E32"
+          />
+        </svg>
+      ),
     },
-    close: () => setOpenedDate(false),
-  };
+  ];
 
-  useEffect(() => {
-    setYearlyData(generativeFunction(events, year));
-  }, [year]);
-  useEffect(() => {
-    setMonthlyData(yearlyData[month] || yearlyData[0]);
-  }, [yearlyData, month]);
+  return (
+    <div>
+      <DashboardAction textValue={search} onChangeText={setSearch} />
 
-  // Show skeleton loader while loading
-  if (isLoading || isFetching) {
-    return <EventsSkeleton showCalendar={true} />;
-  }
+      {/* @ts-ignore */}
+      <DefaultTable header={header}>
+        {isLoadingEvents && <Spinner />}
+   
+        {events?.map((_: Event, key: number) => {
+          return (
+            <tr key={key}>
+            
+              <td className={style}>
+                <div className="flex gap-5 items-center">
+                  <img
+                    src={_?.banner}
+                    className="w-[3em] h-[3em] bg-gray-500 rounded-full object-cover"
+                  ></img>
+                  <div>
+                    <h3>{_.name}</h3>
+                  </div>
+                </div>
+              </td>
+              <td className={style}>
+                <LinkWithProgress href={`/dashboard/users/${_?.creatorId}`}>
+                  <h3 className="underline">{_?.creator.businessName}</h3>
+                </LinkWithProgress>
+              </td>
+              <td className={style}>
+                <h3>{_?.category.name}</h3>
+              </td>
+              <td className={style}>
+                <h3>{moment(_?.startDateTime).format("MMM DD YYYY")}</h3>
+              </td>
+              <td className={`whitespace-no-wrap border-b border-gray-300`}>
+                {isLoading ? (
+                  <Spinner />
+                ) : (
+                  <div className="flex items-center justify-space-around">
+                   
+                    <button
+                      onClick={() => {
+                        mutate(
+                          { eventId: _?.id, status: EventStatus.CANCELLED },
+                          {
+                            onSuccess() {
+                              toast.success("Event Rejected successfully");
+                              refetch();
+                            },
 
-  return openedDate ? (
-    <ApprovedEventsByDate events={openedDateEvents} actions={dateOpen as any} />
-  ) : (
-    <>
-      <div
-        style={{
-          margin: "4em 0",
-        }}
-      >
-        <div className="pb-7 flex items-center justify-between">
-          <div className="flex  items-center gap-4 ">
-            <div className="flex gap-3">
-              <FaChevronLeft
-                onClick={monthSwitch.prev}
-                className={`${
-                  !monthSwitch.canPrev && "opacity-30 cursor-default"
-                } hover:opacity-50 cursor-pointer`}
-              />
-              <FaChevronRight
-                onClick={monthSwitch.next}
-                className={`${
-                  !monthSwitch.canNext && "opacity-30 cursor-default"
-                } hover:opacity-50 cursor-pointer`}
-              />
-            </div>
-            <h3 className="font-bold">
-              {getMonthName(monthlyData?.month as any)} {year as any}
-            </h3>
-            {error ? (
-              <div>
-                <Badge status="Inactive" label="Error Loading Events" />{" "}
-                <Button >Retry</Button>
-              </div>
-            ) : (
-              <></>
-            )}
-          </div>
-
-          <select
-            name=""
-            id=""
-            onChange={(e) => setYear(e.target.value as any)}
-          >
-            {yearsOptions.map((yearOpt) => (
-              <option
-                value={yearOpt.value}
-                selected={yearOpt.isCurrent ? true : false}
-                key={yearOpt.value}
-              >
-                {yearOpt.label}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        <CustomCalendar
-          rangeData={{ month, year } as any}
-          days={monthlyData?.days}
-          events={events}
-          dateOpenActions={dateOpen as any}
+                            onSettled() {
+                              setModifyingEventId(null);
+                            },
+                          }
+                        );
+                      }}
+                    >
+                      <img
+                        src="/images/icons/dashboard/table/times.svg"
+                        width={80}
+                        height={80}
+                        alt=""
+                      />
+                    </button>
+                  </div>
+                )}
+              </td>
+              <td className={style}>
+                <Dropdown
+                  view={
+                    <img
+                      src="/images/icons/dashboard/table/more.svg"
+                      width={30}
+                      height={33}
+                      alt=""
+                      onClick={() => toggleDropdown(_)}
+                    />
+                  }
+                >
+                  {dropDownData.map(({ title, icon }, index) => (
+                    <Fragment key={index}>
+                      <div className="flex gap-3 py-[.5em]">
+                        {icon}
+                        {title}
+                      </div>
+                    </Fragment>
+                  ))}
+                </Dropdown>
+              </td>
+            </tr>
+          );
+        })}
+      </DefaultTable>
+      {hasNextPage && (
+        <TablePagination
+          onFetchMore={fetchNextPage}
+          loading={isFetchingNextPage}
         />
-      </div>
-    </>
+      )}
+
+      {events?.length < 1 && !isLoading && <NoData />}
+
+      <Modal isOpen={isModalOpen} onClose={closeModal}>
+        <EventDetails event={activeData as any} />
+      </Modal>
+    </div>
   );
 };
 

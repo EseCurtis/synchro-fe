@@ -4,7 +4,6 @@ import { useTQuery } from "@/hooks/api/useTQuery";
 import { useUserActivity } from "@/hooks/api/useUserActivity";
 import { cn, formatNumber } from "@/utils/formatNumber";
 import { userFullName } from "@/v2/helpers/common.helpers";
-import Image from "next/image";
 import LineGraph from "../_components/charts/lineChart";
 import PieChart from "../_components/charts/pieChart";
 import DashboardLayout from "../layouts/dashboardLayout";
@@ -113,7 +112,7 @@ const DashboardIndex = () => {
                 }}
                 key={index}
               >
-                <Image src={items.img} width={40} height={40} alt={"icon"} />
+                <img src={items.img} width={40} height={40} alt={"icon"} />
                 <div className="my-[1.5em]">
                   <p className="text-text_primary">{items.title}</p>
                   <h3

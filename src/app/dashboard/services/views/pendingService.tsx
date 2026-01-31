@@ -13,7 +13,6 @@ import {
 import { BusinessProfile } from "@/v2/types/service.types";
 import moment from "moment";
 import { useState } from "react";
-import Image from "../../../../../node_modules/next/image";
 import DeclineService from "../components/declineService";
 import ServiceDetails from "../components/service_details";
 
@@ -123,7 +122,7 @@ const PendingService = () => {
                     ) : (
                       <div className="flex items-center ">
                         <div className="flex gap-0  w-[200px]">
-                          <Image
+                          <img
                             src="/images/icons/dashboard/table/tick.svg"
                             alt=""
                             width={72}
@@ -133,7 +132,7 @@ const PendingService = () => {
                             }}
                           />
 
-                          <Image
+                          <img
                             src="/images/icons/dashboard/table/times.svg"
                             alt=""
                             width={72}

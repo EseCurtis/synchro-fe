@@ -1,6 +1,5 @@
 import { filterEventsByDate, getDayName } from "@/helpers";
 import { Event } from "@/v2/types/event.types";
-import Image from "next/image";
 import { Fragment } from "react";
 
 interface ICustomCalendar {
@@ -47,13 +46,13 @@ const CalendarUnitItem: React.FC<ICalendarUnitItem> = ({
                   <div
                     className={`w-7 h-7 bg-gray-400 rounded-full border border-white overflow-clip`}
                   >
-                    <Image
+                    <img
                       src={data.banner || "/assets/images/event.png"}
                       className="w-full h-full object-cover"
                       width={28}
                       height={28}
                       alt={title}
-                      priority
+                      //priority
                     />
                   </div>
                 </div>
