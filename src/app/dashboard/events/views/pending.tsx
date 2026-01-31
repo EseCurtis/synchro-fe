@@ -16,10 +16,11 @@ import Image from "../../../../../node_modules/next/image";
 import LinkWithProgress from "../../../_components/ui/LinkWithProgress";
 import EventDetails from "../../users/components/user/event_details";
 
-const header = ["Business Name ", "User", "Category", "Date", "Actions", ""];
+const header = ["", "Business Name ", "User", "Category", "Date", "Actions", ""];
 const style = "px-6 py-4 whitespace-no-wrap border-b border-gray-300";
 const PendingEvents = () => {
   const [search, setSearch] = useState("");
+  const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
   const {
     data,
     refetch,
@@ -37,6 +38,72 @@ const PendingEvents = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [activeData, setActiveData] = useState({});
   const [modifyingEventId, setModifyingEventId] = useState<number | null>(null);
+
+  const toggleSelect = (id: string) => {
+    const newSelected = new Set(selectedIds);
+    if (newSelected.has(id)) {
+      newSelected.delete(id);
+    } else {
+      newSelected.add(id);
+    }
+    setSelectedIds(newSelected);
+  };
+
+  const toggleSelectAll = () => {
+    if (selectedIds.size === events.length) {
+      setSelectedIds(new Set());
+    } else {
+      setSelectedIds(new Set(events.map((e: any) => e.id)));
+    }
+  };
+
+  const handleBulkExport = async () => {
+    if (selectedIds.size === 0) {
+      toast.error("No events selected");
+      return;
+    }
+
+    try {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:9000/api/v1'}/imports/events`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-api-key': process.env.NEXT_PUBLIC_API_KEY || '',
+        },
+        body: JSON.stringify({
+          events: events
+            .filter((e: any) => selectedIds.has(e.id))
+            .map((event: any) => ({
+              name: event.name,
+              description: event.description || event.name,
+              categoryId: event.eventCategory?.id || '',
+              banner: event.image,
+              latitude: event.latitude || 0,
+              longitude: event.longitude || 0,
+              address: event.address || 'Address not specified',
+              startDateTime: event.startTime,
+              endDateTime: event.endTime || event.startTime,
+              timezone: event.timezone || 'UTC',
+              ticketType: event.ticketType || 'free',
+              currency: event.currency || 'USD',
+              isPublic: event.isPublic !== false,
+              canViewMembers: event.canViewMembers !== false,
+            })),
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Export failed');
+      }
+
+      const result = await response.json();
+      toast.success(`Exported ${result.events?.length || 0} events successfully`);
+      setSelectedIds(new Set());
+    } catch (error) {
+      toast.error('Failed to export events');
+      console.error('Export error:', error);
+    }
+  };
 
   const toggleDropdown = (data: any) => {
     setIsDropdownOpen(!isDropdownOpen);
@@ -85,12 +152,48 @@ const PendingEvents = () => {
   return (
     <div>
       <DashboardAction textValue={search} onChangeText={setSearch} />
+      {selectedIds.size > 0 && (
+        <div className="mb-4 flex items-center gap-4">
+          <span className="text-sm text-gray-600">
+            {selectedIds.size} event{selectedIds.size > 1 ? 's' : ''} selected
+          </span>
+          <button
+            onClick={handleBulkExport}
+            className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+          >
+            Export Selected
+          </button>
+        </div>
+      )}
       {/* @ts-ignore */}
       <DefaultTable header={header}>
         {isLoadingEvents && <Spinner />}
+        {events && events.length > 0 && (
+          <tr>
+            <td className={style}>
+              <input
+                type="checkbox"
+                checked={selectedIds.size === events.length && events.length > 0}
+                onChange={toggleSelectAll}
+                className="w-4 h-4"
+              />
+            </td>
+            <td colSpan={header.length - 1} className={style}>
+              <span className="text-sm text-gray-600">Select All</span>
+            </td>
+          </tr>
+        )}
         {events?.map((_: any, key: number) => {
           return (
             <tr key={key}>
+              <td className={style}>
+                <input
+                  type="checkbox"
+                  checked={selectedIds.has(_.id)}
+                  onChange={() => toggleSelect(_.id)}
+                  className="w-4 h-4"
+                />
+              </td>
               <td className={style}>
                 <div className="flex gap-5 items-center">
                   <img
