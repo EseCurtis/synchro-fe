@@ -1,13 +1,17 @@
 import TabComponent from "@/app/_components/tab";
 import DashboardLayout from "@/app/layouts/dashboardLayout";
-import DeclinedEvents from "./views/declined";
 import ApprovedEvents from "./views/approved";
-import React from "react";
+import ApprovedEventsCalendar from "./views/approved-calendar";
+import DeclinedEvents from "./views/declined";
 import PendingEvents from "./views/pending";
 
 const data = [
   {
     header: "Approved Events",
+    component: <ApprovedEventsCalendar />,
+  },
+   {
+    header: "Approved Events(table)",
     component: <ApprovedEvents />,
   },
   {

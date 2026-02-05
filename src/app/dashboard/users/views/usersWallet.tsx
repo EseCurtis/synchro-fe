@@ -7,7 +7,6 @@ import { usePaginatedQuery } from "@/hooks/api/usePaginatedQuery";
 import { formatNumber } from "@/utils/formatNumber";
 import { UserData } from "@/v2/types/user.types";
 import moment from "moment";
-import Image from "next/image";
 import { useParams } from "next/navigation";
 import WalletStat from "../components/walletStat";
 
@@ -80,7 +79,7 @@ const ViewUsersWallet = ({ user }: { user: UserData }) => {
                     <h3>{moment(_?.createdAt).format("MMM DD YYYY h:m:s")}</h3>
                   </td>
                   <td className={TABLE_STYLE}>
-                    <Image
+                    <img
                       src="/images/icons/dashboard/table/more.svg"
                       width={32}
                       height={11}

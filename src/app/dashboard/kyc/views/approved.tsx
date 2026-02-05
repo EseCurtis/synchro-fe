@@ -8,7 +8,6 @@ import { useApprovedKycBusinesses } from "@/hooks/api/v2/kyc";
 import { UserAvatarV2 } from "@/v2/components/common/avatar.component";
 import { BusinessTypeV2 } from "@/v2/types/user.types";
 import moment from "moment";
-import Image from "next/image";
 import { Fragment, useState } from "react";
 import LegalDoc from "../components/legal_doc";
 import ViewInformation from "../components/viewInfo";
@@ -151,7 +150,7 @@ const ApprovedKyc = () => {
               <td className={style}>
                 <Dropdown
                   view={
-                    <Image
+                    <img
                       src="/images/icons/dashboard/table/more.svg"
                       width={30}
                       height={30}

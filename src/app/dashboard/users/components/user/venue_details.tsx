@@ -1,13 +1,11 @@
-import { Button } from "@/app/_components/button";
-import customStyles from "@/app/_components/customStyles/index.module.css";
-import React, { Fragment, ReactNode, useEffect, useState } from "react";
-import Info from "./venue/info";
 import ModalTabButton from "@/app/_components/button/modalTabButton";
-import Reviews from "./venue/reviews";
-import BookingDetails from "./venue/bookingDetails";
-import Photos from "./venue/photos";
+import customStyles from "@/app/_components/customStyles/index.module.css";
+import React, { Fragment, ReactNode, useState } from "react";
 import { PiStar, PiUsers } from "react-icons/pi";
-import Image from "next/image";
+import BookingDetails from "./venue/bookingDetails";
+import Info from "./venue/info";
+import Photos from "./venue/photos";
+import Reviews from "./venue/reviews";
 
 const hugIcon = (
   <svg
@@ -77,7 +75,7 @@ const VenueDetails = ({ data }: { data: any }) => {
       >
         <div className="bg-gray-300 rounded w-[100%] h-[100px] relative">
           <div className="w-full h-full absolute overflow-clip flex items-center justify-center rounded ">
-            <Image
+            <img
               src={JSON.parse(data.images[0])["url"]}
               alt={data.user.username}
               width={400}
@@ -86,7 +84,7 @@ const VenueDetails = ({ data }: { data: any }) => {
             />
           </div>
           <div className="overflow-clip bg-gray-500 rounded-full w-[70px] h-[70px] absolute right-[1em] bottom-[-30%] border-[2px] border-white">
-            <Image
+            <img
               src={data.user.profileImage}
               alt={data.user.username}
               width={100}

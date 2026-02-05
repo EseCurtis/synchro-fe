@@ -14,13 +14,15 @@ export function usePendingEvents(
   });
 }
 
+
+
 // Hook for getting approved events
 export function useApprovedEvents(
   { search }: { search: string } = { search: "" }
 ) {
-  return useTQuery({
-    url: `/admin/events/for-admin?status=${EventStatus.PUBLISHED}&page=1&limit=10&search=${search}`,
-    queryKey: ["events", "approved-events", search],
+  return usePaginatedQuery({
+    url: `/admin/events/for-admin?status=${EventStatus.PUBLISHED}&page=1&limit=1&search=${search}`,
+    queryKey: ["events", "approved-eventssx", search],
   });
 }
 

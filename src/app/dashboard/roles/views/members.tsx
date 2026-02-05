@@ -1,17 +1,13 @@
 "use client";
-import DashboardAction from "@/app/_components/dashboard/dashboardAction";
-import DefaultTable from "@/app/_components/table/defaultTable";
-import TablePagination from "@/app/_components/table/tablePagination";
-import { table } from "@/utils/contents/dummy/table";
-import React from "react";
-import NoRolesMember from "@/app/_components/no_data/no_member";
-import { useState, Fragment } from "react";
 import { Button } from "@/app/_components/button";
+import DashboardAction from "@/app/_components/dashboard/dashboardAction";
 import Badge from "@/app/_components/forms/badge";
-import Image from "../../../../../node_modules/next/image";
+import NoRolesMember from "@/app/_components/no_data/no_member";
 import Dropdown from "@/app/_components/popups/dropDown";
 import Modal from "@/app/_components/popups/modal";
-import NewRole from "../components/new_role";
+import DefaultTable from "@/app/_components/table/defaultTable";
+import { table } from "@/utils/contents/dummy/table";
+import { Fragment, useState } from "react";
 import NewMember from "../components/new_member";
 
 const header = ["User", "Role", "Status", "Last Active", "Date Added"];
@@ -159,7 +155,7 @@ const MembersPage = () => {
                   <td className={style}>
                     <Dropdown
                       view={
-                        <Image
+                        <img
                           src="/images/icons/dashboard/table/more.svg"
                           width={32}
                           height={11}

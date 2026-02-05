@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { FC, ReactNode } from "react";
 
 interface IAuthProps {
@@ -24,7 +23,7 @@ const AuthLayout: FC<IAuthProps> = ({
         }}
       >
         <div className="flex flex-col items-center justify-center">
-          <Image
+          <img
             src={"/images/auth.svg"}
             height="476"
             width="352"
@@ -49,7 +48,7 @@ const AuthLayout: FC<IAuthProps> = ({
           className="bg-white overflow-y-scroll px-[2em] rounded-xl w-[500px] h-[550px] sm:static lg:absolute"
         >
           <div className="text-center">
-            <Image
+            <img
               src={"/images/synco_logo.png"}
               width={170}
               height={40}

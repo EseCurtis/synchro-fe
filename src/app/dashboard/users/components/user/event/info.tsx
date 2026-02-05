@@ -1,7 +1,6 @@
 import { useTQuery } from "@/hooks/api/useTQuery";
 import { Creator, Event } from "@/v2/types/event.types";
 import moment from "moment";
-import Image from "next/image";
 import { BiInfoCircle, BiUser } from "react-icons/bi";
 import { FaArrowRight } from "react-icons/fa";
 import {
@@ -32,7 +31,7 @@ const CollaboratorItem = ({
     userInfo && (
       <div className="flex gap-3 w-[100%]">
         <div className="w-[55px] h-[55px] bg-gray-300 rounded-full overflow-clip">
-          <Image
+          <img
             src={userInfo?.profileImage}
             width={55}
             height={55}

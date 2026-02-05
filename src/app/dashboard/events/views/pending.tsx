@@ -12,14 +12,14 @@ import { EventStatus } from "@/v2/enums/event.enums";
 import moment from "moment";
 import { Fragment, useState } from "react";
 import { toast } from "react-toastify";
-import Image from "../../../../../node_modules/next/image";
 import LinkWithProgress from "../../../_components/ui/LinkWithProgress";
 import EventDetails from "../../users/components/user/event_details";
 
-const header = ["Business Name ", "User", "Category", "Date", "Actions", ""];
+const header = [ "Business Name ", "User", "Category", "Date", "Actions", ""];
 const style = "px-6 py-4 whitespace-no-wrap border-b border-gray-300";
 const PendingEvents = () => {
   const [search, setSearch] = useState("");
+  const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
   const {
     data,
     refetch,
@@ -37,6 +37,25 @@ const PendingEvents = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [activeData, setActiveData] = useState({});
   const [modifyingEventId, setModifyingEventId] = useState<number | null>(null);
+
+  const toggleSelect = (id: string) => {
+    const newSelected = new Set(selectedIds);
+    if (newSelected.has(id)) {
+      newSelected.delete(id);
+    } else {
+      newSelected.add(id);
+    }
+    setSelectedIds(newSelected);
+  };
+
+  const toggleSelectAll = () => {
+    if (selectedIds.size === events.length) {
+      setSelectedIds(new Set());
+    } else {
+      setSelectedIds(new Set(events.map((e: any) => e.id)));
+    }
+  };
+
 
   const toggleDropdown = (data: any) => {
     setIsDropdownOpen(!isDropdownOpen);
@@ -85,12 +104,22 @@ const PendingEvents = () => {
   return (
     <div>
       <DashboardAction textValue={search} onChangeText={setSearch} />
+      
       {/* @ts-ignore */}
       <DefaultTable header={header}>
         {isLoadingEvents && <Spinner />}
+        
         {events?.map((_: any, key: number) => {
           return (
             <tr key={key}>
+              <td className={style}>
+                <input
+                  type="checkbox"
+                  checked={selectedIds.has(_.id)}
+                  onChange={() => toggleSelect(_.id)}
+                  className="w-4 h-4"
+                />
+              </td>
               <td className={style}>
                 <div className="flex gap-5 items-center">
                   <img
@@ -135,7 +164,7 @@ const PendingEvents = () => {
                         );
                       }}
                     >
-                      <Image
+                      <img
                         src="/images/icons/dashboard/table/tick.svg"
                         width={80}
                         height={80}
@@ -160,7 +189,7 @@ const PendingEvents = () => {
                         );
                       }}
                     >
-                      <Image
+                      <img
                         src="/images/icons/dashboard/table/times.svg"
                         width={80}
                         height={80}
@@ -173,7 +202,7 @@ const PendingEvents = () => {
               <td className={style}>
                 <Dropdown
                   view={
-                    <Image
+                    <img
                       src="/images/icons/dashboard/table/more.svg"
                       width={30}
                       height={33}
