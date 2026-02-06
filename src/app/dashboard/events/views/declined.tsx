@@ -7,7 +7,6 @@ import DefaultTable from "@/app/_components/table/defaultTable";
 import NoData from "@/app/_components/table/NoData";
 import TablePagination from "@/app/_components/table/tablePagination";
 import { useDeclinedEvents, useUpdateEventStatus } from "@/hooks/api/v2/events";
-import { Event } from "@/v2/types/event.types";
 import moment from "moment";
 import { useState } from "react";
 import LinkWithProgress from "../../../_components/ui/LinkWithProgress";
@@ -56,7 +55,7 @@ const DeclinedEvents = () => {
       {/* @ts-ignore */}
       <DefaultTable header={header}>
         {isLoadingEvents && <Spinner />}
-        {events?.map((_: Event, key: number) => {
+        {events?.map((_: any, key: number) => {
           return (
             <tr key={key}>
               <td className={style}>
