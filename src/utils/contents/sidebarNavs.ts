@@ -34,6 +34,11 @@ export const SidebarNavs: SidebarNavItem[] = [
     path: "/dashboard/venues",
     iconType: "venues",
   },
+  {
+    title: "External Bookings",
+    path: "/dashboard/external-bookings",
+    iconType: "venues",
+  },
   // {
   //   title: "KYC",
   //   path: "/dashboard/kyc",
