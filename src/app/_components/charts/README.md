@@ -15,6 +15,7 @@ A modern, customizable line chart component built with Chart.js and React, desig
 ## Installation
 
 The component uses the following dependencies:
+
 - `chart.js`
 - `react-chartjs-2`
 
@@ -25,7 +26,7 @@ Make sure these are installed in your project.
 ### Basic Usage
 
 ```tsx
-import LineChart from './_components/charts/lineChart';
+import LineChart from "./_components/charts/lineChart";
 
 const MyComponent = () => {
   const data = {
@@ -48,11 +49,7 @@ const MyComponent = () => {
   };
 
   return (
-    <LineChart
-      title="Monthly Sales Performance"
-      data={data}
-      height={400}
-    />
+    <LineChart title="Monthly Sales Performance" data={data} height={400} />
   );
 };
 ```
@@ -83,13 +80,13 @@ const MyComponent = () => {
 
 ## Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `title` | `string` | `"Analytics Overview"` | Chart title displayed at the top |
-| `data` | `ChartData` | `defaultData` | Chart.js data object with labels and datasets |
-| `height` | `number` | `400` | Chart height in pixels |
-| `showLegend` | `boolean` | `true` | Whether to display the legend |
-| `showGrid` | `boolean` | `true` | Whether to display grid lines |
+| Prop         | Type        | Default                | Description                                   |
+| ------------ | ----------- | ---------------------- | --------------------------------------------- |
+| `title`      | `string`    | `"Analytics Overview"` | Chart title displayed at the top              |
+| `data`       | `ChartData` | `defaultData`          | Chart.js data object with labels and datasets |
+| `height`     | `number`    | `400`                  | Chart height in pixels                        |
+| `showLegend` | `boolean`   | `true`                 | Whether to display the legend                 |
+| `showGrid`   | `boolean`   | `true`                 | Whether to display grid lines                 |
 
 ## Data Structure
 
@@ -119,6 +116,7 @@ The `data` prop should follow Chart.js format:
 The component uses the following design tokens from the dashboard:
 
 ### Colors
+
 - **Primary**: `#1A202C` (text, titles)
 - **Text Primary**: `#A0AEC0` (labels, ticks)
 - **Border**: `#EDEFF5` (borders, grid lines)
@@ -126,12 +124,14 @@ The component uses the following design tokens from the dashboard:
 - **Success**: `#2EB872` (green)
 
 ### Typography
+
 - **Font Family**: `Outfit, sans-serif`
 - **Title**: 18px, weight 600
 - **Labels**: 12px, weight 500
 - **Ticks**: 11px, weight 400
 
 ### Layout
+
 - **Border Radius**: `8px` (rounded-lg)
 - **Padding**: `24px` (p-6)
 - **Border**: `1px solid #EDEFF5`
@@ -140,21 +140,25 @@ The component uses the following design tokens from the dashboard:
 ## Examples
 
 ### Single Dataset
+
 ```tsx
 const salesData = {
   labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
-  datasets: [{
-    label: "Sales",
-    data: [1200, 1900, 3000, 5000, 2000, 3000],
-    borderColor: "#e73c01",
-    backgroundColor: "rgba(231, 60, 1, 0.1)",
-    fill: true,
-    tension: 0.4,
-  }],
+  datasets: [
+    {
+      label: "Sales",
+      data: [1200, 1900, 3000, 5000, 2000, 3000],
+      borderColor: "#e73c01",
+      backgroundColor: "rgba(231, 60, 1, 0.1)",
+      fill: true,
+      tension: 0.4,
+    },
+  ],
 };
 ```
 
 ### Multiple Datasets
+
 ```tsx
 const multiData = {
   labels: ["Q1", "Q2", "Q3", "Q4"],
@@ -180,22 +184,26 @@ const multiData = {
 ## Customization
 
 ### Custom Colors
+
 You can use any colors, but the component is optimized for the dashboard's color palette:
 
 ```tsx
 const customData = {
   labels: ["Jan", "Feb", "Mar"],
-  datasets: [{
-    label: "Custom Data",
-    data: [100, 200, 150],
-    borderColor: "#your-color",
-    backgroundColor: "rgba(your-color, 0.1)",
-    fill: true,
-  }],
+  datasets: [
+    {
+      label: "Custom Data",
+      data: [100, 200, 150],
+      borderColor: "#your-color",
+      backgroundColor: "rgba(your-color, 0.1)",
+      fill: true,
+    },
+  ],
 };
 ```
 
 ### Custom Styling
+
 The component automatically applies dashboard styling, but you can override specific aspects by modifying the `options` object in the component.
 
 ## Best Practices
@@ -218,11 +226,3 @@ The component automatically applies dashboard styling, but you can override spec
 - React 16.8+
 - Chart.js 4.0+
 - react-chartjs-2 5.0+
-
-
-
-
-
-
-
-

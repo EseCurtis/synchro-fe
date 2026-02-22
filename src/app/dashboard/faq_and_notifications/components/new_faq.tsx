@@ -1,10 +1,7 @@
 import { AppToast } from "@/app/_components/AppToast";
 import { Button } from "@/app/_components/button";
 import { Spinner } from "@/app/_components/spinner/Spinner";
-import {
-  useCreateFaq,
-  useUpdateFaq,
-} from "@/hooks/api/faqs/use-admin-faqs";
+import { useCreateFaq, useUpdateFaq } from "@/hooks/api/faqs/use-admin-faqs";
 import { Faq } from "@/v2/types/faq.types";
 import { useEffect, useMemo, useState } from "react";
 import { toast } from "react-toastify";
@@ -100,9 +97,7 @@ export default function NewFaq({ faq, onClose }: Props) {
 
   return (
     <div className="space-y-4">
-      <h3 className="font-bold">
-        {isEditing ? "Update FAQ" : "Add FAQ"}
-      </h3>
+      <h3 className="font-bold">{isEditing ? "Update FAQ" : "Add FAQ"}</h3>
 
       <div className="form items-left space-y-4">
         <div className="form-group flex flex-col items-start w-full">

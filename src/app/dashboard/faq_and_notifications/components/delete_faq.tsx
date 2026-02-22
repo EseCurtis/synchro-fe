@@ -52,11 +52,14 @@ export default function DeleteFaq({ faq, onClose }: Props) {
 
   return (
     <div>
-      <h3 className="font-bold flex gap-2 items-center">{deleteIcon} Delete FAQ</h3>
+      <h3 className="font-bold flex gap-2 items-center">
+        {deleteIcon} Delete FAQ
+      </h3>
 
       <div className="form items-left mt-4">
         <p>
-          Are you sure you want to delete “<b>{faq.question}</b>” from the FAQ section?
+          Are you sure you want to delete “<b>{faq.question}</b>” from the FAQ
+          section?
         </p>
       </div>
 

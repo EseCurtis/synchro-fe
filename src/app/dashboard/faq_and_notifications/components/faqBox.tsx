@@ -35,16 +35,23 @@ export default function FaqBox({ faq }: Props) {
             <p className="text-xs uppercase text-gray-400">
               {faq.category || "General"}
             </p>
-            <h2 className="font-semibold text-lg leading-snug">{faq.question}</h2>
+            <h2 className="font-semibold text-lg leading-snug">
+              {faq.question}
+            </h2>
           </div>
           <div className="flex gap-3 items-center text-gray-500">
             <button onClick={() => setIsModalOpen(true)}>{pencil_edit}</button>
-            <button onClick={() => setDeleteModal(true)} className="cursor-pointer">
+            <button
+              onClick={() => setDeleteModal(true)}
+              className="cursor-pointer"
+            >
               <Delete_Circle />
             </button>
           </div>
         </div>
-        <p className="text-sm text-gray-600 whitespace-pre-line">{answerPreview}</p>
+        <p className="text-sm text-gray-600 whitespace-pre-line">
+          {answerPreview}
+        </p>
         <div className="flex items-center justify-between text-xs text-gray-400">
           <Badge
             status={faq.isPublished ? "Active" : "Disabled"}
@@ -52,7 +59,8 @@ export default function FaqBox({ faq }: Props) {
             size="small"
           />
           <span>
-            Updated {new Date(faq.updatedAt).toLocaleDateString(undefined, {
+            Updated{" "}
+            {new Date(faq.updatedAt).toLocaleDateString(undefined, {
               month: "short",
               day: "numeric",
               year: "numeric",

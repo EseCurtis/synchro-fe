@@ -2,7 +2,7 @@ import React from "react";
 
 /**
  * AppSkeleton - Comprehensive skeleton loader for the entire application
- * 
+ *
  * Features:
  * - Sidebar skeleton with navigation items
  * - Header skeleton with user info and actions
@@ -25,17 +25,18 @@ const SkeletonBox: React.FC<{
   width?: string;
   rounded?: string;
   delay?: number;
-}> = ({ 
-  className = "", 
-  height = "h-4", 
-  width = "w-full", 
+}> = ({
+  className = "",
+  height = "h-4",
+  width = "w-full",
   rounded = "rounded",
-  delay = 0 
+  delay = 0,
 }) => (
   <div
     className={`${height} ${width} ${rounded} bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 animate-pulse ${className}`}
     style={{
-      background: "linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%)",
+      background:
+        "linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%)",
       backgroundSize: "200% 100%",
       animation: "shimmer 1.5s infinite",
       animationDelay: `${delay}ms`,
@@ -50,7 +51,7 @@ const SidebarSkeleton: React.FC = () => (
       <div className="mb-8">
         <SkeletonBox height="h-8" width="w-32" />
       </div>
-      
+
       {/* Navigation items */}
       <div className="space-y-2">
         {Array.from({ length: 11 }).map((_, index) => (
@@ -61,12 +62,9 @@ const SidebarSkeleton: React.FC = () => (
           >
             {/* Icon skeleton */}
             <SkeletonBox height="h-6" width="w-6" rounded="rounded" />
-            
+
             {/* Text skeleton */}
-            <SkeletonBox 
-              height="h-4" 
-              width={index === 0 ? "w-20" : "w-24"} 
-            />
+            <SkeletonBox height="h-4" width={index === 0 ? "w-20" : "w-24"} />
           </div>
         ))}
       </div>
@@ -82,15 +80,15 @@ const HeaderSkeleton: React.FC = () => (
         <SkeletonBox height="h-8" width="w-32" />
         <SkeletonBox height="h-4" width="w-16" />
       </div>
-      
+
       {/* Right side - User info and actions */}
       <div className="flex items-center gap-4">
         {/* Search bar */}
         <SkeletonBox height="h-10" width="w-64" rounded="rounded-lg" />
-        
+
         {/* Notifications */}
         <SkeletonBox height="h-10" width="w-10" rounded="rounded-full" />
-        
+
         {/* User avatar */}
         <div className="flex items-center gap-3">
           <SkeletonBox height="h-10" width="w-10" rounded="rounded-full" />
@@ -110,7 +108,7 @@ const DashboardContentSkeleton: React.FC = () => (
     <div className="mb-8">
       <SkeletonBox height="h-8" width="w-64" />
     </div>
-    
+
     {/* Stats cards */}
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
       {Array.from({ length: 4 }).map((_, index) => (
@@ -128,7 +126,7 @@ const DashboardContentSkeleton: React.FC = () => (
         </div>
       ))}
     </div>
-    
+
     {/* Charts section */}
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
       {/* Line chart */}
@@ -136,7 +134,7 @@ const DashboardContentSkeleton: React.FC = () => (
         <SkeletonBox height="h-6" width="w-48" className="mb-4" />
         <SkeletonBox height="h-64" width="w-full" rounded="rounded-lg" />
       </div>
-      
+
       {/* Pie chart */}
       <div className="bg-white border border-[#EDEFF5] rounded-lg p-6">
         <SkeletonBox height="h-6" width="w-40" className="mb-4" />
@@ -153,14 +151,14 @@ const TableContentSkeleton: React.FC = () => (
       <SkeletonBox height="h-8" width="w-48" />
       <SkeletonBox height="h-10" width="w-32" rounded="rounded-lg" />
     </div>
-    
+
     {/* Filters */}
     <div className="flex gap-4">
       <SkeletonBox height="h-10" width="w-48" rounded="rounded-lg" />
       <SkeletonBox height="h-10" width="w-32" rounded="rounded-lg" />
       <SkeletonBox height="h-10" width="w-24" rounded="rounded-lg" />
     </div>
-    
+
     {/* Table */}
     <div className="bg-white border border-[#EDEFF5] rounded-lg overflow-hidden">
       {/* Table header */}
@@ -169,21 +167,24 @@ const TableContentSkeleton: React.FC = () => (
           <SkeletonBox key={index} height="h-5" width="w-20" />
         ))}
       </div>
-      
+
       {/* Table rows */}
       {Array.from({ length: 10 }).map((_, rowIndex) => (
-        <div key={rowIndex} className="grid grid-cols-5 gap-4 p-4 border-b border-[#EDEFF5] last:border-b-0">
+        <div
+          key={rowIndex}
+          className="grid grid-cols-5 gap-4 p-4 border-b border-[#EDEFF5] last:border-b-0"
+        >
           {Array.from({ length: 5 }).map((_, colIndex) => (
-            <SkeletonBox 
-              key={colIndex} 
-              height="h-4" 
-              width={colIndex === 4 ? "w-24" : "w-32"} 
+            <SkeletonBox
+              key={colIndex}
+              height="h-4"
+              width={colIndex === 4 ? "w-24" : "w-32"}
             />
           ))}
         </div>
       ))}
     </div>
-    
+
     {/* Pagination */}
     <div className="flex items-center justify-between">
       <SkeletonBox height="h-4" width="w-32" />
@@ -209,7 +210,7 @@ const CalendarContentSkeleton: React.FC = () => (
       </div>
       <SkeletonBox height="h-10" width="w-24" rounded="rounded-lg" />
     </div>
-    
+
     {/* Calendar grid */}
     <div className="bg-white border border-[#EDEFF5] rounded-lg overflow-hidden">
       {/* Day headers */}
@@ -220,7 +221,7 @@ const CalendarContentSkeleton: React.FC = () => (
           </div>
         ))}
       </div>
-      
+
       {/* Calendar days */}
       <div className="grid grid-cols-7">
         {Array.from({ length: 35 }).map((_, index) => (
@@ -244,7 +245,7 @@ const FormContentSkeleton: React.FC = () => (
       <SkeletonBox height="h-8" width="w-48" />
       <SkeletonBox height="h-4" width="w-64" className="mt-2" />
     </div>
-    
+
     {/* Form fields */}
     <div className="bg-white border border-[#EDEFF5] rounded-lg p-6 space-y-6">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -257,18 +258,18 @@ const FormContentSkeleton: React.FC = () => (
           <SkeletonBox height="h-10" width="w-full" rounded="rounded-lg" />
         </div>
       </div>
-      
+
       <div className="space-y-2">
         <SkeletonBox height="h-4" width="w-32" />
         <SkeletonBox height="h-24" width="w-full" rounded="rounded-lg" />
       </div>
-      
+
       <div className="space-y-2">
         <SkeletonBox height="h-4" width="w-28" />
         <SkeletonBox height="h-10" width="w-full" rounded="rounded-lg" />
       </div>
     </div>
-    
+
     {/* Form actions */}
     <div className="flex gap-4 justify-end">
       <SkeletonBox height="h-10" width="w-24" rounded="rounded-lg" />
@@ -284,10 +285,13 @@ const GenericContentSkeleton: React.FC = () => (
       <SkeletonBox height="h-8" width="w-64" />
       <SkeletonBox height="h-4" width="w-96" className="mt-2" />
     </div>
-    
+
     {/* Content blocks */}
     {Array.from({ length: 3 }).map((_, index) => (
-      <div key={index} className="bg-white border border-[#EDEFF5] rounded-lg p-6">
+      <div
+        key={index}
+        className="bg-white border border-[#EDEFF5] rounded-lg p-6"
+      >
         <SkeletonBox height="h-6" width="w-48" className="mb-4" />
         <div className="space-y-3">
           <SkeletonBox height="h-4" width="w-full" />
@@ -333,20 +337,18 @@ export const AppSkeleton: React.FC<AppSkeletonProps> = ({
           }
         }
       `}</style>
-      
+
       {/* Sidebar */}
       {showSidebar && <SidebarSkeleton />}
-      
+
       {/* Main content area */}
       <div className="flex-1 flex flex-col">
         {/* Header */}
         {showHeader && <HeaderSkeleton />}
-        
+
         {/* Content */}
         {showContent && (
-          <div className="flex-1 overflow-y-auto">
-            {renderContent()}
-          </div>
+          <div className="flex-1 overflow-y-auto">{renderContent()}</div>
         )}
       </div>
     </div>
@@ -354,11 +356,3 @@ export const AppSkeleton: React.FC<AppSkeletonProps> = ({
 };
 
 export default AppSkeleton;
-
-
-
-
-
-
-
-

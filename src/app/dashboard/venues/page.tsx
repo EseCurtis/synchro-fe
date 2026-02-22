@@ -37,7 +37,7 @@ export default function VenuesPage() {
     <AdminRouteGuard requiredRole="admin">
       <DashboardLayout title="Venues">
         <TabComponent data={tabs as any} />
-    </DashboardLayout>
+      </DashboardLayout>
     </AdminRouteGuard>
   );
 }

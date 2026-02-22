@@ -32,7 +32,7 @@ const NotificationModal = () => {
 
   const openModal = () => {
     setIsModalOpen(true);
-   setView(false);
+    setView(false);
   };
 
   const closeModal = () => {

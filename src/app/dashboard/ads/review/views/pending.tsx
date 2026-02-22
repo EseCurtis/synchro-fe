@@ -101,7 +101,9 @@ export default function PendingBoostsView({
       onSuccess: () => {
         setToast({ type: "success", message: "Ad approved" });
         setInstaDelete((prev: any) => [...prev, boost.id]);
-        queryClient.invalidateQueries({ queryKey: ["admins", "boostsc", "pending", "infinite"]})
+        queryClient.invalidateQueries({
+          queryKey: ["admins", "boostsc", "pending", "infinite"],
+        });
       },
       onError: (e: any) =>
         setToast({ type: "error", message: e?.message ?? "Failed to approve" }),
@@ -173,7 +175,7 @@ export default function PendingBoostsView({
   }
 
   function onReject(boost: Boost) {
-   // openRefundModal(boost);
+    // openRefundModal(boost);
     handleReject(boost);
   }
 

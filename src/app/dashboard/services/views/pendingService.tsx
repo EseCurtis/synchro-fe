@@ -73,8 +73,7 @@ const PendingService = () => {
           />
           <DefaultTable header={header as any}>
             {services?.map((_: BusinessProfile, key: number) => {
-
-              console.log("sdhjdfshjdsf", _)
+              console.log("sdhjdfshjdsf", _);
               //return null;
 
               return (
