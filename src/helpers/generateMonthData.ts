@@ -34,7 +34,8 @@ export function getDayName(dayNumber: number, month: number, year: number): stri
 
 
 export function getMonthName(monthNumber: number): string {
-    const date = new Date();
-    date.setMonth(monthNumber - 1);
-    return date.toLocaleString('en-US', { month: 'long' });
+    const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+    // const date = new Date();
+    // date.setMonth(monthNumber);
+    return months[monthNumber];
 }

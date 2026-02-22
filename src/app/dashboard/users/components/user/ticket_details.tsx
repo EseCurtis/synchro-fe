@@ -1,13 +1,7 @@
-import { Button } from "@/app/_components/button";
 import customStyles from "@/app/_components/customStyles/index.module.css";
-import React, { Fragment, ReactNode, useEffect, useState } from "react";
-import Info from "./venue/info";
-import ModalTabButton from "@/app/_components/button/modalTabButton";
-import Reviews from "./venue/reviews";
-import BookingDetails from "./venue/bookingDetails";
-import Photos from "./venue/photos";
-import { PiStar, PiUsers } from "react-icons/pi";
-import Image from "next/image";
+import Badge from "@/app/_components/forms/badge";
+import moment from "moment";
+import { ReactNode } from "react";
 import {
   FaCalendar,
   FaGlassWhiskey,
@@ -16,8 +10,6 @@ import {
   FaTicketAlt,
   FaUser,
 } from "react-icons/fa";
-import Badge from "@/app/_components/forms/badge";
-import moment from "moment";
 
 interface Event {
   id: string;
@@ -118,7 +110,7 @@ const TicketDetails = ({ data, openEvent }: TicketDetailsProps) => {
         className={`mt-2 py-5 overflow-y-scroll max-h-[70vh] ${customStyles.customScrollbar}`}
       >
         <div className=" rounded w-[100%]  relative flex flex-col gap-3 text-center items-center">
-          <Image src={"/images/qr-code.svg"} alt="qr-code" width={337} height={278} />
+          <img src={"/images/qr-code.svg"} alt="qr-code" width={337} height={278} />
           <b className="pt-3">
             {event?.name}
           </b>

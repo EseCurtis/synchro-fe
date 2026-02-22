@@ -1,7 +1,6 @@
 import Badge from "@/app/_components/forms/badge";
 import { TABLE_STYLE } from "@/constant";
 import moment from "moment";
-import Image from "next/image";
 
 interface ICreatedVenues {
   venue: any;
@@ -25,7 +24,7 @@ const CreatedVenues = ({
       <td className={TABLE_STYLE}>
         <div className="flex gap-5 items-center">
           <div className="w-[5em] h-[3em] flex items-center justify-center bg-gray-500 rounded-md overflow-clip">
-            <Image
+            <img
               src={JSON.parse(venue.images[0])["url"]}
               width={140}
               height={100}
@@ -56,7 +55,7 @@ const CreatedVenues = ({
         <h3 className="text-[14px]">{formattedDateRanges[1]}</h3>
       </td>
       <td className={TABLE_STYLE}>
-        <Image
+        <img
           src="/images/icons/dashboard/table/more.svg"
           width={62}
           height={21}

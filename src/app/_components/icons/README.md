@@ -120,14 +120,14 @@ const NavigationItem = ({ item, isActive }) => (
 
 ```tsx
 // Old approach with images
-<Image
+<img
   src="/images/icons/sidebar/home.svg"
   width={24}
   height={24}
   alt="Home"
   style={{ display: isActive ? "none" : "unset" }}
 />
-<Image
+<img
   src="/images/icons/sidebar/home_active.svg"
   width={24}
   height={24}

@@ -1,16 +1,13 @@
+import Dropdown from "@/app/_components/popups/dropDown";
 import Modal from "@/app/_components/popups/modal";
 import {
+  cloneElement,
   FC,
-  ReactNode,
-  useState,
   Fragment,
   isValidElement,
-  cloneElement,
-  ReactElement,
+  ReactNode,
+  useState,
 } from "react";
-import { MdMoreHoriz } from "react-icons/md";
-import Dropdown from "@/app/_components/popups/dropDown";
-import Image from "next/image";
 
 interface IPropsRoles {
   role: string;
@@ -93,7 +90,7 @@ const RolesComponent: FC<IPropsRoles> = ({ role, content }) => {
         <h3 className="font-md  text-[18px] ">{role}</h3>
         <Dropdown
           view={
-            <Image
+            <img
               src="/images/icons/dashboard/table/more.svg"
               width={27}
               height={11}
@@ -193,4 +190,5 @@ const AddNewRoleComponent: FC<IRoleProps> = ({ title, modalProps }) => {
     </div>
   );
 };
-export { RolesComponent, AddNewRoleComponent };
+export { AddNewRoleComponent, RolesComponent };
+

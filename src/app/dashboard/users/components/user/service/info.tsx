@@ -1,5 +1,4 @@
 import { BusinessProfile } from "@/v2/types/service.types";
-import Image from "next/image";
 import { useState } from "react";
 import { BiInfoCircle, BiMapPin } from "react-icons/bi";
 import { FaDollarSign } from "react-icons/fa";
@@ -21,7 +20,7 @@ const Info = ({ data }: { data: BusinessProfile }) => {
         </h4>
         <p>{data?.location}</p>
         <div className="flex h-[auto] w-[100%] rounded-lg bg-gray-300">
-          <Image
+          <img
             className="w-[300%] h-[100%]"
             src={"/images/map-dummy-location.svg"}
             alt="location map"

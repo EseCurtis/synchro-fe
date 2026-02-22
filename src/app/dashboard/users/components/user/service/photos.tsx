@@ -1,7 +1,6 @@
 import NoData from "@/app/_components/table/NoData";
 import { generateImagePairs } from "@/v2/helpers/common.helpers";
 import { BusinessProfile } from "@/v2/types/service.types";
-import Image from "next/image";
 import { ReactNode, useMemo } from "react";
 
 const generateImageArray = () => {
@@ -63,7 +62,7 @@ const Photos = ({ data: service }: { data: BusinessProfile }) => {
         >
           {imageSet.map((image, index) => (
             <Block key={index} w={image.percentage} condition={!!image.url}>
-              <Image
+              <img
                 className="w-full h-full object-cover"
                 alt={"lol"}
                 src={image.url}

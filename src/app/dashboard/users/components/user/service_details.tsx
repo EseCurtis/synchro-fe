@@ -3,7 +3,6 @@ import customStyles from "@/app/_components/customStyles/index.module.css";
 import { useTQuery } from "@/hooks/api/useTQuery";
 import { BusinessProfile } from "@/v2/types/service.types";
 import { ProfileStats } from "@/v2/types/user.types";
-import Image from "next/image";
 import { Fragment, useState } from "react";
 import { FaInfoCircle, FaStar, FaUserCheck } from "react-icons/fa";
 import BookingDetails from "./service/bookingDetails";
@@ -57,7 +56,7 @@ const ServiceDetails = ({ data }: { data: BusinessProfile }) => {
       >
         <div className="bg-gray-300 rounded w-[100%] h-[100px] relative">
           <div className="w-full h-full absolute overflow-clip flex items-center justify-center rounded ">
-            <Image
+            <img
               src={data.bannerUrl || data.avatar}
               alt={data.businessName}
               width={400}
@@ -66,7 +65,7 @@ const ServiceDetails = ({ data }: { data: BusinessProfile }) => {
             />
           </div>
           <div className="bg-gray-500 rounded-full w-[70px] h-[70px] overflow-clip absolute right-[1em] bottom-[-30%] border-[2px] border-white">
-            <Image
+            <img
               src={data?.avatar}
               width={70}
               height={70}

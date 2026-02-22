@@ -62,7 +62,7 @@ const DeclinedEvents = () => {
                 <div className="flex gap-5 items-center">
                   <div className="w-[3em] h-[3em]">
                     <img
-                      src={_?.image}
+                      src={_?.banner}
                       className="w-[3em] h-[3em] relative bg-gray-500 rounded-full object-cover"
                     ></img>
                   </div>
@@ -77,7 +77,7 @@ const DeclinedEvents = () => {
                 </LinkWithProgress>
               </td>
               <td className={style}>
-                <h3>{_?.eventCategory?.name}</h3>
+                <h3>{_?.category.name}</h3>
               </td>
               <td className={style}>
                 <h3>{moment(_?.startTime).format("MMM DD YYYY")}</h3>

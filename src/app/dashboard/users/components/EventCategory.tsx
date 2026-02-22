@@ -1,7 +1,7 @@
 import { useTQuery } from "@/hooks/api/useTQuery";
 import { generateRandomColor } from "@/v2/helpers/common.helpers";
 import { Category } from "@/v2/types/event.types";
-import Image from "next/image";
+import { FaImage } from "react-icons/fa";
 
 const EventCategory = ({
   eventCategoryId,
@@ -29,13 +29,13 @@ const EventCategory = ({
         style={{ backgroundColor: categoryColor }}
         className="bg-slate-300 w-[32px] h-[32px] rounded-full overflow-clip p-2"
       >
-        <Image
-          src={category.icon}
+        {category.icon ? <img
+          src={category.icon || ""}
           width={32}
           height={32}
           className="w-full h-full object-cover opacity-50"
           alt={category.name}
-        />
+        /> : <FaImage className="opacity-60"/>}
       </span>
       <span className="text-sm">{category.name}</span>
     </div>

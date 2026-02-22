@@ -24,7 +24,7 @@ const Item = ({ reviewerProfile, rating, createdAt, comment }: ReviewV2) => {
       <div className="w-[15%] flex">
         <div className="w-[48px] h-[48px] bg-gray-400 rounded-full overflow-hidden">
           <UserAvatarV2 user={userWithProfile} />
-          {/* <Image src={reviewerProfile.avatar} width={50} height={50} className="w-full h-full object-cover" alt={reviewerProfile.username}/> */}
+          {/* <img src={reviewerProfile.avatar} width={50} height={50} className="w-full h-full object-cover" alt={reviewerProfile.username}/> */}
         </div>
       </div>
       <div className="w-[85%] grid gap-2">

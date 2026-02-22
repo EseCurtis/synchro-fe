@@ -1,28 +1,26 @@
 import moment from "moment";
-import Image from "next/image";
 import { Fragment, ReactNode, useEffect, useState } from "react";
 import {
-  BiArrowToBottom,
   BiBook,
   BiCalendar,
   BiInfoCircle,
   BiMapPin,
-  BiTime,
+  BiTime
 } from "react-icons/bi";
 import {
-  FaWifi,
-  FaCar,
-  FaVideo,
-  FaTv,
-  FaBus,
-  FaRestroom,
-  FaTree,
-  FaShieldAlt,
-  FaScrewdriver,
   FaAccessibleIcon,
-  FaStreetView,
   FaArrowDown,
   FaArrowUp,
+  FaBus,
+  FaCar,
+  FaRestroom,
+  FaScrewdriver,
+  FaShieldAlt,
+  FaStreetView,
+  FaTree,
+  FaTv,
+  FaVideo,
+  FaWifi,
 } from "react-icons/fa";
 
 const ExpandingInfo = ({
@@ -151,7 +149,7 @@ const Info = ({ venue }: any) => {
         </h4>
         <p>{data?.address}</p>
         <div className="flex h-[auto] w-[100%] rounded-lg bg-gray-300">
-          <Image
+          <img
             className="w-[300%] h-[100%]"
             src={"/images/map-dummy-location.svg"}
             alt="location map"

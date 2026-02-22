@@ -13,7 +13,6 @@ import { UserAvatarV2 } from "@/v2/components/common/avatar.component";
 import { BusinessTypeV2 } from "@/v2/types/user.types";
 import { useQueryClient } from "@tanstack/react-query";
 import moment from "moment";
-import Image from "next/image";
 import { Fragment, useState } from "react";
 import { toast } from "react-toastify";
 import LegalDoc from "../components/legal_doc";
@@ -183,7 +182,7 @@ const DeclinedKyc = () => {
                           );
                         }}
                       >
-                        <Image
+                        <img
                           src="/images/icons/dashboard/table/tick.svg"
                           width={80}
                           height={80}
@@ -197,7 +196,7 @@ const DeclinedKyc = () => {
               <td className={style}>
                 <Dropdown
                   view={
-                    <Image
+                    <img
                       src="/images/icons/dashboard/table/more.svg"
                       width={30}
                       height={30}

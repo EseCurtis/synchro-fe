@@ -1,5 +1,4 @@
-import Image from "next/image";
-import { useState, ReactNode, useEffect } from "react";
+import { ReactNode, useEffect, useState } from "react";
 
 const generateImageArray = () => {
   const imageArray = [];
@@ -58,7 +57,7 @@ const Photos = ({ venue }: { venue: any }) => {
       <div className="mt-2 w-[100%] grid gap-2">
         <div className="flex items-center gap-2 justify-between w-[100%] h-[100px]">
           <Block w={60} condition={Boolean(images[0])}>
-            <Image
+            <img
               className="w-full h-full"
               alt={"lol"}
               src={images[0]?.url}
@@ -67,7 +66,7 @@ const Photos = ({ venue }: { venue: any }) => {
             />
           </Block>
           <Block w={40} condition={Boolean(images[1])}>
-            <Image
+            <img
               className="w-full h-full"
               alt={"lol"}
               src={images[1]?.url}
@@ -78,7 +77,7 @@ const Photos = ({ venue }: { venue: any }) => {
         </div>
         <div className="flex items-center gap-2 justify-between w-[100%] h-[100px]">
           <Block w={40} condition={Boolean(images[2])}>
-            <Image
+            <img
               className="w-full h-full"
               alt={"lol"}
               src={images[2]?.url}
@@ -87,7 +86,7 @@ const Photos = ({ venue }: { venue: any }) => {
             />
           </Block>
           <Block w={60} condition={Boolean(images[3])}>
-            <Image
+            <img
               className="w-full h-full"
               alt={"lol"}
               src={images[3]?.url}
@@ -98,7 +97,7 @@ const Photos = ({ venue }: { venue: any }) => {
         </div>
         <div className="flex items-center gap-2 justify-between w-[100%] h-[100px]">
           <Block w={100} condition={Boolean(images[4])}>
-            <Image
+            <img
               className="w-full h-full"
               alt={"lol"}
               src={images[4]?.url}

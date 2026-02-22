@@ -5,7 +5,6 @@ import { Spinner } from "@/app/_components/spinner/Spinner";
 import { useTQuery } from "@/hooks/api/useTQuery";
 import { BusinessProfile } from "@/v2/types/service.types";
 import { ProfileStats } from "@/v2/types/user.types";
-import Image from "next/image";
 import { useState } from "react";
 import { FaInfoCircle, FaStar, FaUserCheck } from "react-icons/fa";
 import Info from "../../users/components/user/service/info";
@@ -67,7 +66,7 @@ const ServiceDetails = ({
       >
         <div className="bg-gray-500 rounded w-[100%] h-[100px] relative">
           <div className="w-full h-full absolute overflow-clip flex items-center justify-center rounded">
-            <Image
+            <img
               src={data.avatar}
               alt={data.username}
               width={400}
@@ -76,7 +75,7 @@ const ServiceDetails = ({
             />
           </div>
           <div className="bg-gray-500 rounded-full w-[70px] h-[70px] overflow-clip absolute right-[1em] bottom-[-30%] border-[2px] border-white">
-            <Image
+            <img
               src={data?.avatar}
               width={70}
               height={70}

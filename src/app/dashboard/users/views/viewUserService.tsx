@@ -11,7 +11,6 @@ import { TABLE_STYLE } from "@/constant";
 import { usePaginatedQuery } from "@/hooks/api/usePaginatedQuery";
 import { TStringIndexObject } from "@/utils/types";
 import moment from "moment";
-import Image from "next/image";
 import { useParams } from "next/navigation";
 import { Fragment, useEffect, useState } from "react";
 import EventStat from "../components/userEventStat";
@@ -104,7 +103,7 @@ const ViewUserService = () => {
                     <td className={TABLE_STYLE}>
                       <div className="flex gap-5 items-center">
                         <div className="w-[5em] h-[3em] flex items-center justify-center bg-gray-500 rounded-md overflow-clip mt-1">
-                          <Image
+                          <img
                             src={_.image}
                             width={140}
                             height={100}
@@ -139,7 +138,7 @@ const ViewUserService = () => {
                       <h3>{moment(_.date).format("MMM DD YYYY h:m:s")}</h3>
                     </td>
                     <td className={TABLE_STYLE}>
-                      <Image
+                      <img
                         src="/images/icons/dashboard/table/more.svg"
                         width={32}
                         height={11}
