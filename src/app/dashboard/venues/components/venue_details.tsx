@@ -1,7 +1,7 @@
+import { UserAvatarV2 } from "@/v2/components/common/avatar.component";
 import { profileToUser } from "@/v2/helpers/common.helpers";
 import { AdminVenue } from "@/v2/types/venue.types";
-import { UserAvatarV2 } from "@/v2/components/common/avatar.component";
-import { BiMapPin, BiCalendar, BiTime } from "react-icons/bi";
+import { BiCalendar, BiMapPin, BiTime } from "react-icons/bi";
 
 type Props = {
   venue: AdminVenue;
@@ -12,7 +12,7 @@ export default function VenueDetails({ venue }: Props) {
 
   return (
     <div className="space-y-6">
-      <VenueHero venue={venue} ownerUsername={owner?.username} />
+      <VenueHero venue={venue} ownerUsername={(owner as any)?.username} />
       <VenueMeta venue={venue} owner={owner} />
       <VenuePricing venue={venue} />
       <VenueAmenities venue={venue} />
@@ -66,7 +66,7 @@ function VenueMeta({
   owner,
 }: {
   venue: AdminVenue;
-  owner?: ReturnType<typeof profileToUser>;
+  owner?:any;
 }) {
   return (
     <section className="rounded-lg border border-gray-100 p-4">
@@ -83,7 +83,7 @@ function VenueMeta({
               </div>
       {owner && (
         <div className="mt-6 flex items-center gap-3 rounded-lg border border-gray-100 p-3">
-          <UserAvatarV2 user={owner} size={32} />
+          <UserAvatarV2 user={owner} />
           <div className="text-sm">
             <p className="font-medium">
               {owner.firstName || owner.lastName

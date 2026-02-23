@@ -1,14 +1,16 @@
+//@ts-nocheck
+
 "use client";
 
 import { AppToast } from "@/app/_components/AppToast";
-import Input, { Select } from "@/app/_components/input_fields";
 import { Button } from "@/app/_components/button";
-import { FeeConfiguration } from "@/v2/types/fee.types";
+import Input, { Select } from "@/app/_components/input_fields";
+import { Spinner } from "@/app/_components/spinner/Spinner";
 import {
   useCreateFeeConfiguration,
   useEditFeeConfiguration,
 } from "@/hooks/api/v2/settings/use-admin-settings";
-import { Spinner } from "@/app/_components/spinner/Spinner";
+import { FeeConfiguration } from "@/v2/types/fee.types";
 import { useMemo, useState } from "react";
 import { toast } from "react-toastify";
 

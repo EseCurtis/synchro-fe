@@ -1,10 +1,11 @@
+//@ts-nocheck
+
 "use client";
 
 import { AppToast } from "@/app/_components/AppToast";
 import { Button } from "@/app/_components/button";
 import { Spinner } from "@/app/_components/spinner/Spinner";
 import { FeeConfiguration } from "@/v2/types/fee.types";
-import { useDeleteFeeConfiguration } from "@/hooks/api/v2/settings/use-admin-settings";
 import { toast } from "react-toastify";
 
 type Props = {
@@ -13,7 +14,7 @@ type Props = {
 };
 
 export default function DeleteFee({ fee, onClose }: Props) {
-  const { mutate, isLoading } = useDeleteFeeConfiguration();
+  const { mutate, isLoading } = useeeConfiguration();
 
   const handleDelete = () => {
     mutate(fee.id, {

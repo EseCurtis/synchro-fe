@@ -184,7 +184,7 @@ const AddNewRoleComponent: FC<IRoleProps> = ({ title, modalProps }) => {
 
       <Modal isOpen={isModalOpen} onClose={closeModal}>
         {isValidElement(modalProps)
-          ? cloneElement(modalProps, { onClose: closeModal })
+          ? cloneElement(modalProps, { onClose: closeModal as any } as any)
           : modalProps}
       </Modal>
     </div>

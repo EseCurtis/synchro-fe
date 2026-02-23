@@ -1,4 +1,5 @@
 import { Button } from "@/app/_components/button";
+import ImageUpload from "@/app/_components/image_upload";
 import { useUpdateBusinessCategory, useUpdateEventCategory } from "@/hooks/api/v2/settings";
 import { useState } from "react";
 
@@ -46,7 +47,7 @@ const UpdateCategory = ({ isEvent, category, categoryType, onClose }: any) => {
             Upload category image
           </label>
 
-          <imgUpload
+          <ImageUpload
             onDone={(image: string) => {
               setData({ ...data, image });
             }}
@@ -60,7 +61,7 @@ const UpdateCategory = ({ isEvent, category, categoryType, onClose }: any) => {
             Upload white image
           </label>
 
-          <imgUpload
+          <ImageUpload
             onDone={(image: string) => {
               setData({ ...data, white_icon: image });
             }}

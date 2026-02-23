@@ -1,5 +1,6 @@
 import { AppToast } from "@/app/_components/AppToast";
 import { Button } from "@/app/_components/button";
+import ImageUpload from "@/app/_components/image_upload";
 import { useTMutation } from "@/hooks/api/useTMutation";
 import { useQueryClient } from "@tanstack/react-query";
 import { useMemo, useState } from "react";
@@ -121,7 +122,7 @@ const NewCategory = ({ isEvent, onClose }: NewCategoryProps) => {
             Upload category image
           </label>
 
-          <imgUpload
+          <ImageUpload
             onDone={(image: string) => {
               setData({ ...data, image });
             }}
@@ -134,7 +135,7 @@ const NewCategory = ({ isEvent, onClose }: NewCategoryProps) => {
             Upload white image
           </label>
 
-          <imgUpload
+          <ImageUpload
             onDone={(image: string) => {
               setData({ ...data, white_icon: image });
             }}
