@@ -305,7 +305,7 @@ function VenueThumbnail({ venue }: { venue: AdminVenue }) {
     <div className="h-14 w-14 overflow-hidden rounded-lg border border-gray-200 bg-gray-100">
       {image ? (
         <img
-          src={image}
+          src={String(image)}
           alt={venue.title}
           className="h-full w-full object-cover"
         />

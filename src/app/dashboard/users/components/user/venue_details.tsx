@@ -76,7 +76,7 @@ const VenueDetails = ({ data }: { data: any }) => {
         <div className="bg-gray-300 rounded w-[100%] h-[100px] relative">
           <div className="w-full h-full absolute overflow-clip flex items-center justify-center rounded ">
             <img
-              src={JSON.parse(data.images[0])["url"]}
+              src={String(JSON.parse(data.images[0])["url"])}
               alt={data.user.username}
               width={400}
               height={100}
@@ -84,12 +84,12 @@ const VenueDetails = ({ data }: { data: any }) => {
             />
           </div>
           <div className="overflow-clip bg-gray-500 rounded-full w-[70px] h-[70px] absolute right-[1em] bottom-[-30%] border-[2px] border-white">
-            <img
-              src={data.user.profileImage}
+            {data?.user?.profileImage &&<img
+              src={String(data.user.profileImage)}
               alt={data.user.username}
               width={100}
               height={100}
-            />
+            />}
           </div>
           <p className="absolute font-bold left-[0] bottom-[-30px]">
             {data.name}

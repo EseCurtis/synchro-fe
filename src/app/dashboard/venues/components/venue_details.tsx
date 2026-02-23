@@ -34,7 +34,7 @@ function VenueHero({
       <div className="h-40 w-full overflow-hidden rounded-lg bg-gray-200">
         {coverImage ? (
           <img
-            src={coverImage}
+            src={String(coverImage)}
             alt={venue.title}
             className="h-full w-full object-cover"
           />

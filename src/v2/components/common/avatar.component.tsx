@@ -29,7 +29,7 @@ export function UserAvatarV2({ user }: { user: UserData }) {
       {profile?.avatar ? (
         <img
           className="w-full h-full  bg-slate-400/20 rounded-full object-cover"
-          src={profile?.avatar}
+          src={String(profile?.avatar)}
           alt=""
         />
       ) : (
