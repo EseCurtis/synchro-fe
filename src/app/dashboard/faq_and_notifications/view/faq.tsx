@@ -18,9 +18,9 @@ const statusFilters = [
 
 export default function Faqs() {
   const [search, setSearch] = useState("");
-  const [statusFilter, setStatusFilter] = useState<"all" | "published" | "draft">(
-    "all"
-  );
+  const [statusFilter, setStatusFilter] = useState<
+    "all" | "published" | "draft"
+  >("all");
 
   const isPublished =
     statusFilter === "all" ? undefined : statusFilter === "published";
@@ -37,15 +37,17 @@ export default function Faqs() {
     isPublished,
   });
 
-  console.log("QUUENNNNNNN", data)
+  console.log("QUUENNNNNNN", data);
 
   const faqsx: Faq[] = useMemo(
     () =>
-      (data?.pages || []).flatMap((page: any) => page.data?.data ?? []) as Faq[],
+      (data?.pages || []).flatMap(
+        (page: any) => page.data?.data ?? []
+      ) as Faq[],
     [data?.pages]
   );
 
-    const faqs = (data?.pages || []).flatMap((p: any) => p.data?.data ?? []);
+  const faqs = (data?.pages || []).flatMap((p: any) => p.data?.data ?? []);
 
   const showEmpty = !isLoading && faqs.length === 0;
 

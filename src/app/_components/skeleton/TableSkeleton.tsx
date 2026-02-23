@@ -2,7 +2,7 @@ import React from "react";
 
 /**
  * TableSkeleton - Detailed skeleton loader for table components
- * 
+ *
  * Features:
  * - Realistic table structure with headers and rows
  * - Configurable number of rows and columns
@@ -26,17 +26,18 @@ const SkeletonBox: React.FC<{
   width?: string;
   rounded?: string;
   delay?: number;
-}> = ({ 
-  className = "", 
-  height = "h-4", 
-  width = "w-full", 
+}> = ({
+  className = "",
+  height = "h-4",
+  width = "w-full",
   rounded = "rounded",
-  delay = 0 
+  delay = 0,
 }) => (
   <div
     className={`${height} ${width} ${rounded} bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 animate-pulse ${className}`}
     style={{
-      background: "linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%)",
+      background:
+        "linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%)",
       backgroundSize: "200% 100%",
       animation: "shimmer 1.5s infinite",
       animationDelay: `${delay}ms`,
@@ -51,17 +52,27 @@ const TableRowSkeleton: React.FC<{
 }> = ({ columns, showActions, rowIndex }) => (
   <div className="grid grid-cols-5 gap-4 p-4 border-b border-[#EDEFF5] last:border-b-0">
     {Array.from({ length: columns }).map((_, colIndex) => (
-      <SkeletonBox 
-        key={colIndex} 
-        height="h-4" 
-        width={colIndex === columns - 1 && showActions ? "w-24" : "w-32"} 
+      <SkeletonBox
+        key={colIndex}
+        height="h-4"
+        width={colIndex === columns - 1 && showActions ? "w-24" : "w-32"}
         delay={rowIndex * 50 + colIndex * 10}
       />
     ))}
     {showActions && (
       <div className="flex gap-2">
-        <SkeletonBox height="h-8" width="w-16" rounded="rounded-md" delay={rowIndex * 50 + 100} />
-        <SkeletonBox height="h-8" width="w-16" rounded="rounded-md" delay={rowIndex * 50 + 150} />
+        <SkeletonBox
+          height="h-8"
+          width="w-16"
+          rounded="rounded-md"
+          delay={rowIndex * 50 + 100}
+        />
+        <SkeletonBox
+          height="h-8"
+          width="w-16"
+          rounded="rounded-md"
+          delay={rowIndex * 50 + 150}
+        />
       </div>
     )}
   </div>
@@ -73,12 +84,7 @@ const TableHeaderSkeleton: React.FC<{
 }> = ({ columns, showActions }) => (
   <div className="grid grid-cols-5 gap-4 p-4 border-b border-[#EDEFF5] bg-gray-50">
     {Array.from({ length: columns }).map((_, index) => (
-      <SkeletonBox 
-        key={index} 
-        height="h-5" 
-        width="w-20" 
-        delay={index * 50}
-      />
+      <SkeletonBox key={index} height="h-5" width="w-20" delay={index * 50} />
     ))}
     {showActions && (
       <SkeletonBox height="h-5" width="w-16" delay={columns * 50} />
@@ -120,13 +126,13 @@ export const TableSkeleton: React.FC<TableSkeletonProps> = ({
           }
         }
       `}</style>
-      
+
       <div className="bg-white border border-[#EDEFF5] rounded-lg overflow-hidden">
         {/* Table Header */}
         {showHeader && (
           <TableHeaderSkeleton columns={columns} showActions={showActions} />
         )}
-        
+
         {/* Table Rows */}
         {Array.from({ length: rows }).map((_, index) => (
           <TableRowSkeleton
@@ -137,7 +143,7 @@ export const TableSkeleton: React.FC<TableSkeletonProps> = ({
           />
         ))}
       </div>
-      
+
       {/* Pagination */}
       {showPagination && <PaginationSkeleton />}
     </div>
@@ -145,11 +151,3 @@ export const TableSkeleton: React.FC<TableSkeletonProps> = ({
 };
 
 export default TableSkeleton;
-
-
-
-
-
-
-
-

@@ -5,6 +5,7 @@ import {
   FC,
   Fragment,
   isValidElement,
+  ReactElement,
   ReactNode,
   useState,
 } from "react";
@@ -22,11 +23,11 @@ const styles = {
 
 const RolesComponent: FC<IPropsRoles> = ({ role, content }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  
+
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
-  
+
   const dropDownData = [
     {
       title: <p className="text-[#041549]">Edit Role</p>,
@@ -184,7 +185,7 @@ const AddNewRoleComponent: FC<IRoleProps> = ({ title, modalProps }) => {
 
       <Modal isOpen={isModalOpen} onClose={closeModal}>
         {isValidElement(modalProps)
-          ? cloneElement(modalProps, { onClose: closeModal as any } as any)
+          ? cloneElement(modalProps as ReactElement, { onClose: closeModal })
           : modalProps}
       </Modal>
     </div>

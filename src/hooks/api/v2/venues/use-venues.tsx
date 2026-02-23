@@ -31,7 +31,7 @@ export function useAdminVenues(params: AdminVenueListParams) {
 
   return usePaginatedQuery<AdminVenueResponse>({
     queryKey: ["admin", "venues", params.status ?? "all"],
-    url: `/admin/venues?${params.status ? `status=${params.status}`: ""}`,
+    url: `/admin/venues?${params.status ? `status=${params.status}` : ""}`,
     enabled: true,
   });
 }
@@ -45,8 +45,10 @@ export function useSynchroVenues(params: SynchroParams = {}) {
 
   return usePaginatedQuery<AdminVenueResponse>({
     queryKey: ["admin", "venues", "synchro", params.status ?? "all"],
-    url: `/admin/venues?type=synchro-ai&${params.status ? `status=${params.status}`: ""}`,
-    enabled: false,
+    url: `/admin/venues?type=synchro-ai&${
+      params.status ? `status=${params.status}` : ""
+    }`,
+    enabled: true,
   });
 }
 

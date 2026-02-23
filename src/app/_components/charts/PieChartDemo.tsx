@@ -10,18 +10,12 @@ const PieChartDemo: React.FC = () => {
         data: [45, 35, 10, 5, 5],
         backgroundColor: [
           "#e73c01",
-          "#0512d2", 
+          "#0512d2",
           "#2EB872",
           "#F2994A",
-          "#A0AEC0"
+          "#A0AEC0",
         ],
-        borderColor: [
-          "#ffffff",
-          "#ffffff",
-          "#ffffff", 
-          "#ffffff",
-          "#ffffff"
-        ],
+        borderColor: ["#ffffff", "#ffffff", "#ffffff", "#ffffff", "#ffffff"],
         borderWidth: 2,
       },
     ],
@@ -33,16 +27,8 @@ const PieChartDemo: React.FC = () => {
     datasets: [
       {
         data: [70, 25, 5],
-        backgroundColor: [
-          "#2EB872",
-          "#F2994A",
-          "#E74C3C"
-        ],
-        borderColor: [
-          "#ffffff",
-          "#ffffff",
-          "#ffffff"
-        ],
+        backgroundColor: ["#2EB872", "#F2994A", "#E74C3C"],
+        borderColor: ["#ffffff", "#ffffff", "#ffffff"],
         borderWidth: 2,
       },
     ],
@@ -54,18 +40,8 @@ const PieChartDemo: React.FC = () => {
     datasets: [
       {
         data: [30, 25, 20, 25],
-        backgroundColor: [
-          "#e73c01",
-          "#0512d2",
-          "#2EB872",
-          "#F2994A"
-        ],
-        borderColor: [
-          "#ffffff",
-          "#ffffff",
-          "#ffffff",
-          "#ffffff"
-        ],
+        backgroundColor: ["#e73c01", "#0512d2", "#2EB872", "#F2994A"],
+        borderColor: ["#ffffff", "#ffffff", "#ffffff", "#ffffff"],
         borderWidth: 2,
       },
     ],
@@ -77,7 +53,7 @@ const PieChartDemo: React.FC = () => {
         <h1 className="text-3xl font-bold text-gray-900 mb-8">
           Pie Chart Component Demo
         </h1>
-        
+
         <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
           {/* Gender Distribution */}
           <div>
@@ -171,14 +147,34 @@ const PieChartDemo: React.FC = () => {
             Component Features
           </h2>
           <ul className="space-y-2 text-gray-600">
-            <li>• <strong>Customizable colors:</strong> Uses dashboard color scheme</li>
-            <li>• <strong>Center text:</strong> Display total count and label in center</li>
-            <li>• <strong>Responsive design:</strong> Adapts to container size</li>
-            <li>• <strong>Interactive tooltips:</strong> Show detailed information on hover</li>
-            <li>• <strong>Legend customization:</strong> Can be shown/hidden</li>
-            <li>• <strong>Smooth animations:</strong> Professional chart transitions</li>
-            <li>• <strong>Dashboard styling:</strong> Matches overall UI design</li>
-            <li>• <strong>TypeScript support:</strong> Fully typed props and data</li>
+            <li>
+              • <strong>Customizable colors:</strong> Uses dashboard color
+              scheme
+            </li>
+            <li>
+              • <strong>Center text:</strong> Display total count and label in
+              center
+            </li>
+            <li>
+              • <strong>Responsive design:</strong> Adapts to container size
+            </li>
+            <li>
+              • <strong>Interactive tooltips:</strong> Show detailed information
+              on hover
+            </li>
+            <li>
+              • <strong>Legend customization:</strong> Can be shown/hidden
+            </li>
+            <li>
+              • <strong>Smooth animations:</strong> Professional chart
+              transitions
+            </li>
+            <li>
+              • <strong>Dashboard styling:</strong> Matches overall UI design
+            </li>
+            <li>
+              • <strong>TypeScript support:</strong> Fully typed props and data
+            </li>
           </ul>
         </div>
       </div>
@@ -187,11 +183,3 @@ const PieChartDemo: React.FC = () => {
 };
 
 export default PieChartDemo;
-
-
-
-
-
-
-
-

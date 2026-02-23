@@ -5,6 +5,7 @@
 import { AppToast } from "@/app/_components/AppToast";
 import { Button } from "@/app/_components/button";
 import { Spinner } from "@/app/_components/spinner/Spinner";
+import { useTMutation } from "@/hooks/api/useTMutation";
 import { FeeConfiguration } from "@/v2/types/fee.types";
 import { toast } from "react-toastify";
 
@@ -14,7 +15,10 @@ type Props = {
 };
 
 export default function DeleteFee({ fee, onClose }: Props) {
-  const { mutate, isLoading } = useeeConfiguration();
+  const { mutate, isLoading } = useTMutation({
+    url: `/admin/settings/fees/${fee.id}`,
+    method: "delete",
+  });
 
   const handleDelete = () => {
     mutate(fee.id, {
@@ -53,4 +57,3 @@ export default function DeleteFee({ fee, onClose }: Props) {
     </div>
   );
 }
-

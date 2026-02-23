@@ -21,15 +21,15 @@ interface LinkWithProgressProps {
 
 /**
  * LinkWithProgress - A Next.js Link component with automatic NProgress integration
- * 
+ *
  * This component automatically starts NProgress when clicked and handles
  * the progress completion when the navigation is finished.
- * 
+ *
  * Usage:
  * <LinkWithProgress href="/dashboard" className="text-blue-500">
  *   Go to Dashboard
  * </LinkWithProgress>
- * 
+ *
  * Features:
  * - Automatic NProgress integration
  * - Supports all Next.js Link props
@@ -52,38 +52,41 @@ export function LinkWithProgress({
 }: LinkWithProgressProps) {
   const router = useRouter();
 
-  const handleClick = useCallback((e: React.MouseEvent<HTMLAnchorElement>) => {
-    // Call custom onClick if provided
-    if (onClick) {
-      onClick(e);
-    }
+  const handleClick = useCallback(
+    (e: React.MouseEvent<HTMLAnchorElement>) => {
+      // Call custom onClick if provided
+      if (onClick) {
+        onClick(e);
+      }
 
-    // Don't start progress if:
-    // 1. Event was prevented by custom onClick
-    // 2. It's an external link (has target="_blank" or starts with http)
-    // 3. It's a download link
-    // 4. It's a hash link (same page navigation)
-    if (
-      e.defaultPrevented ||
-      target === "_blank" ||
-      href.startsWith("http") ||
-      href.startsWith("mailto:") ||
-      href.startsWith("tel:") ||
-      href.startsWith("#")
-    ) {
-      return;
-    }
+      // Don't start progress if:
+      // 1. Event was prevented by custom onClick
+      // 2. It's an external link (has target="_blank" or starts with http)
+      // 3. It's a download link
+      // 4. It's a hash link (same page navigation)
+      if (
+        e.defaultPrevented ||
+        target === "_blank" ||
+        href.startsWith("http") ||
+        href.startsWith("mailto:") ||
+        href.startsWith("tel:") ||
+        href.startsWith("#")
+      ) {
+        return;
+      }
 
-    // Start NProgress for internal navigation
-    NProgress.start();
+      // Start NProgress for internal navigation
+      NProgress.start();
 
-    // Handle navigation based on replace prop
-    if (replace) {
-      router.replace(href, { scroll,  });
-    } else {
-      router.push(href, { scroll,  });
-    }
-  }, [href, onClick, target, replace, router, scroll, shallow]);
+      // Handle navigation based on replace prop
+      if (replace) {
+        router.replace(href, { scroll });
+      } else {
+        router.push(href, { scroll });
+      }
+    },
+    [href, onClick, target, replace, router, scroll, shallow]
+  );
 
   // For external links or special cases, use regular Link
   if (
@@ -124,11 +127,3 @@ export function LinkWithProgress({
 }
 
 export default LinkWithProgress;
-
-
-
-
-
-
-
-

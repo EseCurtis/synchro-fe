@@ -34,7 +34,9 @@ const DeleteCategory = ({
   onClose,
 }: any) => {
   const routePoint =
-    categoryType === "event-category" ? "event_categories" : "business_categories";
+    categoryType === "event-category"
+      ? "event_categories"
+      : "business_categories";
 
   const client = useQueryClient();
   const { isLoading, mutate } = useTMutation({

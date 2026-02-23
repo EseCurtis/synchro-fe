@@ -15,15 +15,15 @@ A modern, dashboard UI-matching pie chart component built with Chart.js and Reac
 
 ## Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `title` | `string` | `""` | Chart title displayed at the top |
-| `data` | `ChartData` | `defaultData` | Chart.js data object with labels and datasets |
-| `height` | `number` | `300` | Chart height in pixels |
-| `showLegend` | `boolean` | `true` | Whether to display the legend |
-| `showTooltip` | `boolean` | `true` | Whether to show tooltips on hover |
-| `centerText` | `string` | `undefined` | Text to display in the center of the chart |
-| `centerSubtext` | `string` | `undefined` | Subtext to display below center text |
+| Prop            | Type        | Default       | Description                                   |
+| --------------- | ----------- | ------------- | --------------------------------------------- |
+| `title`         | `string`    | `""`          | Chart title displayed at the top              |
+| `data`          | `ChartData` | `defaultData` | Chart.js data object with labels and datasets |
+| `height`        | `number`    | `300`         | Chart height in pixels                        |
+| `showLegend`    | `boolean`   | `true`        | Whether to display the legend                 |
+| `showTooltip`   | `boolean`   | `true`        | Whether to show tooltips on hover             |
+| `centerText`    | `string`    | `undefined`   | Text to display in the center of the chart    |
+| `centerSubtext` | `string`    | `undefined`   | Subtext to display below center text          |
 
 ## Usage
 
@@ -50,7 +50,7 @@ const data = {
   height={300}
   centerText="100"
   centerSubtext="Total Users"
-/>
+/>;
 ```
 
 ### Advanced Usage
@@ -109,6 +109,7 @@ The component uses the dashboard color scheme:
 ## Styling
 
 The component automatically applies:
+
 - Dashboard-consistent borders and shadows
 - Outfit font family for all text
 - Proper spacing and padding
@@ -118,6 +119,7 @@ The component automatically applies:
 ## Examples
 
 See `PieChartDemo.tsx` for comprehensive usage examples including:
+
 - Gender distribution charts
 - User activity status
 - Event type breakdowns
@@ -126,16 +128,9 @@ See `PieChartDemo.tsx` for comprehensive usage examples including:
 ## Integration
 
 The component is designed to work seamlessly with:
+
 - Dashboard layout components
 - Existing chart components (LineChart)
 - Dashboard data fetching patterns
 - TypeScript projects
 - Tailwind CSS styling
-
-
-
-
-
-
-
-

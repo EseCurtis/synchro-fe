@@ -35,11 +35,9 @@ const Notifications = () => {
     enabled: true,
   });
 
-  const notifications = (data?.pages
-    ?.map((e: any) => e.data.data)
-    .flat() as any[])?.filter(
-    (notification) => notification?.type === SYSTEM_NOTIFICATION_TYPE
-  );
+  const notifications = (
+    data?.pages?.map((e: any) => e.data.data).flat() as any[]
+  )?.filter((notification) => notification?.type === SYSTEM_NOTIFICATION_TYPE);
 
   return (
     <div>
@@ -66,10 +64,12 @@ const Notifications = () => {
               </Fragment>
             ))}
 
-          {hasNextPage &&  <TablePagination
-              loading={isFetchingNextPage}
-              onFetchMore={fetchNextPage}
-            />}
+            {hasNextPage && (
+              <TablePagination
+                loading={isFetchingNextPage}
+                onFetchMore={fetchNextPage}
+              />
+            )}
           </div>
         </div>
       )}
