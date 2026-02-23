@@ -46,7 +46,7 @@ export function useSynchroVenues(params: SynchroParams = {}) {
   return usePaginatedQuery<AdminVenueResponse>({
     queryKey: ["admin", "venues", "synchro", params.status ?? "all"],
     url: `/admin/venues?type=synchro-ai&${params.status ? `status=${params.status}`: ""}`,
-    enabled: true,
+    enabled: false,
   });
 }
 
